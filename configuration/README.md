@@ -24,7 +24,7 @@ In order to create those customized configuration environment, you can leverage:
 First step is to get the landing zones logic in the same work space, so let's clone the environment locally:
 
 ```bash
-git clone --branch 2010.0.preview2 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/public
+git clone --branch 2010.0.0 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/public
 
 # Or refresh an existing clone
 cd /tf/caf/public
