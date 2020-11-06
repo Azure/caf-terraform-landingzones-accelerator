@@ -32,18 +32,6 @@ This example allows you to deploy the following topology:
 | bastion-re1-pip1, bastion-re2-pip1                                               | Public IP address       | Public IP address to be used in vnet_hub_re1 and vnet-hub-re2, to be used by Azure Bastion |
 | bastion-re1, bastion-re2                                                         | Azure Bastion           | Azure Bastion host in order to access the virtual network.                                 |
 
-
 ## Customizing this example
 
 Please review the configuration files and make sure you are deploying in the expected region and with the expected settings.
-
-## Deploying this example
-
-Once you have picked a scenario for test, you can deploy it using:
-
-```bash
-rover -lz /tf/caf/landingzones/caf_networking \
--level level2 \
--var-folder /tf/caf/landingzones/caf_networking/scenario/101-multi-region-hub \
--a apply
-```

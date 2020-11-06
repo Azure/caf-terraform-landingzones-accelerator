@@ -9,7 +9,7 @@ landingzone = {
 default_region = "region1"
 
 # Inherit_tags defines if a resource will inherit it's resource group tags
-inherit_tags = true
+inherit_tags = false
 
 regions = {
   region1 = "southeastasia"

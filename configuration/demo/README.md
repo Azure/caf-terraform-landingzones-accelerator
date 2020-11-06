@@ -6,7 +6,7 @@ Assumptions:
 
 - Demo environment does not have pipelines and is meant to be run locally.
 - Demo environment does not have diagnostics enabled.
-- Demo environment does not have RBAC model
+- Demo environment does not have RBAC model.
 
 ## Deploying demo environment
 

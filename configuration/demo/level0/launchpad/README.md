@@ -16,22 +16,9 @@ This scenario require the following privileges:
 | Active Directory   | None               |
 | Azure subscription | Subscription owner |
 
-## Deployment
-
-```bash
-rover -lz /tf/caf/landingzones/caf_launchpad \
-  -launchpad -var-folder \
-  /tf/caf/landingzones/caf_launchpad/scenario/100 \
-  -a apply
-
-rover -lz /tf/caf/landingzones/caf_launchpad \
-  -launchpad \
-  -var-folder /tf/caf/landingzones/caf_launchpad/scenario/100 \
-  -a destroy
-```
 
 ## Architecture diagram
-![Launchpad 100](../../../documentation/img/launchpad-100.PNG)
+![Launchpad 100](../../../../documentation/img/launchpad-100.PNG)
 
 ## Services deployed in this scenario
 

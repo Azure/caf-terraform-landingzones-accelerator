@@ -33,7 +33,7 @@ Landing zones for Terraform are composed of multiple open-source components and 
 
 | Repo                                                                                              | Description                                                |
 |---------------------------------------------------------------------------------------------------|------------------------------------------------------------|
-| [caf-terraform-landingzones](https://github.com/azure/caf-terraform-landingzones) (You are here!) | landing zones repo with sample and core documentations     |
+| [caf-terraform-landingzones](https://github.com/azure/caf-terraform-landingzones) | landing zones repo with sample and core documentations     |
 | [rover](https://github.com/aztfmod/rover)                                                         | devops toolset for operating landing zones                 |
 | [azure_caf_provider](https://github.com/aztfmod/terraform-provider-azurecaf)                      | custom provider for naming conventions                     |
 | [modules](https://registry.terraform.io/modules/aztfmod)                                          | CAF Terraform module |
