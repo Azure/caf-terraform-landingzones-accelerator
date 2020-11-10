@@ -48,6 +48,16 @@ Rover will echo back the subscription selected by default for your environment. 
 az account set -s <subscription_name_OR_GUID>
 ```
 
+### Picking your environment
+
+Once you have completed the preliminary steps above, you can start reviewing the configurations, we recommend you start your first deployment with the demo section.
+
+| example environment    | description                                                               |
+|------------------------|---------------------------------------------------------------------------|
+| [demo](./demo)         | demo environment without RBAC, diagnostics and pipelines                  |
+| [sandpit](./sandpit)   | WIP initial enterprise environment, with diagnostics and simple pipelines |
+| [non-prod](./non-prod) | WIP                                                                       |
+| [prod](prod)           | WIP                                                                       |
 
 ## Multiple engineers in the same subscription
 
