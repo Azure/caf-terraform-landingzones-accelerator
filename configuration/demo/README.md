@@ -7,6 +7,7 @@ Assumptions:
 - Demo environment does not have pipelines and is meant to be run locally.
 - Demo environment does not have diagnostics enabled.
 - Demo environment does not have RBAC model.
+- All resources are provisioned in the same subscription.
 
 ## Deploying demo environment
 
@@ -23,7 +24,7 @@ export environment=demo
 
 ```bash
 rover -lz /tf/caf/public/landingzones/caf_launchpad \
-  -var-folder /tf/caf/configuration/${environment}/level0 \
+  -var-folder /tf/caf/configuration/${environment}/level0/launchpad \
   -parallelism 30 \
   -level level0 \
   -env ${environment} \
@@ -34,6 +35,8 @@ rover -lz /tf/caf/public/landingzones/caf_launchpad \
 ### 2. Level 1 landing zones
 
 #### Deploy foundations
+
+In this section we use foundations as passthrough:
 
 ```bash
 rover -lz /tf/caf/public/landingzones/caf_foundations/ \

@@ -24,7 +24,7 @@ This approach allows you to easily:
 
 To get started with creating your environment, you can fork this repository on your Git environment (inside your personal or organization GitHub, inside an Azure DevOps project or any other Version Control System that your company uses.)
 
-You can then customize your environment by following the steps inside the [configuration folder](./configuration)
+You can then customize your environment by following the steps inside the [configuration folder](./configuration) and review our sample configuration [onboarding video here](https://www.youtube.com/watch?v=M5BXm30IpdY)
 
 
 ## Related repositories
