@@ -46,36 +46,43 @@ vnets = {
         name              = "jumpbox"
         cidr              = ["10.100.100.32/29"]
         service_endpoints = ["Microsoft.KeyVault"]
+        nsg_key           = "empty_nsg"
       }
       release_agent_level0 = {
         name              = "level0"
         cidr              = ["10.100.100.40/29"]
         service_endpoints = ["Microsoft.KeyVault"]
+        nsg_key           = "empty_nsg"
       }
       release_agent_level1 = {
         name              = "level1"
         cidr              = ["10.100.100.48/29"]
         service_endpoints = ["Microsoft.KeyVault"]
+        nsg_key           = "empty_nsg"
       }
       release_agent_level2 = {
         name              = "level2"
         cidr              = ["10.100.100.56/29"]
         service_endpoints = ["Microsoft.KeyVault"]
+        nsg_key           = "empty_nsg"
       }
       release_agent_level3 = {
         name              = "level3"
         cidr              = ["10.100.100.64/29"]
         service_endpoints = ["Microsoft.KeyVault"]
+        nsg_key           = "empty_nsg"
       }
       release_agent_level4 = {
         name              = "level4"
         cidr              = ["10.100.100.72/29"]
         service_endpoints = ["Microsoft.KeyVault"]
+        nsg_key           = "empty_nsg"
       }
       private_endpoints = {
         name                                           = "private_endpoints"
         cidr                                           = ["10.100.100.128/25"]
         enforce_private_link_endpoint_network_policies = true
+        nsg_key                                        = "empty_nsg"
       }
     }
 

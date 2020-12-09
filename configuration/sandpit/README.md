@@ -4,9 +4,9 @@
 
 Assumptions:
 
-- Sandpit environment does not have pipelines and is meant to be run locally.
-- Sandpit environment implements diagnostics and logs
-- Sandpit environment implements rudimentary RBAC model
+- Sandpit environment is meant to be run locally and could optionally be run within Azure DevOps pipelines.
+- Sandpit environment implements diagnostics and logs for every solution deployed.
+- Sandpit environment implements rudimentary RBAC model.
 - All resources are provisioned in the same subscription.
 
 ## Deploying a sandpit environment
@@ -79,7 +79,7 @@ rover -lz /tf/caf/public/landingzones/caf_networking/ \
 
 ```bash
 rover -lz /tf/caf/public/landingzones/caf_networking/ \
-  -tfstate networking_spoke_ase.tfstate \
+  -tfstate networking_spoke_aks.tfstate \
   -var-folder /tf/caf/configuration/${environment}/level3/networking/spoke \
   -parallelism 30 \
   -level level3 \
@@ -87,9 +87,23 @@ rover -lz /tf/caf/public/landingzones/caf_networking/ \
   -a [plan|apply|destroy]
 ```
 
-#### Deploy the application platform landing zone
+#### Deploy the Azure Kubernetes Services landing zone
 
-This is the deployment of application platform landing zone like AKS platform, the configuration files in the repo will show you an example of AKS cluster deployment on top the levels deployed previously.
+#### Clone the AKS landing zone files
+
+git clone https://github.com/aztfmod/landingzone_aks.git /tf/caf/landing_zone_aks
+
+#### Deploy the AKS cluster
+
+```bash
+rover -lz /tf/caf/landing_zone_aks \
+  -tfstate landing_zone_aks.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/level3/aks \
+  -parallelism 30 \
+  -level level3 \
+  -env ${environment} \
+  -a [plan|apply|destroy]
+```
 
 ### 7. Level 4 - Application infrastructure components
 

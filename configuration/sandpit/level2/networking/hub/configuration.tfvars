@@ -156,22 +156,22 @@ network_security_group_definition = {
   }
 
   azure_bastion_nsg = {
-    # flow_logs = {
-    #   version = 2
-    #   enabled = true
-    #   storage_account = {
-    #     storage_account_destination = "all_regions"
-    #     retention = {
-    #       enabled = true
-    #       days = 30
-    #     }
-    #   }
-    #   # traffic_analytics = {
-    #   #   enabled = false
-    #   #   log_analytics_workspace_destination = "central_logs"
-    #   #   interval_in_minutes = "10"
-    #   # }
-    # }
+    flow_logs = {
+      version = 2
+      enabled = true
+      storage_account = {
+        storage_account_destination = "all_regions"
+        retention = {
+          enabled = true
+          days    = 30
+        }
+      }
+      traffic_analytics = {
+        enabled                             = false
+        log_analytics_workspace_destination = "central_logs"
+        interval_in_minutes                 = "10"
+      }
+    }
 
     diagnostic_profiles = {
       nsg = {
@@ -283,11 +283,11 @@ network_security_group_definition = {
           days    = 30
         }
       }
-      # traffic_analytics = {
-      #   enabled = true
-      #   log_analytics_workspace_destination = "central_logs"
-      #   interval_in_minutes = "10"
-      # }
+      traffic_analytics = {
+        enabled                             = true
+        log_analytics_workspace_destination = "central_logs"
+        interval_in_minutes                 = "10"
+      }
     }
 
     nsg = [
