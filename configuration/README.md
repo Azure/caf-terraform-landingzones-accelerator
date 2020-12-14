@@ -12,10 +12,10 @@ This means configuring the different variables for:
 - Any application landing zone (data and analytics, Azure Kubernetes Services, etc.)
 
 In order to create those customized configuration environment, you can leverage:
+
 * the examples present in this repository,
 * the on the CAF landing zone [main repo](https://github.com/Azure/caf-terraform-landingzones)
 * discuss with peers on [Gitter](https://gitter.im/aztfmod/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
 
 ## General getting started
 
@@ -24,11 +24,11 @@ In order to create those customized configuration environment, you can leverage:
 First step is to get the landing zones logic in the same work space, so let's clone the environment locally:
 
 ```bash
-git clone --branch 2010.0.2 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/public
+git clone --branch 2012.0.0 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/public
 
 # Or refresh an existing clone
 cd /tf/caf/public
-git checkout 2010.0.2
+git checkout 2012.0.0
 git pull
 ```
 
@@ -52,12 +52,12 @@ az account set -s <subscription_name_OR_GUID>
 
 Once you have completed the preliminary steps above, you can start reviewing the configurations, we recommend you start your first deployment with the demo section.
 
-| example environment    | description                                                               |
-|------------------------|---------------------------------------------------------------------------|
-| [demo](./demo)         | demo environment without RBAC, diagnostics and pipelines                  |
-| [sandpit](./sandpit)   | WIP initial enterprise environment, with diagnostics and simple pipelines |
-| [non-prod](./non-prod) | WIP                                                                       |
-| [prod](prod)           | WIP                                                                       |
+| example environment    | description                                                                      |
+|------------------------|----------------------------------------------------------------------------------|
+| [demo](./demo)         | demo environment without RBAC, diagnostics and pipelines                         |
+| [sandpit](./sandpit)   | initial enterprise environment, with diagnostics and simple pipelines (optional) |
+| [non-prod](./non-prod) | WIP                                                                              |
+| [prod](prod)           | WIP                                                                              |
 
 ## Multiple engineers in the same subscription
 
