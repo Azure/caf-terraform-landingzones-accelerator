@@ -13,7 +13,7 @@ enable = {
 default_region = "region1"
 
 regions = {
-  region1 = "southeastasia"
+  region1 = "eastus2"
   region2 = "eastasia"
 }
 

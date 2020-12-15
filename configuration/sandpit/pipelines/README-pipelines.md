@@ -1,39 +1,66 @@
 # Cloud Adoption Framework landing zones for Terraform - Starter template
 
-## DEMO ENVIRONMENT
+## SANDPIT ENVIRONMENT WITH AZURE DEVOPS PIPELINES
 
 Assumptions:
 
-- Demo environment does not have pipelines and is meant to be run locally.
-- Demo environment does not have diagnostics enabled.
-- Demo environment does not have RBAC model.
+- Sandpit environment implements diagnostics and logs for every solution deployed.
+- Sandpit environment implements rudimentary RBAC model.
 - All resources are provisioned in the same subscription.
 
-## Deploying demo environment
+In this example, we will seed the initial deployment locally and then deploy the environment from an Azure DevOps set of pipelines.
 
-After completing the steps from the general [configuration readme](../README.md), you can start using the demo deployment:
+## Import the starter landing zone into your Azure DevOps environment
+
+## Deploying a sandpit environment
+
+After completing the steps from the general [configuration readme](../README.md), you can start using the sandpit deployment:
 
 You can then specify the environment you are running:
 ```bash
-export environment=demo
+export environment=sandpit
 ```
 
 ### 1. Launchpad-level0 landing zones
 
-#### Deploy the launchpad
+#### 1. Deploy the launchpad
 
 ```bash
 rover -lz /tf/caf/public/landingzones/caf_launchpad \
-  -launchpad \
   -var-folder /tf/caf/configuration/${environment}/level0/launchpad \
+  -parallelism 30 \
+  -level level0 \
+  -env ${environment} \
+  -launchpad \
+  -a [plan|apply|destroy]
+```
+
+### 2. Deploy the Azure DevOps add-ons
+
+Customize your Azure DevOps environment as discussed [here](https://github.com/Azure/caf-terraform-landingzones/tree/master/landingzones/caf_launchpad/add-ons/azure_devops).
+
+```bash
+rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops \
+  -var-folder /tf/caf/configuration/${environment}/level0/azure_devops \
   -parallelism 30 \
   -level level0 \
   -env ${environment} \
   -a [plan|apply|destroy]
 ```
 
-### 2. Level 1 landing zones
+### 3. Deploy the Azure DevOps Agents add-ons for level 0 and 1
 
+```bash
+rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops \
+  -var-folder /tf/caf/configuration/${environment}/level0/azure_devops \
+  -parallelism 30 \
+  -level level0 \
+  -env ${environment} \
+  -a [plan|apply|destroy]
+```
+
+### 4. Deploy the higher levels from Azure DevOps console
+<!--
 #### Deploy foundations
 
 In this section we use foundations as passthrough:
@@ -108,4 +135,4 @@ rover -lz /tf/caf/landing_zone_aks \
 ### 7. Level 4 - Application infrastructure components
 
 You can use level 4 landing zones to describe and deploy an application on top of an environment described in level 3 landing zones (App Service Environment, AKS, etc.).
-Keep on monitoring this repository as we will add examples related to this level.
+Keep on monitoring this repository as we will add examples related to this level. -->
