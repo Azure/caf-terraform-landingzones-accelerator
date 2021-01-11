@@ -1,17 +1,3 @@
-global_settings = {
-  default_region = "region1"
-  regions = {
-    region1 = "southeastasia"
-  }
-}
-
-resource_groups = {
-  aks_re1 = {
-    name   = "aks-re1"
-    region = "region1"
-  }
-}
-
 aks_clusters = {
   cluster_re1 = {
     name               = "akscluster-re1-001"
