@@ -1,190 +1,63 @@
 vnets = {
-  spoke_aks_re1 = {
+  vnet_aks_re1 = {
     resource_group_key = "aks_re1"
     region             = "region1"
     vnet = {
       name          = "aks"
-      address_space = ["100.64.48.0/22"]
+      address_space = ["10.100.80.0/22"]
     }
-    specialsubnets = {}
     subnets = {
       aks_nodepool_system = {
-        name    = "aks_nodepool_system"
-        cidr    = ["100.64.48.0/24"]
-        nsg_key = "azure_kubernetes_cluster_nsg"
+        name            = "aks_nodepool_system"
+        cidr            = ["10.100.80.0/24"]
+        nsg_key         = "azure_kubernetes_cluster_nsg"
+        route_table_key = "default_to_firewall_re1"
       }
       aks_nodepool_user1 = {
-        name    = "aks_nodepool_user1"
-        cidr    = ["100.64.49.0/24"]
-        nsg_key = "azure_kubernetes_cluster_nsg"
+        name            = "aks_nodepool_user1"
+        cidr            = ["10.100.81.0/24"]
+        nsg_key         = "azure_kubernetes_cluster_nsg"
+        route_table_key = "default_to_firewall_re1"
       }
       aks_nodepool_user2 = {
-        name    = "aks_nodepool_user2"
-        cidr    = ["100.64.50.0/24"]
-        nsg_key = "azure_kubernetes_cluster_nsg"
-      }
-      AzureBastionSubnet = {
-        name    = "AzureBastionSubnet" #Must be called AzureBastionSubnet
-        cidr    = ["100.64.51.64/27"]
-        nsg_key = "azure_bastion_nsg"
+        name            = "aks_nodepool_user2"
+        cidr            = ["10.100.82.0/24"]
+        nsg_key         = "azure_kubernetes_cluster_nsg"
+        route_table_key = "default_to_firewall_re1"
       }
       private_endpoints = {
         name                                           = "private_endpoints"
-        cidr                                           = ["100.64.51.0/27"]
+        cidr                                           = ["10.100.83.0/27"]
         enforce_private_link_endpoint_network_policies = true
       }
-      jumpbox = {
-        name    = "jumpbox"
-        cidr    = ["100.64.51.128/27"]
+      AzureBastionSubnet = {
+        name    = "AzureBastionSubnet" #Must be called AzureBastionSubnet
+        cidr    = ["10.100.83.32/27"]
         nsg_key = "azure_bastion_nsg"
       }
-    }
-
-  }
-}
-
-network_security_group_definition = {
-  # This entry is applied to all subnets with no NSG defined
-  empty_nsg = {}
-  azure_kubernetes_cluster_nsg = {
-    nsg = [
-      {
-        name                       = "aks-http-in-allow",
-        priority                   = "100"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "80"
-        source_address_prefix      = "*"
-        destination_address_prefix = "*"
-      },
-      {
-        name                       = "aks-https-in-allow",
-        priority                   = "110"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "443"
-        source_address_prefix      = "*"
-        destination_address_prefix = "*"
-      },
-      {
-        name                       = "aks-api-out-allow-1194",
-        priority                   = "100"
-        direction                  = "Outbound"
-        access                     = "Allow"
-        protocol                   = "udp"
-        source_port_range          = "*"
-        destination_port_range     = "1194"
-        source_address_prefix      = "*"
-        destination_address_prefix = "AzureCloud"
-      },
-      {
-        name                       = "aks-api-out-allow-9000",
-        priority                   = "110"
-        direction                  = "Outbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "9000"
-        source_address_prefix      = "*"
-        destination_address_prefix = "AzureCloud"
-      },
-      {
-        name                       = "aks-ntp-out-allow",
-        priority                   = "120"
-        direction                  = "Outbound"
-        access                     = "Allow"
-        protocol                   = "udp"
-        source_port_range          = "*"
-        destination_port_range     = "123"
-        source_address_prefix      = "*"
-        destination_address_prefix = "*"
-      },
-      {
-        name                       = "aks-https-out-allow-443",
-        priority                   = "130"
-        direction                  = "Outbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "443"
-        source_address_prefix      = "*"
-        destination_address_prefix = "*"
-      },
-    ]
-  }
-  azure_bastion_nsg = {
-
-    nsg = [
-      {
-        name                       = "bastion-in-allow",
-        priority                   = "100"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "443"
-        source_address_prefix      = "*"
-        destination_address_prefix = "*"
-      },
-      {
-        name                       = "bastion-control-in-allow-443",
-        priority                   = "120"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "135"
-        source_address_prefix      = "GatewayManager"
-        destination_address_prefix = "*"
-      },
-      {
-        name                       = "Kerberos-password-change",
-        priority                   = "121"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "4443"
-        source_address_prefix      = "GatewayManager"
-        destination_address_prefix = "*"
-      },
-      {
-        name                       = "bastion-vnet-out-allow-22",
-        priority                   = "103"
-        direction                  = "Outbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "22"
-        source_address_prefix      = "*"
-        destination_address_prefix = "VirtualNetwork"
-      },
-      {
-        name                       = "bastion-vnet-out-allow-3389",
-        priority                   = "101"
-        direction                  = "Outbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "3389"
-        source_address_prefix      = "*"
-        destination_address_prefix = "VirtualNetwork"
-      },
-      {
-        name                       = "bastion-azure-out-allow",
-        priority                   = "120"
-        direction                  = "Outbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "443"
-        source_address_prefix      = "*"
-        destination_address_prefix = "AzureCloud"
+      # jumpbox = {
+      #   name    = "jumpbox"
+      #   cidr    = ["10.100.83.64/27"]
+      #   nsg_key = "jumpbox"
+      # }
+      application_gateway = {
+        name    = "agw"
+        cidr    = ["10.100.83.96/27"]
+        nsg_key = "application_gateway"
       }
-    ]
+    } //subnets
+
+
+    specialsubnets = {
+      AzureFirewallSubnet = {
+        name = "AzureFirewallSubnet" #Must be called AzureFirewallSubnet
+        cidr = ["10.100.83.128/26"]
+      }
+      GatewaySubnet = {
+        name = "GatewaySubnet" #Must be called GateWaySubnet in order to host a Virtual Network Gateway
+        cidr = ["10.100.83.224/27"]
+      }
+    } //specialsubnets
+
   }
-}
+} //vnets
