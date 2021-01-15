@@ -2,14 +2,15 @@ module "caf" {
   source  = "aztfmod/caf/azurerm"
   version = "~> 5.0.0"
 
-  global_settings = var.global_settings
-  tags            = var.tags
-  resource_groups = var.resource_groups
-  azuread_apps    = var.azuread_apps
-  azuread_users   = var.azuread_users
-  azuread_groups  = var.azuread_groups
-  keyvaults       = var.keyvaults
-  role_mapping    = var.role_mapping
+  global_settings      = var.global_settings
+  logged_user_objectId = var.logged_user_objectId
+  tags                 = var.tags
+  resource_groups      = var.resource_groups
+  azuread_apps         = var.azuread_apps
+  azuread_users        = var.azuread_users
+  azuread_groups       = var.azuread_groups
+  keyvaults            = var.keyvaults
+  role_mapping         = var.role_mapping
 
   networking = {
     azurerm_firewalls                                       = var.azurerm_firewalls
