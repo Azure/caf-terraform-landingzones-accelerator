@@ -38,21 +38,21 @@ azuread_groups = {
 
 }
 
-azuread_apps = {
+# azuread_apps = {
 
-  # Create an Azure Active Directory Application for Github workflows
-  github-workflow-aks-cluster = {
-    useprefix               = true
-    application_name        = "github-workflow-aks-cluster"
-    password_expire_in_days = 180
+#   # Create an Azure Active Directory Application for Github workflows
+#   github-workflow-aks-cluster = {
+#     useprefix               = true
+#     application_name        = "github-workflow-aks-cluster"
+#     password_expire_in_days = 180
 
-    # Store the ${secret_prefix}-client-id, ${secret_prefix}-client-secret...
-    # Set the policy during the creation process of the launchpad
-    keyvaults = {
-      secrets = {
-        secret_prefix = "aadapp-github-workflow-aks-cluster"
-      }
-    }
-  }
+#     # Store the ${secret_prefix}-client-id, ${secret_prefix}-client-secret...
+#     # Set the policy during the creation process of the launchpad
+#     keyvaults = {
+#       secrets = {
+#         secret_prefix = "aadapp-github-workflow-aks-cluster"
+#       }
+#     }
+#   }
 
-}
+# }
