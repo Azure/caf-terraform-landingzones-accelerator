@@ -25,7 +25,7 @@ parameter_files=("\
   ")
 
 # Load the CAF module and related providers
-terraform init
+terraform init -upgrade
 
 # Create the plan
 terraform plan \

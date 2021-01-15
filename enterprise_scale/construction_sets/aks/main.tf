@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 2.40.0"
+      version = "~> 2.43.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -19,6 +19,10 @@ terraform {
     external = {
       source  = "hashicorp/external"
       version = "~> 1.2.0"
+    }
+    time = {
+      source  = "hashicorp/time"
+      version = "~> 0.6.0"
     }
     tls = {
       source  = "hashicorp/tls"

@@ -1,7 +1,6 @@
 module "caf" {
-  # source  = "aztfmod/caf/azurerm"
-  # version = "~> 4.22.0"
-  source = "/tf/caf/aztfmod"
+  source  = "aztfmod/caf/azurerm"
+  version = "~> 5.0.0"
 
   global_settings = var.global_settings
   tags            = var.tags
