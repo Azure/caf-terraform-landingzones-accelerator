@@ -78,3 +78,7 @@ variable "route_tables" {
 variable "azurerm_routes" {
   default = {}
 }
+
+variable "logged_user_objectId" {
+  default = {}
+}
