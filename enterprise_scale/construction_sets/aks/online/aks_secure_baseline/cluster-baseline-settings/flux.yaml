@@ -104,9 +104,9 @@ spec:
           initialDelaySeconds: 5
           timeoutSeconds: 5
         args:
-        - --git-url=https://github.com/mspnp/aks-secure-baseline.git
-        - --git-branch=main
-        - --git-path=cluster-baseline-settings
+        - --git-url=https://github.com/Azure/caf-terraform-landingzones-starter.git
+        - --git-branch=HN-2101-ESAKS
+        - --git-path=enterprise_scale/construction_sets/aks/online/aks_secure_baseline/cluster-baseline-settings
         # this configuration prevents flux from syncing changes from your cluster to the git repo. If two way sync is required, please take a look at  https://docs.fluxcd.io/en/1.19.0/tutorials/get-started/#giving-write-access
         - --git-readonly
         - --sync-state=secret
