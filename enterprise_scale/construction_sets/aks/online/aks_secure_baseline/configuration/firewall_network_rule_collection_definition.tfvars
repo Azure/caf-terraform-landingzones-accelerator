@@ -14,7 +14,7 @@ azurerm_firewall_network_rule_collection_definition = {
           "123",
         ]
         destination_addresses = [
-          "91.189.89.198", "91.189.91.157", "91.189.94.4", "91.189.89.199"
+          "*"
         ]
         protocols = [
           "UDP",
@@ -33,6 +33,36 @@ azurerm_firewall_network_rule_collection_definition = {
         ]
         protocols = [
           "TCP",
+        ]
+      },
+      apiservertcp = {
+        name = "apiservertcp"
+        source_addresses = [
+          "*",
+        ]
+        destination_ports = [
+          "443","9000","22"
+        ]
+        destination_addresses = [
+          "AzureCloud"
+        ]
+        protocols = [
+          "TCP",
+        ]
+      },
+      apiserverudp = {
+        name = "apiserverudp"
+        source_addresses = [
+          "*",
+        ]
+        destination_ports = [
+          "1194"
+        ]
+        destination_addresses = [
+          "AzureCloud"
+        ]
+        protocols = [
+          "UDP",
         ]
       },
     }

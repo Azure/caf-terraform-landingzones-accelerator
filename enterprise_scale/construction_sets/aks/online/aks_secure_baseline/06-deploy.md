@@ -22,6 +22,7 @@ parameter_files=("\
   -var-file=${configuration_folder}/iam_role_mappings.tfvars \
   -var-file=${configuration_folder}/aks.tfvars \
   -var-file=${configuration_folder}/route_tables.tfvars \
+  -var-file=${configuration_folder}/diagnostics.tfvars \
   ")
 
 export TF_VAR_logged_user_objectId=$(az ad signed-in-user show --query objectId -o tsv)

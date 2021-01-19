@@ -27,6 +27,10 @@ variable "aks_clusters" {
   default = {}
 }
 
+variable "diagnostic_log_analytics" {
+  default = {}
+}
+
 variable "virtual_machines" {
   default = {}
 }

@@ -11,12 +11,24 @@ aks_clusters = {
     kubernetes_version = "1.18.14"
     vnet_key           = "vnet_aks_re1"
 
-    network_policy = {
+    network_profile = {
       network_plugin    = "azure"
       load_balancer_sku = "Standard"
     }
 
-    enable_rbac = true
+    role_based_access_control = {
+      enabled = true
+      azure_active_directory = {
+        managed = true
+      }
+    }
+
+    addon_profile = {
+      oms_agent = {
+        enabled = true
+        log_analytics_key = "central_logs_region1"
+      }
+    }
 
     # admin_groups = {
     #   # ids = []
