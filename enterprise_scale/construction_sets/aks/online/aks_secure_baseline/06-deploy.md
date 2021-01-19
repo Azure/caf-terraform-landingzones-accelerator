@@ -5,7 +5,7 @@ Now you have reached the stage where you have reviewed the configuration files a
 
 cd enterprise_scale/construction_sets/aks
 
-configuration_folder=${PWD}/online/aks_secure_baseline/configuration
+configuration_folder=online/aks_secure_baseline/configuration
 
 # Define the configuration files to apply
 parameter_files=("\

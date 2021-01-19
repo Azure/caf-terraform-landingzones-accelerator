@@ -8,7 +8,7 @@ aks_clusters = {
       type = "SystemAssigned"
     }
 
-    kubernetes_version = "1.19.6"
+    kubernetes_version = "1.18.14"
     vnet_key           = "vnet_aks_re1"
 
     network_policy = {
@@ -41,13 +41,30 @@ aks_clusters = {
       max_pods              = 30
       node_count            = 1
       os_disk_size_gb       = 512
-      orchestrator_version  = "1.19.6"
+      orchestrator_version  = "1.18.14"
       tags = {
         "project" = "system services"
       }
     }
 
     node_resource_group_name = "aks-nodes-re1"
+
+    node_pools = {
+      pool1 = {
+        name                 = "npuser01"
+        mode                 = "User"
+        subnet_key           = "aks_nodepool_user1"
+        max_pods             = 30
+        vm_size              = "Standard_F4s_v2"
+        node_count           = 1
+        enable_auto_scaling  = false
+        os_disk_size_gb      = 512
+        orchestrator_version = "1.18.14"
+        tags = {
+          "project" = "user services"
+        }
+      }
+    }
 
   }
 }
