@@ -30,12 +30,12 @@ aks_clusters = {
       }
     }
 
-    # admin_groups = {
-    #   # ids = []
-    #   # azuread_groups = {
-    #   #   keys = []
-    #   # }
-    # }
+    admin_groups = {
+      # ids = []
+      azuread_groups = {
+        keys = ["aks_cluster_re1_admins"]
+      }
+    }
 
     load_balancer_profile = {
       # Only one option can be set
