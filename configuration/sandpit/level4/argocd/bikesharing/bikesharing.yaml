@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bikesharing
+  # You'll usually want to add your resources to the argocd namespace.
+  namespace: argocd
+  # Add a this finalizer ONLY if you want these to cascade delete.
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # The project the application belongs to.
+  project: default
+  source:
+    repoURL: 'https://github.com/microsoft/mindaro'
+    path: samples/BikeSharingApp/charts
+    targetRevision: HEAD
+    helm:
+      parameters:
+        - name: 'bikesharingweb.ingress.hosts[0]'
+          value: dev.bikesharingweb.52.139.233.207.nip.io
+        - name: 'gateway.ingress.hosts[0]'
+          value: dev.gateway.52.139.233.207.nip.io
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: bikeapp
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

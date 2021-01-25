@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dapr
+  # You'll usually want to add your resources to the argocd namespace.
+  namespace: argocd
+  # Add a this finalizer ONLY if you want these to cascade delete.
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # The project the application belongs to.
+  project: default
+  source:
+    repoURL: 'https://dapr.github.io/helm-charts'
+    targetRevision: 1.0.0-rc.1
+    chart: dapr
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: dapr-system
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
