@@ -61,7 +61,7 @@ rover -lz /tf/caf/public/landingzones/caf_shared_services/ \
   -a [plan|apply|destroy]
 ```
 
-#### Deploy the networking hub (required to add parallel spoke projects)
+#### Deploy the networking hub
 
 ```bash
 rover -lz /tf/caf/public/landingzones/caf_networking/ \
@@ -73,32 +73,40 @@ rover -lz /tf/caf/public/landingzones/caf_networking/ \
   -a [plan|apply|destroy]
 ```
 
-### 4. Level 3 landing zones - Shared infrastructure platforms
+### 4. Level 3 landing zones
 
-#### Deploy the networking spoke
+#### Deploy an AKS landing zone
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_networking/ \
-  -tfstate networking_spoke_aks.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/networking/spoke \
+rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+  -tfstate landing_zone_aks.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/level3/aks \
   -parallelism 30 \
   -level level3 \
   -env ${environment} \
   -a [plan|apply|destroy]
 ```
 
-#### Deploy the Azure Kubernetes Services landing zone
-
-#### Clone the AKS landing zone files
-
-git clone https://github.com/aztfmod/landingzone_aks.git /tf/caf/landing_zone_aks
-
-#### Deploy the AKS cluster
+#### Deploy a data and analytics landing zone
 
 ```bash
-rover -lz /tf/caf/landing_zone_aks \
-  -tfstate landing_zone_aks.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/aks \
+rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+  -tfstate landing_zone_101_aml_workspace.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/level3/data_analytics/101-aml-workspace \
+  -parallelism 30 \
+  -level level3 \
+  -env ${environment} \
+  -a [plan|apply|destroy]
+```
+
+#### Deploy an Azure App Service Environment landing zone
+
+Warning: this is time consuming.
+
+```bash
+rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+  -tfstate landing_zone_ase.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/level3/app_service \
   -parallelism 30 \
   -level level3 \
   -env ${environment} \

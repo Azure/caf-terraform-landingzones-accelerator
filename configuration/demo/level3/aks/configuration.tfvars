@@ -8,8 +8,9 @@ landingzone = {
       level   = "lower"
       tfstate = "caf_shared_services.tfstate"
     }
-    networking_spoke_aks = {
-      tfstate = "networking_spoke_aks.tfstate"
+    networking_hub = {
+      level   = "lower"
+      tfstate = "networking_hub.tfstate"
     }
   }
 }
@@ -17,6 +18,10 @@ landingzone = {
 resource_groups = {
   aks_re1 = {
     name   = "aks-re1"
+    region = "region1"
+  }
+  aks_spoke_re1 = {
+    name   = "aks-vnet-spoke-re1"
     region = "region1"
   }
 }
