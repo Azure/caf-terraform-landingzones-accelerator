@@ -18,7 +18,7 @@ trigger: none
 jobs:
   - job: CAF_Rover
 
-    displayName: Azure Landing Zone
+    displayName: CAF Landing Zone
 
     pool: $(AGENT_POOL)
 

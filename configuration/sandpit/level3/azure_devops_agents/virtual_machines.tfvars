@@ -21,7 +21,7 @@ virtual_machines = {
         subnet_key              = "release_agent_level3"
         name                    = "0-release-agent-level3"
         enable_ip_forwarding    = false
-        internal_dns_name_label = "release-agent-level2"
+        internal_dns_name_label = "release-agent-level3"
       }
     }
 

@@ -77,4 +77,4 @@ As such, go to the Azure DevOps Console and deploy the following pipelines:
 Once the agents are deployed for all levels, you can start deploying the landing zones for the levels:
 1. Level 1.
 2. Level 2: Networking, Shared Services.
-3. Level 3: AKS Cluster.
+3. Level 3: AKS Cluster, Data and AI, App Service, etc.

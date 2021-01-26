@@ -518,9 +518,9 @@ azure_devops = {
         landingZoneName = "aks",
         terraformAction = "apply",
         tfstateName     = "landing_zone_aks.tfstate"
-        configPath      = "/configuration/sandpit/level2/aks"
+        configPath      = "/configuration/sandpit/level3/aks"
         landingZonePath = "/public/landingzones/caf_solutions"
-        level           = "level2"
+        level           = "level3"
       }
       variable_group_keys = ["global", "level3", "level3_kv"]
     }
