@@ -18,16 +18,16 @@ virtual_machines = {
         # Value of the keys from networking.tfvars
         lz_key                  = "launchpad"
         vnet_key                = "devops_region1"
-        subnet_key              = "release_agent_level1"
-        name                    = "0-release-agent-level1"
+        subnet_key              = "release_agent_level3"
+        name                    = "0-release-agent-level3"
         enable_ip_forwarding    = false
-        internal_dns_name_label = "release-agent-level1"
+        internal_dns_name_label = "release-agent-level2"
       }
     }
 
     virtual_machine_settings = {
       linux = {
-        name                            = "release-agent-level1"
+        name                            = "release-agent-level3"
         size                            = "Standard_F2s_v2"
         admin_username                  = "adminuser"
         disable_password_authentication = true
@@ -36,7 +36,7 @@ virtual_machines = {
         network_interface_keys = ["nic0"]
 
         os_disk = {
-          name                 = "release-agent-level1-os"
+          name                 = "release-agent-level3-os"
           caching              = "ReadWrite"
           storage_account_type = "Standard_LRS"
         }
@@ -52,10 +52,11 @@ virtual_machines = {
           type = "UserAssigned"
 
           remote = {
-            lz_key = "launchpad"
-            managed_identity_keys = [
-              "level1",
-            ]
+            launchpad = {
+              managed_identity_keys = [
+                "level3",
+              ]
+            }
           }
         }
 
@@ -65,8 +66,9 @@ virtual_machines = {
 
     virtual_machine_extensions = {
       devops_selfhosted_agent = {
-        version           = 1
-        agent_init_script = "devops_runtime_baremetal.sh"
+        version             = 1
+        virtual_machine_key = "vm_devops_level3"
+        agent_init_script   = "devops_runtime_baremetal.sh"
         storage_account_blobs = [
           "devops_runtime_baremetal"
         ]

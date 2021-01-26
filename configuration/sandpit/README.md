@@ -9,7 +9,11 @@ Assumptions:
 - Sandpit environment implements rudimentary RBAC model.
 - All resources are provisioned in the same subscription.
 
-## Deploying a sandpit environment
+## Deploying sandpit in Azure DevOps Pipelines
+
+If you want to deploy the sandpit environment into Azure DevOps pipelines, please go [here](./pipelines/README-pipelines.md).
+
+## Deploying with local experience
 
 After completing the steps from the general [configuration readme](../README.md), you can start using the sandpit deployment:
 

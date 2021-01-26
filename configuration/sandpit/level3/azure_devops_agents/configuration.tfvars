@@ -1,34 +1,34 @@
 landingzone = {
   backend_type        = "azurerm"
-  global_settings_key = "azdo-agent-level0"
-  level               = "level1"
-  key                 = "azdo-agent-level1"
+  global_settings_key = "azdo-agent-level2"
+  level               = "level3"
+  key                 = "azdo-agent-level3"
   tfstates = {
-    azdo-agent-level0 = {
+    azdo-agent-level2 = {
       level   = "lower"
-      tfstate = "level0_azure_devops_agents.tfstate"
+      tfstate = "azdo-agent-level2.tfstate"
     }
     launchpad = {
       level   = "lower"
-      tfstate = "caf_launchpad.tfstate"
+      tfstate = "azdo-agent-level2.tfstate"
     }
     azdo-contoso_demo = {
       level   = "lower"
-      tfstate = "azure_devops-contoso_demo"
+      tfstate = "azdo-agent-level2.tfstate"
     }
   }
 }
 
 resource_groups = {
   rg1 = {
-    name = "devops-agents-level0"
+    name = "devops-agents-level3"
   }
 }
 
 azure_devops = {
 
   # Rover version to apply to the devops self-hosted agents during the setup.
-  rover_version = "aztfmod/rover:2010.2808"
+  rover_version = "aztfmod/rover:2012.1109"
   url           = "https://dev.azure.com/azure-terraform/"
 
   pats = {
@@ -40,7 +40,7 @@ azure_devops = {
   }
 
   agent_pool = {
-    name              = "caf-sandpit-level1"
+    name              = "caf-sandpit-level2"
     auto_provision    = true
     num_agents        = 4
     agent_name_prefix = "agent"
@@ -59,11 +59,11 @@ role_mapping = {
           }
           managed_identities = {
             lz_key = "launchpad"
-            keys   = ["level0", "level1"]
+            keys   = ["level0", "level3"]
           }
-          logged_in = {
-            keys = ["user"]
-          }
+          # logged_in = {
+          #   keys = ["user"]
+          # }
         }
       }
     }

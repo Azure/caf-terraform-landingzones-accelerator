@@ -4,18 +4,18 @@ parameters:
     type: number
     default: 60
 
-  variables:
+variables:
   - group: release-global
 
-  resources:
+resources:
     containers:
     - container: rover
       image: $(ROVER_IMAGE)
       options: --user 0:0 -e TF_PLUGIN_CACHE_DIR="/home/$(HOME_FOLDER_USER)/plugin-cache" -e TF_DATA_DIR="/home/$(HOME_FOLDER_USER)"
 
-  trigger: none
+trigger: none
 
-  jobs:
+jobs:
   - job: CAF_Rover
 
     displayName: Azure Landing Zone

@@ -12,20 +12,22 @@ In this example, we will seed the initial deployment locally and then deploy the
 
 ## Import the starter landing zone into your Azure DevOps environment
 
-## Deploying a sandpit environment
+Go to your Azure DevOps organization (this could be an on premises organization or hosted on http://dev.azure.com), create your first project and then clone the starter repository (this) in your Azure DevOps. This repository will be called the ```configuration``` repository in the example pipelines. In order to make things easier, you might want to rename your git repo ```configuration``` in your DevOps project.
+## Deploying the devops launchpad and initial devops agent
 
-After completing the steps from the general [configuration readme](../README.md), you can start using the sandpit deployment:
+The deployment of an environment via pipeline always starts by deploying the DevOps fundamentals:
 
-You can then specify the environment you are running:
-```bash
-export environment=sandpit
-```
+1. Launchpad: lays the foundation for Azure components.
+2. DevOps: create the pipeline, variables to KeyVault, service connection.
+3. DevOps agents: the Virtual Machines running the self hosted Azure DevOps agents that will be running the Terraform landing zones fro the different levels in your environment.
 
 ### 1. Launchpad-level0 landing zones
 
 #### 1. Deploy the launchpad
 
 ```bash
+environment=sandpit
+
 rover -lz /tf/caf/public/landingzones/caf_launchpad \
   -var-folder /tf/caf/configuration/${environment}/level0/launchpad \
   -parallelism 30 \
@@ -35,24 +37,28 @@ rover -lz /tf/caf/public/landingzones/caf_launchpad \
   -a [plan|apply|destroy]
 ```
 
-### 2. Deploy the Azure DevOps add-ons
+### 2. Customize and deploy the Azure DevOps configuration
 
 Customize your Azure DevOps environment as discussed [here](https://github.com/Azure/caf-terraform-landingzones/tree/master/landingzones/caf_launchpad/add-ons/azure_devops).
+
+Create your PAT tokens in your Azure DevOps portal, and import them into the dedicated Azure Key Vault.
 
 ```bash
 rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops \
   -var-folder /tf/caf/configuration/${environment}/level0/azure_devops \
+  -tfstate azure_devops_contoso_demo.tfstate \
   -parallelism 30 \
   -level level0 \
   -env ${environment} \
   -a [plan|apply|destroy]
 ```
 
-### 3. Deploy the Azure DevOps Agents add-ons for level 0 and 1
+### 3. Deploy the Azure DevOps Agents add-ons for level 0
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops \
-  -var-folder /tf/caf/configuration/${environment}/level0/azure_devops \
+rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops_agent \
+  -var-folder /tf/caf/configuration/${environment}/level0/azure_devops_agents \
+  -tfstate azdo-agent-level0.tfstate \
   -parallelism 30 \
   -level level0 \
   -env ${environment} \
@@ -60,79 +66,15 @@ rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops \
 ```
 
 ### 4. Deploy the higher levels from Azure DevOps console
-<!--
-#### Deploy foundations
 
-In this section we use foundations as passthrough:
+Launchpad and level0 are deployed manually from the console to seed the environment, but all higher levels are deployed using pipelines as defined by the pipelines configuration.
 
-```bash
-rover -lz /tf/caf/public/landingzones/caf_foundations/ \
-  -var-folder /tf/caf/configuration/${environment}/level1 \
-  -parallelism 30 \
-  -level level1 \
-  -env ${environment} \
-  -a [plan|apply|destroy]
-```
+As such, go to the Azure DevOps Console and deploy the following pipelines:
+1. DevOps Agent: level 1
+2. DevOps Agent: level 2
+3. DevOps Agent: level 3
 
-### 3. Level 2 landing zones
-
-#### Deploy the shared services
-
-```bash
-rover -lz /tf/caf/public/landingzones/caf_shared_services/ \
-  -tfstate caf_shared_services.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level2/shared_services \
-  -parallelism 30 \
-  -level level2 \
-  -env ${environment} \
-  -a [plan|apply|destroy]
-```
-
-#### Deploy the networking hub (required to add parallel spoke projects)
-
-```bash
-rover -lz /tf/caf/public/landingzones/caf_networking/ \
-  -tfstate networking_hub.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level2/networking/hub \
-  -parallelism 30 \
-  -level level2 \
-  -env ${environment} \
-  -a [plan|apply|destroy]
-```
-
-### 4. Level 3 landing zones - Shared infrastructure platforms
-
-#### Deploy the networking spoke
-
-```bash
-rover -lz /tf/caf/public/landingzones/caf_networking/ \
-  -tfstate networking_spoke_aks.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/networking/spoke \
-  -parallelism 30 \
-  -level level3 \
-  -env ${environment} \
-  -a [plan|apply|destroy]
-```
-
-#### Deploy the Azure Kubernetes Services landing zone
-
-#### Clone the AKS landing zone files
-
-git clone https://github.com/aztfmod/landingzone_aks.git /tf/caf/landing_zone_aks
-
-#### Deploy the AKS cluster
-
-```bash
-rover -lz /tf/caf/landing_zone_aks \
-  -tfstate landing_zone_aks.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/aks \
-  -parallelism 30 \
-  -level level3 \
-  -env ${environment} \
-  -a [plan|apply|destroy]
-```
-
-### 7. Level 4 - Application infrastructure components
-
-You can use level 4 landing zones to describe and deploy an application on top of an environment described in level 3 landing zones (App Service Environment, AKS, etc.).
-Keep on monitoring this repository as we will add examples related to this level. -->
+Once the agents are deployed for all levels, you can start deploying the landing zones for the levels:
+1. Level 1.
+2. Level 2: Networking, Shared Services.
+3. Level 3: AKS Cluster.
