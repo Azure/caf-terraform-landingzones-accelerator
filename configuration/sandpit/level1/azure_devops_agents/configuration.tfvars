@@ -14,7 +14,7 @@ landingzone = {
     }
     azdo-contoso_demo = {
       level   = "lower"
-      tfstate = "azure_devops.tfstate"
+      tfstate = "azure_devops_contoso_demo.tfstate"
     }
   }
 }

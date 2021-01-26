@@ -190,7 +190,7 @@ azure_devops = {
         landingZoneName = "azdo-agent-level1",
         terraformAction = "plan",
         tfstateName     = "azdo-agent-level1.tfstate"
-        configPath      = "/configuration/sandpit/level0/azure_devops_agents"
+        configPath      = "/configuration/sandpit/level1/azure_devops_agents"
         landingZonePath = "/public/landingzones/caf_launchpad/add-ons/azure_devops_agent"
         level           = "level1"
       }
@@ -206,7 +206,7 @@ azure_devops = {
         landingZoneName = "azdo-agent-level1",
         terraformAction = "apply",
         tfstateName     = "azdo-agent-level1.tfstate"
-        configPath      = "/configuration/sandpit/level0/azure_devops_agents"
+        configPath      = "/configuration/sandpit/level1/azure_devops_agents"
         landingZonePath = "/public/landingzones/caf_launchpad/add-ons/azure_devops_agent"
         level           = "level1"
       }
@@ -222,7 +222,7 @@ azure_devops = {
         landingZoneName = "azdo-agent-level1",
         terraformAction = "destroy",
         tfstateName     = "azdo-agent-level1.tfstate"
-        configPath      = "/configuration/sandpit/level0/azure_devops_agents"
+        configPath      = "/configuration/sandpit/level1/azure_devops_agents"
         landingZonePath = "/public/landingzones/caf_launchpad/add-ons/azure_devops_agent"
         level           = "level1"
       }
