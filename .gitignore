@@ -1,5 +1,6 @@
 **/.terraform
 **/*.tfstate
+**/*.tfstate.backup
 **/*.tfplan
 .DS_Store
 **/terraform.tfstate.d

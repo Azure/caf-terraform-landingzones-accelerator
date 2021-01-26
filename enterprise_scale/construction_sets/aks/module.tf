@@ -1,5 +1,5 @@
 module "caf" {
-  source = "git::https://github.com/aztfmod/terraform-azurerm-caf.git?ref=HN-aks-addons"
+  source = "git::https://github.com/aztfmod/terraform-azurerm-caf.git?ref=master"
   # source  = "aztfmod/caf/azurerm"
   # version = "~> 5.0.0"
 
@@ -34,4 +34,7 @@ module "caf" {
     virtual_machines = var.virtual_machines
   }
 
+  security = {
+    keyvault_certificate_requests = var.keyvault_certificate_requests
+  }
 }

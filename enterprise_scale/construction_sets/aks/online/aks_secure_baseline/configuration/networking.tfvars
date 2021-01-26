@@ -19,8 +19,8 @@ vnets = {
         nsg_key         = "azure_kubernetes_cluster_nsg"
         route_table_key = "default_to_firewall_re1"
       }
-      aks_nodepool_user2 = {
-        name            = "aks_nodepool_user2"
+      aks_ingress = {
+        name            = "aks_ingress"
         cidr            = ["10.100.82.0/24"]
         nsg_key         = "azure_kubernetes_cluster_nsg"
         route_table_key = "default_to_firewall_re1"
