@@ -10,10 +10,12 @@ Assumptions:
 
 In this example, we will seed the initial deployment locally and then deploy the environment from an Azure DevOps set of pipelines.
 
-## Import the starter landing zone into your Azure DevOps environment
+## 1. Import the starter landing zone into your Azure DevOps environment
 
-Go to your Azure DevOps organization (this could be an on premises organization or hosted on http://dev.azure.com), create your first project and then clone the starter repository (this) in your Azure DevOps. This repository will be called the ```configuration``` repository in the example pipelines. In order to make things easier, you might want to rename your git repo ```configuration``` in your DevOps project.
-## Deploying the devops launchpad and initial devops agent
+Go to your Azure DevOps organization (this could be an on premises organization or hosted on http://dev.azure.com), create your first project and then clone the starter repository (this repository) in your Azure DevOps.
+This repository will be called the ```configuration``` repository in the example pipelines. In order to make things easier, you might want to rename your git repo ```configuration``` in your DevOps project.
+
+## 2. Deploy the devops launchpad and initial devops agent
 
 The deployment of an environment via pipeline always starts by deploying the DevOps fundamentals:
 
@@ -21,9 +23,8 @@ The deployment of an environment via pipeline always starts by deploying the Dev
 2. DevOps: create the pipeline, variables to KeyVault, service connection.
 3. DevOps agents: the Virtual Machines running the self hosted Azure DevOps agents that will be running the Terraform landing zones fro the different levels in your environment.
 
-### 1. Launchpad-level0 landing zones
+### 2.1. Customize and deploy launchpad landing zones
 
-#### 1. Deploy the launchpad
 
 ```bash
 environment=sandpit
@@ -37,11 +38,23 @@ rover -lz /tf/caf/public/landingzones/caf_launchpad \
   -a [plan|apply|destroy]
 ```
 
-### 2. Customize and deploy the Azure DevOps configuration
+### 2.2 Customize and deploy the Azure DevOps configuration
 
 Customize your Azure DevOps environment as discussed [here](https://github.com/Azure/caf-terraform-landingzones/tree/master/landingzones/caf_launchpad/add-ons/azure_devops).
 
-Create your PAT tokens in your Azure DevOps portal, and import them into the dedicated Azure Key Vault.
+We assume the project "contoso-demo" has already been created in your Azure DevOps organization and permissions defined as required.
+
+Go to your Azure Subscription and locate your DevOps secrets Key Vault.  It is by default called in the form of <prefix>-kv-secrets.
+
+Inside this Key Vault, create and import the following secrets:
+
+| Name of the secret | Value                                                       |
+|--------------------|-------------------------------------------------------------|
+| azdo-pat-admin     | A PAT token with full privileges on the project.            |
+| azdo-pat-agent     | A PAT token with restricted privileges for agent management |
+
+
+Once those values are imported, you can run the landing zones for Azure DevOps configuration.
 
 ```bash
 rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops \
@@ -53,7 +66,7 @@ rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops \
   -a [plan|apply|destroy]
 ```
 
-### 3. Deploy the Azure DevOps Agents add-ons for level 0
+### 3. Customize and deploy the Azure DevOps Agents add-ons for level 0
 
 ```bash
 rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops_agent \

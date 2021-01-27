@@ -2,7 +2,7 @@
 azure_devops = {
 
   url     = "https://dev.azure.com/azure-terraform/"
-  project = "contoso_demo1"
+  project = "contoso_demo"
 
   # PAT Token should be updated manually to the keyvault after running launchpad
   pats = {
