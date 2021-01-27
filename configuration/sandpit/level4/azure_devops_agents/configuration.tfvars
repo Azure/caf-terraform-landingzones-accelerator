@@ -1,27 +1,27 @@
 landingzone = {
   backend_type        = "azurerm"
-  global_settings_key = "azdo-agent-level2"
-  level               = "level3"
-  key                 = "azdo-agent-level3"
+  global_settings_key = "azdo-agent-level3"
+  level               = "level4"
+  key                 = "azdo-agent-level4"
   tfstates = {
-    azdo-agent-level2 = {
+    azdo-agent-level3 = {
       level   = "lower"
-      tfstate = "azdo-agent-level2.tfstate"
+      tfstate = "azdo-agent-level3.tfstate"
     }
     launchpad = {
       level   = "lower"
-      tfstate = "azdo-agent-level2.tfstate"
+      tfstate = "azdo-agent-level3.tfstate"
     }
     azdo-contoso_demo = {
       level   = "lower"
-      tfstate = "azdo-agent-level2.tfstate"
+      tfstate = "azdo-agent-level3.tfstate"
     }
   }
 }
 
 resource_groups = {
   rg1 = {
-    name = "devops-agents-level3"
+    name = "devops-agents-level4"
   }
 }
 
@@ -40,7 +40,7 @@ azure_devops = {
   }
 
   agent_pool = {
-    name              = "caf-sandpit-level3"
+    name              = "caf-sandpit-level4"
     auto_provision    = true
     num_agents        = 4
     agent_name_prefix = "agent"
@@ -59,7 +59,7 @@ role_mapping = {
           }
           managed_identities = {
             lz_key = "launchpad"
-            keys   = ["level0", "level3"]
+            keys   = ["level0", "level4"]
           }
           # logged_in = {
           #   keys = ["user"]

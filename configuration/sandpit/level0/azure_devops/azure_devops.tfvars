@@ -174,7 +174,39 @@ azure_devops = {
   }
 
   pipelines = {
-
+    #
+    # End to end
+    #
+    end_to_end_plan = {
+      name          = "end_to_end_plan"
+      folder        = "\\configuration\\full"
+      yaml          = "configuration/sandpit/pipelines/end_to_end.yaml"
+      repo_type     = "TfsGit"
+      git_repo_name = "caf-configuration"
+      variables = {
+        terraformAction = "plan"
+      }
+    }
+    end_to_end_apply = {
+      name          = "end_to_end_apply"
+      folder        = "\\configuration\\full"
+      yaml          = "configuration/sandpit/pipelines/end_to_end.yaml"
+      repo_type     = "TfsGit"
+      git_repo_name = "caf-configuration"
+      variables = {
+        terraformAction = "apply"
+      }
+    }
+    end_to_end_destroy = {
+      name          = "end_to_end_destroy"
+      folder        = "\\configuration\\full"
+      yaml          = "configuration/sandpit/pipelines/end_to_end_destroy.yaml"
+      repo_type     = "TfsGit"
+      git_repo_name = "caf-configuration"
+      variables = {
+        terraformAction = "destroy -auto-approve"
+      }
+    }
     #
     # Agent pools
     #
@@ -325,6 +357,55 @@ azure_devops = {
         configPath      = "/configuration/sandpit/level3/azure_devops_agents"
         landingZonePath = "/public/landingzones/caf_launchpad/add-ons/azure_devops_agent"
         level           = "level3"
+      }
+      variable_group_keys = ["global", "level0", "level0_kv"]
+    }
+    # level 4
+    devops_agent_level4_plan = {
+      name          = "devops_agent_level4_plan"
+      folder        = "\\configuration\\level4"
+      yaml          = "configuration/sandpit/pipelines/rover.yaml"
+      repo_type     = "TfsGit"
+      git_repo_name = "caf-configuration"
+      variables = {
+        landingZoneName = "azdo-agent-level4",
+        terraformAction = "plan",
+        tfstateName     = "azdo-agent-level4.tfstate"
+        configPath      = "/configuration/sandpit/level4/azure_devops_agents"
+        landingZonePath = "/public/landingzones/caf_launchpad/add-ons/azure_devops_agent"
+        level           = "level4"
+      }
+      variable_group_keys = ["global", "level0", "level0_kv"]
+    }
+    devops_agent_level4_apply = {
+      name          = "devops_agent_level4_apply"
+      folder        = "\\configuration\\level4"
+      yaml          = "configuration/sandpit/pipelines/rover.yaml"
+      repo_type     = "TfsGit"
+      git_repo_name = "caf-configuration"
+      variables = {
+        landingZoneName = "azdo-agent-level4",
+        terraformAction = "apply",
+        tfstateName     = "azdo-agent-level4.tfstate"
+        configPath      = "/configuration/sandpit/level4/azure_devops_agents"
+        landingZonePath = "/public/landingzones/caf_launchpad/add-ons/azure_devops_agent"
+        level           = "level4"
+      }
+      variable_group_keys = ["global", "level0", "level0_kv"]
+    }
+    devops_agent_level4_destroy = {
+      name          = "devops_agent_level4_destroy"
+      folder        = "\\configuration\\level4"
+      yaml          = "configuration/sandpit/pipelines/rover.yaml"
+      repo_type     = "TfsGit"
+      git_repo_name = "caf-configuration"
+      variables = {
+        landingZoneName = "azdo-agent-level4",
+        terraformAction = "destroy",
+        tfstateName     = "azdo-agent-level4.tfstate"
+        configPath      = "/configuration/sandpit/level4/azure_devops_agents"
+        landingZonePath = "/public/landingzones/caf_launchpad/add-ons/azure_devops_agent"
+        level           = "level4"
       }
       variable_group_keys = ["global", "level0", "level0_kv"]
     }

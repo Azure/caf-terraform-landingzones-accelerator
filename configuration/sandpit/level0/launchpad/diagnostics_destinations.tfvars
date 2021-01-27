@@ -7,7 +7,7 @@ diagnostics_destinations = {
   # in the region of the deployment
   storage = {
     all_regions = {
-      eastus2 = {
+      southeastasia = {
         storage_account_key = "diagsiem_region1"
       }
       eastasia = {
