@@ -53,6 +53,25 @@ Inside this Key Vault, create and import the following secrets:
 | azdo-pat-admin     | A PAT token with full privileges on the project.            |
 | azdo-pat-agent     | A PAT token with restricted privileges for agent management |
 
+Into the service connection object, make sure you replace the connection properties with the ones from the launchpad subscription:
+
+```hcl
+  service_endpoints = {
+    contoso_demo = {
+      endpoint_name       = "ES-Devops-launchpad"
+      subscription_name   = "ES-Devops-launchpad"
+      subscription_id     = "GUID"
+      aad_app_key         = "contoso_demo"
+      secret_keyvault_key = "devops"
+    }
+  }
+```
+
+You can get your subscription ID running:
+
+```bash
+az account show
+```
 
 Once those values are imported, you can run the landing zones for Azure DevOps configuration.
 
