@@ -99,6 +99,7 @@ You can use level 4 landing zones to describe and deploy an application on top o
 #### Deploy argocd on the AKS landing zone
 
 ```bash
+# Application to deploy
 application="argocd"
 # Landingzone key hosting the AKS cluster
 landingzone_key="cluster_aks"

@@ -14,6 +14,7 @@ Assumptions:
 After completing the steps from the general [configuration readme](../README.md), you can start using the demo deployment:
 
 You can then specify the environment you are running:
+
 ```bash
 export environment=demo
 ```
