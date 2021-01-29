@@ -47,7 +47,9 @@ terraform plan -var-file=${configuration_folder}/global_settings.tfvars \
   -var-file=${configuration_folder}/route_tables.tfvars \
   -var-file=${configuration_folder}/diagnostics.tfvars \
   -var-file=${configuration_folder}/certificate_requests.tfvars \
-  -var-file=${configuration_folder}/keyvaults.tfvars 
+  -var-file=${configuration_folder}/keyvaults.tfvars \
+  -var-file=${configuration_folder}/iam_managed_identities.tfvars 
+
 # Create the plan
 terraform plan \
   -out="online-aks.tfplan" \

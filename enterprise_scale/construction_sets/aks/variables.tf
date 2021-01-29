@@ -84,9 +84,13 @@ variable "azurerm_routes" {
 }
 
 variable "logged_user_objectId" {
-  default = {}
+  default = null
 }
 
 variable "keyvault_certificate_requests" {
+  default = {}
+}
+
+variable "managed_identities" {
   default = {}
 }

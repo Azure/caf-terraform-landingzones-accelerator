@@ -1,5 +1,5 @@
 module "caf" {
-  source = "git::https://github.com/aztfmod/terraform-azurerm-caf.git?ref=master"
+  source = "git::https://github.com/aztfmod/terraform-azurerm-caf.git?ref=HN-aks"
   # source  = "aztfmod/caf/azurerm"
   # version = "~> 5.0.0"
 
@@ -11,6 +11,7 @@ module "caf" {
   azuread_users        = var.azuread_users
   azuread_groups       = var.azuread_groups
   keyvaults            = var.keyvaults
+  managed_identities   = var.managed_identities
   role_mapping         = var.role_mapping
 
   networking = {

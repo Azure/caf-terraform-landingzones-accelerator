@@ -95,7 +95,7 @@ spec:
     port: 80
     targetPort: 8080
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: aspnetapp-ingress
@@ -106,6 +106,7 @@ metadata:
     # ingress.class annotation is being deprecated in Kubernetes 1.18: https://kubernetes.io/docs/concepts/services-networking/ingress/#deprecated-annotation
     # For backwards compatibility, when this annotation is set, precedence is given over the new field ingressClassName under spec.
     kubernetes.io/ingress.class: traefik-internal
+    # kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/router.tls.options: default
@@ -125,6 +126,10 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: aspnetapp-service
-          servicePort: http
+          service:
+            name: aspnetapp-service
+            port:
+              number: 80
+---

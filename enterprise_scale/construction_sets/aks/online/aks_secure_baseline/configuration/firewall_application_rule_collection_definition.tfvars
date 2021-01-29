@@ -95,6 +95,21 @@ azurerm_firewall_application_rule_collection_definition = {
           }
         }
       },
+      mcr = {
+        name = "mcr"
+        source_addresses = [
+          "*",
+        ]
+        target_fqdns = [
+          "*.data.mcr.microsoft.com",
+        ]
+        protocol = {
+          http = {
+            port = "443"
+            type = "Https"
+          }
+        }
+      },
     }
   }
 }

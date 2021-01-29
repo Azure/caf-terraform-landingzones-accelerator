@@ -119,7 +119,7 @@ data:
     [http.middlewares]
       [http.middlewares.gzip-compress.compress]
       [http.middlewares.app-gateway-snet.ipWhiteList]
-        sourceRange = ["10.240.4.16/28"]
+        sourceRange = ["10.100.80.0/22"]
     [entryPoints]
       [entryPoints.metrics]
         address = ":8082"
@@ -128,7 +128,7 @@ data:
       [entryPoints.websecure]
         address = ":8443"
         [entryPoints.web.forwardedHeaders]
-          trustedIPs = ["10.240.4.16/28"]
+          trustedIPs = ["10.100.80.0/22"]
         [entryPoints.websecure.http.tls]
           options = "default"
     [ping]
@@ -161,10 +161,10 @@ metadata:
     app.kubernetes.io/instance: traefik-ingress-ilb
   annotations:
     service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: tiet-snet-aks_nodepool_user2
+    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: rcgi-snet-aks_ingress
 spec:
   type: LoadBalancer
-  loadBalancerIP: 10.100.82.5
+  loadBalancerIP: 10.100.82.10
   externalTrafficPolicy: Local
   selector:
     app.kubernetes.io/name: traefik-ingress-ilb
@@ -182,7 +182,7 @@ metadata:
   labels:
     app.kubernetes.io/name: traefik-ingress-ilb
     app.kubernetes.io/instance: traefik-ingress-ilb
-    aadpodidbinding: traefik-ingress-controller
+    aadpodidbinding: podmi-ingress-controller
 spec:
   replicas: 2
   selector:
@@ -202,7 +202,7 @@ spec:
       labels:
         app.kubernetes.io/name: traefik-ingress-ilb
         app.kubernetes.io/instance: traefik-ingress-ilb
-        aadpodidbinding: traefik-ingress-controller
+        aadpodidbinding: podmi-ingress-controller
     spec:
       hostNetwork: false
       serviceAccountName: traefik-ingress-controller
@@ -221,10 +221,10 @@ spec:
         # PRODUCTION READINESS CHANGE REQUIRED
         # This image should be sourced from a non-public container registry, such as the
         # one deployed along side of this reference implementation.
-        # az acr import --source registry.hub.docker.com/library/traefik:2.2.1 -n <your-acr-instance-name>
+        # az acr import --source docker.io/library/traefik:2.2.1 -n <your-acr-instance-name>
         # and then set this to
         # image: <your-acr-instance-name>.azurecr.io/library/traefik:2.2.1
-      - image: registry.hub.docker.com/library/traefik:2.2.1
+      - image: docker.io/library/traefik:2.2.1
         name: traefik-ingress-controller
         resources:
           requests:
@@ -262,10 +262,10 @@ spec:
           containerPort: 8082
           protocol: TCP
         securityContext:
-          allowPrivilegeEscalation: false
           capabilities:
             drop:
             - ALL
+          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           runAsGroup: 65532
           runAsNonRoot: true
@@ -290,7 +290,7 @@ spec:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: "aks-ingress-contoso-com-tls-secret-csi-akv"
+              secretProviderClass: aks-ingress-contoso-com-tls-secret-csi-akv
         - name: data
           emptyDir: {}
       nodeSelector:

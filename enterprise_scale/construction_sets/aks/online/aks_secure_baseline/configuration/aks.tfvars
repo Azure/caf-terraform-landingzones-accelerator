@@ -8,7 +8,7 @@ aks_clusters = {
       type = "SystemAssigned"
     }
 
-    kubernetes_version = "1.18.14"
+    kubernetes_version = "1.19.6"
     vnet_key           = "vnet_aks_re1"
 
     network_profile = {
@@ -27,6 +27,9 @@ aks_clusters = {
       oms_agent = {
         enabled = true
         log_analytics_key = "central_logs_region1"
+      }
+      azure_policy = {
+        enabled = true
       }
     }
 
@@ -53,7 +56,7 @@ aks_clusters = {
       max_pods              = 30
       node_count            = 1
       os_disk_size_gb       = 512
-      orchestrator_version  = "1.18.14"
+      orchestrator_version  = "1.19.6"
       tags = {
         "project" = "system services"
       }
@@ -68,10 +71,10 @@ aks_clusters = {
         subnet_key           = "aks_nodepool_user1"
         max_pods             = 30
         vm_size              = "Standard_F4s_v2"
-        node_count           = 1
+        node_count           = 3
         enable_auto_scaling  = false
         os_disk_size_gb      = 512
-        orchestrator_version = "1.18.14"
+        orchestrator_version = "1.19.6"
         tags = {
           "project" = "user services"
         }

@@ -13,3 +13,8 @@
 public
 aztfmod
 landing_zone_aks
+**/*.crt
+**/*.csr
+**/*.key
+**/*.pem
+**/*.cer
