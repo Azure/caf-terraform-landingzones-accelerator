@@ -15,6 +15,11 @@ module "caf" {
   role_mapping         = var.role_mapping
 
   networking = {
+    application_gateways                                    = var.application_gateways
+    application_gateway_applications                        = var.application_gateway_applications
+    domain_name_registrations                               = var.domain_name_registrations
+    dns_zone_records                                        = var.dns_zone_records
+    dns_zones                                               = var.dns_zones
     azurerm_firewalls                                       = var.azurerm_firewalls
     azurerm_firewall_application_rule_collection_definition = var.azurerm_firewall_application_rule_collection_definition
     azurerm_firewall_network_rule_collection_definition     = var.azurerm_firewall_network_rule_collection_definition
@@ -23,6 +28,7 @@ module "caf" {
     public_ip_addresses                                     = var.public_ip_addresses
     route_tables                                            = var.route_tables
     vnets                                                   = var.vnets
+    private_dns                                             = var.private_dns
   }
 
   diagnostics = {
@@ -32,6 +38,7 @@ module "caf" {
 
   compute = {
     aks_clusters     = var.aks_clusters
+    bastion_hosts    = var.bastion_hosts
     virtual_machines = var.virtual_machines
   }
 

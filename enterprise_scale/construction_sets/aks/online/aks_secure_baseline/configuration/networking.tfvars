@@ -25,6 +25,12 @@ vnets = {
         nsg_key         = "azure_kubernetes_cluster_nsg"
         route_table_key = "default_to_firewall_re1"
       }
+      jumpbox = {
+        name            = "jumpbox"
+        cidr            = ["10.100.83.64/28"]
+        nsg_key         = "azure_kubernetes_cluster_nsg"
+        route_table_key = "default_to_firewall_re1"
+      }
       private_endpoints = {
         name                                           = "private_endpoints"
         cidr                                           = ["10.100.83.0/27"]
@@ -35,11 +41,6 @@ vnets = {
         cidr    = ["10.100.83.32/27"]
         nsg_key = "azure_bastion_nsg"
       }
-      # jumpbox = {
-      #   name    = "jumpbox"
-      #   cidr    = ["10.100.83.64/27"]
-      #   nsg_key = "jumpbox"
-      # }
       application_gateway = {
         name    = "agw"
         cidr    = ["10.100.83.96/27"]

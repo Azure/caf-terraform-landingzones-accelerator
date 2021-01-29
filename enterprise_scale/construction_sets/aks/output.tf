@@ -22,3 +22,7 @@ output "managed_identities" {
 output "keyvaults" {
   value = module.caf.keyvaults
 }
+
+output "domain_name_registrations" {
+  value = module.caf.domain_name_registrations
+}

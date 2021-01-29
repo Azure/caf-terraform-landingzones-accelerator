@@ -32,7 +32,7 @@ terraform init -upgrade
 
 
 
-terraform plan -var-file=${configuration_folder}/global_settings.tfvars \
+terraform apply -var-file=${configuration_folder}/global_settings.tfvars \
   -var-file=${configuration_folder}/resource_groups.tfvars \
   -var-file=${configuration_folder}/networking.tfvars \
   -var-file=${configuration_folder}/nsg.tfvars \
@@ -48,7 +48,12 @@ terraform plan -var-file=${configuration_folder}/global_settings.tfvars \
   -var-file=${configuration_folder}/diagnostics.tfvars \
   -var-file=${configuration_folder}/certificate_requests.tfvars \
   -var-file=${configuration_folder}/keyvaults.tfvars \
-  -var-file=${configuration_folder}/iam_managed_identities.tfvars 
+  -var-file=${configuration_folder}/iam_managed_identities.tfvars \
+  -var-file=${configuration_folder}/private_dns.tfvars \
+  -var-file=${configuration_folder}/domain.tfvars \
+  -var-file=${configuration_folder}/agw.tfvars \
+  -var-file=${configuration_folder}/agw_application.tfvars \
+  -var-file=${configuration_folder}/bastion.tfvars 
 
 # Create the plan
 terraform plan \

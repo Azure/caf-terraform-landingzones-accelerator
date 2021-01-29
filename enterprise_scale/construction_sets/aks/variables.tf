@@ -94,3 +94,31 @@ variable "keyvault_certificate_requests" {
 variable "managed_identities" {
   default = {}
 }
+
+variable "bastion_hosts" {
+  default = {}
+}
+
+variable "private_dns" {
+  default = {}
+}
+
+variable "domain_name_registrations" {
+  default = {}
+}
+
+variable "dns_zone_records" {
+  default = {}
+}
+
+variable "dns_zones" {
+  default = {}
+}
+
+variable "application_gateways" {
+  default = {}
+}
+
+variable "application_gateway_applications" {
+  default = {}
+}
