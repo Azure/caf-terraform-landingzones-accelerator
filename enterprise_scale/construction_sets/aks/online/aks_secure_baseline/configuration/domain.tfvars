@@ -9,7 +9,12 @@ dns_zones = {
       a = {
         agw = {
           name   = "www"
-          records = ["10.0.0.0"]
+        #   records = ["10.0.0.0"]
+          resource_id = {
+              public_ip_address = {
+                  key = "agw_pip1_re1"
+              }
+          }
         }
       }
     }

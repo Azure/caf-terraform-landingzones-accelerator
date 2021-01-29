@@ -1,4 +1,5 @@
 module "caf" {
+  # source = "./public"
   source = "git::https://github.com/aztfmod/terraform-azurerm-caf.git?ref=HN-aks"
   # source  = "aztfmod/caf/azurerm"
   # version = "~> 5.0.0"

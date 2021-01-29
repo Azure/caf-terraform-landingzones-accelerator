@@ -49,5 +49,13 @@ application_gateways = {
         protocol = "Https"
       }
     }
+
+    trusted_root_certificate = {
+      wildcard_ingress = {
+        name = "wildcard-ingress"
+        # data = 
+        keyvault_key = "secrets"
+      }
+    }
   }
 }

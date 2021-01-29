@@ -6,10 +6,16 @@ application_gateway_applications = {
 
     listeners = {
       public_ssl = {
-        name                           = "aspnetapp-443-public"
+        name                           = "public-80"
         front_end_ip_configuration_key = "public"
         front_end_port_key             = "80"
-        host_name                      = "aspnetapp.cafdemo.com"
+        # host_name                      = "www.y4plq60ubbbiop9w1dh36tlgfpxqctfj.com"
+        dns_zone = {
+          key = "dns_zone1"
+          record_type = "a"
+          record_key = "agw"
+        }
+
         request_routing_rule_key       = "default"
         # keyvault_certificate = {
         #   certificate_key = "aspnetapp.cafdemo.com"
@@ -28,7 +34,11 @@ application_gateway_applications = {
       port                                = 443
       protocol                            = "Https"
       pick_host_name_from_backend_address = true
+      # trusted_root_certificate_names      = ["wildcard-ingress"]
+      trusted_root_certificate_names      = ["wildcard-ingress"]
     }
+
+    
 
     backend_pool = {
       fqdns = [
