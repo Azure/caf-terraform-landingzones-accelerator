@@ -1,3 +1,7 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: cluster-baseline-settings
 ---
 apiVersion: v1
 kind: ServiceAccount
