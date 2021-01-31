@@ -18,7 +18,7 @@ This reference implementation of AKS Secure Baseline Architecture within Enterpr
 | App Service Domains | [domain.tfvars](./configuration/domain.tfvars) | Public domain to be used in Application Gateway |
 | Azure Firewall  | [firewalls.tfvars](./configuration/firewalls.tfvars) <br /> [firewall_application_rule_collection_definition.tfvars](./configuration/firewall_application_rule_collection_definition.tfvars) <br /> [firewall_network_rule_collection_definition.tfvars](./configuration/firewall_network_rule_collection_definition.tfvars) <br /> [route_tables.tfvars](./configuration/route_tables.tfvars)  | Azure Firewall for restricting AKS egress traffic|
 | Public IPs | [public_ips.tfvars](./configuration/public_ips.tfvars) | Public IPs for Application Gateway, Azure Firewall & Azure Bastion Host |
-||<p align="end">**Security & Monitoring**</p>| |
+|<td colspan="2"><p align="center">**Security & Monitoring**</p></td>|
 | Azure Key Vault| [keyvaults.tfvars](./configuration/keyvaults.tfvars) <br /> [certificate_requests.tfvars](./configuration/certificate_requests.tfvars) | Key Vault to store Self signed certificate for AKS ingress & Bastion SSH key |
 | Azure Monitor | [diagnostics.tfvars](./configuration/diagnostics.tfvars) | Log Analytics Workspace for AKS logs & Prometheus metrics |
 ||<p align="end">**Bastion**</p>| |
