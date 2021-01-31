@@ -10,7 +10,7 @@ This reference implementation of AKS Secure Baseline Architecture within Enterpr
 | Global Settings |[global_settings.tfvars](configuration/global_settings.tfvars) | Primary Region setting. Changing this will redeploy the whole stack to another Region|
 | Resource Groups | [resource_groups.tfvars](./configuration/resource_groups.tfvars)| Resource groups configs |
 ||<p align="center">**Azure Kubernetes Service**</p>||
-| Azure Kubernetes Service | [aks.tfvars](./configuration/agw.tfvars) | AKS addons, version, nodepool configs |
+| Azure Kubernetes Service | [aks.tfvars](./configuration/aks.tfvars) | AKS addons, version, nodepool configs |
 | Identity & Access Management | [iam_aad.tfvars](./configuration/iam_aad.tfvars) <br /> [iam_managed_identities.tfvars](./configuration/iam_managed_identities.tfvars) <br /> [iam_role_mappings.tfvars](./configuration/iam_role_mappings.tfvars)| AAD admin group, User Managed Identities & Role Assignments |
 ||<p align="center">**Networking, Ingress, Egress**</p>||
 | Virtual networks | [networking.tfvars](./configuration/networking.tfvars) <br /> [nsg.tfvars](./configuration/nsg.tfvars)| CIDRs, Subnets, NSGs configs |
