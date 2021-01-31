@@ -12,7 +12,7 @@ output "aks_clusters" {
   value = {
     for key, aks_cluster in module.caf.aks_clusters : key => aks_cluster
   }
-  sensitive = false
+  sensitive = true
 }
 
 output "managed_identities" {

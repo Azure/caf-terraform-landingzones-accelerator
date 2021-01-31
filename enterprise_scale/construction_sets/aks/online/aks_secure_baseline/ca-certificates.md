@@ -30,7 +30,7 @@ Now that you have the [prerequisites](./01-prerequisites.md) met, follow the ste
    > :book: Contoso Bicycle will also procure another TLS certificate, a standard cert, to be used with the AKS Ingress Controller. This one is not EV, as it will not be user facing. Finally the app team decides to use a wildcard certificate of `*.aks-ingress.contoso.com` for the ingress controller.
 
    ```bash
-   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -out bu0001a0008-00.aks-ingress.contoso.com.crt -keyout bu0001a0008-00.aks-ingress.contoso.com.key -subj "/CN=*.aks-ingress.contoso.com/O=Contoso Aks Ingress"
+   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -out bu0001a0008-00.aks-ingress.contoso.com.csr -keyout bu0001a0008-00.aks-ingress.contoso.com.key -subj "/CN=*.aks-ingress.contoso.com/O=Contoso Aks Ingress"
    ```
 
 1. Base64 encode the AKS Ingress Controller certificate

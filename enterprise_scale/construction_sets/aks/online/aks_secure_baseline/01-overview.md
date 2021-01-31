@@ -1,8 +1,39 @@
+# Overview
+
+
+This is the [CAF Terraform](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/terraform-landing-zone) reference implementation based on [AKS Secure Baseline Architecture](https://github.com/mspnp/aks-secure-baseline) for Enterprise Scale Online Landing zone.  
+Landing Zone Management Group for online applications that will be internet-facing, which doesn't require hybrid connectivity. This is where you will create your Subscriptions that will host your online workloads
+
+![network](./pictures/ns-vwan.PNG)
+
+
+## Applied Azure Policies for Online Landing zones
+The list below details only notable Policies for this implementation, it is not exhaustive.  
+Please view Azure Policy portal or [List all assigned Azure Policies](#list-all-assigned-azure-policies) section to list out the details of assigned policies
+
+| Policy                                                                                              | Config files                                                 |
+|-----------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
+| Deploy-AKS-Policy | Deploy Azure Policy Add-on to Azure Kubernetes Service clusters |
+| Deny-Privileged-AKS | Do not allow privileged containers in Kubernetes cluster. <br /> Excluded namespaces: kube-system; gatekeeper-system; azure-arc; **cluster-baseline-settings** <br /> <br />  **cluster-baseline-settings** namespace is dedicated to host Daemonsets components such as AKV Secret Store CSI driver, AAD Pod Identity, Kured... 
+|
+| Deny-Privileged-Escalations-AKS | Kubernetes clusters should not allow container privilege escalation <br /> Excluded namespaces: kube-system; gatekeeper-system; azure-arc; **cluster-baseline-settings**|
+| Enforce-Https-Ingress-AKS | Enforce HTTPS ingress in Kubernetes cluster |
+
+<br />
+
+### List all assigned Azure Policies
+
+```Bash
+# To view details of assigned Policies of the current Subscription
+az policy assignment list --disable-scope-strict-match
+
+# To view details of assigned Policies of the a resource
+az policy assignment list --disable-scope-strict-match --scope {RESOURCEID} 
+```
+
 # Prerequisites
 
-This is the starting point for the instructions on deploying the [AKS Secure Baseline reference implementation](./README.md). There is required access and tooling you'll need in order to accomplish this. Follow the instructions below and on the subsequent pages so that you can get your environment ready to proceed with the AKS cluster creation.
-
-## Steps
+There is required access and tooling you'll need in order to accomplish this. Follow the instructions below and on the subsequent pages so that you can get your environment ready to proceed with the AKS cluster creation.
 
 1. An Azure subscription. If you don't have an Azure subscription, you can create a [free account](https://azure.microsoft.com/free).
 
@@ -35,8 +66,7 @@ This is the starting point for the instructions on deploying the [AKS Secure Bas
 
    > :bulb: The steps shown here and elsewhere in the reference implementation use Bash shell commands. On Windows, you can use the [Windows Subsystem for Linux](https://docs.microsoft.com/windows/wsl/about#what-is-wsl-2) to run Bash.
 
-1. Ensure [OpenSSL is installed](https://github.com/openssl/openssl#download) in order to generate self-signed certs used in this implementation.
 
-### Next step
+# Next step
 
-:arrow_forward: [Generate your client-facing TLS certificate](./02-ca-certificates.md)
+:arrow_forward: [Deploy infrastructures using Terraform](./02-terraform-deploy.md)
