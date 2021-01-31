@@ -85,4 +85,4 @@ terraform destroy \
 ```
 # Next step
 
-:arrow_forward: [Deploy sample workload into AKS](./03-aks.md)
+:arrow_forward: [Deploy sample workload into AKS](./02-aks.md)

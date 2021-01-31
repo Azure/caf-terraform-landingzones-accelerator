@@ -4,7 +4,7 @@
 This is the [CAF Terraform](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/terraform-landing-zone) reference implementation based on [AKS Secure Baseline Architecture](https://github.com/mspnp/aks-secure-baseline) for Enterprise Scale Online Landing zone.  
 Landing Zone Management Group for online applications that will be internet-facing, which doesn't require hybrid connectivity. This is where you will create your Subscriptions that will host your online workloads
 
-![network](pictures/ns-vwan.PNG)
+![network](pictures/ns-vwan.png)
 
 
 ## Applied Azure Policies for Online Landing zones
@@ -68,4 +68,4 @@ There is required access and tooling you'll need in order to accomplish this. Fo
 
 # Next step
 
-:arrow_forward: [Deploy infrastructures using Terraform](./02-terraform.md)
+:arrow_forward: [Deploy infrastructures using Terraform](./01-terraform.md)
