@@ -16,6 +16,7 @@ This reference implementation of AKS Secure Baseline Architecture within Enterpr
 | Virtual networks | [networking.tfvars](./configuration/networking.tfvars) <br /> [nsg.tfvars](./configuration/nsg.tfvars)| CIDRs, Subnets, NSGs configs |
 | Application Gateway | [agw.tfvars](./configuration/agw.tfvars) <br /> [agw_application.tfvars](./configuration/agw_application.tfvars) <br />| Application Gateway WAF v2 Configs with aspnetapp workload settings |
 | App Service Domains | [domain.tfvars](./configuration/domain.tfvars) | Public domain to be used in Application Gateway |
+| Private DNS Zone | [private_dns.tfvars](./configuration/private_dns.tfvars) | Private DNS zone for AKS ingress; A record to Load Balancer IP |
 | Azure Firewall  | [firewalls.tfvars](./configuration/firewalls.tfvars) <br /> [firewall_application_rule_collection_definition.tfvars](./configuration/firewall_application_rule_collection_definition.tfvars) <br /> [firewall_network_rule_collection_definition.tfvars](./configuration/firewall_network_rule_collection_definition.tfvars) <br /> [route_tables.tfvars](./configuration/route_tables.tfvars)  | Azure Firewall for restricting AKS egress traffic|
 | Public IPs | [public_ips.tfvars](./configuration/public_ips.tfvars) | Public IPs for Application Gateway, Azure Firewall & Azure Bastion Host |
 ||<p align="center">**Security & Monitoring**</p>||
