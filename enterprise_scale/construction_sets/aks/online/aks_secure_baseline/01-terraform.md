@@ -76,12 +76,11 @@ eval terraform plan -out="online-aks.tfplan" ${parameter_files}
 terraform apply "online-aks.tfplan"
 
 # (When needed) Destroy the resources
-terraform destroy \
-  ${parameter_files// / }
+eval terraform destroy ${parameter_files}
 
 # or if you are facing destroy issues
-terraform destroy \
-  ${parameter_files// / } \
+eval terraform destroy \
+  ${parameter_files} \
   -refresh=false
 
 ```

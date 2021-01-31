@@ -118,11 +118,10 @@ When finished, please destroy all deployments with:
 
 ```bash
 # (When needed) Destroy the resources
-terraform destroy \
-  ${parameter_files// / }
+eval terraform destroy ${parameter_files}
 
 # or if you are facing destroy issues
-terraform destroy \
-  ${parameter_files// / } \
+eval terraform destroy \
+  ${parameter_files} \
   -refresh=false
 ```
