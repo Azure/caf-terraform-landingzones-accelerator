@@ -61,6 +61,10 @@ keyvault_access_policies = {
       azuread_group_key  = "keyvault_level0_rw"
       secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
     }
+    msi_level0 = {
+      managed_identity_key = "level0"
+      secret_permissions   = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
+    }
   }
   # A maximum of 16 access policies per keyvault
   level1 = {
@@ -68,6 +72,14 @@ keyvault_access_policies = {
       # Reference a key to an azure ad group
       azuread_group_key  = "keyvault_level1_rw"
       secret_permissions = ["Get", "List"]
+    },
+    msi_level0 = {
+      managed_identity_key = "level0"
+      secret_permissions   = ["Get", "List"]
+    }
+    msi_level1 = {
+      managed_identity_key = "level1"
+      secret_permissions   = ["Get"]
     }
   }
 
@@ -77,6 +89,14 @@ keyvault_access_policies = {
       # Reference a key to an azure ad group
       azuread_group_key  = "keyvault_level2_rw"
       secret_permissions = ["Get", "List"]
+    }
+    msi_level0 = {
+      managed_identity_key = "level0"
+      secret_permissions   = ["Get", "List"]
+    }
+    msi_level2 = {
+      managed_identity_key = "level2"
+      secret_permissions   = ["Get"]
     }
   }
 
@@ -88,6 +108,14 @@ keyvault_access_policies = {
       azuread_group_key  = "keyvault_level3_rw"
       secret_permissions = ["Get", "List"]
     }
+    msi_level0 = {
+      managed_identity_key = "level0"
+      secret_permissions   = ["Get", "List"]
+    }
+    msi_level3 = {
+      managed_identity_key = "level3"
+      secret_permissions   = ["Get"]
+    }
   }
 
 
@@ -97,6 +125,14 @@ keyvault_access_policies = {
       # Reference a key to an azure ad group
       azuread_group_key  = "keyvault_level4_rw"
       secret_permissions = ["Get", "List"]
+    }
+    msi_level0 = {
+      managed_identity_key = "level0"
+      secret_permissions   = ["Get", "List"]
+    }
+    msi_level4 = {
+      managed_identity_key = "level4"
+      secret_permissions   = ["Get"]
     }
   }
 
@@ -109,6 +145,26 @@ keyvault_access_policies = {
     keyvault_password_rotation = {
       azuread_group_key  = "keyvault_password_rotation"
       secret_permissions = ["Set", "Get", "List", "Delete", ]
+    }
+    msi_level0 = {
+      managed_identity_key = "level0"
+      secret_permissions   = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
+    }
+    msi_level1 = {
+      managed_identity_key = "level1"
+      secret_permissions   = ["Get"]
+    }
+    msi_level2 = {
+      managed_identity_key = "level2"
+      secret_permissions   = ["Get"]
+    }
+    msi_level3 = {
+      managed_identity_key = "level3"
+      secret_permissions   = ["Set", "Get", "List", "Delete", "Purge"]
+    }
+    msi_level4 = {
+      managed_identity_key = "level4"
+      secret_permissions   = ["Get"]
     }
   }
 }

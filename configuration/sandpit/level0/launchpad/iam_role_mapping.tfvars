@@ -103,7 +103,7 @@ role_mapping = {
             keys = ["keyvault_level1_rw"]
           }
           managed_identities = {
-            keys = ["level1"]
+            keys = ["level0", "level1"]
           }
         }
         "Storage Blob Data Reader" = {
@@ -121,7 +121,7 @@ role_mapping = {
             keys = ["keyvault_level2_rw"]
           }
           managed_identities = {
-            keys = ["level2"]
+            keys = ["level0", "level2"]
           }
         }
         "Storage Blob Data Reader" = {
@@ -139,7 +139,25 @@ role_mapping = {
             keys = ["keyvault_level3_rw"]
           }
           managed_identities = {
-            keys = ["level3"]
+            keys = ["level0", "level3"]
+          }
+        }
+        "Storage Blob Data Reader" = {
+          azuread_groups = {
+            keys = ["keyvault_level4_rw"]
+          }
+        }
+      }
+      level4 = {
+        "Storage Blob Data Contributor" = {
+          logged_in = {
+            keys = ["user"]
+          }
+          azuread_groups = {
+            keys = ["keyvault_level4_rw"]
+          }
+          managed_identities = {
+            keys = ["level0", "level4"]
           }
         }
         "Storage Blob Data Reader" = {

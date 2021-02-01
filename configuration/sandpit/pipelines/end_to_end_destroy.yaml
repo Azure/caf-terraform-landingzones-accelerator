@@ -1,0 +1,302 @@
+variables:
+  group: release-global
+
+resources:
+  containers:
+  - container: rover
+    image: $(ROVER_IMAGE)
+    options: --user 0:0 -e TF_PLUGIN_CACHE_DIR="/home/$(HOME_FOLDER_USER)/plugin-cache" -e TF_DATA_DIR="/home/$(HOME_FOLDER_USER)"
+
+trigger: none
+
+
+stages:
+
+- stage: devops_release_agent_level4
+  jobs:
+  - job: agent_level4
+    displayName: "Agent level 4"
+
+    variables:
+    - group: release-global
+    - group: release-level0
+    - group: release-level0-msi
+
+    pool: $(AGENT_POOL)
+    continueOnError: true
+    workspace:
+          clean: all
+    container: rover
+    timeoutInMinutes: 60
+
+    steps:
+    - checkout: self
+    - bash: |
+        git clone --branch $(LANDINGZONE_BRANCH) https://github.com/Azure/caf-terraform-landingzones.git ${BUILD_REPOSITORY_LOCALPATH}/public 2>/dev/null
+
+        az login --identity -u $(msi-resource-id)
+
+        /tf/rover/rover.sh -lz ${BUILD_REPOSITORY_LOCALPATH}/public/landingzones/caf_launchpad/add-ons/azure_devops_agent \
+          -tfstate azdo-agent-level4.tfstate \
+          -var-folder ${BUILD_REPOSITORY_LOCALPATH}/configuration/sandpit/level4/azure_devops_agents \
+          -parallelism=30 \
+          -level level4 \
+          -a $(terraformAction) \
+          -env $(ENVIRONMENT)
+
+      failOnStderr: true
+      displayName: 'Terraform $(terraformAction)'
+
+- stage: aks
+  jobs:
+  - job: aks
+    displayName: "AKS"
+
+    variables:
+    - group: release-global
+    - group: release-level3
+    - group: release-level3-msi
+
+    pool: $(AGENT_POOL)
+    continueOnError: true
+    workspace:
+          clean: all
+    container: rover
+    timeoutInMinutes: 60
+
+    steps:
+    - checkout: self
+    - bash: |
+        git clone --branch $(LANDINGZONE_BRANCH) https://github.com/Azure/caf-terraform-landingzones.git ${BUILD_REPOSITORY_LOCALPATH}/public 2>/dev/null
+
+        az login --identity -u $(msi-resource-id)
+
+        /tf/rover/rover.sh -lz ${BUILD_REPOSITORY_LOCALPATH}/public/landingzones/caf_solutions \
+          -tfstate landing_zone_aks.tfstate \
+          -var-folder ${BUILD_REPOSITORY_LOCALPATH}/configuration/sandpit/level3/aks \
+          -parallelism=30 \
+          -level level3 \
+          -a $(terraformAction) \
+          -env $(ENVIRONMENT)
+
+      failOnStderr: true
+      displayName: 'Terraform $(terraformAction)'
+
+- stage: devops_release_agent_level1
+  dependsOn: [caf_foundations]
+  jobs:
+  - job: agent_level1
+    displayName: "Agent level 1"
+
+    variables:
+    - group: release-global
+    - group: release-level0
+    - group: release-level0-msi
+
+    pool: $(AGENT_POOL)
+    continueOnError: false
+    workspace:
+          clean: all
+    container: rover
+    timeoutInMinutes: 60
+
+    steps:
+    - checkout: self
+    - bash: |
+        git clone --branch $(LANDINGZONE_BRANCH) https://github.com/Azure/caf-terraform-landingzones.git ${BUILD_REPOSITORY_LOCALPATH}/public 2>/dev/null
+
+        az login --identity -u $(msi-resource-id)
+
+        /tf/rover/rover.sh -lz ${BUILD_REPOSITORY_LOCALPATH}/public/landingzones/caf_launchpad/add-ons/azure_devops_agent \
+          -tfstate azdo-agent-level1.tfstate \
+          -var-folder ${BUILD_REPOSITORY_LOCALPATH}/configuration/sandpit/level1/azure_devops_agents \
+          -parallelism=30 \
+          -level level1 \
+          -a $(terraformAction) \
+          -env $(ENVIRONMENT)
+
+      failOnStderr: true
+      displayName: 'Terraform $(terraformAction)'
+
+- stage: devops_release_agent_level2
+  dependsOn: [networking_hub, shared_services]
+  jobs:
+  - job: agent_level2
+    displayName: " Agent level 2"
+
+    variables:
+    - group: release-global
+    - group: release-level0
+    - group: release-level0-msi
+
+    pool: $(AGENT_POOL)
+    continueOnError: false
+    workspace:
+          clean: all
+    container: rover
+    timeoutInMinutes: 60
+
+    steps:
+    - checkout: self
+    - bash: |
+        git clone --branch $(LANDINGZONE_BRANCH) https://github.com/Azure/caf-terraform-landingzones.git ${BUILD_REPOSITORY_LOCALPATH}/public 2>/dev/null
+
+        az login --identity -u $(msi-resource-id)
+
+        /tf/rover/rover.sh -lz ${BUILD_REPOSITORY_LOCALPATH}/public/landingzones/caf_launchpad/add-ons/azure_devops_agent \
+          -tfstate azdo-agent-level2.tfstate \
+          -var-folder ${BUILD_REPOSITORY_LOCALPATH}/configuration/sandpit/level2/azure_devops_agents \
+          -parallelism=30 \
+          -level level2 \
+          -a $(terraformAction) \
+          -env $(ENVIRONMENT)
+
+      failOnStderr: true
+      displayName: 'Terraform $(terraformAction)'
+
+
+- stage: devops_release_agent_level3
+  dependsOn: [aks]
+  jobs:
+  - job: agent_level3
+    displayName: "Agent level 3"
+
+    variables:
+    - group: release-global
+    - group: release-level0
+    - group: release-level0-msi
+
+    pool: $(AGENT_POOL)
+    continueOnError: false
+    workspace:
+          clean: all
+    container: rover
+    timeoutInMinutes: 60
+
+    steps:
+    - checkout: self
+    - bash: |
+        git clone --branch $(LANDINGZONE_BRANCH) https://github.com/Azure/caf-terraform-landingzones.git ${BUILD_REPOSITORY_LOCALPATH}/public 2>/dev/null
+
+        az login --identity -u $(msi-resource-id)
+
+        /tf/rover/rover.sh -lz ${BUILD_REPOSITORY_LOCALPATH}/public/landingzones/caf_launchpad/add-ons/azure_devops_agent \
+          -tfstate azdo-agent-level3.tfstate \
+          -var-folder ${BUILD_REPOSITORY_LOCALPATH}/configuration/sandpit/level3/azure_devops_agents \
+          -parallelism=30 \
+          -level level3 \
+          -a $(terraformAction) \
+          -env $(ENVIRONMENT)
+
+      failOnStderr: true
+      displayName: 'Terraform $(terraformAction)'
+
+
+
+- stage: caf_foundations
+  dependsOn: [ shared_services ]
+  jobs:
+  - job: caf_foundations
+    displayName: "caf_foundations"
+
+    variables:
+    - group: release-global
+    - group: release-level1
+    - group: release-level1-msi
+
+    pool: $(AGENT_POOL)
+    continueOnError: false
+    workspace:
+          clean: all
+    container: rover
+    timeoutInMinutes: 60
+
+    steps:
+    - checkout: self
+    - bash: |
+        git clone --branch $(LANDINGZONE_BRANCH) https://github.com/Azure/caf-terraform-landingzones.git ${BUILD_REPOSITORY_LOCALPATH}/public 2>/dev/null
+
+        az login --identity -u $(msi-resource-id)
+
+        /tf/rover/rover.sh -lz ${BUILD_REPOSITORY_LOCALPATH}/public/landingzones/caf_foundations \
+          -tfstate caf_foundations.tfstate \
+          -var-folder ${BUILD_REPOSITORY_LOCALPATH}/configuration/level1/caf_foundations \
+          -parallelism=30 \
+          -level level1 \
+          -a $(terraformAction) \
+          -env $(ENVIRONMENT)
+
+      failOnStderr: true
+      displayName: 'Terraform $(terraformAction)'
+
+- stage: shared_services
+  dependsOn: [ aks ]
+  jobs:
+  - job: shared_services
+    displayName: "shared_services"
+
+    variables:
+    - group: release-global
+    - group: release-level2
+    - group: release-level2-msi
+
+    pool: $(AGENT_POOL)
+    continueOnError: false
+    workspace:
+          clean: all
+    container: rover
+    timeoutInMinutes: 60
+
+    steps:
+    - checkout: self
+    - bash: |
+        git clone --branch $(LANDINGZONE_BRANCH) https://github.com/Azure/caf-terraform-landingzones.git ${BUILD_REPOSITORY_LOCALPATH}/public 2>/dev/null
+
+        az login --identity -u $(msi-resource-id)
+
+        /tf/rover/rover.sh -lz ${BUILD_REPOSITORY_LOCALPATH}/public/landingzones/caf_shared_services \
+          -tfstate caf_shared_services.tfstate \
+          -var-folder ${BUILD_REPOSITORY_LOCALPATH}/configuration/level2/shared_services \
+          -parallelism=30 \
+          -level level2 \
+          -a $(terraformAction) \
+          -env $(ENVIRONMENT)
+
+      failOnStderr: true
+      displayName: 'Terraform $(terraformAction)'
+
+- stage: networking_hub
+  dependsOn: [ aks ]
+  jobs:
+  - job: networking_hub
+    displayName: "networking_hub"
+
+    variables:
+    - group: release-global
+    - group: release-level2
+    - group: release-level2-msi
+
+    pool: $(AGENT_POOL)
+    continueOnError: false
+    workspace:
+          clean: all
+    container: rover
+    timeoutInMinutes: 60
+
+    steps:
+    - checkout: self
+    - bash: |
+        git clone --branch $(LANDINGZONE_BRANCH) https://github.com/Azure/caf-terraform-landingzones.git ${BUILD_REPOSITORY_LOCALPATH}/public 2>/dev/null
+
+        az login --identity -u $(msi-resource-id)
+
+        /tf/rover/rover.sh -lz ${BUILD_REPOSITORY_LOCALPATH}/public/landingzones/caf_networking \
+          -tfstate networking_hub.tfstate \
+          -var-folder ${BUILD_REPOSITORY_LOCALPATH}/configuration/sandpit/level2/networking/hub \
+          -parallelism=30 \
+          -level level2 \
+          -a $(terraformAction) \
+          -env $(ENVIRONMENT)
+
+      failOnStderr: true
+      displayName: 'Terraform $(terraformAction)'
