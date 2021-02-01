@@ -1,4 +1,6 @@
-# Deploy cluster baseline settings via Flux
+# Deploy AKS Applications
+
+## Deploy cluster baseline settings via Flux
 
 Make sure the current folder is "*enterprise_scale/construction_sets/aks*"
 
@@ -10,6 +12,7 @@ Make sure the current folder is "*enterprise_scale/construction_sets/aks*"
   ```
 
 Please review the Baseline components that are deployed at [cluster-baseline-settings](./cluster-baseline-settings):
+
 - AAD Pod Identity
 - AKV Secret Store CSI Driver
 - Ingress Network Policy
@@ -25,7 +28,7 @@ Please review the Baseline components that are deployed at [cluster-baseline-set
 Flux will pull from [cluster-baseline-settings](./cluster-baseline-settings) and synchronize the folder to AKS.
 If there is a need to change the folder to your own folk, please modify [flux.yaml](cluster-baseline-settings/flux.yaml) --git-url args
 
-# Deploy sample workload
+## Deploy sample workload
 
 1. Get the AKS Ingress Controller Managed Identity details.
 
@@ -119,7 +122,8 @@ If there is a need to change the folder to your own folk, please modify [flux.ya
     terraform output -json | jq -r .domain_name_registrations.value.random_domain.dns_domain_registration_name
     ```
 
-# Destroy resources
+## Destroy resources
+
 When finished, please destroy all deployments with:
 
 ```bash
