@@ -22,6 +22,8 @@ Please review the Baseline components that are deployed at [cluster-baseline-set
   ```bash
   # Deploy Baseline components via Flux
   kubectl apply -f online/aks_secure_baseline/cluster-baseline-settings/flux.yaml
+  # Watch Flux deploys
+  kubectl get po -n cluster-baseline-settings 
   ```
 
 Flux will pull from [cluster-baseline-settings](./cluster-baseline-settings) and synchronize the folder to AKS.
