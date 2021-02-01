@@ -42,7 +42,7 @@ rover -lz /tf/caf/public/landingzones/caf_launchpad \
 
 Customize your Azure DevOps environment as discussed [here](https://github.com/Azure/caf-terraform-landingzones/tree/master/landingzones/caf_launchpad/add-ons/azure_devops).
 
-We assume the project "contoso-demo" has already been created in your Azure DevOps organization and permissions defined as required.
+We assume the project "contoso_demo" has already been created in your Azure DevOps organization and permissions defined as required.
 
 Go to your Azure Subscription and locate your DevOps secrets Key Vault.  It is by default called in the form of <prefix>-kv-secrets.
 
