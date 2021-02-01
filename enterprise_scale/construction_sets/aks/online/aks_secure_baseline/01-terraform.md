@@ -41,7 +41,7 @@ az login
 az account show -o table
 
 # Go to the AKS construction set folder 
-cd enterprise_scale/construction_sets/aks
+cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks
 
 configuration_folder=online/aks_secure_baseline/configuration
 
