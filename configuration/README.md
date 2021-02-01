@@ -28,7 +28,7 @@ git clone --branch 2101.0.0 https://github.com/Azure/caf-terraform-landingzones.
 
 # Or refresh an existing clone
 cd /tf/caf/public
-git checkout 2101.1.0
+git checkout 2101.0.0
 git pull
 ```
 
