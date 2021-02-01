@@ -6,7 +6,6 @@ Make sure the current folder is "*enterprise_scale/construction_sets/aks*"
   # Login to the AKS
   echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash 
   # Make sure logged in
-  kubectl get namespace
   kubectl get pods -A
   ```
 
@@ -19,6 +18,8 @@ Please review the Baseline components that are deployed at [cluster-baseline-set
   ```bash
   # Deploy Baseline components via Flux
   kubectl apply -f online/aks_secure_baseline/cluster-baseline-settings/flux.yaml
+  # Watch Flux deployment, Ctrl-C to quit
+  kubectl get po -n cluster-baseline-settings -w
   ```
 
 Flux will pull from [cluster-baseline-settings](./cluster-baseline-settings) and synchronize the folder to AKS.
@@ -37,7 +38,7 @@ If there is a need to change the folder to your own folk, please modify [flux.ya
 
     ```bash
     # press Ctrl-C once you receive a successful response
-    kubectl get ns a0008 -w
+    kubectl get ns a0008
     ```
 
 1. Create Traefik's Azure Managed Identity binding.
@@ -101,22 +102,30 @@ If there is a need to change the folder to your own folk, please modify [flux.ya
               objectType: secret
         tenantId: $TENANTID_AZURERBAC
     EOF
-    ```
 
-1. Deploy Traefik & ASP.net sample appplication
-
-
+2. Update Traefik config to pin IP in Aks-ingress Subnet:
+   1. Run: terraform output -json | jq -r .vnets.value.vnet_aks_re1.subnets.aks_ingress.name
+   2. Open line 164 in file [traefik.yaml](./workloads/baseline/traefik.yaml) 
+   3. Replace the subnet of this annotation to your subnet above: service.beta.kubernetes.io/azure-load-balancer-internal-subnet: *rcgi-snet-aks_ingress*
+    
+3. Deploy Traefik & ASP.net sample appplication
     ```bash
     kubectl apply -f online/aks_secure_baseline/workloads/baseline
-
-    # It takes 2-3 mins to deploy Traefik & the sample app. This website will be available at the public domain below
-    echo $(terraform output -json | jq -r .domain_name_registrations.value.random_domain.dns_domain_registration_name) 
+    # It takes 2-3 mins to deploy Traefik & the sample app. Watch all pods to be provision with:
+    kubectl get pods -n a0008 -w 
+    # Ensure sample app ingress has IP assigned
+    kubectl get ingress -n a0008
+    # This website will be available at the public domain below
+    terraform output -json | jq -r .domain_name_registrations.value.random_domain.dns_domain_registration_name
     ```
 
 # Destroy resources
 When finished, please destroy all deployments with:
 
 ```bash
+# Delete sample application, this contains PodDisruptionBudget that will block Terraform destroy
+kubectl delete -f online/aks_secure_baseline/workloads/baseline
+
 # (When needed) Destroy the resources
 eval terraform destroy ${parameter_files}
 

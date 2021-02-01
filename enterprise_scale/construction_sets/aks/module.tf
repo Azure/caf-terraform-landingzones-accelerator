@@ -1,8 +1,8 @@
 module "caf" {
   # source = "./public"
-  source = "git::https://github.com/aztfmod/terraform-azurerm-caf.git?ref=HN-aks"
-  # source  = "aztfmod/caf/azurerm"
-  # version = "~> 5.0.0"
+  # source = "git::https://github.com/aztfmod/terraform-azurerm-caf.git?ref=HN-aks"
+  source  = "aztfmod/caf/azurerm"
+  version = "~> 5.1.0"
 
   global_settings      = var.global_settings
   logged_user_objectId = var.logged_user_objectId

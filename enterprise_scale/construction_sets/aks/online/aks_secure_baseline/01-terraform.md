@@ -4,6 +4,8 @@ Now you have reached the stage where you have reviewed the configuration files a
 
 This reference implementation of AKS Secure Baseline Architecture within Enterprise Scale environment is built using CAF Terraform Landing zone framework. Specifically we will be using the [CAF Terraform modules](https://github.com/aztfmod/terraform-azurerm-caf) the provision all required infrastructures:
 
+![aks_enterprise_scale_lz](pictures/aks_enterprise_scale_lz.png)
+
 
 | Components                                                                                              | Config files                                                 | Description|
 |-----------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
@@ -25,8 +27,6 @@ This reference implementation of AKS Secure Baseline Architecture within Enterpr
 ||<p align="center">**Bastion**</p>||
 | Azure Bastion (OPTIONAL) | [bastion.tfvars](./configuration/bastion.tfvars) | Azure Bastion Host & Windows VM to view aspnetsample website internally. |
 
-  
-  
 <br />
 
 # Deployment
@@ -61,8 +61,9 @@ parameter_files=("\
   -var-file=${configuration_folder}/domain.tfvars \
   -var-file=${configuration_folder}/agw.tfvars \
   -var-file=${configuration_folder}/agw_application.tfvars \
-  -var-file=${configuration_folder}/bastion.tfvars \
   ")
+
+# OPTIONAL: -var-file=${configuration_folder}/bastion.tfvars \
 
 export TF_VAR_logged_user_objectId=$(az ad signed-in-user show --query objectId -o tsv)
 
@@ -84,6 +85,7 @@ eval terraform destroy \
   -refresh=false
 
 ```
+
 # Next step
 
 :arrow_forward: [Deploy sample workload into AKS](./02-aks.md)
