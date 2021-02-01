@@ -62,7 +62,6 @@ There is required access and tooling you'll need in order to accomplish this. Fo
    ```bash
    export GITHUB_REPO=https://github.com/Azure/caf-terraform-landingzones-starter.git
    git clone $GITHUB_REPO
-   cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks/online/aks_secure_baseline
    ```
 
    > :bulb: The steps shown here and elsewhere in the reference implementation use Bash shell commands. On Windows, you can use the [Windows Subsystem for Linux](https://docs.microsoft.com/windows/wsl/about#what-is-wsl-2) to run Bash.
