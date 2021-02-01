@@ -12,10 +12,11 @@ The purpose of this repository is to provide you with a starting point when comp
 
 In CAF landing zones for Terraform, our approach is to separate the configuration repository and the logic repository:
 
-* **Configuration repository**: this template is an example of configuration repository for CAF landing zones, containing definition of the configuration for your different environments.
+* **Configuration repository**: this template is an example of configuration repository for CAF landing zones, containing definition of the configuration for your different environments. In real world, this is often separate repositories, but to simplify things, we created a repo with examples containing various environments.
 * **Logic repository**: the Azure CAF landing [zone repository](https://github.com/azure/caf-terraform-landingzones)
 
 This approach allows you to easily:
+
 * check-in your configuration in your specific Git repository.
 * resync the code with the public codebase for updates.
 * customize the code if needed and contribute back to the community.
@@ -26,7 +27,6 @@ To get started with creating your environment, you can fork this repository on y
 
 You can then customize your environment by following the steps inside the [configuration folder](./configuration) and review our sample configuration [onboarding video here](https://www.youtube.com/watch?v=M5BXm30IpdY)
 
-
 ## Related repositories
 
 Landing zones for Terraform are composed of multiple open-source components and projects:
@@ -36,9 +36,7 @@ Landing zones for Terraform are composed of multiple open-source components and 
 | [caf-terraform-landingzones](https://github.com/azure/caf-terraform-landingzones) | landing zones repo with sample and core documentations     |
 | [rover](https://github.com/aztfmod/rover)                                                         | devops toolset for operating landing zones                 |
 | [azure_caf_provider](https://github.com/aztfmod/terraform-provider-azurecaf)                      | custom provider for naming conventions                     |
-| [modules](https://registry.terraform.io/modules/aztfmod)                                          | CAF Terraform module |
-| [Azure Kubernetes Services](https://github.com/aztfmod/landingzone_aks) | Azure Kubernetes Services landing zone            |
-| [Data and Analytics](https://github.com/aztfmod/landingzone_data_analytics)        | Azure data and analytics services landing zone   |
+| [module](https://registry.terraform.io/modules/aztfmod)                                          | CAF Terraform module |
 
 ## Community
 

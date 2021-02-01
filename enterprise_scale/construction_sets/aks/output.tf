@@ -26,3 +26,7 @@ output "keyvaults" {
 output "domain_name_registrations" {
   value = module.caf.domain_name_registrations
 }
+
+output "vnets" {
+  value = module.caf.vnets
+}

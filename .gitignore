@@ -18,3 +18,4 @@ landing_zone_aks
 **/*.key
 **/*.pem
 **/*.cer
+landing_zone_data_analytics

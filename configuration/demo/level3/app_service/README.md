@@ -1,0 +1,1 @@
+# Cloud Adoption Framework landing zones for Terraform - App Service Environment landing zone configuration file

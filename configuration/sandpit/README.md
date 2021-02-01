@@ -9,11 +9,16 @@ Assumptions:
 - Sandpit environment implements rudimentary RBAC model.
 - All resources are provisioned in the same subscription.
 
-## Deploying a sandpit environment
+## Deploying sandpit in Azure DevOps Pipelines
+
+If you want to deploy the sandpit environment into Azure DevOps pipelines, please go [here](./pipelines/README-pipelines.md).
+
+## Deploying with local experience
 
 After completing the steps from the general [configuration readme](../README.md), you can start using the sandpit deployment:
 
 You can then specify the environment you are running:
+
 ```bash
 export environment=sandpit
 ```
@@ -75,28 +80,10 @@ rover -lz /tf/caf/public/landingzones/caf_networking/ \
 
 ### 4. Level 3 landing zones - Shared infrastructure platforms
 
-#### Deploy the networking spoke
+#### Deploy an AKS landing zone
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_networking/ \
-  -tfstate networking_spoke_aks.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/networking/spoke \
-  -parallelism 30 \
-  -level level3 \
-  -env ${environment} \
-  -a [plan|apply|destroy]
-```
-
-#### Deploy the Azure Kubernetes Services landing zone
-
-#### Clone the AKS landing zone files
-
-git clone https://github.com/aztfmod/landingzone_aks.git /tf/caf/landing_zone_aks
-
-#### Deploy the AKS cluster
-
-```bash
-rover -lz /tf/caf/landing_zone_aks \
+rover -lz /tf/caf/public/landingzones/caf_solutions/ \
   -tfstate landing_zone_aks.tfstate \
   -var-folder /tf/caf/configuration/${environment}/level3/aks \
   -parallelism 30 \
@@ -105,7 +92,26 @@ rover -lz /tf/caf/landing_zone_aks \
   -a [plan|apply|destroy]
 ```
 
-### 7. Level 4 - Application infrastructure components
+### 7. Level 4 - Application landing zones
 
-You can use level 4 landing zones to describe and deploy an application on top of an environment described in level 3 landing zones (App Service Environment, AKS, etc.).
-Keep on monitoring this repository as we will add examples related to this level.
+You can use level 4 landing zones to describe and deploy an application on top of a platform described in level 3 landing zones (App Service Environment, AKS, etc.). In this example, we will deploy argocd on top of the cluster deployed in level 3.
+
+#### Deploy argocd on the AKS landing zone
+
+```bash
+# Application to deploy
+application="argocd"
+# Landingzone key hosting the AKS cluster
+landingzone_key="cluster_aks"
+# Key of the cluster to deploy the application
+cluster_key="cluster_re1"
+
+rover -lz /tf/caf/public/landingzones/caf_solutions/add-ons/aks_applications \
+  -tfstate landing_zone_aks_level4_demo.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/level4/${application} \
+  -parallelism 30 \
+  -var tags={application=\"${application}\"} \
+  -level level4 \
+  -env ${environment} \
+  -a [plan|apply|destroy]
+```
