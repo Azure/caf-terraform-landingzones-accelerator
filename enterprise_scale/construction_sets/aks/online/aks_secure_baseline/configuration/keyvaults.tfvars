@@ -7,7 +7,7 @@ keyvaults = {
     resource_group_key  = "aks_re1"
     region              = "region1"
     sku_name            = "premium"
-    soft_delete_enabled = false
+    soft_delete_enabled = true
 
     creation_policies = {
       logged_in_user = {
