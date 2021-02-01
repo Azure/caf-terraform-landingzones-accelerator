@@ -108,7 +108,7 @@ If there is a need to change the folder to your own folk, please modify [flux.ya
 
 2. Update Traefik config to pin IP in Aks-ingress Subnet:
    1. Run: terraform output -json | jq -r .vnets.value.vnet_aks_re1.subnets.aks_ingress.name
-   2. Open line 164 in file [traefik.yaml](./workloads/baseline/traefik.yaml) 
+   2. Open line 164 in file [traefik.yaml](./workloads/baseline/traefik.yaml#L164)
    3. Replace the subnet of this annotation to your subnet above: service.beta.kubernetes.io/azure-load-balancer-internal-subnet: *rcgi-snet-aks_ingress*
     
 3. Deploy Traefik & ASP.net sample appplication
