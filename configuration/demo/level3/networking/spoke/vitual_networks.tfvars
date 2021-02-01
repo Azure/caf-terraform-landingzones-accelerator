@@ -18,8 +18,8 @@ vnets = {
         cidr    = ["100.64.49.0/24"]
         nsg_key = "azure_bastion_nsg"
       }
-      aks_nodepool_user2 = {
-        name    = "aks_nodepool_user2"
+      aks_ingress = {
+        name    = "aks_ingress"
         cidr    = ["100.64.50.0/24"]
         nsg_key = "azure_bastion_nsg"
       }
