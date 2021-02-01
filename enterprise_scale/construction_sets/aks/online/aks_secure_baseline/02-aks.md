@@ -102,8 +102,12 @@ If there is a need to change the folder to your own folk, please modify [flux.ya
         tenantId: $TENANTID_AZURERBAC
     EOF
     ```
+1. Update Traefik config to pin IP in Aks-ingress Subnet:
+   1. Open line 111 in file [traefik.yaml](./workloads/baseline/traefik.yaml) 
 
-1. Deploy Traefik & ASP.net sample appplication
+    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: rcgi-snet-aks_ingress
+    ```
+2. Deploy Traefik & ASP.net sample appplication
 
 
     ```bash
@@ -117,6 +121,9 @@ If there is a need to change the folder to your own folk, please modify [flux.ya
 When finished, please destroy all deployments with:
 
 ```bash
+# Delete sample application, this contains PodDisruptionBudget that will block Terraform destroy
+kubectl delete -f online/aks_secure_baseline/workloads/baseline
+
 # (When needed) Destroy the resources
 eval terraform destroy ${parameter_files}
 

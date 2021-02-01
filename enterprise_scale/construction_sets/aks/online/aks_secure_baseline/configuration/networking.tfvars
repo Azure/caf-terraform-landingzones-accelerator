@@ -1,6 +1,6 @@
 vnets = {
   vnet_aks_re1 = {
-    resource_group_key = "aks_re1"
+    resource_group_key = "aks_spoke_re1"
     region             = "region1"
     vnet = {
       name          = "aks"
