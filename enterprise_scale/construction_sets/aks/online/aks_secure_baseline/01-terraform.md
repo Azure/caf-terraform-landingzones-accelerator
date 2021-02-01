@@ -1,8 +1,8 @@
-Now you have reached the stage where you have reviewed the configuration files and can proceed with the Terraform deployment.
+# Deployment of Enterprise-Scale AKS Construction Set
 
-# CAF Terraform
+This reference implementation of AKS Secure Baseline Architecture within Enterprise Scale environment is built on CAF Terraform Landing zone framework composition.
 
-This reference implementation of AKS Secure Baseline Architecture within Enterprise Scale environment is built using CAF Terraform Landing zone framework. Specifically we will be using the [CAF Terraform modules](https://github.com/aztfmod/terraform-azurerm-caf) the provision all required infrastructures:
+The following components will be deployed by the Enterprise-Scale AKS Construction Set. You can review each component as described below:
 
 
 | Components                                                                                              | Config files                                                 | Description|
@@ -34,6 +34,13 @@ This reference implementation of AKS Secure Baseline Architecture within Enterpr
 ```bash
 # Script to execute from bash shell
 
+# Login to your Azure Subscription
+az login
+
+# Make sure you are using the right subscription
+az account show -o table
+
+# Go to the AKS construction set folder 
 cd enterprise_scale/construction_sets/aks
 
 configuration_folder=online/aks_secure_baseline/configuration
