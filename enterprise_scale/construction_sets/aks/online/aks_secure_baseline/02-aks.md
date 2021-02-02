@@ -6,7 +6,7 @@ Make sure the current folder is "*enterprise_scale/construction_sets/aks*"
 
   ```bash
   # Login to the AKS
-  echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash 
+  echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
   # Make sure logged in
   kubectl get pods -A
   ```
@@ -107,20 +107,26 @@ If there is a need to change the folder to your own folk, please modify [flux.ya
     EOF
 
 2. Update Traefik config to pin IP in Aks-ingress Subnet:
-   1. Run: terraform output -json | jq -r .vnets.value.vnet_aks_re1.subnets.aks_ingress.name
-   2. Open line 164 in file [traefik.yaml](./workloads/baseline/traefik.yaml#L164)
-   3. Replace the subnet of this annotation to your subnet above: service.beta.kubernetes.io/azure-load-balancer-internal-subnet: *rcgi-snet-aks_ingress*
-    
+    ```bash
+    # Get the ingress controller subnet name
+    ingress_subnet_name=$(terraform output -json | jq -r .vnets.value.vnet_aks_re1.subnets.aks_ingress.name)
+    # Update the traefik yaml
+    sed -i "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" online/aks_secure_baseline/workloads/baseline/traefik.yaml
+    ```
+
 3. Deploy Traefik & ASP.net sample appplication
     ```bash
     kubectl apply -f online/aks_secure_baseline/workloads/baseline
     # It takes 2-3 mins to deploy Traefik & the sample app. Watch all pods to be provision with:
-    kubectl get pods -n a0008 -w 
+    kubectl get pods -n a0008 -w
     # Ensure sample app ingress has IP assigned
     kubectl get ingress -n a0008
     # This website will be available at the public domain below
-    terraform output -json | jq -r .domain_name_registrations.value.random_domain.dns_domain_registration_name
+
+    terraform output -json | jq -r '"http://" + (.domain_name_registrations.value.random_domain.dns_domain_registration_name)'
     ```
+
+4. You can now test the application from a browser. After couple of the minutes the application gateway health check warning should disappear
 
 ## Destroy resources
 
