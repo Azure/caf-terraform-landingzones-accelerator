@@ -2,7 +2,7 @@ bastion_hosts = {
   bastion_hub_re1 = {
     name               = "bastion-re1"
     region             = "region1"
-    resource_group_key = "bastion_re1"
+    resource_group_key = "jumpbox_re1"
     vnet_key           = "vnet_aks_re1"
     subnet_key         = "AzureBastionSubnet"
     public_ip_key      = "bastion_host_re1"
@@ -16,15 +16,12 @@ bastion_hosts = {
       }
     }
   }
-
 }
-
-
 
 # Virtual machines
 virtual_machines = {
   windows_server1 = {
-    resource_group_key                   = "bastion_re1"
+    resource_group_key                   = "jumpbox_re1"
     provision_vm_agent                   = true
 
     os_type = "windows"

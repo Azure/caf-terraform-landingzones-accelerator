@@ -1,8 +1,8 @@
 azurerm_firewalls = {
   fw_re1 = {
     name               = "egress"
-    resource_group_key = "vnet-hub-re1"
-    vnet_key           = "vnet_aks_re1"
+    resource_group_key = "vnet_hub_re1"
+    vnet_key           = "vnet_hub_re1"
     public_ip_key      = "firewall_re1"
 
     azurerm_firewall_network_rule_collections = [

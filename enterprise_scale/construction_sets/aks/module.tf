@@ -28,6 +28,7 @@ module "caf" {
     route_tables                                            = var.route_tables
     vnets                                                   = var.vnets
     private_dns                                             = var.private_dns
+    vnet_peerings                                           = var.vnet_peerings
   }
 
   diagnostics = {

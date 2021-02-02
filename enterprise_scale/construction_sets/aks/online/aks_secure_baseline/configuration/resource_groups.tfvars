@@ -4,17 +4,12 @@ resource_groups = {
     region = "region1"
   }
 
-  bastion_re1 = {
-    name   = "bastion_re1"
-    region = "region1"
-  }
-
   agw_re1 = {
     name   = "agw-re1"
     region = "region1"
   }
 
-  vnet-hub-re1 = {
+  vnet_hub_re1 = {
     name   = "vnet-hub-re1"
     region = "region1"
   }
@@ -23,14 +18,14 @@ resource_groups = {
     name   = "aks_spoke_re1"
     region = "region1"
   }
-
-  ops = {
-    name   = "ops"
+  
+  ops_re1 = {
+    name   = "ops_re1"
     region = "region1"
   }
 
-  devops = {
-    name   = "devops"
+  devops_re1 = {
+    name   = "devops_re1"
     region = "region1"
   }
 
