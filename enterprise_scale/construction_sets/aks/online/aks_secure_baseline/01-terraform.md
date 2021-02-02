@@ -11,21 +11,22 @@ The following components will be deployed by the Enterprise-Scale AKS Constructi
 |-----------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
 | Global Settings |[global_settings.tfvars](configuration/global_settings.tfvars) | Primary Region setting. Changing this will redeploy the whole stack to another Region|
 | Resource Groups | [resource_groups.tfvars](./configuration/resource_groups.tfvars)| Resource groups configs |
-||<p align="center">**Azure Kubernetes Service**</p>||
 | Azure Kubernetes Service | [aks.tfvars](./configuration/aks.tfvars) | AKS addons, version, nodepool configs |
-| Identity & Access Management | [iam_aad.tfvars](./configuration/iam_aad.tfvars) <br /> [iam_managed_identities.tfvars](./configuration/iam_managed_identities.tfvars) <br /> [iam_role_mappings.tfvars](./configuration/iam_role_mappings.tfvars)| AAD admin group, User Managed Identities & Role Assignments |
-||<p align="center">**Networking, Ingress, Egress**</p>||
-| Virtual networks | [networking.tfvars](./configuration/networking.tfvars) <br /> [nsg.tfvars](./configuration/nsg.tfvars)| CIDRs, Subnets, NSGs configs |
-| Application Gateway | [agw.tfvars](./configuration/agw.tfvars) <br /> [agw_application.tfvars](./configuration/agw_application.tfvars) <br />| Application Gateway WAF v2 Configs with aspnetapp workload settings |
-| App Service Domains | [domain.tfvars](./configuration/domain.tfvars) | Public domain to be used in Application Gateway |
-| Private DNS Zone | [private_dns.tfvars](./configuration/private_dns.tfvars) | Private DNS zone for AKS ingress; A record to Load Balancer IP |
-| Azure Firewall  | [firewalls.tfvars](./configuration/firewalls.tfvars) <br /> [firewall_application_rule_collection_definition.tfvars](./configuration/firewall_application_rule_collection_definition.tfvars) <br /> [firewall_network_rule_collection_definition.tfvars](./configuration/firewall_network_rule_collection_definition.tfvars) <br /> [route_tables.tfvars](./configuration/route_tables.tfvars)  | Azure Firewall for restricting AKS egress traffic|
-| Public IPs | [public_ips.tfvars](./configuration/public_ips.tfvars) | Public IPs for Application Gateway, Azure Firewall & Azure Bastion Host |
+||<p align="center">**Identity & Access Management**</p>||
+| Identity & Access Management | [iam_aad.tfvars](./configuration/iam/iam_aad.tfvars) <br /> [iam_managed_identities.tfvars](./configuration/iam/iam_managed_identities.tfvars) <br /> [iam_role_mappings.tfvars](./configuration/iam/iam_role_mappings.tfvars)| AAD admin group, User Managed Identities & Role Assignments |
+||<p align="center">**Gateway**</p>||
+| Application Gateway | [agw.tfvars](./configuration/agw/agw.tfvars) <br /> [agw_application.tfvars](./configuration/agw/agw_application.tfvars) <br />| Application Gateway WAF v2 Configs with aspnetapp workload settings |
+| App Service Domains | [domain.tfvars](./configuration/agw/domain.tfvars) | Public domain to be used in Application Gateway |
+||<p align="center">**Networking**</p>||
+| Virtual networks | [networking.tfvars](./configuration/networking/networking.tfvars) <br /> [nsg.tfvars](./configuration/networking/nsg.tfvars)| CIDRs, Subnets, NSGs configs |
+| Private DNS Zone | [private_dns.tfvars](./configuration/networking/private_dns.tfvars) | Private DNS zone for AKS ingress; A record to Load Balancer IP |
+| Azure Firewall  | [firewalls.tfvars](./configuration/networking/firewalls.tfvars) <br /> [firewall_application_rule_collection_definition.tfvars](./configuration/networking/firewall_application_rule_collection_definition.tfvars) <br /> [firewall_network_rule_collection_definition.tfvars](./configuration/networking/firewall_network_rule_collection_definition.tfvars) <br /> [route_tables.tfvars](./configuration/networking/route_tables.tfvars)  | Azure Firewall for restricting AKS egress traffic|
+| Public IPs | [public_ips.tfvars](./configuration/networking/public_ips.tfvars) | Public IPs for Application Gateway, Azure Firewall & Azure Bastion Host |
 ||<p align="center">**Security & Monitoring**</p>||
-| Azure Key Vault| [keyvaults.tfvars](./configuration/keyvaults.tfvars) <br /> [certificate_requests.tfvars](./configuration/certificate_requests.tfvars) | Key Vault to store Self signed certificate for AKS ingress & Bastion SSH key |
-| Azure Monitor | [diagnostics.tfvars](./configuration/diagnostics.tfvars) | Log Analytics Workspace for AKS logs & Prometheus metrics |
+| Azure Key Vault| [keyvaults.tfvars](./configuration/keyvault/keyvaults.tfvars) <br /> [certificate_requests.tfvars](./configuration/keyvault/certificate_requests.tfvars) | Key Vault to store Self signed certificate for AKS ingress & Bastion SSH key |
+| Azure Monitor | [diagnostics.tfvars](./configuration/monitor/diagnostics.tfvars) | Log Analytics Workspace for AKS logs & Prometheus metrics |
 ||<p align="center">**Bastion**</p>||
-| Azure Bastion (OPTIONAL) | [bastion.tfvars](./configuration/bastion.tfvars) | Azure Bastion Host & Windows VM to view aspnetsample website internally. |
+| Azure Bastion (OPTIONAL) | [bastion.tfvars](./configuration/bastion/bastion.ignore) | Azure Bastion Host & Windows VM to view aspnetsample website internally. |
 
 <br />
 
