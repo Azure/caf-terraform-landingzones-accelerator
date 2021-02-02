@@ -18,7 +18,7 @@ The following components will be deployed by the Enterprise-Scale AKS Constructi
 | Application Gateway | [agw.tfvars](./configuration/agw/agw.tfvars) <br /> [agw_application.tfvars](./configuration/agw/agw_application.tfvars) <br />| Application Gateway WAF v2 Configs with aspnetapp workload settings |
 | App Service Domains | [domain.tfvars](./configuration/agw/domain.tfvars) | Public domain to be used in Application Gateway |
 ||<p align="center">**Networking**</p>||
-| Virtual networks | [networking.tfvars](./configuration/networking/networking.tfvars) <br /> [nsg.tfvars](./configuration/networking/nsg.tfvars)| CIDRs, Subnets, NSGs configs |
+| Virtual networks | [networking.tfvars](./configuration/networking/networking.tfvars) <br /> [peerings.tfvars](./configuration/networking/peerings.tfvars) <br /> [nsg.tfvars](./configuration/networking/nsg.tfvars)| CIDRs, Subnets, NSGs & peerings config for Azure Firewall Hub & AKS Spoke |
 | Private DNS Zone | [private_dns.tfvars](./configuration/networking/private_dns.tfvars) | Private DNS zone for AKS ingress; A record to Load Balancer IP |
 | Azure Firewall  | [firewalls.tfvars](./configuration/networking/firewalls.tfvars) <br /> [firewall_application_rule_collection_definition.tfvars](./configuration/networking/firewall_application_rule_collection_definition.tfvars) <br /> [firewall_network_rule_collection_definition.tfvars](./configuration/networking/firewall_network_rule_collection_definition.tfvars) <br /> [route_tables.tfvars](./configuration/networking/route_tables.tfvars)  | Azure Firewall for restricting AKS egress traffic|
 | Public IPs | [public_ips.tfvars](./configuration/networking/public_ips.tfvars) | Public IPs for Application Gateway, Azure Firewall & Azure Bastion Host |
@@ -53,7 +53,7 @@ parameter_files=$(find $configuration_folder | grep .tfvars | sed 's/.*/-var-fil
 terraform init -upgrade
 
 # Trigger the deployment of the resources
-terraform apply ${parameter_files}
+eval terraform apply ${parameter_files}
 
 # (When needed) Destroy the resources
 eval terraform destroy ${parameter_files}
