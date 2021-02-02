@@ -2,7 +2,7 @@
 private_dns = {
   dns1 = {
     name               = "aks-ingress.contoso.com"
-    resource_group_key = "aks_re1"
+    resource_group_key = "aks_spoke_re1"
 
     records = {
       a_records = {
