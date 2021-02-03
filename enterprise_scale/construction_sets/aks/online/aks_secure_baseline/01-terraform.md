@@ -55,15 +55,8 @@ terraform init -upgrade
 # Trigger the deployment of the resources
 eval terraform apply ${parameter_files}
 
-# (When needed) Destroy the resources
-eval terraform destroy ${parameter_files}
-
-# or if you are facing destroy issues
-eval terraform destroy \
-  ${parameter_files} \
-  -refresh=false
-
 ```
+You are done with deployment of AKS environment, next step is to deploy the application and reference components. 
 
 # Next step
 
