@@ -61,6 +61,13 @@ eval terraform apply ${parameter_files}
 ```
 You are done with deployment of AKS environment, next step is to deploy the application and reference components.
 
+## Prerequisites
+
+Make sure you have completed the installation of the pre-requisite tools before proceeding to the next step.
+
+:arrow_backward: [Install the pre-requisites](../../../../README.md)
+
+
 # Next step
 
 :arrow_forward: [Deploy sample workload into AKS](./02-aks.md)

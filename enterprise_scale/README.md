@@ -70,4 +70,4 @@ There is required access and tooling you'll need in order to accomplish this. Fo
 
 # Next step
 
-:arrow_forward: [Deploy AKS secure baseline in Online Landing Zone](./construction_sets/aks/online/aks_secure_baseline/01-terraform.md)
+:arrow_forward: [Deploy AKS secure baseline in Online Landing Zone](./construction_sets/aks/online/aks_secure_baseline/README.md)
