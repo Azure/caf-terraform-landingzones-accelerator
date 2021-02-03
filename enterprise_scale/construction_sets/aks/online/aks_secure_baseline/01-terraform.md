@@ -41,7 +41,10 @@ az login
 # Make sure you are using the right subscription
 az account show -o table
 
-# Go to the AKS construction set folder 
+# You can adjust the target subscription
+az account set -s subscription_name_or_id
+
+# Go to the AKS construction set folder
 cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks
 
 configuration_folder=online/aks_secure_baseline/configuration
@@ -56,7 +59,7 @@ terraform init -upgrade
 eval terraform apply ${parameter_files}
 
 ```
-You are done with deployment of AKS environment, next step is to deploy the application and reference components. 
+You are done with deployment of AKS environment, next step is to deploy the application and reference components.
 
 # Next step
 

@@ -1,0 +1,46 @@
+- name: Install pre-requisites
+  hosts: localhost
+  gather_facts: true
+  become: true
+  tasks:
+    - block: #CentOs/RHEL
+      - name: Import the APT repo key (Debian)
+        shell: rpm --import https://packages.microsoft.com/keys/microsoft.asc
+
+      - name: Create local azure-cli repository information
+        shell: sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+    - block: #Debian/Ubuntu
+      - name: Add Microsoft Azure cli repository
+        apt_repository:
+          repo: deb https://packages.microsoft.com/repos/azure-cli/ bionic main
+          state: present
+
+      - name: Add Hashicorp repository
+        apt_repository:
+          repo: deb https://apt.releases.hashicorp.com focal main
+          state: present
+
+      - name: Add Google official GPG key
+        apt_key:
+          url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+          state: present
+
+      - name: Add Kubernetes Repository
+        apt_repository:
+          repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+          state: present
+          filename: kubernetes
+          mode: 0600
+
+      - name: Installing Packages.
+        apt:
+          name:
+            - kubectl
+            - azure-cli
+            - terraform
+            - jq
+          state: present
+
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
