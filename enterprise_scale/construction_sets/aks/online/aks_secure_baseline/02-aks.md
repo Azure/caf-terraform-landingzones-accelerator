@@ -111,7 +111,7 @@ If there is a need to change the folder to your own folk, please modify [flux.ya
     # Get the ingress controller subnet name
     ingress_subnet_name=$(terraform output -json | jq -r .vnets.value.vnet_aks_re1.subnets.aks_ingress.name)
     # Update the traefik yaml
-    sed -i "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" online/aks_secure_baseline/workloads/baseline/traefik.yaml
+    sed -i "" "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" online/aks_secure_baseline/workloads/baseline/traefik.yaml
     ```
 
 3. Deploy Traefik & ASP.net sample appplication

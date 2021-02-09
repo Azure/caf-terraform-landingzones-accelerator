@@ -36,10 +36,13 @@ The following components will be deployed by the Enterprise-Scale AKS Constructi
 # Script to execute from bash shell
 
 # Login to your Azure Subscription
-az login
+az login -t ContosoESDemo.onmicrosoft.com
 
 # Make sure you are using the right subscription
 az account show -o table
+
+# Optional if a specific subscription is needed to be set
+az account set -s YOUR_SUB_ID
 
 # Go to the AKS construction set folder 
 cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks
