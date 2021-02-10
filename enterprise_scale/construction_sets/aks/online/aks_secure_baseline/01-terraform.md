@@ -35,8 +35,8 @@ The following components will be deployed by the Enterprise-Scale AKS Constructi
 ```bash
 # Script to execute from bash shell
 
-# Login to your Azure Subscription
-az login -t ContosoESDemo.onmicrosoft.com
+# Login to your Azure TENANT
+az login -t {TENANTNID}
 
 # Make sure you are using the right subscription
 az account show -o table
