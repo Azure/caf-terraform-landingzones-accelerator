@@ -41,8 +41,8 @@ az login -t ContosoESDemo.onmicrosoft.com
 # Make sure you are using the right subscription
 az account show -o table
 
-# Optional if a specific subscription is needed to be set
-az account set -s YOUR_SUB_ID
+# If you are not in the correct subscription, change it substituting SUBSCRIPTIONID with the proper subscription  id
+az account set --subscription {SUBSCRIPTIONID}
 
 # Go to the AKS construction set folder 
 cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks
