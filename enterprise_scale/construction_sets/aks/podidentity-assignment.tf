@@ -34,3 +34,4 @@ resource "azurerm_role_assignment" "kubelet_vnet_networkcontrib" {
   role_definition_name = "Network Contributor"
   principal_id         = each.value.identity[0].principal_id
 }
+# consider to narrow to ingress & nodepoll subnets
