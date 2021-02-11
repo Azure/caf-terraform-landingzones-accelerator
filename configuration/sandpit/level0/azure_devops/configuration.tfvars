@@ -101,7 +101,7 @@ custom_role_definitions = {
 
   caf-azdo-to-azure-subscription = {
     name        = "caf-azure-devops-TO-azure-subscription"
-    useprefix   = false
+    useprefix   = true
     description = "CAF Custom role for service principal in Azure Devops to access resources"
     permissions = {
       actions = [
