@@ -6,8 +6,11 @@
 # Install the Ansible libraries
 sudo pip3 install winrm packaging msrest msrestazure
 pip3 install ansible[azure]
-ansible-galaxy collection install ansible.windows --force
-ansible-galaxy collection install azure.azcollection --force
+
+ansible-galaxy collection install \
+  azure.azcollection \
+  ansible.windows \
+  community.general --force
 
 password="set your complex password"
 

@@ -44,8 +44,7 @@
             direction: Inbound
           - name: 'allow_powershell_remoting'
             protocol: Tcp
-            destination_port_range:
-              - 5986
+            destination_port_range: 5986
             access: Allow
             priority: 502
             direction: Inbound
@@ -115,10 +114,11 @@
   hosts: localhost
 
   vars:
+    - admin_password:
     - ansible_connection: winrm
     - ansible_winrm_host: "{{ publicipaddresses | json_query('publicipaddresses[0].ip_address')}}"
     - ansible_winrm_user: king.admin
-    - ansible_winrm_password:
+    - ansible_winrm_password: "{{ admin_password }}"
     - ansible_winrm_scheme: https
     - ansible_winrm_transport: ntlm
     - ansible_winrm_server_cert_validation: ignore
@@ -141,29 +141,54 @@
         url: https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
         dest: C:\Users\{{ ansible_winrm_user }}\wsl_update_x64.msi
 
+    - name: Install wsl 2
+      win_package:
+        path: C:\Users\{{ ansible_winrm_user }}\wsl_update_x64.msi
+        state: present
 
-    # - name: Install wsl 2
-    #   ansible.builtin.shell:
-    #     cmd: msiexec.exe /I /quiet C:\Users\{{ ansible_winrm_user }}\wsl_update_x64.msi
+    - name: Cleanup file
+      win_file:
+        path: C:\Users\{{ ansible_winrm_user }}\wsl_update_x64.msi
+        state: absent
 
-    # - name: Install wsl 2
-    #   ansible.windows.win_package:
-    #     path: C:\Users\{{ ansible_winrm_user }}\wsl_update_x64.msi
-    #     state: present
-
-    # - name: Set wsl to version 2
-    #   ansible.builtin.shell:
-    #     cmd: wsl --set-default-version 2
-
+    # Git clone the repository
     - name: Install git
       win_chocolatey:
         name: git
         state: present
+
+    # - name: Git checkout
+    #   ansible.builtin.git:
+    #     repo: 'https://github.com/Azure/caf-terraform-landingzones-starter.git'
+    #     dest: C:\Users\{{ ansible_winrm_user }}\git\github.com\azure
+    #     clone: yes
+    #     version: starter
+
+    # Instal Docker desktop
     - name: Install docker desktop
       win_chocolatey:
         name: docker-desktop
         state: present
+
+    - name: Pause a service
+      win_service:
+        name: com.docker.service
+        state: started
+
+    - name: Pull the rover devcontainer base image
+      docker_image:
+        name: aztfmod/rover:2012.1109
+        source: pull
+
+    # Install vscode
     - name: Install vscode
       win_chocolatey:
         name: vscode
         state: present
+
+    - name: Install vscode remote development extension
+      win_command: powershell.exe -
+      args:
+        stdin: code --install-extension ms-vscode-remote.remote-containers
+
+
