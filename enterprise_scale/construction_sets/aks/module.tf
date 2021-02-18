@@ -1,8 +1,8 @@
 module "caf" {
   # source = "./public"
-  source = "github.com/aztfmod/terraform-azurerm-caf.git?ref=HN-aks"
-  # source  = "aztfmod/caf/azurerm"
-  # version = "~> 5.1.0"
+  # source = "github.com/aztfmod/terraform-azurerm-caf.git?ref=HN-aks"
+  source  = "aztfmod/caf/azurerm"
+  version = "~> 5.1.0"
 
   global_settings      = var.global_settings
   logged_user_objectId = var.logged_user_objectId
@@ -31,11 +31,14 @@ module "caf" {
     vnets                                                   = var.vnets
     private_dns                                             = var.private_dns
     vnet_peerings                                           = var.vnet_peerings
+    ip_groups                                               = var.ip_groups
   }
 
   diagnostics = {
     # Get the diagnostics settings of services to create
     diagnostic_log_analytics = var.diagnostic_log_analytics
+    diagnostics_destinations = var.diagnostics_destinations
+    diagnostics_definition   = var.diagnostics_definition
   }
 
   compute = {

@@ -31,6 +31,14 @@ variable "diagnostic_log_analytics" {
   default = {}
 }
 
+variable "diagnostics_destinations" {
+  default = {}
+}
+
+variable "diagnostics_definition" {
+  default = {}
+}
+
 variable "virtual_machines" {
   default = {}
 }
@@ -124,5 +132,9 @@ variable "application_gateway_applications" {
 }
 
 variable "vnet_peerings" {
+  default = {}
+}
+
+variable "ip_groups" {
   default = {}
 }

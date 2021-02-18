@@ -3,6 +3,15 @@ aks_clusters = {
     name               = "akscluster-re1-001"
     resource_group_key = "aks_re1"
     os_type            = "Linux"
+    
+    diagnostic_profiles = {
+      operations = {
+        name             = "aksoperations"
+        definition_key   = "azure_kubernetes_cluster"
+        destination_type = "log_analytics"
+        destination_key  = "central_logs"
+      }
+    }
 
     identity = {
       type = "SystemAssigned"
