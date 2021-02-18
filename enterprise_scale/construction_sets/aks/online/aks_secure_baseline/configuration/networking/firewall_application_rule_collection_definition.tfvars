@@ -10,7 +10,7 @@ azurerm_firewall_application_rule_collection_definition = {
         #   "*",
         # ]
         source_ip_groups_keys = [
-          "aks"
+          "aks_ip_group1"
         ]
         fqdn_tags = [
           "AzureKubernetesService",
@@ -29,7 +29,7 @@ azurerm_firewall_application_rule_collection_definition = {
         #   "*",
         # ]
         source_ip_groups_keys = [
-          "aks"
+          "aks_ip_group1"
         ]
         target_fqdns = [
           "security.ubuntu.com",
@@ -54,7 +54,7 @@ azurerm_firewall_application_rule_collection_definition = {
         #   "*",
         # ]
         source_ip_groups_keys = [
-          "aks"
+          "aks_ip_group1"
         ]
         target_fqdns = [
           "download.docker.com", # Docker
@@ -74,7 +74,7 @@ azurerm_firewall_application_rule_collection_definition = {
         #   "*",
         # ]
         source_ip_groups_keys = [
-          "aks"
+          "aks_ip_group1"
         ]
         target_fqdns = [
           "packages.microsoft.com",
@@ -96,7 +96,7 @@ azurerm_firewall_application_rule_collection_definition = {
         #   "*",
         # ]
         source_ip_groups_keys = [
-          "aks"
+          "aks_ip_group1"
         ]
         target_fqdns = [
           "api.github.com",
@@ -117,7 +117,7 @@ azurerm_firewall_application_rule_collection_definition = {
         # ]
         
         source_ip_groups_keys = [
-          "aks"
+          "aks_ip_group1"
         ]
 
         target_fqdns = [
