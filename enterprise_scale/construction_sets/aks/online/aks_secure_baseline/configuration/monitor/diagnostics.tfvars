@@ -19,10 +19,10 @@ diagnostics_definition = {
       log = [
         # ["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
         ["kube-apiserver", true, false, 7],
-        # ["kube-audit", true, false, 7],
+        ["kube-audit", false, false, 0],
         ["kube-audit-admin", true, false, 7],
         ["kube-controller-manager", true, false, 7],
-        # ["kube-scheduler", true, false, 7],
+        ["kube-scheduler", false, false, 0],
         ["cluster-autoscaler", true, false, 7],
         ["guard", true, false, 7],
       ]
