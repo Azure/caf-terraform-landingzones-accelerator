@@ -5,7 +5,7 @@ landingzone = {
   key                 = "databricks_cluster"
   tfstates = {
     databricks_workspace = {
-      tfstate = "databricks_workspace.tfstate.tfstate"
+      tfstate = "databricks_workspace.tfstate"
     }
     shared_services = {
       level   = "lower"
