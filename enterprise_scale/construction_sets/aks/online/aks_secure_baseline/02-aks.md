@@ -5,8 +5,11 @@
 Make sure the current folder is "*enterprise_scale/construction_sets/aks*"
 
   ```bash
-  # Login to the AKS
+ # Login to the AKS if in ESLZ
   echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_cmd) | bash
+  
+  # Otherwise use this to login
+  echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
   # Make sure logged in
   kubectl get pods -A
   ```
@@ -111,7 +114,11 @@ If there is a need to change the folder to your own folk, please modify [flux.ya
     # Get the ingress controller subnet name
     ingress_subnet_name=$(terraform output -json | jq -r .vnets.value.vnet_aks_re1.subnets.aks_ingress.name)
     # Update the traefik yaml
+    # Mac UNIX: 
     sed -i "" "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" online/aks_secure_baseline/workloads/baseline/traefik.yaml
+
+    # Linux:
+    sed -i "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" online/aks_secure_baseline/workloads/baseline/traefik.yaml
     ```
 
 3. Deploy Traefik & ASP.net sample appplication
