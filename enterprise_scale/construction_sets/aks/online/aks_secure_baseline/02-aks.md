@@ -10,6 +10,7 @@ Make sure the current folder is "*enterprise_scale/construction_sets/aks*"
   
   # Otherwise use this to login
   echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+
   # Make sure logged in
   kubectl get pods -A
   ```

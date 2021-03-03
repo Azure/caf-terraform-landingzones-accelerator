@@ -6,7 +6,6 @@ The following components will be deployed by the Enterprise-Scale AKS Constructi
 
 ![aks_enterprise_scale_lz](pictures/aks_enterprise_scale_lz.png)
 
-
 | Components                                                                                              | Config files                                                 | Description|
 |-----------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
 | Global Settings |[global_settings.tfvars](configuration/global_settings.tfvars) | Primary Region setting. Changing this will redeploy the whole stack to another Region|
@@ -30,7 +29,7 @@ The following components will be deployed by the Enterprise-Scale AKS Constructi
 
 <br />
 
-# Deployment
+## Deployment
 
 ```bash
 # Script to execute from bash shell
@@ -43,6 +42,9 @@ az account show -o table
 
 # If you are not in the correct subscription, change it substituting SUBSCRIPTIONID with the proper subscription  id
 az account set --subscription {SUBSCRIPTIONID}
+
+# If you are running in Azure Cloud Shell, you need to run the following additional command:
+export TF_VAR_logged_user_objectId=$(az ad signed-in-user show --query objectId -o tsv)
 
 # Go to the AKS construction set folder 
 cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks
@@ -59,8 +61,9 @@ terraform init -upgrade
 eval terraform apply ${parameter_files}
 
 ```
-You are done with deployment of AKS environment, next step is to deploy the application and reference components. 
 
-# Next step
+You are done with deployment of AKS environment, next step is to deploy the application and reference components.
+
+## Next step
 
 :arrow_forward: [Deploy sample workload into AKS](./02-aks.md)
