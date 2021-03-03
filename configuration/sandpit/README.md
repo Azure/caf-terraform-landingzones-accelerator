@@ -9,6 +9,8 @@ Assumptions:
 - Sandpit environment implements rudimentary RBAC model.
 - All resources are provisioned in the same subscription.
 
+:warning: SANDPIT Requires administrative privileges on your Azure Active Directory to be deployed successfully.
+
 ## Deploying sandpit in Azure DevOps Pipelines
 
 If you want to deploy the sandpit environment into Azure DevOps pipelines, please go [here](./pipelines/README-pipelines.md).
