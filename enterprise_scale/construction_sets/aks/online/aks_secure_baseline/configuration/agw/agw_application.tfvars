@@ -6,9 +6,9 @@ application_gateway_applications = {
 
     listeners = {
       public_ssl = {
-        name                           = "public-80"
+        name                           = "public-443"
         front_end_ip_configuration_key = "public"
-        front_end_port_key             = "80"
+        front_end_port_key             = "443"
         # host_name                      = "www.y4plq60ubbbiop9w1dh36tlgfpxqctfj.com"
         dns_zone = {
           key = "dns_zone1"
@@ -17,9 +17,13 @@ application_gateway_applications = {
         }
 
         request_routing_rule_key       = "default"
+        # key_vault_secret_id = ""
         # keyvault_certificate = {
         #   certificate_key = "aspnetapp.cafdemo.com"
         # }
+        keyvault_certificate_request = {
+          key = "appgateway"
+        }
       }
     }
 

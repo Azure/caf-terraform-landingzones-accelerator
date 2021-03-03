@@ -6,8 +6,11 @@ azurerm_firewall_application_rule_collection_definition = {
     ruleset = {
       aks = {
         name = "aks"
-        source_addresses = [
-          "*",
+        # source_addresses = [
+        #   "*",
+        # ]
+        source_ip_groups_keys = [
+          "aks_ip_group1"
         ]
         fqdn_tags = [
           "AzureKubernetesService",
@@ -22,8 +25,11 @@ azurerm_firewall_application_rule_collection_definition = {
     ruleset = {
       ubuntu = {
         name = "ubuntu"
-        source_addresses = [
-          "*",
+        # source_addresses = [
+        #   "*",
+        # ]
+        source_ip_groups_keys = [
+          "aks_ip_group1"
         ]
         target_fqdns = [
           "security.ubuntu.com",
@@ -44,8 +50,11 @@ azurerm_firewall_application_rule_collection_definition = {
       },
       docker = {
         name = "docker"
-        source_addresses = [
-          "*",
+        # source_addresses = [
+        #   "*",
+        # ]
+        source_ip_groups_keys = [
+          "aks_ip_group1"
         ]
         target_fqdns = [
           "download.docker.com", # Docker
@@ -61,8 +70,11 @@ azurerm_firewall_application_rule_collection_definition = {
       },
       tools = {
         name = "tools"
-        source_addresses = [
-          "*",
+        # source_addresses = [
+        #   "*",
+        # ]
+        source_ip_groups_keys = [
+          "aks_ip_group1"
         ]
         target_fqdns = [
           "packages.microsoft.com",
@@ -80,8 +92,11 @@ azurerm_firewall_application_rule_collection_definition = {
       },
       github = {
         name = "github"
-        source_addresses = [
-          "*",
+        # source_addresses = [
+        #   "*",
+        # ]
+        source_ip_groups_keys = [
+          "aks_ip_group1"
         ]
         target_fqdns = [
           "api.github.com",
@@ -97,9 +112,14 @@ azurerm_firewall_application_rule_collection_definition = {
       },
       mcr = {
         name = "mcr"
-        source_addresses = [
-          "*",
+        # source_addresses = [
+        #   "*",
+        # ]
+        
+        source_ip_groups_keys = [
+          "aks_ip_group1"
         ]
+
         target_fqdns = [
           "*.data.mcr.microsoft.com",
         ]

@@ -28,5 +28,10 @@ output "domain_name_registrations" {
 }
 
 output "vnets" {
-  value = module.caf.vnets
+  value     = module.caf.vnets
+  sensitive = true
+}
+
+output "azurerm_firewalls" {
+  value = module.caf.azurerm_firewalls
 }

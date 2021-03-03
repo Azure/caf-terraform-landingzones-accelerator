@@ -58,6 +58,6 @@ rover -lz /tf/caf/public/landingzones/caf_solutions/add-ons/databricks \
       -tfstate databricks_cluster.tfstate \
       -var tfstate_key=${base_landingzone_tfstate_name}.tfstate \
       -env ${environment} \
-	-level level3 \
+      -level level3 \
       -a [plan|apply|destroy]
 ```

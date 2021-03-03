@@ -7,8 +7,11 @@ azurerm_firewall_network_rule_collection_definition = {
     ruleset = {
       ntp = {
         name = "ntp"
-        source_addresses = [
-          "*",
+        # source_addresses = [
+        #   "*",
+        # ]
+        source_ip_groups_keys = [
+          "aks_ip_group1"
         ]
         destination_ports = [
           "123",
@@ -22,8 +25,11 @@ azurerm_firewall_network_rule_collection_definition = {
       },
       monitor = {
         name = "monitor"
-        source_addresses = [
-          "*",
+        # source_addresses = [
+        #   "*",
+        # ]
+        source_ip_groups_keys = [
+          "aks_ip_group1"
         ]
         destination_ports = [
           "443",
@@ -37,8 +43,11 @@ azurerm_firewall_network_rule_collection_definition = {
       },
       apiservertcp = {
         name = "apiservertcp"
-        source_addresses = [
-          "*",
+        # source_addresses = [
+        #   "*",
+        # ]
+        source_ip_groups_keys = [
+          "aks_ip_group1"
         ]
         destination_ports = [
           "443","9000","22"
@@ -52,8 +61,11 @@ azurerm_firewall_network_rule_collection_definition = {
       },
       apiserverudp = {
         name = "apiserverudp"
-        source_addresses = [
-          "*",
+        # source_addresses = [
+        #   "*",
+        # ]
+        source_ip_groups_keys = [
+          "aks_ip_group1"
         ]
         destination_ports = [
           "1194"
