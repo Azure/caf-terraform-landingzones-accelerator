@@ -36,4 +36,4 @@ Deploys Applications Landing zone on top of an AKS Landing zone
 
 In order to deploy the AKS landing zones, you must beforehand deploy either a demo or sandpit environment  up to level 2.
 
-This can be achieved following the steps there [configuration](../../configuration).
+This can be achieved following the steps there [configuration](../../configuration)
