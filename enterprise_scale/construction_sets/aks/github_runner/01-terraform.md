@@ -63,14 +63,14 @@ helm repo add actions-runner-controller https://summerwind.github.io/actions-run
 kubectl create namespace actions-runner-system
 helm upgrade --install github-runner actions-runner-controller/actions-runner-controller -n actions-runner-system 
 
-GITHUB_TOKEN=82f3e258deb691ff1950ff29ab3cded5e425b7a5
+GITHUB_TOKEN=...
 kubectl create secret generic controller-manager \
     -n actions-runner-system \
     --from-literal=github_token=${GITHUB_TOKEN}
 
 APP_ID="103251"
 INSTALLATION_ID="15111760"
-PRIVATE_KEY="./github_runner/githubkey.pem"
+PRIVATE_KEY="./github_runner/selfhostedrunner.2021-03-03.private-key.pem"
 kubectl create secret generic controller-manager \
     -n actions-runner-system \
     --from-literal=github_app_id=${APP_ID} \
