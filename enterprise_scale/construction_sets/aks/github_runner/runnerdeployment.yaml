@@ -3,7 +3,7 @@ kind: RunnerDeployment
 metadata:
   name: terraform-azurerm-caf-runnerdeploy
 spec:
-  replicas: 2
+  replicas: 20
   template:
     metadata: 
       labels:
@@ -11,3 +11,20 @@ spec:
     spec:
       repository: aztfmod/terraform-azurerm-caf
       env: []
+# ---
+# apiVersion: actions.summerwind.dev/v1alpha1
+# kind: HorizontalRunnerAutoscaler
+# metadata:
+#   name: terraform-azurerm-caf-autoscaler
+# spec:
+#   scaleTargetRef:
+#     name: terraform-azurerm-caf-runnerdeploy
+#   minReplicas: 3
+#   maxReplicas: 20
+#   metrics:
+#   - type: PercentageRunnersBusy
+#     scaleUpThreshold: '0.75'    # The percentage of busy runners at which the number of desired runners are re-evaluated to scale up
+#     scaleDownThreshold: '0.3'   # The percentage of busy runners at which the number of desired runners are re-evaluated to scale down
+#     ScaleUpAdjustment: '2'      # The scale up runner count added to desired count
+#     ScaleDownAdjustment: '1'    # The scale down runner count subtracted from the desired count
+#   scaleDownDelaySecondsAfterScaleOut: 60

@@ -13,7 +13,7 @@ vnets = {
       }
       aks_nodepool_user1 = {
         name            = "aks_nodepool_user1"
-        cidr            = ["10.100.81.0/24"]
+        cidr            = ["10.100.84.0/22"]
       }
     } //subnets
 

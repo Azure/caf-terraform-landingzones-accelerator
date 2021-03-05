@@ -1,6 +1,6 @@
 managed_identities = {
   ingress = {
-    name               = "podmi-ingress-controller"
+    name               = "podmi-github-runner"
     resource_group_key = "devops_re1"
   }
   apgw_keyvault_secrets = {

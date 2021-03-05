@@ -5,9 +5,9 @@ metadata:
 spec:
   limits:
   - default:
-      cpu: 1.5
-    defaultRequest:
       cpu: 1
+    defaultRequest:
+      cpu: "200m"
     type: Container
 ---
 apiVersion: v1
