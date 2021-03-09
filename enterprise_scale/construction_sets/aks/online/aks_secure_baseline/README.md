@@ -35,10 +35,19 @@ az policy assignment list --disable-scope-strict-match --scope {RESOURCEID}
 
 ## Prerequisites
 
-There is required access and tooling you'll need in order to accomplish this. Follow the instructions below and on the subsequent pages so that you can get your environment ready to proceed with the AKS cluster creation.
+### Supported run environment
 
-   
+In order to deploy the AKS Construction set, you can use the following options:
 
+- [Windows Subsystem for Linux](https://docs.microsoft.com/windows/wsl/about#what-is-wsl-2)
+- [Azure Cloud Shell](https://shell.azure.com)
+- Linux Bash Shell
+- MacOS Shell
+- GitHub CodeSpace
+
+### Configuration steps
+
+If you opt-in to setup a shell on your machine, there are required access and tooling you'll need in order to accomplish this. Follow the instructions below and on the subsequent pages so that you can get your environment ready to proceed with the AKS cluster creation.
 
 1. An Azure subscription. If you don't have an Azure subscription, you can create a [free account](https://azure.microsoft.com/free).
 
@@ -55,7 +64,7 @@ There is required access and tooling you'll need in order to accomplish this. Fo
    > * Azure AD [User Administrator](https://docs.microsoft.com/azure/active-directory/users-groups-roles/directory-assign-admin-roles#user-administrator-permissions) is _required_ to create a "break glass" AKS admin Active Directory Security Group and User. Alternatively, you could get your Azure AD admin to create this for you when instructed to do so.
    >   * If you are not part of the User Administrator group in the tenant associated to your Azure subscription, please consider [creating a new tenant](https://docs.microsoft.com/azure/active-directory/fundamentals/active-directory-access-create-new-tenant#create-a-new-tenant-for-your-organization) to use while evaluating this implementation.
 
-3. The steps shown here and elsewhere in the reference implementation use Bash shell commands. On Windows, you can use the Ubuntu on [Windows Subsystem for Linux](https://docs.microsoft.com/windows/wsl/about#what-is-wsl-2) to run Bash. Once your bash shell is up you will need to install these prerequisites.
+3. If you opt for Azure Cloud Shell, you don't need to complete those steps and can jump on the next section (step 4).  On Windows, you can use the Ubuntu on [Windows Subsystem for Linux](https://docs.microsoft.com/windows/wsl/about#what-is-wsl-2) to run Bash. Once your bash shell is up you will need to install these prerequisites.
 
    Latest [Azure CLI installed](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest)
 
