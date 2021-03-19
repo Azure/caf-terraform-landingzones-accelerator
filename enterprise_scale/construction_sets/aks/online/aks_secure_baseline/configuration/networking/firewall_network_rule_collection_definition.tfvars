@@ -41,7 +41,7 @@ azurerm_firewall_network_rule_collection_definition = {
           "*",
         ]
         destination_ports = [
-          "443","9000","22"
+          "443", "9000", "22"
         ]
         destination_addresses = [
           "AzureCloud"

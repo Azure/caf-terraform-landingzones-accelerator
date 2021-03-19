@@ -12,16 +12,16 @@ keyvaults = {
     creation_policies = {
       logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
-        secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
+        secret_permissions      = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
         certificate_permissions = ["Create", "Get", "List", "Delete", "Purge", "Recover"]
       }
 
       ingress_msi = {
-        managed_identity_key = "ingress"
-        secret_permissions = ["Get"]
+        managed_identity_key    = "ingress"
+        secret_permissions      = ["Get"]
         certificate_permissions = ["Get"]
       }
-      
+
       keyvault_access_policies = {
         certificates = {
           apgw_keyvault_secrets = {
@@ -31,7 +31,7 @@ keyvaults = {
           }
         }
       }
-      
+
     }
   }
 }

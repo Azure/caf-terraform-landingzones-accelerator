@@ -18,7 +18,7 @@ resource_groups = {
     name   = "aks_spoke_re1"
     region = "region1"
   }
-  
+
   ops_re1 = {
     name   = "ops_re1"
     region = "region1"

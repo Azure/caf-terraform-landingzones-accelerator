@@ -28,5 +28,5 @@ public_ip_addresses = {
     idle_timeout_in_minutes = "4"
 
   }
-  
+
 }

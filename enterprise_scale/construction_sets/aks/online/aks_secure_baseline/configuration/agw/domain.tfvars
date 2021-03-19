@@ -8,12 +8,12 @@ dns_zones = {
     records = {
       a = {
         agw = {
-          name   = "@"
-        #   records = ["10.0.0.0"]
+          name = "@"
+          #   records = ["10.0.0.0"]
           resource_id = {
-              public_ip_address = {
-                  key = "agw_pip1_re1"
-              }
+            public_ip_address = {
+              key = "agw_pip1_re1"
+            }
           }
         }
       }
@@ -24,7 +24,7 @@ dns_zones = {
 domain_name_registrations = {
   #
   # Register for a random domain name
-  # As dnsType as not be set 
+  # As dnsType as not be set
   #
   random_domain = {
     name               = "" // Set as empty for CI. this will creation a random_domain_name.com
@@ -70,4 +70,4 @@ domain_name_registrations = {
       }
     }
   }
-}  
+}
