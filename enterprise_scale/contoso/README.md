@@ -97,7 +97,7 @@ rover -lz /tf/caf/public/landingzones/caf_solutions/ \
 
 ```bash
 rover -lz /tf/caf/public/landingzones/caf_shared_services/ \
-  -tfstate contoso_identity.tfstate \
+  -tfstate contoso_shared_services.tfstate \
   -var-folder /tf/caf/enterprise_scale/contoso/level2/shared_services \
   -parallelism 30 \
   -level level2 \
