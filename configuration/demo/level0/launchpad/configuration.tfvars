@@ -20,6 +20,15 @@ default_region = "region1"
 # Inherit_tags defines if a resource will inherit it's resource group tags
 inherit_tags = true
 
+# core tags to be applied accross this landing zone
+tags = {
+  owner          = "CAF_demo"
+  deploymentType = "Terraform"
+  costCenter     = "0"
+  BusinessUnit   = "SHARED"
+  DR             = "NON-DR-ENABLED"
+}
+
 regions = {
   region1 = "southeastasia"
   region2 = "eastasia"
