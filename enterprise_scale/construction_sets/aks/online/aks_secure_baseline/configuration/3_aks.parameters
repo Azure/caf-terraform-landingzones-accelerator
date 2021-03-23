@@ -1,0 +1,13 @@
+online/aks_secure_baseline/configuration/resource_groups.tfvars
+online/aks_secure_baseline/configuration/networking/networking.tfvars
+online/aks_secure_baseline/configuration/networking/route_tables.tfvars
+online/aks_secure_baseline/configuration/iam/iam_managed_identities.tfvars
+
+online/aks_secure_baseline/configuration/networking/firewall_application_rule_collection_definition.tfvars
+online/aks_secure_baseline/configuration/networking/firewall_network_rule_collection_definition.tfvars
+online/aks_secure_baseline/configuration/networking/firewalls.tfvars
+
+online/aks_secure_baseline/configuration/networking/public_ips.tfvars
+
+
+online/aks_secure_baseline/configuration/aks.tfvars

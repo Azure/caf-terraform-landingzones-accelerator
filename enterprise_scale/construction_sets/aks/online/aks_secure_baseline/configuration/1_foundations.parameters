@@ -1,0 +1,4 @@
+online/aks_secure_baseline/configuration/resource_groups.tfvars
+online/aks_secure_baseline/configuration/iam/iam_managed_identities.tfvars
+online/aks_secure_baseline/configuration/iam/iam_role_mappings.tfvars
+online/aks_secure_baseline/configuration/keyvault/keyvaults.tfvars
