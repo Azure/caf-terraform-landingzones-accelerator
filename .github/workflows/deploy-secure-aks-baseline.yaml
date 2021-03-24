@@ -43,9 +43,10 @@ jobs:
 
       - name: Deploy
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad')      
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |          
+        # uses: azure/CLI@v1
+        # with:
+        #   inlineScript: |          
+        run: |
             cd $GITHUB_WORKSPACE/enterprise_scale/construction_sets/aks
             ./deploy_level.sh 0_lunchpad
 
