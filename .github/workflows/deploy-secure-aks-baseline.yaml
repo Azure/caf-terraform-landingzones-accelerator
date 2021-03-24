@@ -32,7 +32,9 @@ jobs:
           creds: ${{ env.AZURE_CREDENTIALS }}
 
       - uses: hashicorp/setup-terraform@v1
-      - run: terraform init -upgrade
+      - run: |
+          cd $GITHUB_WORKSPACE/enterprise_scale/construction_sets/aks
+          terraform init -upgrade
       - name: Deploy
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad')      
         uses: azure/CLI@v1
