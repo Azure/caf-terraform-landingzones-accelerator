@@ -39,7 +39,7 @@ jobs:
         with:
           inlineScript: |          
             cd $GITHUB_WORKSPACE/enterprise_scale/construction_sets/aks
-            deploy_level.sh 0_lunchpad
+            ./deploy_level.sh 0_lunchpad
 
       - name: Test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad')      
