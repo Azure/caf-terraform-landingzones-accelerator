@@ -31,6 +31,9 @@ jobs:
     runs-on: ubuntu-latest
     # needs: prepare_code
     steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad')      
+        uses: actions/checkout@v2
       - name: Checkout PR code
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad')
         run: |
