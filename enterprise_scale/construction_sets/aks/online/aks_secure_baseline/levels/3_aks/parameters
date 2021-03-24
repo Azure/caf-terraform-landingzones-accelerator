@@ -7,4 +7,6 @@ networking/firewall_application_rule_collection_definition.tfvars
 networking/firewall_network_rule_collection_definition.tfvars
 networking/firewalls.tfvars
 networking/public_ips.tfvars
+networking/ip_groups.tfvars
+monitor/log_analytics.tfvars
 aks.tfvars

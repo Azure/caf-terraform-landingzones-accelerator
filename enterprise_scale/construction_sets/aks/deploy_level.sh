@@ -20,4 +20,4 @@ cat $parameters_file_name
 parameters=$(cat $parameters_file_name | grep .tfvars | sed -e 's#^#-var-file '$config_folder_name'#' | xargs)
 
 printf "parameters : %s\n" $parameters
-eval terraform apply ${parameters}
+eval terraform apply ${parameters} -auto-approve
