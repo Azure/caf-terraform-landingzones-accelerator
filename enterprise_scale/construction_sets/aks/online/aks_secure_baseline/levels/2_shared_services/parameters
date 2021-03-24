@@ -1,0 +1,3 @@
+resource_groups.tfvars
+monitor/diagnostics.tfvars 
+monitor/log_analytics.tfvars

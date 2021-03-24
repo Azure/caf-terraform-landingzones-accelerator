@@ -1,0 +1,4 @@
+resource_groups.tfvars
+iam/iam_managed_identities.tfvars
+iam/iam_role_mappings.tfvars
+keyvault/keyvaults.tfvars

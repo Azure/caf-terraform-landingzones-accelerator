@@ -1,3 +1,0 @@
-online/aks_secure_baseline/configuration/resource_groups.tfvars
-online/aks_secure_baseline/configuration/monitor/diagnostics.tfvars
-online/aks_secure_baseline/configuration/monitor/log_analytics.tfvars

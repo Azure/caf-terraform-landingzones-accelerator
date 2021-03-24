@@ -1,0 +1,10 @@
+resource_groups.tfvars
+iam/iam_managed_identities.tfvars
+networking/networking.tfvars
+networking/nsg.tfvars
+networking/route_tables.tfvars
+networking/firewall_application_rule_collection_definition.tfvars
+networking/firewall_network_rule_collection_definition.tfvars
+networking/firewalls.tfvars
+networking/public_ips.tfvars
+aks.tfvars
