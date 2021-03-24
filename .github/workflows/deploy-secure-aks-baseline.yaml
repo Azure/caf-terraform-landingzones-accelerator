@@ -9,26 +9,27 @@ on:
 
 env:
   AZURE_CREDENTIALS: '{"clientId":"${{ secrets.SERVICE_PRINCIPAL }}", "clientSecret":"${{ secrets.SERVICE_PRINCIPAL_PWD }}", "subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.TENANT }}"}' 
+  event_sha: +refs/pull/${{ github.event.issue.number }}/merge
 
 jobs:
-  prepare_code:
+  # prepare_code:
 
-    runs-on: ubuntu-latest
-    if: contains(github.event.comment.body, '/deploy-') 
-    outputs:
-      event_sha: ${{ env.event_sha }}
-    steps:
-      # - uses: actions/checkout@v2
-      - name: GetPRSHA
-        if: github.event_name == 'issue_comment'
-        run: echo "::set-env name=event_sha::+refs/pull/${{ github.event.issue.number }}/merge"
-      - name: GetREFSHA
-        if: github.event_name != 'issue_comment'
-        run: echo "::set-env name=event_sha::${{ github.ref }}"
+    # runs-on: ubuntu-latest
+    # if: contains(github.event.comment.body, '/deploy-') 
+    # outputs:
+    #   event_sha: ${{ env.event_sha }}
+    # steps:
+    #   # - uses: actions/checkout@v2
+    #   - name: GetPRSHA
+    #     if: github.event_name == 'issue_comment'
+    #     run: echo "event_sha=+refs/pull/${{ github.event.issue.number }}/merge" >> $GITHUB_ENV
+    #   - name: GetREFSHA
+    #     if: github.event_name != 'issue_comment'
+    #     run: echo "event_sha=${{ github.ref }}" >> $GITHUB_ENV
 
   deploy-lunchpad:
     runs-on: ubuntu-latest
-    needs: prepare_code
+    # needs: prepare_code
     steps:
       - name: Checkout PR code
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad')
