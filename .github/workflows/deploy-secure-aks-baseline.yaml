@@ -25,11 +25,11 @@ jobs:
           git fetch origin ${{ env.event_sha }}
           git checkout FETCH_HEAD
 
-      - name: Azure Login
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad')      
-        uses: azure/login@v1
-        with:
-          creds: ${{ env.AZURE_CREDENTIALS }}
+      # - name: Azure Login
+      #   if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad')      
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ env.AZURE_CREDENTIALS }}
 
       - uses: hashicorp/setup-terraform@v1
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad')
@@ -49,6 +49,12 @@ jobs:
         run: |
             cd $GITHUB_WORKSPACE/enterprise_scale/construction_sets/aks
             ./deploy_level.sh 0_lunchpad
+        env:
+           ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
+           ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
+           ARM_TENANT_ID: ${{ secrets.TENANT }}
+
 
       - name: Test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad')      
