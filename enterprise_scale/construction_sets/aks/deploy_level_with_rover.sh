@@ -2,12 +2,13 @@
 
 # Usage:
 # 
-# deploy_level.sh LEVEL_NAME
+# deploy_level_with_rover.sh LEVEL_NAME LEVEL
 #
 # e.g:
-# deploy_level.sh 2_networking
+# deploy_level_with_rover.sh 2_networking level2
 
 LEVEL_NAME=$1
+LEVEL=$2 
 
 baseline_folder_name=online/aks_secure_baseline
 config_folder_name=$baseline_folder_name/configuration/
@@ -19,5 +20,13 @@ cat $parameters_file_name
 parameters=$(cat $parameters_file_name | grep .tfvars | sed -e 's#^#-var-file '$config_folder_name'#' | xargs)
 
 printf "parameters : %s\n" $parameters
-terraform apply ${parameters} -auto-approve
+
+lz=$(pwd)
+
+/tf/rover/rover.sh -lz $lz \
+     -a apply \
+     -level $LEVEL \
+     -tfstate  $LEVEL_NAME.tfstate \
+     "$parameters"
+
 

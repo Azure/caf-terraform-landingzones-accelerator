@@ -1,3 +1,4 @@
+global_settings.tfvars
 resource_groups.tfvars
 iam/iam_managed_identities.tfvars
 networking/networking.tfvars
