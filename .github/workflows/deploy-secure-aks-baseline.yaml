@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image:  aztfmod/rover:0.14.8-2103.1601
-      options: --user 0
+      options: --user 0 -v ${GITHUB_WORKSPACE}/caf-terraform-landingzones-starter:/tf/caf
     steps:
       - name: Checkout Repository
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad') || github.event_name != 'issue_comment'      
@@ -42,7 +42,7 @@ jobs:
       - name: Launchpad
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad') || github.event_name != 'issue_comment'     
         run: |
-          ln -s ${GITHUB_WORKSPACE}/caf-terraform-landingzones-starter /tf/caf
+          # ln -s ${GITHUB_WORKSPACE}/caf-terraform-landingzones-starter /tf/caf
           echo "ls /tf/caf" && ls -lsa /tf/caf
           /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/levels/launchpad/launchpad.sh
 
