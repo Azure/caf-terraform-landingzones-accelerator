@@ -15,7 +15,7 @@ Ensure the below is set prior to apply or destroy.
 # Login the Azure subscription
 rover login -t [TENANT_ID/TENANT_NAME] -s [SUBSCRIPTION_GUID]
 # Environment is needed to be defined, otherwise the below LZs will land into sandpit which someone else is working on
-export environment=[YOUR_ENVIRONMENT]
+export environment=demo
 ```
 
 ## Deploy Machine Learning Workspace
