@@ -72,7 +72,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
         run: |
             ln -s ${GITHUB_WORKSPACE} /tf/caf
-            cd /tf/caf/enterprise_scale/construction_sets/aks
+            cd ${GITHUB_WORKSPACE}/enterprise_scale/construction_sets/aks
             ./deploy_level_with_rover.sh 1_foundation level1
         env:
            ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
