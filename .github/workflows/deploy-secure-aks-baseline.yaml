@@ -43,7 +43,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad') || github.event_name != 'issue_comment'     
         run: |
           cp -rs ${GITHUB_WORKSPACE}/* /tf/caf          
-          # /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/levels/launchpad/launchpad.sh
+          /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/levels/launchpad/launchpad.sh
           cd /tf/caf
           ls -ltr 
           ls -ltr /tf/caf
