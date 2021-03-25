@@ -9,9 +9,9 @@ on:
   push:
     branches:
     - 'eedorenko/levels'
-  issue_comment:
-    types:
-    - created
+  # issue_comment:
+  #   types:
+  #   - created
 
 env:
   AZURE_CREDENTIALS: '{"clientId":"${{ secrets.SERVICE_PRINCIPAL }}", "clientSecret":"${{ secrets.SERVICE_PRINCIPAL_PWD }}", "subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.TENANT }}"}' 
@@ -71,7 +71,8 @@ jobs:
       - name: Deploy
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
         run: |
-            ln -s ${GITHUB_WORKSPACE} /tf/caf && cd /tf/caf/enterprise_scale/construction_sets/aks
+            ln -s ${GITHUB_WORKSPACE} /tf/caf
+            cd /tf/caf/enterprise_scale/construction_sets/aks
             ./deploy_level_with_rover.sh 1_foundation level1
         env:
            ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
