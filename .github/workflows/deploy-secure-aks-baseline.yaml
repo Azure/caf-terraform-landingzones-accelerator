@@ -44,44 +44,40 @@ jobs:
         run: |
           cp -rs ${GITHUB_WORKSPACE}/* /tf/caf          
           /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/levels/launchpad/launchpad.sh
-          cd /tf/caf
-          ls -ltr 
-          ls -ltr /tf/caf
 
-  # deploy-foundation: 
-  #   runs-on: ubuntu-latest
-  #   needs: deploy-lunchpad
-  #   container:
-  #     image:  aztfmod/rover:0.14.8-2103.1601
-  #     options: --user 0
-  #   steps:
-  #     - name: Checkout Repository
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'      
-  #       uses: actions/checkout@v2
-  #     - name: Checkout PR code
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation')
-  #       run: |
-  #         git fetch origin ${{ env.event_sha }}
-  #         git checkout FETCH_HEAD
+  deploy-foundation: 
+    runs-on: ubuntu-latest
+    needs: deploy-lunchpad
+    container:
+      image:  aztfmod/rover:0.14.8-2103.1601
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
 
-  #     - name: Azure Login
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'     
-  #       uses: azure/login@v1
-  #       with:
-  #         creds: ${{ env.AZURE_CREDENTIALS }}
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
 
-  #     - name: Deploy
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
-  #       run: |
-  #           ln -s ${GITHUB_WORKSPACE}/caf-terraform-landingzones-starter /tf/caf
-  #           echo "ls /tf/caf" && ls -lsa /tf/caf
-  #           cd ${GITHUB_WORKSPACE}/enterprise_scale/construction_sets/aks
-  #           ./deploy_level_with_rover.sh 1_foundation level1
-  #       env:
-  #          ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
-  #          ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
-  #          ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
-  #          ARM_TENANT_ID: ${{ secrets.TENANT }}
+      - name: Deploy
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
+        run: |
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf
+            cd /tf/caf/enterprise_scale/construction_sets/aks
+            ./deploy_level_with_rover.sh 1_foundation level1
+        env:
+           ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
+           ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
+           ARM_TENANT_ID: ${{ secrets.TENANT }}
 
   #     - name: Test
   #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
