@@ -27,27 +27,10 @@ export environment=[YOUR_ENVIRONMENT]
 # Set the folder name of this example
 export example="102-aml-workspace-compute"
 
-
 rover -lz /tf/caf/public/landingzones/caf_solutions/ \
-      -var-folder /tf/caf/examples/data_analytics/machine_learning/${example} \
+      -var-folder /tf/caf/reference_implementations/data_analytics/machine_learning/${example} \
       -tfstate machine_learning_102.tfstate \
 	-env ${environment} \
       -level level3 \
       -a [plan|apply|destroy]
-```
-
-## Destroy Machine Learning Workspace
-
-To destroy the componenets you can run below command
-
-```bash
-# Set the folder name of this example
-export example="102-aml-workspace-compute"
-
-rover -lz /tf/caf \
-      -var-file /tf/caf/landingzone_data_analytics/examples/machine_learning/${example} \
-      -tfstate machine_learning_102.tfstate \
-	-env ${environment} \
-      -level level3 \
-      -a destroy -auto-approve
 ```

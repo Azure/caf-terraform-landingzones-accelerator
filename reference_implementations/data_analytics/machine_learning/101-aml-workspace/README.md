@@ -25,7 +25,7 @@ export environment=[YOUR_ENVIRONMENT]
 export example="101-aml-workspace"
 
 rover -lz /tf/caf/public/landingzones/caf_solutions/ \
-      -var-folder /tf/caf/examples/data_analytics/machine_learning/${example} \
+      -var-folder /tf/caf/reference_implementations/data_analytics/machine_learning/${example} \
       -tfstate machine_learning_101.tfstate \
 	-env ${environment} \
       -level level3 \

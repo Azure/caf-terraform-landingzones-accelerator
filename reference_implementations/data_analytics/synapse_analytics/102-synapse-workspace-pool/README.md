@@ -28,7 +28,7 @@ export example="102-synapse-workspace-pool"
 
 
 rover -lz /tf/caf/public/landingzones/caf_solutions/ \
-    -var-folder /tf/caf/examples/data_analytics/synapse_analytics/${example} \
+    -var-folder /tf/caf/reference_implementations/data_analytics/synapse_analytics/${example} \
     -tfstate ${example}.tfstate \
     -env ${environment} \
     -level level3 \

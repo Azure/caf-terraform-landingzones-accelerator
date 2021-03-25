@@ -46,7 +46,7 @@ export base_landingzone_tfstate_name="databricks_workspace"
 
 # Deploy Azure services for Databricks workspace
 rover -lz /tf/caf/public/landingzones/caf_solutions/ \
-      -var-folder /tf/caf/examples/data_analytics/databricks/${example} \
+      -var-folder /tf/caf/reference_implementations/data_analytics/databricks/${example} \
       -tfstate ${base_landingzone_tfstate_name}.tfstate \
       -env ${environment} \
       -level level3 \
@@ -54,7 +54,7 @@ rover -lz /tf/caf/public/landingzones/caf_solutions/ \
 
 # Configure the Databricks cluster with the databricks provider
 rover -lz /tf/caf/public/landingzones/caf_solutions/add-ons/databricks \
-      -var-folder /tf/caf/examples/data_analytics/databricks/${example}/cluster \
+      -var-folder /tf/caf/reference_implementations/data_analytics/databricks/${example}/cluster \
       -tfstate databricks_cluster.tfstate \
       -var tfstate_key=${base_landingzone_tfstate_name}.tfstate \
       -env ${environment} \
