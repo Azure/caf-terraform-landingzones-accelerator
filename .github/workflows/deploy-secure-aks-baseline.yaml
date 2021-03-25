@@ -164,7 +164,7 @@ jobs:
 
   deploy-aks: 
     runs-on: ubuntu-latest
-    needs: 
+    # needs: 
     # -deploy-shared-services
     # -deploy-networking
     container:
