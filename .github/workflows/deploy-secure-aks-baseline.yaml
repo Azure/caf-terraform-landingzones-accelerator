@@ -14,13 +14,14 @@ on:
 env:
   AZURE_CREDENTIALS: '{"clientId":"${{ secrets.SERVICE_PRINCIPAL }}", "clientSecret":"${{ secrets.SERVICE_PRINCIPAL_PWD }}", "subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.TENANT }}"}' 
   event_sha: +refs/pull/${{ github.event.issue.number }}/merge
+  rover_image_name: ${{ secrets.ROVER_IMAGE_NAME }}
 
 jobs:
 
   deploy-lunchpad:
     runs-on: ubuntu-latest
     container:
-      image: ${{ secrets.ROVER_IMAGE_NAME }} # aztfmod/rover:2005.1510
+      image:  ${{ env.rover_image_name }} # aztfmod/rover:2005.1510
       options: --user 0
     steps:
       - name: Checkout Repository
