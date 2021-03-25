@@ -24,22 +24,7 @@ In order to create those customized configuration environment, you can leverage:
 You can either click "Use this template" at the root of this GitHub repository, or just import this repository into your favorite git technology. Once setup, clone the content locally on your laptop and open it with Visual Studio Code. You can see a full list of prerequisites [here](https://github.com/Azure/caf-terraform-landingzones/blob/master/documentation/getting_started/getting_started.md). You can also use GitHub Codespaces as your development environment.
 
 
-### 1. Clone the public landing zones
-
-First step is to get the landing zones logic in the same work space, so let's clone the environment locally:
-
-```bash
-git clone --branch 2102.0.1 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/public
-
-# Or refresh an existing clone
-cd /tf/caf/public
-git checkout 2102.0.1
-git pull
-```
-
-Note that if you want to be able to edit the code and submit back a pull request to the community, you can also fork it in your own GitHub environment and clone it from there.
-
-### 2. Login the rover to Azure
+### 1. Login the rover to Azure
 
 Authenticate to your Azure environment using the following command:
 

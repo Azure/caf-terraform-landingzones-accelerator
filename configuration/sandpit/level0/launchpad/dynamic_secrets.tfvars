@@ -20,14 +20,6 @@ dynamic_keyvault_secrets = {
       attribute_key = "tenant_id"
       secret_name   = "tenant-id"
     }
-    admin = {
-      secret_name = "azdo-pat-admin"
-      value       = ""
-    }
-    agent = {
-      secret_name = "azdo-pat-agent"
-      value       = ""
-    }
   }
   level1 = {
     msi = {
@@ -147,6 +139,16 @@ dynamic_keyvault_secrets = {
       output_key    = "client_config"
       attribute_key = "tenant_id"
       secret_name   = "tenant-id"
+    }
+  }
+  secret = {
+    admin = {
+      secret_name = "azdo-pat-admin"
+      value       = ""
+    }
+    agent = {
+      secret_name = "azdo-pat-agent"
+      value       = ""
     }
   }
 }
