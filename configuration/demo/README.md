@@ -17,6 +17,7 @@ You can then specify the environment you are running:
 
 ```bash
 export environment=demo
+export caf_environment=contoso-demo
 ```
 
 ### 1. Launchpad-level0 landing zones
@@ -29,7 +30,7 @@ rover -lz /tf/caf/landingzones/caf_launchpad \
   -var-folder /tf/caf/configuration/${environment}/level0/launchpad \
   -parallelism 30 \
   -level level0 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 
@@ -45,7 +46,7 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -var-folder /tf/caf/configuration/${environment}/level1 \
   -parallelism 30 \
   -level level1 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 
@@ -59,7 +60,7 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -var-folder /tf/caf/configuration/${environment}/level2/shared_services \
   -parallelism 30 \
   -level level2 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 
@@ -71,7 +72,7 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -var-folder /tf/caf/configuration/${environment}/level2/networking/hub \
   -parallelism 30 \
   -level level2 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 
@@ -85,7 +86,7 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -var-folder /tf/caf/configuration/${environment}/level3/aks \
   -parallelism 30 \
   -level level3 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 
@@ -97,7 +98,7 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -var-folder /tf/caf/configuration/${environment}/level3/data_analytics/101-aml-workspace \
   -parallelism 30 \
   -level level3 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 
@@ -111,7 +112,7 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -var-folder /tf/caf/configuration/${environment}/level3/app_service \
   -parallelism 30 \
   -level level3 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 

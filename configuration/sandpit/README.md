@@ -23,11 +23,11 @@ You can then specify the environment you are running:
 
 ```bash
 export environment=sandpit
-export caf_environment=sandpit
+export caf_environment=contoso-sandpit
 
 # Note: if you have deployed the demo environment and want to upgrade it to the sandpit configuration, 
 # set 
-# export caf_environment=demo
+# export caf_environment=contoso-demo
 
 ```
 
