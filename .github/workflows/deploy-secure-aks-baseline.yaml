@@ -1,4 +1,4 @@
-name: Deploy_Seccure_Aks_Baseline
+name: Deploy_Seccure_Aks_Baseline_Rover
 # The pipeline is triggered on:
 #  - PR/Issue comments "/deploy-all", "/deploy-lunchpad", "/deploy-foundation", "/deploy-networking",
 #                      "/deploy-shared-services", "/deploy-aks"
@@ -70,7 +70,7 @@ jobs:
       - name: Deploy
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
         run: |
-            cd $GITHUB_WORKSPACE/enterprise_scale/construction_sets/aks
+            ln -s ${GITHUB_WORKSPACE} /tf/caf && cd /tf/caf/enterprise_scale/construction_sets/aks
             ./deploy_level_with_rover.sh 1_foundation level1
         env:
            ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
