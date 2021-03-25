@@ -71,6 +71,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
         run: |
             ln -s ${GITHUB_WORKSPACE} /tf/caf
+            echo "ls /tf/caf" && ls -lsa /tf/caf
             cd ${GITHUB_WORKSPACE}/enterprise_scale/construction_sets/aks
             ./deploy_level_with_rover.sh 1_foundation level1
         env:
