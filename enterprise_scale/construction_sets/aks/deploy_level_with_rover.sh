@@ -25,10 +25,10 @@ lz=$(pwd)
 
     #  -level $LEVEL \
     #  -tfstate  $LEVEL_NAME.tfstate \
+    # -level level1 \
 
 /tf/rover/rover.sh -lz $lz \
      -a apply \
-    -level level1 \
      "$parameters"
 
 

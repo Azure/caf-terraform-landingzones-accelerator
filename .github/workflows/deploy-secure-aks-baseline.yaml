@@ -44,6 +44,12 @@ jobs:
         run: |
           cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/                 
           /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/levels/launchpad/launchpad.sh
+        env:
+           ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
+           ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
+           ARM_TENANT_ID: ${{ secrets.TENANT }}
+
 
   deploy-foundation: 
     runs-on: ubuntu-latest
