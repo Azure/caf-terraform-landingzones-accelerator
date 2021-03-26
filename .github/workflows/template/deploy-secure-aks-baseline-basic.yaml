@@ -4,9 +4,9 @@ name: Deploy_Seccure_Aks_Baseline_Basic
 #                      "/deploy-shared-services", "/deploy-aks"
 
 # Disabled 
-# on:
-#   issue_comment:
-#     types: [created]
+on:
+  issue_comment:
+    types: [created]
 
 env:
   # AZURE_CREDENTIALS: '{"clientId":"${{ secrets.SERVICE_PRINCIPAL }}", "clientSecret":"${{ secrets.SERVICE_PRINCIPAL_PWD }}", "subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.TENANT }}"}' 
