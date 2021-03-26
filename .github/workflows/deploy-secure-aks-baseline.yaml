@@ -18,36 +18,36 @@ env:
   event_sha: +refs/pull/${{ github.event.issue.number }}/merge
 
 jobs:
-  # deploy-lunchpad:
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image:  aztfmod/rover:0.14.8-2103.1601
-  #     options: --user 0
-  #   steps:
-  #     - name: Checkout Repository
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad') || github.event_name != 'issue_comment'      
-  #       uses: actions/checkout@v2
-  #     - name: Checkout PR code
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad')
-  #       run: |
-  #         git fetch origin ${{ env.event_sha }}
-  #         git checkout FETCH_HEAD
+  deploy-lunchpad:
+    runs-on: ubuntu-latest
+    container:
+      image:  aztfmod/rover:0.14.8-2103.1601
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
 
-  #     - name: Azure Login
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad') || github.event_name != 'issue_comment'     
-  #       uses: azure/login@v1
-  #       with:
-  #         creds: ${{ env.AZURE_CREDENTIALS }}
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
 
-  #     - name: Launchpad
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad') || github.event_name != 'issue_comment'     
-  #       run: |
-  #         cp -rs ${GITHUB_WORKSPACE}/* /tf/caf          
-  #         /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/levels/launchpad/launchpad.sh
+      - name: Launchpad
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad') || github.event_name != 'issue_comment'     
+        run: |
+          cp -rs ${GITHUB_WORKSPACE}/* /tf/caf          
+          /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/levels/launchpad/launchpad.sh
 
   deploy-foundation: 
     runs-on: ubuntu-latest
-    # needs: deploy-lunchpad
+    needs: deploy-lunchpad
     container:
       image:  aztfmod/rover:0.14.8-2103.1601
       options: --user 0

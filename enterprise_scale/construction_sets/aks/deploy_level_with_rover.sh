@@ -23,10 +23,11 @@ printf "parameters : %s\n" $parameters
 
 lz=$(pwd)
 
+    #  -level $LEVEL \
+    #  -tfstate  $LEVEL_NAME.tfstate \
+
 /tf/rover/rover.sh -lz $lz \
      -a apply \
-     -level $LEVEL \
-     -tfstate  $LEVEL_NAME.tfstate \
      "$parameters"
 
 
