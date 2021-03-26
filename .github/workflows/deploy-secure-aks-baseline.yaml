@@ -42,7 +42,7 @@ jobs:
       - name: Launchpad
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad') || github.event_name != 'issue_comment'     
         run: |
-          cp -rs ${GITHUB_WORKSPACE}/* /tf/caf          
+          cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/                 
           /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/levels/launchpad/launchpad.sh
 
   deploy-foundation: 
