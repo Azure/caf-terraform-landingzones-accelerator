@@ -6,12 +6,6 @@ export TF_VAR_workspace=secureaks
 
 -launchpad \
 
-az login --service-principal -u 8ccc504d-7fd0-4b2e-b6da-e2b04537d848 -p sbbj1iZZRq.PU8XtOQUFfQ_JQhu1h1wq2t --tenant 72f988bf-86f1-41af-91ab-2d7cd011db47
-
-export ARM_CLIENT_ID=8ccc504d-7fd0-4b2e-b6da-e2b04537d848
-export ARM_CLIENT_SECRET=sbbj1iZZRq.PU8XtOQUFfQ_JQhu1h1wq2t
-export ARM_SUBSCRIPTION_ID=0fe1cc35-0cfa-4152-97d7-5dfb45a8d4ba
-export ARM_TENANT_ID=72f988bf-86f1-41af-91ab-2d7cd011db47
 
 id=$(az storage account list --query "[?tags.tfstate=='level0' && tags.launchpad=='launchpad']" -o json | jq -r .[0].id)
 
@@ -31,6 +25,7 @@ fi
      -level level2 \
      -tfstate  secure-aks-foundations.tfstate \
      '-var-file online/aks_secure_baseline/configuration/monitor/diagnostics.tfvars -var-file online/aks_secure_baseline/configuration/monitor/log_analytics.tfvars'
+
 
 
 /tf/rover/rover.sh -lz /tf/caf/enterprise_scale/construction_sets/aks \
