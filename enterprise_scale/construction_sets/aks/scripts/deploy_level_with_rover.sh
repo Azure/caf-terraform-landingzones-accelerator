@@ -23,9 +23,12 @@ printf "parameters : %s\n" $parameters
 
 lz=$(pwd)
 
-    #  -level $LEVEL \
-    #  -tfstate  $LEVEL_NAME.tfstate \
-    # -level level1 \
+
+# These parameters are not currently used. Everything goes to the same state storage.
+# To make a nice level/storage separation module.tf should be decomposed into levels
+# 
+#  -level $LEVEL \
+#  -tfstate  $LEVEL_NAME.tfstate \
 
 /tf/rover/rover.sh -lz $lz \
      -a apply \
