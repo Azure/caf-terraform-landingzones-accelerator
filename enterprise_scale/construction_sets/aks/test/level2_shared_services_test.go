@@ -41,7 +41,7 @@ func TestLogAnalytics(t *testing.T) {
 	t.Parallel()
 
 	workSpaceName := fmt.Sprintf("%s-log-logs", os.Getenv("PREFIX"))
-	resourceGroupName := fmt.Sprintf("%s-rg-ops_re1", os.Getenv("PREFIX"))
+	resourceGroupName := fmt.Sprintf("%s-rg-ef-ops_re1", os.Getenv("PREFIX"))
 	workspaceExists := azure.LogAnalyticsWorkspaceExists(t, workSpaceName, resourceGroupName, "")
 	assert.True(t, workspaceExists, "log analytics workspace not found.")
 }

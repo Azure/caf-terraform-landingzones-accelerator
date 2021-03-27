@@ -16,6 +16,13 @@ on:
 env:
   AZURE_CREDENTIALS: '{"clientId":"${{ secrets.SERVICE_PRINCIPAL }}", "clientSecret":"${{ secrets.SERVICE_PRINCIPAL_PWD }}", "subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.TENANT }}"}' 
   event_sha: +refs/pull/${{ github.event.issue.number }}/merge
+  ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
+  ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
+  ARM_TENANT_ID: ${{ secrets.TENANT }}
+  PREFIX: ${{ secrets.RESOURCE_PREFIX }} 
+  ENVIRONMENT: ${{ secrets.ENVIRONMENT }} 
+
 
 jobs:
   # deploy-lunchpad:
@@ -44,11 +51,6 @@ jobs:
   #       run: |
   #         cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/                 
   #         . /tf/caf/enterprise_scale/construction_sets/aks/scripts/launchpad.sh
-  #       env:
-  #          ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
-  #          ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
-  #          ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
-  #          ARM_TENANT_ID: ${{ secrets.TENANT }}
   #     - name: Setup Go
   #       uses: actions/setup-go@v2
   #       with:
@@ -58,9 +60,6 @@ jobs:
   #       run: |
   #           cd /tf/caf/enterprise_scale/construction_sets/aks/test
   #           ./run_test.sh launchpad_test.go
-  #       env:
-  #         ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
-  #         ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
 
 
 
@@ -92,11 +91,6 @@ jobs:
   #           cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
   #           cd /tf/caf/enterprise_scale/construction_sets/aks
   #           ./scripts/deploy_level_with_rover.sh 1_foundation level1
-  #       env:
-  #          ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
-  #          ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
-  #          ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
-  #          ARM_TENANT_ID: ${{ secrets.TENANT }}
 
   #     - name: Setup Go
   #       uses: actions/setup-go@v2
@@ -137,11 +131,6 @@ jobs:
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
             ./scripts/deploy_level_with_rover.sh 2_shared_services level2
-        env:
-           ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
-           ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
-           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
-           ARM_TENANT_ID: ${{ secrets.TENANT }}
 
       - name: Setup Go
         uses: actions/setup-go@v2
@@ -154,8 +143,6 @@ jobs:
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
             ./run_test.sh level2_shared_services_test.go
         env:
-           PREFIX: ${{ secrets.RESOURCE_PREFIX }}
-           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
            TF_VAR_client_id: ${{ secrets.SERVICE_PRINCIPAL }}
            TF_VAR_client_secret: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
 
@@ -187,11 +174,6 @@ jobs:
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
             ./scripts/deploy_level_with_rover.sh 2_networking level2
-        env:
-           ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
-           ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
-           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
-           ARM_TENANT_ID: ${{ secrets.TENANT }}
 
       - name: Test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'           
@@ -227,11 +209,6 @@ jobs:
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
             ./scripts/deploy_level_with_rover.sh 3_aks level3
-        env:
-           ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
-           ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
-           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
-           ARM_TENANT_ID: ${{ secrets.TENANT }}
 
       - name: Setup Go
         uses: actions/setup-go@v2
@@ -244,8 +221,6 @@ jobs:
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
             ./run_test.sh level3_aks_test.go
         env:
-           PREFIX: ${{ secrets.RESOURCE_PREFIX }}
-           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
            TF_VAR_client_id: ${{ secrets.SERVICE_PRINCIPAL }}
            TF_VAR_client_secret: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
            

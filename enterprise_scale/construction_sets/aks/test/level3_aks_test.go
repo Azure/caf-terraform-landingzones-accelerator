@@ -16,7 +16,7 @@ func TestAksAgentPoolProfile(t *testing.T) {
 
 	// Declare expected values for assertions
 	expectedClusterName := fmt.Sprintf("%s-aks-akscluster-re1-001", os.Getenv("PREFIX"))
-	expectedResourceGroupName := fmt.Sprintf("%s-rg-aks-re1", os.Getenv("PREFIX"))
+	expectedResourceGroupName := fmt.Sprintf("%s-rg-ef-aks-re1", os.Getenv("PREFIX"))
 	expectedDefaultNodePoolName := "sharedsvc"
 	expectedUserNodepoolName := "npuser01"
 	expectedAgentCount := 3
@@ -50,7 +50,7 @@ func TestAksAddOnProfile(t *testing.T) {
 	t.Parallel()
 
 	expectedClusterName := fmt.Sprintf("%s-aks-akscluster-re1-001", os.Getenv("PREFIX"))
-	expectedResourceGroupName := fmt.Sprintf("%s-rg-aks-re1", os.Getenv("PREFIX"))
+	expectedResourceGroupName := fmt.Sprintf("%s-rg-ef-aks-re1", os.Getenv("PREFIX"))
 
 	// Get manged cluster client
 	cluster, err := azure.GetManagedClusterE(t, expectedResourceGroupName, expectedClusterName, "")
@@ -67,7 +67,7 @@ func TestAksLoadBalancerProfile(t *testing.T) {
 	t.Parallel()
 
 	expectedClusterName := fmt.Sprintf("%s-aks-akscluster-re1-001", os.Getenv("PREFIX"))
-	expectedResourceGroupName := fmt.Sprintf("%s-rg-aks-re1", os.Getenv("PREFIX"))
+	expectedResourceGroupName := fmt.Sprintf("%s-rg-ef-aks-re1", os.Getenv("PREFIX"))
 
 	// Get manged cluster client
 	cluster, err := azure.GetManagedClusterE(t, expectedResourceGroupName, expectedClusterName, "")
@@ -81,7 +81,7 @@ func TestAksNetworkProfile(t *testing.T) {
 	t.Parallel()
 
 	expectedClusterName := fmt.Sprintf("%s-aks-akscluster-re1-001", os.Getenv("PREFIX"))
-	expectedResourceGroupName := fmt.Sprintf("%s-rg-aks-re1", os.Getenv("PREFIX"))
+	expectedResourceGroupName := fmt.Sprintf("%s-rg-ef-aks-re1", os.Getenv("PREFIX"))
 	expectedManagedOutboundIpCount := 1
 
 	// Get manged cluster client
@@ -97,7 +97,7 @@ func TestAksRbacEnbaled(t *testing.T) {
 	t.Parallel()
 
 	expectedClusterName := fmt.Sprintf("%s-aks-akscluster-re1-001", os.Getenv("PREFIX"))
-	expectedResourceGroupName := fmt.Sprintf("%s-rg-aks-re1", os.Getenv("PREFIX"))
+	expectedResourceGroupName := fmt.Sprintf("%s-rg-ef-aks-re1", os.Getenv("PREFIX"))
 
 	// Get manged cluster client
 	cluster, err := azure.GetManagedClusterE(t, expectedResourceGroupName, expectedClusterName, "")
