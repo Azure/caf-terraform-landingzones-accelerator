@@ -13,7 +13,7 @@ func TestKeyVault(t *testing.T) {
 	t.Parallel()
 
 	keyVaultName := fmt.Sprintf("%s-kv-secrets", os.Getenv("PREFIX"))
-	resourceGroupName := fmt.Sprintf("%s-rg-aks-re1", os.Getenv("PREFIX"))
+	resourceGroupName := fmt.Sprintf("%s-rg-ef-aks-re1", os.Getenv("PREFIX"))
 
 	// Test key vault exists
 	keyVault := azure.GetKeyVault(t, resourceGroupName, keyVaultName, "")
