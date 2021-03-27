@@ -155,6 +155,9 @@ jobs:
             ./run_test.sh level2_shared_services_test.go
         env:
            PREFIX: ${{ secrets.RESOURCE_PREFIX }}
+           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+           TF_VAR_client_id: ${{ secrets.SERVICE_PRINCIPAL }}
+           TF_VAR_client_secret: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
 
   deploy-networking: 
     runs-on: ubuntu-latest
@@ -242,5 +245,9 @@ jobs:
             ./run_test.sh level3_aks_test.go
         env:
            PREFIX: ${{ secrets.RESOURCE_PREFIX }}
+           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+           TF_VAR_client_id: ${{ secrets.SERVICE_PRINCIPAL }}
+           TF_VAR_client_secret: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+           
 
 
