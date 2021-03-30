@@ -11,6 +11,7 @@ on:
     types:
     - created
 
+    
 env:
   AZURE_CREDENTIALS: '{"clientId":"${{ secrets.SERVICE_PRINCIPAL }}", "clientSecret":"${{ secrets.SERVICE_PRINCIPAL_PWD }}", "subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.TENANT }}"}' 
   event_sha: +refs/pull/${{ github.event.issue.number }}/merge
