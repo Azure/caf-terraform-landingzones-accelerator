@@ -19,7 +19,6 @@ func ReadTestConfig(configFile string, configuration interface{}) {
 	if err != nil {
 		fmt.Printf("Unable to decode into struct, %v", err)
 	}
-
 }
 
 func ResolveNameWithPrefix(rawName string) string {

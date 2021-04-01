@@ -58,7 +58,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad') || github.event_name != 'issue_comment'     
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh launchpad_test.go
+            ./run_test.sh level0_launchpad/launchpad_test.go
 
 
 
@@ -100,7 +100,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level1_foundation_test.go
+            ./run_test.sh level1_foundation/level1_foundation_test.go
 
   deploy-shared-services: 
     runs-on: ubuntu-latest
@@ -140,7 +140,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level2_shared_services_test.go
+            ./run_test.sh level2_shared_services/level2_shared_services_test.go
         env:
            TF_VAR_client_id: ${{ secrets.SERVICE_PRINCIPAL }}
            TF_VAR_client_secret: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
@@ -208,6 +208,7 @@ jobs:
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
             ./scripts/deploy_level_with_rover.sh 3_aks level3
+            echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
 
       - name: Setup Go
         uses: actions/setup-go@v2
@@ -218,10 +219,12 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level3_aks_test.go
+            ./run_test.sh level3_aks/level3_aks_test.go
+            ./run_test.sh level3_aks/level3_aks_infra_conf_test.go
         env:
-           TF_VAR_client_id: ${{ secrets.SERVICE_PRINCIPAL }}
-           TF_VAR_client_secret: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+          KUBECONFIGPATH: ~/.kube/config
+          #  TF_VAR_client_id: ${{ secrets.SERVICE_PRINCIPAL }}
+          #  TF_VAR_client_secret: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
            
 
 

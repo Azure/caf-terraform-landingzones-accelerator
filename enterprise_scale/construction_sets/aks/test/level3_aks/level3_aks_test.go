@@ -108,6 +108,6 @@ func getCluster(t *testing.T, expectedResourceGroupName, expectedClusterName str
 
 func getExpectedValues() ExpectedValues {
 	var expectedValues ExpectedValues
-	util.ReadTestConfig("ExpectedValues", &expectedValues)
+	util.ReadTestConfig("AKSExpectedValues", &expectedValues)
 	return expectedValues
 }
