@@ -28,6 +28,9 @@ stages:
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/                 
             . /tf/caf/enterprise_scale/construction_sets/aks/scripts/launchpad.sh
             echo "##vso[task.setvariable variable=LAUNCHPAD_PREFIX;isOutput=true]$LAUNCHPAD_PREFIX"
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
       - task: GoTool@0
         displayName: 'Use Go 1.15'   
         inputs:
