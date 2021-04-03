@@ -20,9 +20,9 @@ stages:
       - task: AzureCLI@2
         displayName: Azure CLI
         inputs:
-          # azureSubscription: $(AZURE_SERVICE_NAME)
-          azureSubscription: iac-caf-connection
+          azureSubscription: $(AZURE_SERVICE_NAME)
           scriptLocation: inlineScript
+          scriptType: bash
           inlineScript: |
             cp -rs $(Pipeline.Workspace)/* /tf/caf && cp -r $(Pipeline.Workspace)/.devcontainer /tf/caf/                 
             . /tf/caf/enterprise_scale/construction_sets/aks/scripts/launchpad.sh
