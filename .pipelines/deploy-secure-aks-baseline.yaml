@@ -24,7 +24,7 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cp -rs $(Pipeline.Workspace)/* /tf/caf && cp -r $(Pipeline.Workspace)/.devcontainer /tf/caf/                 
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/                 
             . /tf/caf/enterprise_scale/construction_sets/aks/scripts/launchpad.sh
       # - name: Setup Go
       #   uses: actions/setup-go@v2
