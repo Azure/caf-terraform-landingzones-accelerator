@@ -28,7 +28,10 @@ stages:
             . /tf/caf/enterprise_scale/construction_sets/aks/scripts/launchpad.sh
       - task: GoTool@0
         displayName: 'Use Go 1.15'   
-        version: '1.15'                     
+        inputs:
+          version: '1.15' 
+          #goPath: # Optional
+          #goBin: # Optional
       - task: AzureCLI@2
         displayName: Lunchpad Test
         inputs:
