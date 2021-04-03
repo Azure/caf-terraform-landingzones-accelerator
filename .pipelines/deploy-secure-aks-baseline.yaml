@@ -44,12 +44,74 @@ stages:
         env:
           LAUNCHPAD_PREFIX: $(deploy_launchpad.LAUNCHPAD_PREFIX)
 
-      # - name: Setup Go
-      #   uses: actions/setup-go@v2
-      #   with:
-      #     go-version: '^1.15'        
-      # - name: Test
-      #   if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-lunchpad') || github.event_name != 'issue_comment'     
-      #   run: |
-      #       cd /tf/caf/enterprise_scale/construction_sets/aks/test
-      #       ./run_test.sh level0_launchpad/launchpad_test.go
+- stage: deploy_foundation
+  jobs:
+  - job: deploy_foundation
+    displayName: "Deploy Foundation"
+    container: rover
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Deploy Foundation
+        name: deploy_foundation
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks
+            ./scripts/deploy_level_with_rover.sh 1_foundation level1
+      - task: GoTool@0
+        displayName: 'Use Go 1.15'   
+        inputs:
+          version: '1.15' 
+      - task: AzureCLI@2
+        displayName: Foundation Test        
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/test
+            ./run_test.sh level1_foundation/level1_foundation_test.go
+
+  # deploy-foundation: 
+  #   runs-on: ubuntu-latest
+  #   needs: deploy-launchpad
+  #   container:
+  #     image:  aztfmod/rover:0.14.8-2103.1601
+  #     options: --user 0
+  #   steps:
+  #     - name: Checkout Repository
+  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'      
+  #       uses: actions/checkout@v2
+  #     - name: Checkout PR code
+  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation')
+  #       run: |
+  #         git fetch origin ${{ env.event_sha }}
+  #         git checkout FETCH_HEAD
+
+  #     - name: Azure Login
+  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'     
+  #       uses: azure/login@v1
+  #       with:
+  #         creds: ${{ env.AZURE_CREDENTIALS }}
+
+  #     - name: Deploy
+  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
+  #       run: |
+  #           cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
+  #           cd /tf/caf/enterprise_scale/construction_sets/aks
+  #           ./scripts/deploy_level_with_rover.sh 1_foundation level1
+
+  #     - name: Setup Go
+  #       uses: actions/setup-go@v2
+  #       with:
+  #         go-version: '^1.15'        
+
+  #     - name: Test
+  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
+  #       run: |
+  #           cd /tf/caf/enterprise_scale/construction_sets/aks/test
+  #           ./run_test.sh level1_foundation/level1_foundation_test.go
