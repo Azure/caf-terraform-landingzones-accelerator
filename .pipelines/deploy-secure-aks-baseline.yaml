@@ -62,6 +62,9 @@ stages:
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
             ./scripts/deploy_level_with_rover.sh 1_foundation level1
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
       - task: GoTool@0
         displayName: 'Use Go 1.15'   
         inputs:
@@ -75,6 +78,7 @@ stages:
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
             ./run_test.sh level1_foundation/level1_foundation_test.go
+            
 
   # deploy-foundation: 
   #   runs-on: ubuntu-latest
