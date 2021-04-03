@@ -1,7 +1,7 @@
 trigger: none
 
 variables:
-  group: iac-secure-caf1
+  - group: iac-secure-caf
 
 resources:
   containers:
