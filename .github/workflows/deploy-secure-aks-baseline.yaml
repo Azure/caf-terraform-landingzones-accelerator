@@ -23,7 +23,7 @@ env:
 
 
 jobs:
-  deploy-lunchpad:
+  deploylunchpad:
     runs-on: ubuntu-latest
     container:
       image:  aztfmod/rover:0.14.8-2103.1601
@@ -140,9 +140,6 @@ jobs:
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
             ./run_test.sh level2_shared_services/level2_shared_services_test.go
-        env:
-           TF_VAR_client_id: ${{ secrets.SERVICE_PRINCIPAL }}
-           TF_VAR_client_secret: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
 
   deploy-networking: 
     runs-on: ubuntu-latest
@@ -222,8 +219,6 @@ jobs:
             ./run_test.sh level3_aks/level3_aks_infra_conf_test.go
         env:
           KUBECONFIGPATH: /github/home/.kube/config
-          #  TF_VAR_client_id: ${{ secrets.SERVICE_PRINCIPAL }}
-          #  TF_VAR_client_secret: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
            
 
 

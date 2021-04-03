@@ -10,9 +10,9 @@ resources:
     options: --user 0:0 -e TF_PLUGIN_CACHE_DIR="/home/$(HOME_FOLDER_USER)/plugin-cache" -e TF_DATA_DIR="/home/$(HOME_FOLDER_USER)"
 
 stages:
-- stage: deploy-lunchpad
+- stage: deploy_lunchpad
   jobs:
-  - job: deploy-lunchpad
+  - job: deploy_lunchpad
     displayName: "Deploy Lunchpad"
     container: rover
 
