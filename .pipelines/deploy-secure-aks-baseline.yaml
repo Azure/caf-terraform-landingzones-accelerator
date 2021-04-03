@@ -190,46 +190,4 @@ stages:
         env:
           KUBECONFIGPATH: /home/vsts_azpcontainer/.kube/config
 
-  # deploy-aks: 
-  #   runs-on: ubuntu-latest
-  #   needs: deploy-networking
-  #   container:
-  #     image:  aztfmod/rover:0.14.8-2103.1601
-  #     options: --user 0
-  #   steps:
-  #     - name: Checkout Repository
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'      
-  #       uses: actions/checkout@v2
-  #     - name: Checkout PR code
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks')
-  #       run: |
-  #         git fetch origin ${{ env.event_sha }}
-  #         git checkout FETCH_HEAD
-
-  #     - name: Azure Login
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'     
-  #       uses: azure/login@v1
-  #       with:
-  #         creds: ${{ env.AZURE_CREDENTIALS }}
-
-  #     - name: Deploy
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'           
-  #       run: |
-  #           cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
-  #           cd /tf/caf/enterprise_scale/construction_sets/aks
-  #           ./scripts/deploy_level_with_rover.sh 3_aks level3
-  #           echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
-
-  #     - name: Setup Go
-  #       uses: actions/setup-go@v2
-  #       with:
-  #         go-version: '^1.15'        
-
-  #     - name: Test
-  #       if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'           
-  #       run: |
-  #           cd /tf/caf/enterprise_scale/construction_sets/aks/test
-  #           ./run_test.sh level3_aks/level3_aks_test.go
-  #           ./run_test.sh level3_aks/level3_aks_infra_conf_test.go
-  #       env:
-  #         KUBECONFIGPATH: /github/home/.kube/config
+  
