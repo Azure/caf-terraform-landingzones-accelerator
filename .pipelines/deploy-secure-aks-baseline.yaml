@@ -27,7 +27,8 @@ stages:
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/                 
             . /tf/caf/enterprise_scale/construction_sets/aks/scripts/launchpad.sh
       - task: GoTool@0
-        displayName: 'Use Go 1.15'                        
+        displayName: 'Use Go 1.15'   
+        version: 1.15                     
       - task: AzureCLI@2
         displayName: Lunchpad Test
         inputs:
