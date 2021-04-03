@@ -7,7 +7,7 @@ resources:
   containers:
   - container: rover
     image: $(ROVER_IMAGE)
-    options: --user 0:0 -e TF_PLUGIN_CACHE_DIR="/home/$(HOME_FOLDER_USER)/plugin-cache" -e TF_DATA_DIR="/home/$(HOME_FOLDER_USER)"
+    options: --user 0
 
 stages:
 - stage: deploy_lunchpad
@@ -20,7 +20,8 @@ stages:
       - task: AzureCLI@2
         displayName: Azure CLI
         inputs:
-          azureSubscription: $(AZURE_SERVICE_NAME)
+          # azureSubscription: $(AZURE_SERVICE_NAME)
+          azureSubscription: iac-caf-connection
           scriptLocation: inlineScript
           inlineScript: |
             cp -rs $(Pipeline.Workspace)/* /tf/caf && cp -r $(Pipeline.Workspace)/.devcontainer /tf/caf/                 
