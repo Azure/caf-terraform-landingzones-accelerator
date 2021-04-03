@@ -7,7 +7,7 @@ resources:
   containers:
   - container: rover
     image: $(ROVER_IMAGE)
-    options: --user 0
+    options: --user 0:0 -e TF_PLUGIN_CACHE_DIR="/home/vsts/plugin-cache" -e TF_DATA_DIR="/home/vsts"
 
 stages:
 - stage: deploy_launchpad
