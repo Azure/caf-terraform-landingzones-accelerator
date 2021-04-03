@@ -49,6 +49,7 @@ jobs:
         run: |
           cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/                 
           . /tf/caf/enterprise_scale/construction_sets/aks/scripts/launchpad.sh
+          echo "LAUNCHPAD_PREFIX=$LAUNCHPAD_PREFIX" >> $GITHUB_ENV
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
