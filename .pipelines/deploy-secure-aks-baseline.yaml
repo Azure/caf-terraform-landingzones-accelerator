@@ -18,7 +18,7 @@ stages:
 
     steps:
       - task: AzureCLI@2
-        displayName: Azure CLI
+        displayName: Deploy Lunchpad
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
           scriptLocation: inlineScript
@@ -26,6 +26,18 @@ stages:
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/                 
             . /tf/caf/enterprise_scale/construction_sets/aks/scripts/launchpad.sh
+      - task: GoTool@0
+        displayName: 'Use Go 1.15'                        
+      - task: AzureCLI@2
+        displayName: Lunchpad Test
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/test
+            ./run_test.sh level0_launchpad/launchpad_test.go
+
       # - name: Setup Go
       #   uses: actions/setup-go@v2
       #   with:
