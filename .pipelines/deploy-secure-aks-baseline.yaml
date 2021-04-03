@@ -10,15 +10,16 @@ resources:
     options: --user 0
 
 stages:
-- stage: deploy_lunchpad
+- stage: deploy_launchpad
   jobs:
-  - job: deploy_lunchpad
-    displayName: "Deploy Lunchpad"
+  - job: deploy_launchpad
+    displayName: "Deploy Launchpad"
     container: rover
 
     steps:
       - task: AzureCLI@2
-        displayName: Deploy Lunchpad
+        displayName: Deploy Launchpad
+        name: deploy_launchpad
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
           scriptLocation: inlineScript
@@ -26,14 +27,13 @@ stages:
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/                 
             . /tf/caf/enterprise_scale/construction_sets/aks/scripts/launchpad.sh
+            echo "##vso[task.setvariable variable=LAUNCHPAD_PREFIX;isOutput=true]$LAUNCHPAD_PREFIX"
       - task: GoTool@0
         displayName: 'Use Go 1.15'   
         inputs:
           version: '1.15' 
-          #goPath: # Optional
-          #goBin: # Optional
       - task: AzureCLI@2
-        displayName: Lunchpad Test
+        displayName: Launchpad Test        
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
           scriptLocation: inlineScript
@@ -41,6 +41,8 @@ stages:
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
             ./run_test.sh level0_launchpad/launchpad_test.go
+        env:
+          LAUNCHPAD_PREFIX: $(deploy_launchpad.LAUNCHPAD_PREFIX)
 
       # - name: Setup Go
       #   uses: actions/setup-go@v2
