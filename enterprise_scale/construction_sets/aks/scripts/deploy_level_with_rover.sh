@@ -33,6 +33,6 @@ lz=$(pwd)
 /tf/rover/rover.sh -lz $lz \
      -a apply \
      -parallelism 30 \
-     "$parameters -var test_prefix=$PREFIX"
+     " -lock=false $parameters -var test_prefix=$PREFIX"
 
 
