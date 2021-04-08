@@ -57,8 +57,4 @@ variable "k8s_configPath" {
   default     =  ""
 }
 
-variable "github_repo" {
-  type        = string
-  default     =  ""
-}
 

@@ -21,7 +21,8 @@ env:
   ARM_TENANT_ID: ${{ secrets.TENANT }}
   PREFIX: ${{ secrets.RESOURCE_PREFIX }} 
   ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-  TF_VAR_github_repo: ${{ github.repository }}  
+  TF_VAR_repository_name: ${{ github.repository }}  
+  TF_VAR_github_owner: ${{ github.repository_owner }}  
   TF_VAR_github_token: ${{secrets.GITHUB_TOKEN}}
 
 jobs:
