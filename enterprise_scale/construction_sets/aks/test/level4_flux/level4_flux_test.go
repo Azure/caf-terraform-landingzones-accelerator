@@ -1,4 +1,4 @@
-package aks_infra
+package flux
 
 import (
 	"fmt"
@@ -85,7 +85,7 @@ func getKubectlOptions(contextName, namespace string) *k8s.KubectlOptions {
 
 func getExpectedValues() ExpectedValues {
 	var expectedValues ExpectedValues
-	util.ReadTestConfig("InfraExpectedValues", &expectedValues)
+	util.ReadTestConfig("ExpectedValues", &expectedValues)
 	fmt.Printf("context %s", expectedValues.K8sContextName)
 	return expectedValues
 }
