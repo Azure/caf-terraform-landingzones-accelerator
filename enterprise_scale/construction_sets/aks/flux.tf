@@ -89,36 +89,3 @@ resource "kubectl_manifest" "sync" {
   yaml_body  = each.value
 }
 
-resource "github_branch_default" "main" {
-  count = var.repository_name == "" ? 0 : 1    
-  repository = var.repository_name
-  branch     = var.branch
-}
-
-
-resource "github_repository_file" "install" {
-  count = var.repository_name == "" ? 0 : 1    
-  repository = var.repository_name
-  file       = data.flux_install.main.path
-  content    = data.flux_install.main.content
-  branch     = var.branch
-  overwrite_on_create = true
-}
-
-resource "github_repository_file" "sync" {
-  count = var.repository_name == "" ? 0 : 1    
-  repository = var.repository_name
-  file       = data.flux_sync.main.path
-  content    = data.flux_sync.main.content
-  branch     = var.branch
-  overwrite_on_create = true
-}
-
-resource "github_repository_file" "kustomize" {
-  count = var.repository_name == "" ? 0 : 1    
-  repository = var.repository_name
-  file       = data.flux_sync.main.kustomize_path
-  content    = data.flux_sync.main.kustomize_content
-  branch     = var.branch
-  overwrite_on_create = true
-}
