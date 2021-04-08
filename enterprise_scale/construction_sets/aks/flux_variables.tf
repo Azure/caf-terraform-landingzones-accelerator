@@ -51,3 +51,8 @@ variable "target_sync_path" {
   description = "flux sync target path"
   default     =  ""
 }
+
+variable "k8s_configPath" {
+  type        = string
+  default     =  ""
+}
