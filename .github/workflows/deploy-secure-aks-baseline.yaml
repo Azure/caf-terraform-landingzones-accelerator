@@ -19,8 +19,10 @@ env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
   ARM_TENANT_ID: ${{ secrets.TENANT }}
   PREFIX: ${{ secrets.RESOURCE_PREFIX }} 
-  ENVIRONMENT: ${{ secrets.ENVIRONMENT }} 
-
+  ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+  TF_VAR_github_repo: ${{ github.repository }}  
+  TF_VAR_github_owner: ${{ github.repository_owner }}  
+  TF_VAR_github_token: ${{secrets.GITHUB_TOKEN}}
 
 jobs:
   deploy-launchpad:
@@ -204,7 +206,6 @@ jobs:
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
-            ls -ltr
             ./scripts/deploy_level_with_rover.sh 3_aks level3
 
       - name: Setup Go
