@@ -31,6 +31,8 @@ The following components will be deployed by the Enterprise-Scale AKS Constructi
 
 ## Deployment
 
+If you are just playing with this repo and perform operations manually from your workstation then follow the instructions below. In order to automate the process 
+
 ```bash
 # Script to execute from bash shell
 
