@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: aad-pod-identity
 spec:
   group: aadpodidentity.k8s.io
-  versions: v1
+  versions: [v1]
   names:
     kind: AzureAssignedIdentity
     plural: azureassignedidentities
@@ -22,7 +22,7 @@ metadata:
     app.kubernetes.io/instance: aad-pod-identity
 spec:
   group: aadpodidentity.k8s.io
-  versions: v1
+  versions: [v1]
   names:
     kind: AzureIdentity
     singular: azureidentity
@@ -38,7 +38,7 @@ metadata:
     app.kubernetes.io/instance: aad-pod-identity
 spec:
   group: aadpodidentity.k8s.io
-  versions: v1
+  versions: [v1]
   names:
     kind: AzureIdentityBinding
     plural: azureidentitybindings
@@ -53,7 +53,7 @@ metadata:
     app.kubernetes.io/instance: aad-pod-identity
 spec:
   group: aadpodidentity.k8s.io
-  versions: v1
+  versions: [v1]
   names:
     kind: AzurePodIdentityException
     singular: azurepodidentityexception
