@@ -9,6 +9,7 @@ spec:
   group: aadpodidentity.k8s.io
   versions:
     - name: v1
+      storage: true
   names:
     kind: AzureAssignedIdentity
     plural: azureassignedidentities
@@ -25,6 +26,7 @@ spec:
   group: aadpodidentity.k8s.io
   versions:
     - name: v1
+      storage: true
   names:
     kind: AzureIdentity
     singular: azureidentity
@@ -42,6 +44,7 @@ spec:
   group: aadpodidentity.k8s.io
   versions:
     - name: v1
+      storage: true
   names:
     kind: AzureIdentityBinding
     plural: azureidentitybindings
@@ -58,6 +61,7 @@ spec:
   group: aadpodidentity.k8s.io
   versions:
     - name: v1
+      storage: true
   names:
     kind: AzurePodIdentityException
     singular: azurepodidentityexception
