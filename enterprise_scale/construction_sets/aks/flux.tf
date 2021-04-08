@@ -1,6 +1,11 @@
 provider "flux" {}
 
-provider "kubectl" {}
+provider "kubectl" {
+    host                   = module.caf.aks_clusters.cluster_re1.kube_admin_config[0].host
+    client_key             = base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_key)
+    client_certificate     = base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_certificate)
+    cluster_ca_certificate = base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].cluster_ca_certificate)  
+}
 
 provider "kubernetes" {
 #  host                   = module.caf.aks_clusters == null ? null : module.caf.aks_clusters.cluster_re1.kube_admin_config[0].host
