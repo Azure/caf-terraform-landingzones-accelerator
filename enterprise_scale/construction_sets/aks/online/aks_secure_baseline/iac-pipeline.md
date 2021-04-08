@@ -28,5 +28,13 @@ The pipeline requires the following secrets to be configured in the repository:
 |TENANT| Azure tenant id||
 
 
+To start the IaC pipeline execution, add to a PR or to an Issue on your repository "/deploy-all" comment. This comment will start deployment of all stages/levels in the pipeline from 0 (launchpad) to 4 (Workloads). 
+In order to deploy a specific level add one of the following comments: "/deploy-launchpad", "/deploy-foundation", "/deploy-networking", "/deploy-shared-services", "/deploy-aks", "/deploy-flux".
 
-chatops
+In addition to the [GitHub Actions workflow], there is also an IaC [Azure Pipeline] available.
+
+[Image]
+
+This pipeline can be started manually from Azure DevOps UI with specifying what stages/levels should be deployed. The pipeline  
+
+AzDo 

@@ -1,7 +1,7 @@
 name: Deploy_Seccure_Aks_Baseline
 # The pipeline is triggered on:
 #  - PR/Issue comments "/deploy-all", "/deploy-launchpad", "/deploy-foundation", "/deploy-networking",
-#                      "/deploy-shared-services", "/deploy-aks"
+#                      "/deploy-shared-services", "/deploy-aks", "/deploy-flux"
 
 
 
