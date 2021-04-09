@@ -22,7 +22,7 @@ env:
   ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
   TF_VAR_github_repo: ${{ github.repository }}  
   TF_VAR_github_owner: ${{ github.repository_owner }}  
-  TF_VAR_github_token: ${{secrets.GITHUB_TOKEN}}
+  TF_VAR_github_token: ${{secrets.GITHUB_PAT}}
 
 jobs:
   deploy-launchpad:
