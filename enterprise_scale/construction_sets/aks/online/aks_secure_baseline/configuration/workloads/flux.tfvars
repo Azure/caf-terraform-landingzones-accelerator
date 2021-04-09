@@ -2,7 +2,7 @@ flux_namespace = "flux-system"
 
 flux_auth_secret = "fluxauth"
 
-repository_name = "kaizentm/caf-terraform-landingzones-starter"
+repository_name = "kkkkkkkkkaizentm/caf-terraform-landingzones-starter"
 
 repository_visibility = "public"
 
