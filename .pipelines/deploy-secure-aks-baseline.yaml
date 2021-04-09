@@ -169,7 +169,6 @@ stages:
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
             ./scripts/deploy_level_with_rover.sh 3_aks level3
-            echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
@@ -186,8 +185,41 @@ stages:
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
             ./run_test.sh level3_aks/level3_aks_test.go
-            ./run_test.sh level3_aks/level3_aks_infra_conf_test.go
+
+- stage: deploy_flux
+  jobs:
+  - job: deploy_flux
+    displayName: "Deploy Flux"
+    container: rover
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Deploy Flux
+        name: deploy_flux
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks
+            ./scripts/deploy_level_with_rover.sh 4_flux level4
+            echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
+      - task: GoTool@0
+        displayName: 'Use Go 1.15'   
+        inputs:
+          version: '1.15' 
+      - task: AzureCLI@2
+        displayName: Flux Test        
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/test
+            ./run_test.sh level4_flux/level4_flux_test.go
         env:
           KUBECONFIGPATH: /home/vsts_azpcontainer/.kube/config
-
-  
