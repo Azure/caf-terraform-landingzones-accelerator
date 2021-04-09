@@ -6,6 +6,12 @@ Microsoft [Cloud Adoption Framework for Azure](https://aka.ms/caf) provides you 
 
 A landing zone is a segment of a cloud environment, that has been preprovisioned through code, and is dedicated to the support of one or more workloads. Landing zones provide access to foundational tools and controls to establish a compliant place to innovate and build new workloads in the cloud, or to migrate existing workloads to the cloud. Landing zones use defined sets of cloud services and best practices to set you up for success.
 
+## Getting started
+
+To get started with creating your environment, you can fork this repository on your Git environment (inside your personal or organization GitHub, inside an Azure DevOps project or any other Version Control System that your company uses.)
+
+You can then customize your environment by following the steps inside the [configuration folder](./configuration) and review our sample configuration [onboarding video here](https://www.youtube.com/watch?v=M5BXm30IpdY)
+
 ## Starter template
 
 The purpose of this repository is to provide you with a starting point when composing your Cloud Adoption Framework for Azure landing zones on Terraform. It provides with sample files, folder structure and advices on how to get started creating and Infrastructure as Code and DevOps environment.
@@ -21,11 +27,7 @@ This approach allows you to easily:
 * resync the code with the public codebase for updates.
 * customize the code if needed and contribute back to the community.
 
-## Getting started
 
-To get started with creating your environment, you can fork this repository on your Git environment (inside your personal or organization GitHub, inside an Azure DevOps project or any other Version Control System that your company uses.)
-
-You can then customize your environment by following the steps inside the [configuration folder](./configuration) and review our sample configuration [onboarding video here](https://www.youtube.com/watch?v=M5BXm30IpdY)
 
 ## Related repositories
 
