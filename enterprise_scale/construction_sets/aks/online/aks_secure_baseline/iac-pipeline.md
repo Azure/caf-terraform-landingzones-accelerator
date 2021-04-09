@@ -49,7 +49,6 @@ This pipeline can be started manually from Azure DevOps UI with specifying what 
 |ARM_TENANT_ID| Azure tenant id||
 |AZURE_SERVICE_NAME| ARM Service connection name|iac-caf-connection|
 |ROVER_IMAGE| Name and version of Rover Docker image|aztfmod/rover:0.14.8-2103.1601|
-|TF_VAR_github_repo| GitHub repo name with cluster configurations |Azure/caf-terraform-landingzones-starter|
 |TF_VAR_github_owner| Owner of GitHub repo with cluster configurations |Azure|
 |TF_VAR_github_token| PAT with write access to the repo with cluster configurations  ||  
 
