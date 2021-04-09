@@ -1,6 +1,6 @@
 # Deployment of Enterprise-Scale AKS Construction Set with an IaC pipeline
 
-An [IaC pipeline](../../../../../github/workflows/deploy-secure-aks-baseline.yaml) deploys the AKS Construction Set in a multi-job fashion level by level.  
+An [IaC pipeline](../../../../../.github/workflows/deploy-secure-aks-baseline.yaml) deploys the AKS Construction Set in a multi-job fashion level by level.  
 
 ![iac-gh-pipeline](pictures/iac-gh-pipeline.png)
 
