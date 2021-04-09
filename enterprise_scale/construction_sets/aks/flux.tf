@@ -15,7 +15,7 @@ provider "kubernetes" {
 }
 
 provider "github" {
-  owner = var.github_owner
+  owner = kaizentm
   token = var.github_token
 }
 
@@ -25,7 +25,7 @@ data "flux_install" "main" {
 
 data "flux_sync" "main" {    
   target_path = var.target_sync_path
-  url         = "https://github.com/${var.github_owner}/${var.repository_name}.git"
+  url         = "https://github.com/kaizentm/${var.repository_name}.git"
   branch      = var.branch   
   secret      = var.flux_auth_secret
 }
