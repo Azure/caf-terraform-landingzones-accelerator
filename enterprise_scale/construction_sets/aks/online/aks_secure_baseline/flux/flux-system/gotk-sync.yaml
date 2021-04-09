@@ -7,7 +7,7 @@ metadata:
 spec:
   interval: 1m0s
   ref:
-    branch: eedorenko/levels
+    branch: starter
   secretRef:
     name: fluxauth
   url: https://github.com/kaizentm/caf-terraform-landingzones-starter.git

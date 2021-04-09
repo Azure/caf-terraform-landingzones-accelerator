@@ -6,7 +6,7 @@ repository_name = "caf-terraform-landingzones-starter"
 
 repository_visibility = "public"
 
-branch = "eedorenko/levels"
+branch = "starter"
 
 target_install_path = "./enterprise_scale/construction_sets/aks/online/aks_secure_baseline/flux"
 
