@@ -67,6 +67,7 @@ stages:
             ./scripts/deploy_level_with_rover.sh 1_foundation level1
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
       - task: GoTool@0
         displayName: 'Use Go 1.15'   
@@ -102,6 +103,7 @@ stages:
             ./scripts/deploy_level_with_rover.sh 2_shared_services level2
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
       - task: GoTool@0
         displayName: 'Use Go 1.15'   
@@ -137,6 +139,7 @@ stages:
             ./scripts/deploy_level_with_rover.sh 2_networking level2
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
       - task: GoTool@0
         displayName: 'Use Go 1.15'   
@@ -171,6 +174,7 @@ stages:
             ./scripts/deploy_level_with_rover.sh 3_aks level3
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
       - task: GoTool@0
         displayName: 'Use Go 1.15'   
@@ -207,6 +211,7 @@ stages:
             echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
       - task: GoTool@0
         displayName: 'Use Go 1.15'   
