@@ -15,7 +15,7 @@ provider "kubernetes" {
 }
 
 provider "github" {
-  owner = "kaizentmlllll"
+  organization = "kaizentmlllll"
   token = var.github_token
 }
 
