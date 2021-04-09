@@ -31,7 +31,7 @@ The following components will be deployed by the Enterprise-Scale AKS Constructi
 
 ## Deployment
 
-If you are just playing with this repo and perform operations manually from your workstation then follow the instructions below. In order to automate the process you may use a [GitHub Actions or Azure DevOps IaC pipeline](iac-pipeline.md). 
+If you are just experimenting with this repository and perform operations locally from your workstation then follow the instructions below. In order to automate the process you may use a [GitHub Actions or Azure DevOps IaC pipeline](iac-pipeline.md). 
 
 ```bash
 # Script to execute from bash shell
