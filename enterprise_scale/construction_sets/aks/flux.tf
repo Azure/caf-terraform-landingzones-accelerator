@@ -16,7 +16,7 @@ provider "kubernetes" {
 
 provider "github"  {
   alias = "flux"
-  organization = "kaizentmlllll"
+  organization = var.github_owner
   token = var.github_token
 }
 
@@ -26,7 +26,7 @@ data "flux_install" "main" {
 
 data "flux_sync" "main" {    
   target_path = var.target_sync_path
-  url         = "https://github.com/kaizentm/${var.repository_name}.git"
+  url         = "https://github.com/${var.github_owner}/${var.repository_name}.git"
   branch      = var.branch   
   secret      = var.flux_auth_secret
 }
@@ -94,40 +94,3 @@ resource "kubectl_manifest" "sync" {
   yaml_body  = each.value
 }
 
-resource "github_branch_default" "main" {
-  count = var.repository_name == "" ? 0 : 1    
-  provider = github.flux
-  repository = var.repository_name
-  branch     = var.branch
-}
-
-
-resource "github_repository_file" "install" {
-  count = var.repository_name == "" ? 0 : 1    
-  provider = github.flux
-  repository = var.repository_name
-  file       = data.flux_install.main.path
-  content    = data.flux_install.main.content
-  branch     = var.branch
-  overwrite_on_create = true
-}
-
-resource "github_repository_file" "sync" {
-  count = var.repository_name == "" ? 0 : 1    
-  provider = github.flux
-  repository = var.repository_name
-  file       = data.flux_sync.main.path
-  content    = data.flux_sync.main.content
-  branch     = var.branch
-  overwrite_on_create = true
-}
-
-resource "github_repository_file" "kustomize" {
-  count = var.repository_name == "" ? 0 : 1    
-  provider = github.flux
-  repository = var.repository_name
-  file       = data.flux_sync.main.kustomize_path
-  content    = data.flux_sync.main.kustomize_content
-  branch     = var.branch
-  overwrite_on_create = true
-}
