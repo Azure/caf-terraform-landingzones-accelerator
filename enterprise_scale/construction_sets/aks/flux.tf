@@ -16,7 +16,7 @@ provider "kubernetes" {
 
 provider "github"  {
   alias = "flux"
-  organization = var.github_owner
+  owner = var.github_owner
   token = var.github_token
 }
 
