@@ -25,7 +25,7 @@ data "flux_install" "main" {
 
 data "flux_sync" "main" {    
   target_path = var.target_sync_path
-  url         = "https://github.com/${var.github_repo}.git"
+  url         = "https://github.com/${var.github_owner}/${var.repository_name}.git"
   branch      = var.branch   
   secret      = var.flux_auth_secret
 }

@@ -22,12 +22,6 @@ variable "github_token" {
   default     =  ""
 }
 
-variable "github_repo" {
-  type        = string
-  description = "github repository name (with owner)"
-  default     =  ""
-}
-
 
 variable "repository_name" {
   type        = string
