@@ -6,7 +6,6 @@ name: Deploy_Seccure_Aks_Baseline
 
 
 on:
-  push:    
   issue_comment:
     types:
     - created
