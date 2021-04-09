@@ -14,7 +14,8 @@ provider "kubernetes" {
  cluster_ca_certificate = module.caf.aks_clusters == null ? null : base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].cluster_ca_certificate)  
 }
 
-provider "github" {
+provider "github"  {
+  alias = "flux"
   organization = "kaizentmlllll"
   token = var.github_token
 }
@@ -95,6 +96,7 @@ resource "kubectl_manifest" "sync" {
 
 resource "github_branch_default" "main" {
   count = var.repository_name == "" ? 0 : 1    
+  provider = github.flux
   repository = var.repository_name
   branch     = var.branch
 }
@@ -102,6 +104,7 @@ resource "github_branch_default" "main" {
 
 resource "github_repository_file" "install" {
   count = var.repository_name == "" ? 0 : 1    
+  provider = github.flux
   repository = var.repository_name
   file       = data.flux_install.main.path
   content    = data.flux_install.main.content
@@ -111,6 +114,7 @@ resource "github_repository_file" "install" {
 
 resource "github_repository_file" "sync" {
   count = var.repository_name == "" ? 0 : 1    
+  provider = github.flux
   repository = var.repository_name
   file       = data.flux_sync.main.path
   content    = data.flux_sync.main.content
@@ -120,6 +124,7 @@ resource "github_repository_file" "sync" {
 
 resource "github_repository_file" "kustomize" {
   count = var.repository_name == "" ? 0 : 1    
+  provider = github.flux
   repository = var.repository_name
   file       = data.flux_sync.main.kustomize_path
   content    = data.flux_sync.main.kustomize_content
