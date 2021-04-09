@@ -31,6 +31,8 @@ The following components will be deployed by the Enterprise-Scale AKS Constructi
 
 ## Deployment
 
+If you are just experimenting with this repository and perform operations locally from your workstation then follow the instructions below. In order to automate the process you may use a [GitHub Actions or Azure DevOps IaC pipeline](iac-pipeline.md). 
+
 ```bash
 # Script to execute from bash shell
 
@@ -63,6 +65,8 @@ eval terraform apply ${parameter_files}
 ```
 
 You are done with deployment of AKS environment, next step is to deploy the application and reference components.
+
+You may use [automated integration tests](testing.md) to test the deployed infrastructure. 
 
 ## Next step
 

@@ -100,7 +100,10 @@ azurerm_firewall_application_rule_collection_definition = {
         ]
         target_fqdns = [
           "api.github.com",
+          "ghcr.io",
+          "*.ghcr.io",
           "github.com",
+          "*.githubusercontent.com",          
           "github-production-release-asset-2e65be.s3.amazonaws.com",
         ]
         protocol = {

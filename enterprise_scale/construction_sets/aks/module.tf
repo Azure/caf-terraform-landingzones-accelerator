@@ -2,7 +2,7 @@ module "caf" {
   source  = "aztfmod/caf/azurerm"
   version = "~> 5.2.0"
 
-  global_settings      = var.global_settings
+  global_settings      = merge(var.global_settings, {"prefix":var.test_prefix})
   logged_user_objectId = var.logged_user_objectId
   tags                 = var.tags
   resource_groups      = var.resource_groups

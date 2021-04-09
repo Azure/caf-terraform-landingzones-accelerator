@@ -138,3 +138,8 @@ variable "vnet_peerings" {
 variable "ip_groups" {
   default = {}
 }
+
+variable "test_prefix" {
+  default = {}
+}
+
