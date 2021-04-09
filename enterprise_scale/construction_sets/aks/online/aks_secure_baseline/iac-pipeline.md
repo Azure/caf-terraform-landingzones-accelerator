@@ -27,6 +27,7 @@ The pipeline requires the following secrets to be configured in the repository:
 |SERVICE_PRINCIPAL_PWD| Service Principal secret||
 |SUBSCRIPTION_ID| Azure subscription id||
 |TENANT| Azure tenant id||
+|GITHUB_PAT| GitHub Token for Flux V2|| 
 
 
 To start the IaC pipeline execution, add to a PR or to an Issue on your repository "/deploy-all" comment. This comment will start deployment of all stages/levels in the pipeline from 0 (launchpad) to 4 (Workloads). 
