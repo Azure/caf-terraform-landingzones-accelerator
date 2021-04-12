@@ -1,5 +1,5 @@
 ClusterName: "aks-akscluster-re1-001"
-ResourceGroupName: "rg-ef-aks-re1"
+ResourceGroupName: "rg-aks-re1"
 DefaultNodePoolName: "sharedsvc"
 UserNodepoolName: "npuser01"
 AgentCount: 3

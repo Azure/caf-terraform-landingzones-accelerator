@@ -1,2 +1,2 @@
 keyVaultName: "kv-secrets"
-keyVaultResourceGroupName: "rg-ef-aks-re1"
+keyVaultResourceGroupName: "rg-aks-re1"

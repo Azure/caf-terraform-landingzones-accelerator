@@ -1,17 +1,17 @@
 provider "flux" {}
 
 provider "kubectl" {
- host                   = module.caf.aks_clusters == null ? null : module.caf.aks_clusters.cluster_re1.kube_admin_config[0].host
- client_key             = module.caf.aks_clusters == null ? null : base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_key)
- client_certificate     = module.caf.aks_clusters == null ? null : base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_certificate)
- cluster_ca_certificate = module.caf.aks_clusters == null ? null : base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].cluster_ca_certificate)  
+ host                   = try(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].host, null)
+ client_key             = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_key), null)
+ client_certificate     = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_certificate), null)
+ cluster_ca_certificate = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].cluster_ca_certificate), null)  
 }
 
 provider "kubernetes" {
- host                   = module.caf.aks_clusters == null ? null : module.caf.aks_clusters.cluster_re1.kube_admin_config[0].host
- client_key             = module.caf.aks_clusters == null ? null : base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_key)
- client_certificate     = module.caf.aks_clusters == null ? null : base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_certificate)
- cluster_ca_certificate = module.caf.aks_clusters == null ? null : base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].cluster_ca_certificate)  
+ host                   = try(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].host, null)
+ client_key             = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_key), null)
+ client_certificate     = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_certificate), null)
+ cluster_ca_certificate = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].cluster_ca_certificate), null)  
 }
 
 provider "github"  {

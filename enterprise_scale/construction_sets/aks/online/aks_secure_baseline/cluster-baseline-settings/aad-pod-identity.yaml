@@ -251,6 +251,7 @@ spec:
             memory: 256Mi
       nodeSelector:
         kubernetes.io/os: linux
+        agentpool: npuser01
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -315,6 +316,7 @@ spec:
           path: /etc/kubernetes/azure.json
       nodeSelector:
         kubernetes.io/os: linux
+        agentpool: npuser01
 ---
 apiVersion: aadpodidentity.k8s.io/v1
 kind: AzurePodIdentityException
@@ -362,3 +364,4 @@ metadata:
 spec:
   podLabels:
     rsName: omsagent-rs
+    
