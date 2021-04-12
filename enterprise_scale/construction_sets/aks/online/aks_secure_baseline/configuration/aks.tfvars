@@ -73,7 +73,6 @@ aks_clusters = {
       }
     }
 
-
     node_resource_group_name = "aks-nodes-re1"
 
     node_pools = {
