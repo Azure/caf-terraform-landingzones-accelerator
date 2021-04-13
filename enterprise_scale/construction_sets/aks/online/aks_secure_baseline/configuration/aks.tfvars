@@ -20,10 +20,11 @@ aks_clusters = {
     kubernetes_version = "1.19.9"
     vnet_key           = "vnet_aks_re1"
 
+    # network plugin and network policy should be "azure" (recommended by Secure AKS baseline)
     network_profile = {
       network_plugin    = "azure"
       load_balancer_sku = "Standard"
-      network_policy = "azure"
+      network_policy = "azure" 
     }
 
     role_based_access_control = {
