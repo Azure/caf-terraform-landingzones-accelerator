@@ -21,6 +21,7 @@ type ExpectedValues struct {
 	NetworkPlugin          string
 	ManagedOutboundIpCount int
 	RBACEnabled            bool
+	NetworkPolicy          string
 }
 
 func TestAksAgentPoolProfile(t *testing.T) {
