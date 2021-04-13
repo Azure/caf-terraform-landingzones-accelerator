@@ -60,8 +60,11 @@ func TestAksLoadBalancerProfile(t *testing.T) {
 
 	cluster := getCluster(t, expectedValues.ResourceGroupName, expectedValues.ClusterName)
 
-	// Test Network type (plugin) is Azure
+	// Test Network type (plugin)
 	assert.Equal(t, expectedValues.NetworkPlugin, string(cluster.NetworkProfile.NetworkPlugin))
+
+	// Test Network policy
+	assert.Equal(t, expectedValues.NetworkPolicy, string(cluster.NetworkProfile.NetworkPolicy))
 }
 
 func TestAksNetworkProfile(t *testing.T) {
