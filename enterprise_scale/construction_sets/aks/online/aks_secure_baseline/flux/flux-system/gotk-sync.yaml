@@ -9,8 +9,8 @@ spec:
   ref:
     branch: starter
   secretRef:
-    name: flux-system
-  url: ssh://git@github.com/kaizentm/caf-terraform-landingzones-starter
+    name: fluxauth
+  url: https://github.com/kaizentm/caf-terraform-landingzones-starter.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
