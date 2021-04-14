@@ -207,7 +207,7 @@ stages:
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks            
-            ./scripts/deploy_level.sh 4_flux
+            ./scripts/deploy_level_with_rover.sh 4_flux
             echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
