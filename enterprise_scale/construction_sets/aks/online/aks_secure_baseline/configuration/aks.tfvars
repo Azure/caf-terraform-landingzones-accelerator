@@ -24,7 +24,6 @@ aks_clusters = {
     network_profile = {
       network_plugin    = "azure"
       load_balancer_sku = "Standard"
-      network_policy = "azure" 
     }
 
     role_based_access_control = {
