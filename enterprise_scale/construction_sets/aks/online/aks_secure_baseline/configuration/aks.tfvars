@@ -6,7 +6,7 @@ aks_clusters = {
     
     diagnostic_profiles = {
       operations = {
-        name             = "diagaksoperations"
+        name             = "aksoperations"
         definition_key   = "azure_kubernetes_cluster"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
