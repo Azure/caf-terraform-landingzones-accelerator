@@ -23,8 +23,9 @@ aks_clusters = {
     # network plugin and network policy should be "azure" (recommended by Secure AKS baseline)
     network_profile = {
       network_plugin    = "azure"
-      load_balancer_sku = "Standard"
+      load_balancer_sku = "Standard"      
     }
+   #network_policy = "azure" 
 
     role_based_access_control = {
       enabled = true
