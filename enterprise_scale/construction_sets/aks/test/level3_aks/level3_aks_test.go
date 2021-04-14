@@ -51,7 +51,7 @@ func TestAksAddOnProfile(t *testing.T) {
 	assert.Equal(t, expectedValues.OMSAgentEnabled, *(cluster.ManagedClusterProperties.AddonProfiles["omsagent"].Enabled))
 
 	// Test if Azure policy is enabled
-	// assert.Equal(t, expectedValues.AzurePolicyEnabled, *(cluster.ManagedClusterProperties.AddonProfiles["azurepolicy"].Enabled))
+	assert.Equal(t, expectedValues.AzurePolicyEnabled, *(cluster.ManagedClusterProperties.AddonProfiles["azurepolicy"].Enabled))
 }
 
 func TestAksLoadBalancerProfile(t *testing.T) {
@@ -65,7 +65,7 @@ func TestAksLoadBalancerProfile(t *testing.T) {
 	assert.Equal(t, expectedValues.NetworkPlugin, string(cluster.NetworkProfile.NetworkPlugin))
 
 	// Test Network policy
-	assert.Equal(t, expectedValues.NetworkPolicy, string(cluster.NetworkProfile.NetworkPolicy))
+	// assert.Equal(t, expectedValues.NetworkPolicy, string(cluster.NetworkProfile.NetworkPolicy))
 }
 
 func TestAksNetworkProfile(t *testing.T) {
