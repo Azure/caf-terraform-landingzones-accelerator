@@ -5,7 +5,7 @@ output "aks_clusters_kubeconfig" {
       aks_kubeconfig_admin_cmd = aks_cluster.aks_kubeconfig_admin_cmd
     }
   }
-  sensitive = true
+  sensitive = false
 }
 output "aks_clusters" {
   value = {
