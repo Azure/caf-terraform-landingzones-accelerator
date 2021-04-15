@@ -65,7 +65,7 @@ func TestAksLoadBalancerProfile(t *testing.T) {
 	assert.Equal(t, expectedValues.NetworkPlugin, string(cluster.NetworkProfile.NetworkPlugin))
 
 	// Test Network policy
-	// assert.Equal(t, expectedValues.NetworkPolicy, string(cluster.NetworkProfile.NetworkPolicy))
+	assert.Equal(t, expectedValues.NetworkPolicy, string(cluster.NetworkProfile.NetworkPolicy))
 }
 
 func TestAksNetworkProfile(t *testing.T) {

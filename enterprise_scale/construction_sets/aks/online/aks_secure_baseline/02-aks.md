@@ -2,7 +2,7 @@
 
 ## Deploy cluster baseline settings via Flux
 
-If you use an [IaC pipeline](./.github/workflows/deploy-secure-aks-baseline.yaml) then Flux V2 and [infrastructure configurations](./cluster-baseline-settings) will be installed automatically by the last stage of the pipeline. In this case you can skip the instructions below and go to [Deploy sample workload](#deploy-sample-workload).
+Flux V2 and [infrastructure configurations](./cluster-baseline-settings) are installed automatically by the Terraform module. 
 
 If you are following the manual approach, then perform the instructions below:  
 
@@ -19,23 +19,7 @@ Make sure the current folder is "*enterprise_scale/construction_sets/aks*"
   # Make sure logged in
   kubectl get pods -A
   ```
-
-Bootstrap a cluster with Flux v2:
-  ```bash
-  export GITHUB_TOKEN=<your-token>
-  export GITHUB_USER=<your-username>
-
-    flux bootstrap github \
-    --owner=$GITHUB_USER \
-    --repository=caf-terraform-landingzones-starter \
-    --branch=starter \
-    --path=./enterprise_scale/construction_sets/aks/online/aks_secure_baseline/flux \
-    --public
-
-  # Watch Flux deployment, Ctrl-C to quit
-  kubectl get pod -n flux-system -w
-
-  ```  
+```  
 
 Please review the Baseline components that are deployed at [cluster-baseline-settings](./cluster-baseline-settings):
 
@@ -45,13 +29,11 @@ Please review the Baseline components that are deployed at [cluster-baseline-set
 - Kured
 
   ```bash
-  # Deploy Baseline components via Flux v2 Kustomization
-  kubectl apply -f online/aks_secure_baseline/flux/cluster-baseline-settings.yaml
   # Watch configurations deployment, Ctrl-C to quit
   kubectl get pod -n cluster-baseline-settings -w
   ```
 
-Flux will pull yamls from [cluster-baseline-settings](./cluster-baseline-settings) and apply them to the cluster.
+Flux pulls yamls from [cluster-baseline-settings](./cluster-baseline-settings) and applies them to the cluster.
 If there is a need to change the folder to your own, please modify [cluster-baseline-settings.yaml](flux/cluster-baseline-settings.yaml) 
 
 ## Deploy sample workload

@@ -11,14 +11,9 @@ provider "kubernetes" {
  host                   = try(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].host, null)
  client_key             = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_key), null)
  client_certificate     = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_certificate), null)
- cluster_ca_certificate = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].cluster_ca_certificate), null)  
+ cluster_ca_certificate = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].cluster_ca_certificate), null)    
 }
 
-provider "github"  {
-  alias = "flux"
-  owner = var.github_owner
-  token = var.github_token
-}
 
 data "flux_install" "main" {
   target_path = var.target_install_path
@@ -94,40 +89,3 @@ resource "kubectl_manifest" "sync" {
   yaml_body  = each.value
 }
 
-resource "github_branch_default" "main" {
-  count = var.repository_name == "" ? 0 : 1    
-  provider = github.flux
-  repository = var.repository_name
-  branch     = var.branch
-}
-
-
-resource "github_repository_file" "install" {
-  count = var.repository_name == "" ? 0 : 1    
-  provider = github.flux
-  repository = var.repository_name
-  file       = data.flux_install.main.path
-  content    = data.flux_install.main.content
-  branch     = var.branch
-  overwrite_on_create = true
-}
-
-resource "github_repository_file" "sync" {
-  count = var.repository_name == "" ? 0 : 1    
-  provider = github.flux
-  repository = var.repository_name
-  file       = data.flux_sync.main.path
-  content    = data.flux_sync.main.content
-  branch     = var.branch
-  overwrite_on_create = true
-}
-
-resource "github_repository_file" "kustomize" {
-  count = var.repository_name == "" ? 0 : 1    
-  provider = github.flux
-  repository = var.repository_name
-  file       = data.flux_sync.main.kustomize_path
-  content    = data.flux_sync.main.kustomize_content
-  branch     = var.branch
-  overwrite_on_create = true
-}
