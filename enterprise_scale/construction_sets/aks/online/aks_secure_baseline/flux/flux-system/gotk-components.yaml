@@ -2739,18 +2739,18 @@ metadata:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: v0.12.0
-  name: allow-scraping
+  name: deny-ingress
   namespace: flux-system
 spec:
+  egress:
+  - {}
   ingress:
   - from:
-    - namespaceSelector: {}
-    ports:
-    - port: 8080
-      protocol: TCP
+    - podSelector: {}
   podSelector: {}
   policyTypes:
   - Ingress
+  - Egress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -2778,15 +2778,17 @@ metadata:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: v0.12.0
-  name: deny-ingress
+  name: allow-scraping
   namespace: flux-system
 spec:
-  egress:
-  - {}
   ingress:
   - from:
-    - podSelector: {}
+    - namespaceSelector: {}
+    ports:
+    - port: 8080
+      protocol: TCP
   podSelector: {}
   policyTypes:
   - Ingress
-  - Egress
+  
+
