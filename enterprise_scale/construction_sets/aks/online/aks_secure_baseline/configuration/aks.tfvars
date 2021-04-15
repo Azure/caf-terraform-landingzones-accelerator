@@ -17,7 +17,7 @@ aks_clusters = {
       type = "SystemAssigned"
     }
 
-    kubernetes_version = "1.19.6"
+    # kubernetes_version = "1.19.6"
     vnet_key           = "vnet_aks_re1"
 
     network_profile = {
@@ -67,7 +67,7 @@ aks_clusters = {
       node_count            = 3
       os_disk_type          = "Ephemeral"
       os_disk_size_gb       = 80
-      orchestrator_version  = "1.19.6"
+      # orchestrator_version  = "1.19.6"
       tags = {
         "project" = "system services"
       }
@@ -86,7 +86,7 @@ aks_clusters = {
         os_disk_type          = "Ephemeral"
         enable_auto_scaling  = false
         os_disk_size_gb      = 120
-        orchestrator_version = "1.19.6"
+        # orchestrator_version = "1.19.6"
         tags = {
           "project" = "user services"
         }
