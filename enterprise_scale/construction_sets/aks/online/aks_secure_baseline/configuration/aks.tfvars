@@ -29,8 +29,8 @@ aks_clusters = {
       enabled = true
       azure_active_directory = {
         managed = true
-        admin_group_object_names = ["aks-cluster-re1-admins"]
-        # admin_group_object_ids = ["7304e4e7-b148-4ada-a135-6049c702d21e"]
+        # admin_group_object_names = ["aks-cluster-re1-admins"]
+        admin_group_object_ids = ["7304e4e7-b148-4ada-a135-6049c702d21e"]
         # azuread_groups = {
         #   keys = ["aks_cluster_re1_admins"]
         # }
