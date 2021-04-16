@@ -17,13 +17,15 @@ aks_clusters = {
       type = "SystemAssigned"
     }
 
+
     kubernetes_version = "1.20.5"
     vnet_key           = "vnet_aks_re1"
 
     # network plugin and network policy should be "azure" (recommended by Secure AKS baseline)
     network_profile = {
       network_plugin    = "azure"
-      load_balancer_sku = "Standard"            
+      load_balancer_sku = "Standard"
+      outbound_type     = "userDefinedRouting"
     }
    
    # until the issue with Flux and Azure policy is resolved https://github.com/fluxcd/flux2/issues/703
@@ -33,15 +35,14 @@ aks_clusters = {
       enabled = true
       azure_active_directory = {
         managed = true
-        admin_group_object_names = ["aks-cluster-re1-admins"]
-        # admin_group_object_ids = ["7304e4e7-b148-4ada-a135-6049c702d21e"]
+        # admin_group_object_names = ["aks-cluster-re1-admins"]
+        admin_group_object_ids = ["7304e4e7-b148-4ada-a135-6049c702d21e"]
         # azuread_groups = {
         #   keys = ["aks_cluster_re1_admins"]
         # }
       }
     }
 
-    outbound_type = "userDefinedRouting"
 
     addon_profile = {
       oms_agent = {

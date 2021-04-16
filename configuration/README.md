@@ -29,11 +29,11 @@ You can either click "Use this template" at the root of this GitHub repository, 
 First step is to get the landing zones logic in the same work space, so let's clone the environment locally:
 
 ```bash
-git clone --branch 2102.0.0 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/public
+git clone --branch 2102.0.1 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/public
 
 # Or refresh an existing clone
 cd /tf/caf/public
-git checkout 2102.0.0
+git checkout 2102.0.1
 git pull
 ```
 

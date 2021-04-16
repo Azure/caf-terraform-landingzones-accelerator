@@ -14,7 +14,7 @@ For a review of the hierarchy approach of Cloud Adoption Framework for Azure lan
 
 ## Setting up your test environment
 
-In order to deploy the data analytics platform landing zones, you must beforehand deploy either a demo or sandpit environment.
+In order to deploy the data analytics platform landing zones, you must beforehand deploy either a demo or sandpit environment up to level 2.
 This can be achieved following the steps there [configuration](../../configuration)
 
 <!-- ### Authenticate to your development environment
