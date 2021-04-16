@@ -1,6 +1,6 @@
 module "caf" {
   source  = "aztfmod/caf/azurerm"
-  version = "~> 5.2.0"
+  version = "~> 5.3.0"
 
   global_settings      = var.global_settings
   logged_user_objectId = var.logged_user_objectId
