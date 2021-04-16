@@ -8,4 +8,4 @@ AzurePolicyEnabled: true
 NetworkPlugin: "azure"
 ManagedOutboundIpCount: 1
 RBACEnabled: true
-NetworkPolicy: "NetworkPolicyAzure"
+NetworkPolicy: "none"

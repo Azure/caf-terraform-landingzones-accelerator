@@ -23,10 +23,11 @@ aks_clusters = {
     # network plugin and network policy should be "azure" (recommended by Secure AKS baseline)
     network_profile = {
       network_plugin    = "azure"
-      load_balancer_sku = "Standard"      
-      network_policy = "azure"       
+      load_balancer_sku = "Standard"            
     }
-
+   
+   # until the issue with Flux and Azure policy is resolved https://github.com/fluxcd/flux2/issues/703
+   #network_policy = "azure"       
 
     role_based_access_control = {
       enabled = true
