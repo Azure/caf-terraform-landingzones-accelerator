@@ -23,6 +23,7 @@ aks_clusters = {
     network_profile = {
       network_plugin    = "azure"
       load_balancer_sku = "Standard"
+      outbound_type     = "userDefinedRouting"
     }
 
     role_based_access_control = {
@@ -37,7 +38,6 @@ aks_clusters = {
       }
     }
 
-    outbound_type = "userDefinedRouting"
 
     addon_profile = {
       oms_agent = {
