@@ -1,6 +1,7 @@
 module "caf" {
-  source  = "aztfmod/caf/azurerm"
-  version = "~> 5.3.0"
+  source = "github.com/aztfmod/terraform-azurerm-caf.git?ref=HN-aks-fixsensitive"
+  # source  = "aztfmod/caf/azurerm"
+  # version = "~> 5.3.0"
 
   global_settings      = var.global_settings
   logged_user_objectId = var.logged_user_objectId

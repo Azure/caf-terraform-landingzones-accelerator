@@ -17,6 +17,7 @@ aks_clusters = {
       type = "SystemAssigned"
     }
 
+    sku_tier           = "Paid"
     # kubernetes_version = "1.19.6"
     vnet_key           = "vnet_aks_re1"
 
