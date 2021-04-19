@@ -8,12 +8,12 @@ dns_zones = {
     records = {
       a = {
         agw = {
-          name   = "@"
-        #   records = ["10.0.0.0"]
+          name = "@"
+          #   records = ["10.0.0.0"]
           resource_id = {
-              public_ip_address = {
-                  key = "agw_pip1_re1"
-              }
+            public_ip_address = {
+              key = "agw_pip1_re1"
+            }
           }
         }
       }
@@ -70,4 +70,4 @@ domain_name_registrations = {
       }
     }
   }
-}  
+}

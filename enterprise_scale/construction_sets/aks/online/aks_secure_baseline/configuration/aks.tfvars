@@ -3,7 +3,7 @@ aks_clusters = {
     name               = "akscluster-re1-001"
     resource_group_key = "aks_re1"
     os_type            = "Linux"
-    
+
     diagnostic_profiles = {
       operations = {
         name             = "aksoperations"
@@ -17,9 +17,9 @@ aks_clusters = {
       type = "SystemAssigned"
     }
 
-    sku_tier           = "Paid"
+    sku_tier = "Paid"
     # kubernetes_version = "1.19.6"
-    vnet_key           = "vnet_aks_re1"
+    vnet_key = "vnet_aks_re1"
 
     network_profile = {
       network_plugin    = "azure"
@@ -42,7 +42,7 @@ aks_clusters = {
 
     addon_profile = {
       oms_agent = {
-        enabled = true
+        enabled           = true
         log_analytics_key = "central_logs_region1"
       }
       azure_policy = {
@@ -78,15 +78,15 @@ aks_clusters = {
 
     node_pools = {
       pool1 = {
-        name                 = "npuser01"
-        mode                 = "User"
-        subnet_key           = "aks_nodepool_user1"
-        max_pods             = 30
-        vm_size              = "Standard_DS3_v2"
-        node_count           = 3
-        os_disk_type          = "Ephemeral"
-        enable_auto_scaling  = false
-        os_disk_size_gb      = 120
+        name                = "npuser01"
+        mode                = "User"
+        subnet_key          = "aks_nodepool_user1"
+        max_pods            = 30
+        vm_size             = "Standard_DS3_v2"
+        node_count          = 3
+        os_disk_type        = "Ephemeral"
+        enable_auto_scaling = false
+        os_disk_size_gb     = 120
         # orchestrator_version = "1.19.6"
         tags = {
           "project" = "user services"
