@@ -141,7 +141,7 @@ dynamic_keyvault_secrets = {
       secret_name   = "tenant-id"
     }
   }
-  secret = {
+  secrets = {
     admin = {
       secret_name = "azdo-pat-admin"
       value       = ""

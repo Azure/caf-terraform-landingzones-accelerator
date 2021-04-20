@@ -29,7 +29,7 @@ The deployment of an environment via pipeline always starts by deploying the Dev
 ```bash
 environment=sandpit
 
-rover -lz /tf/caf/public/landingzones/caf_launchpad \
+rover -lz /tf/caf/landingzones/landingzones/caf_launchpad \
   -var-folder /tf/caf/configuration/${environment}/level0/launchpad \
   -parallelism 30 \
   -level level0 \
@@ -76,7 +76,7 @@ az account show
 Once those values are imported, you can run the landing zones for Azure DevOps configuration.
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops \
+rover -lz /tf/caf/landingzones/caf_solution/add-ons/azure_devops \
   -var-folder /tf/caf/configuration/${environment}/level0/azure_devops \
   -tfstate azure_devops_contoso_demo.tfstate \
   -parallelism 30 \
@@ -88,7 +88,7 @@ rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops \
 ### 3. Customize and deploy the Azure DevOps Agents add-ons for level 0
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops_agent \
+rover -lz /tf/caf/landingzones/caf_solution/add-ons/azure_devops_agent \
   -var-folder /tf/caf/configuration/${environment}/level0/azure_devops_agents \
   -tfstate azdo-agent-level0.tfstate \
   -parallelism 30 \
