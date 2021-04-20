@@ -18,7 +18,7 @@ aks_clusters = {
     }
 
 
-    kubernetes_version = "1.20.5"
+    # kubernetes_version = "1.20.5"
     vnet_key           = "vnet_aks_re1"
 
     # network plugin and network policy should be "azure" (recommended by Secure AKS baseline)
@@ -72,7 +72,7 @@ aks_clusters = {
       node_count            = 3
       os_disk_type          = "Ephemeral"
       os_disk_size_gb       = 80
-      orchestrator_version  = "1.20.5"
+      # orchestrator_version  = "1.20.5"
       tags = {
         "project" = "system services"
       }
@@ -91,7 +91,7 @@ aks_clusters = {
         os_disk_type          = "Ephemeral"
         enable_auto_scaling  = false
         os_disk_size_gb      = 120
-        orchestrator_version = "1.20.5"
+        # orchestrator_version = "1.20.5"
         tags = {
           "project" = "user services"
         }
