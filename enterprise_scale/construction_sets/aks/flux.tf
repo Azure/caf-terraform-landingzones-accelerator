@@ -1,19 +1,26 @@
 provider "flux" {}
 
 provider "kubectl" {
- host                   = try(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].host, null)
- client_key             = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_key), null)
- client_certificate     = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_certificate), null)
- cluster_ca_certificate = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].cluster_ca_certificate), null)  
+ host                   = data.azurerm_kubernetes_cluster.kubeconfig["cluster_re1"].kube_admin_config.0.host
+ client_key             = base64decode(data.azurerm_kubernetes_cluster.kubeconfig["cluster_re1"].kube_admin_config.0.cluster_ca_certificate)
+ client_certificate     = base64decode(data.azurerm_kubernetes_cluster.kubeconfig["cluster_re1"].kube_admin_config.0.client_key)
+ cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.kubeconfig["cluster_re1"].kube_admin_config.0.cluster_ca_certificate)
 }
 
 provider "kubernetes" {
- host                   = try(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].host, null)
- client_key             = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_key), null)
- client_certificate     = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].client_certificate), null)
- cluster_ca_certificate = try(base64decode(module.caf.aks_clusters.cluster_re1.kube_admin_config[0].cluster_ca_certificate), null)    
+ host                   = data.azurerm_kubernetes_cluster.kubeconfig["cluster_re1"].kube_admin_config.0.host
+ client_key             = base64decode(data.azurerm_kubernetes_cluster.kubeconfig["cluster_re1"].kube_admin_config.0.cluster_ca_certificate)
+ client_certificate     = base64decode(data.azurerm_kubernetes_cluster.kubeconfig["cluster_re1"].kube_admin_config.0.client_key)
+ cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.kubeconfig["cluster_re1"].kube_admin_config.0.cluster_ca_certificate)
 }
 
+# Get kubeconfig from AKS clusters
+data "azurerm_kubernetes_cluster" "kubeconfig" {
+  for_each = var.aks_clusters
+
+  name                = module.caf.aks_clusters.cluster_re1.cluster_name
+  resource_group_name = module.caf.aks_clusters.cluster_re1.resource_group_name
+}
 
 data "flux_install" "main" {
   target_path = var.target_install_path
