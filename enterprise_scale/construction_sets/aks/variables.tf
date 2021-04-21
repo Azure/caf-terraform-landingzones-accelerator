@@ -8,7 +8,7 @@ variable "global_settings" {
     regions = {
       region1 = "southeastasia"
     }
-  }
+  }  
 }
 
 variable "resource_groups" {
@@ -140,6 +140,6 @@ variable "ip_groups" {
 }
 
 variable "test_prefix" {
-  default = {}
+  default = ""
 }
 

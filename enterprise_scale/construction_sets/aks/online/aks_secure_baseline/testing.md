@@ -9,7 +9,8 @@ Each test for each level reads expected values from ExpectedValues.yaml file in 
 To run all tests perform the following steps:
 
 ```bash
-   cd /tf/caf/enterprise_scale/construction_sets/aks/test
+   # Go to the folder with tests
+   cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks/test
 
    export ARM_SUBSCRIPTION_ID=<Subscription ID>
    export LAUNCHPAD_PREFIX=<prefix of provisioned by Terraform launchpad resources>

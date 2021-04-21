@@ -1,4 +1,6 @@
-# Deployment of Enterprise-Scale AKS Construction Set with an IaC pipeline
+# Deployment of Enterprise-Scale AKS Construction Set by levels
+
+## Deploying levels with IaC
 
 An [IaC pipeline](../../../../../.github/workflows/deploy-secure-aks-baseline.yaml) deploys the AKS Construction Set in a multi-job fashion level by level.  
 
@@ -52,3 +54,59 @@ This pipeline can be started manually from Azure DevOps UI with specifying what 
 |TF_VAR_github_owner| Owner of GitHub repo with cluster configurations |Azure|
 |TF_VAR_github_token| PAT with write access to the repo with cluster configurations  ||  
 
+## Deploying levels manually
+Alternatively you can deploy the construction set level by level manually with *rover*.
+
+```bash
+# Go to the AKS construction set folder 
+cd caf-terraform-landingzones-starter
+
+# Start Rover container
+docker run -it --rm -v $(pwd):/tf/caf --user 0  aztfmod/rover:0.14.8-2103.1601 bash
+
+# Login to your Azure Active Directory tenant
+az login -t {TENANTNID}
+
+# Make sure you are using the right subscription
+az account show -o table
+
+# If you are not in the correct subscription, change it substituting SUBSCRIPTIONID with the proper subscription  id
+az account set --subscription {SUBSCRIPTIONID}
+
+# Provide Azure credentials 
+export ARM_CLIENT_ID=<ARM_CLIENT_ID>
+export ARM_CLIENT_SECRET=<ARM_CLIENT_SECRET>
+export ARM_SUBSCRIPTION_ID=<ARM_SUBSCRIPTION_ID>
+export ARM_TENANT_ID=<ARM_TENANT_ID>
+
+# CD to the construction set folder
+cd /tf/caf/enterprise_scale/construction_sets/aks
+
+# Provision a launchpad
+. scripts/launchpad.sh
+
+# Export prefix for the resources 
+export PREFIX=<MY_UNIQUE_PREFIX>
+
+# Deploy level 1. Foundation 
+./scripts/deploy_level_with_rover.sh 1_foundation
+
+# Deploy level 2. Shared Services 
+./scripts/deploy_level_with_rover.sh 2_shared_services
+
+# Deploy level 2. Networking
+./scripts/deploy_level_with_rover.sh 2_networking
+
+# Deploy level 3. AKS
+./scripts/deploy_level_with_rover.sh 3_aks
+
+# Deploy level 4. Flux
+./scripts/deploy_level_with_rover.sh 4_flux
+
+# Get access to the K8s cluster
+echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+
+# Check connection
+kubectl get ns
+
+```
