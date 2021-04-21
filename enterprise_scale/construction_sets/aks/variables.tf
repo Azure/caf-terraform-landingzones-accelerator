@@ -139,7 +139,7 @@ variable "ip_groups" {
   default = {}
 }
 
-variable "test_prefix" {
+variable "override_prefix" {
   default = ""
 }
 
