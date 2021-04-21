@@ -76,7 +76,7 @@ azure_devops = {
         TF_CLI_ARGS_plan    = "'-input=false'"
         TF_VAR_ARGS_destroy = "'-auto-approve -refresh=false'"
         ENVIRONMENT         = "sandpit"
-        LANDINGZONE_BRANCH  = "2103.0.0"
+        LANDINGZONE_BRANCH  = "2104.0"
       }
     }
 
