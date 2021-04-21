@@ -9,7 +9,7 @@ Assumptions:
 - Sandpit environment implements rudimentary RBAC model.
 - All resources are provisioned in the same subscription.
 
-:warning: SANDPIT Requires administrative privileges on your Azure Active Directory to be deployed successfully.
+:warning: SANDPIT Requires administrative privileges (Azure AD Groups, Applications, API permissions) on your Azure Active Directory to be deployed successfully. Only complete the following steps if you have those permissions or the launchpad deployment will fail.
 
 ## Deploying sandpit in Azure DevOps Pipelines
 
@@ -23,6 +23,12 @@ You can then specify the environment you are running:
 
 ```bash
 export environment=sandpit
+export caf_environment=contoso-sandpit
+
+# Note: if you have deployed the demo environment and want to upgrade it to the sandpit configuration,
+# set
+# export caf_environment=contoso-demo
+
 ```
 
 ### 1. Launchpad-level0 landing zones
@@ -30,11 +36,11 @@ export environment=sandpit
 #### Deploy the launchpad
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_launchpad \
+rover -lz /tf/caf/landingzones/caf_launchpad \
   -var-folder /tf/caf/configuration/${environment}/level0/launchpad \
   -parallelism 30 \
   -level level0 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -launchpad \
   -a [plan|apply|destroy]
 ```
@@ -46,11 +52,12 @@ rover -lz /tf/caf/public/landingzones/caf_launchpad \
 In this section we use foundations as passthrough:
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_foundations/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
+  -tfstate caf_foundations.tfstate \
   -var-folder /tf/caf/configuration/${environment}/level1 \
   -parallelism 30 \
   -level level1 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 
@@ -59,24 +66,24 @@ rover -lz /tf/caf/public/landingzones/caf_foundations/ \
 #### Deploy the shared services
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_shared_services/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
   -tfstate caf_shared_services.tfstate \
   -var-folder /tf/caf/configuration/${environment}/level2/shared_services \
   -parallelism 30 \
   -level level2 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 
 #### Deploy the networking hub (required to add parallel spoke projects)
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_networking/ \
+rover -lz /tf/caf/landingzones/caf_networking/ \
   -tfstate networking_hub.tfstate \
   -var-folder /tf/caf/configuration/${environment}/level2/networking/hub \
   -parallelism 30 \
   -level level2 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 
@@ -85,12 +92,12 @@ rover -lz /tf/caf/public/landingzones/caf_networking/ \
 #### Deploy an AKS landing zone
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+rover -lz /tf/caf/landingzones/caf_solutions/ \
   -tfstate landing_zone_aks.tfstate \
   -var-folder /tf/caf/configuration/${environment}/level3/aks \
   -parallelism 30 \
   -level level3 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 
@@ -108,12 +115,12 @@ landingzone_key="cluster_aks"
 # Key of the cluster to deploy the application
 cluster_key="cluster_re1"
 
-rover -lz /tf/caf/public/landingzones/caf_solutions/add-ons/aks_applications \
+rover -lz /tf/caf/landingzones/caf_solutions/add-ons/aks_applications \
   -tfstate landing_zone_aks_level4_demo.tfstate \
   -var-folder /tf/caf/configuration/${environment}/level4/${application} \
   -parallelism 30 \
   -var tags={application=\"${application}\"} \
   -level level4 \
-  -env ${environment} \
+  -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```

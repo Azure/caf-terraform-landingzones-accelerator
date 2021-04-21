@@ -1,26 +1,3 @@
-landingzone = {
-  backend_type        = "azurerm"
-  global_settings_key = "foundations"
-  level               = "level2"
-  key                 = "shared_services"
-  tfstates = {
-    foundations = {
-      level   = "lower"
-      tfstate = "caf_foundations.tfstate"
-    }
-    launchpad = {
-      level   = "lower"
-      tfstate = "caf_foundations.tfstate"
-    }
-  }
-}
-
-resource_groups = {
-  primary = {
-    name = "sharedsvc_re1"
-  }
-}
-
 recovery_vaults = {
   asr1 = {
     name               = "vault_re1"
@@ -62,16 +39,6 @@ recovery_vaults = {
         }
       }
     }
-  }
-
-}
-
-automations = {
-  auto1 = {
-    name               = "autore1"
-    resource_group_key = "primary"
-
-    region = "region1"
   }
 
 }

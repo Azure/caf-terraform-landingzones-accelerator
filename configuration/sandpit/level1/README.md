@@ -22,9 +22,13 @@ By default, the content of this landing zone is empty unless you specify a confi
 
 ```bash
 #  To deploy the CAF foundations in passthrough mode
-rover -lz /tf/caf/public/landingzones/caf_foundations \
--level level1 \
--a apply
+rover -lz /tf/caf/landingzones/caf_solution/ \
+  -tfstate caf_foundations.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/level1 \
+  -parallelism 30 \
+  -level level1 \
+  -env ${environment} \
+  -a 
 ```
 
 ## Deploying CAF foundations with enterprise-scale (experimental)

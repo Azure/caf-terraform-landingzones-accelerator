@@ -1,7 +1,7 @@
 
 azure_devops = {
 
-  url     = "https://dev.azure.com/azure-terraform/"
+  url     = "https://dev.azure.com/change_with_your_org/"
   project = "contoso_demo"
 
   # PAT Token should be updated manually to the keyvault after running launchpad
@@ -70,13 +70,13 @@ azure_devops = {
       allow_access = true
       variables = {
         HOME_FOLDER_USER    = "vsts_azpcontainer"
-        ROVER_IMAGE         = "aztfmod/rover:2012.1109"
+        ROVER_IMAGE         = "aztfmod/rover:0.14.10-2104.1611"
         TF_CLI_ARGS         = "'-no-color'"
         TF_CLI_ARGS_init    = ""
         TF_CLI_ARGS_plan    = "'-input=false'"
         TF_VAR_ARGS_destroy = "'-auto-approve -refresh=false'"
         ENVIRONMENT         = "sandpit"
-        LANDINGZONE_BRANCH  = "2012.1.0"
+        LANDINGZONE_BRANCH  = "2104.0"
       }
     }
 

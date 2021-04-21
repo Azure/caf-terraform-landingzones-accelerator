@@ -13,7 +13,7 @@ In this example, we will seed the initial deployment locally and then deploy the
 ## 1. Import the starter landing zone into your Azure DevOps environment
 
 Go to your Azure DevOps organization (this could be an on premises organization or hosted on http://dev.azure.com), create your first project and then clone the starter repository (this repository) in your Azure DevOps.
-This repository will be called the ```configuration``` repository in the example pipelines. In order to make things easier, you might want to rename your git repo ```configuration``` in your DevOps project.
+This repository will be called the ```caf-configuration``` repository in the example pipelines. In order to make things easier, you might want to rename your git repo ```caf-configuration``` in your DevOps project.
 
 ## 2. Deploy the devops launchpad and initial devops agent
 
@@ -27,9 +27,10 @@ The deployment of an environment via pipeline always starts by deploying the Dev
 
 
 ```bash
-environment=sandpit
+export environment=sandpit
+export caf_environment=contoso-sandpit
 
-rover -lz /tf/caf/public/landingzones/caf_launchpad \
+rover -lz /tf/caf/landingzones/caf_launchpad \
   -var-folder /tf/caf/configuration/${environment}/level0/launchpad \
   -parallelism 30 \
   -level level0 \
@@ -76,7 +77,7 @@ az account show
 Once those values are imported, you can run the landing zones for Azure DevOps configuration.
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops \
+rover -lz /tf/caf/landingzones/caf_solution/add-ons/azure_devops \
   -var-folder /tf/caf/configuration/${environment}/level0/azure_devops \
   -tfstate azure_devops_contoso_demo.tfstate \
   -parallelism 30 \
@@ -88,7 +89,7 @@ rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops \
 ### 3. Customize and deploy the Azure DevOps Agents add-ons for level 0
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_launchpad/add-ons/azure_devops_agent \
+rover -lz /tf/caf/landingzones/caf_solution/add-ons/azure_devops_agent \
   -var-folder /tf/caf/configuration/${environment}/level0/azure_devops_agents \
   -tfstate azdo-agent-level0.tfstate \
   -parallelism 30 \
