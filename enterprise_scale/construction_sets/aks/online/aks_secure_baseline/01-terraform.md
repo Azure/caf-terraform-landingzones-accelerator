@@ -53,7 +53,7 @@ cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks
 
 configuration_folder=online/aks_secure_baseline/configuration
 
-# Define the configuration files to apply, all tfvars files within the above folder recursively
+# Define the configuration files to apply, all tfvars files within the above folder recursively except for launchpad subfolder which is not relevant for this standalone guide
 parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
 
 # Load the CAF module and related providers
