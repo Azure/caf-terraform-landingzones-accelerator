@@ -1,4 +1,6 @@
-# Deployment of Enterprise-Scale AKS Construction Set by levels
+# Deployment of Enterprise-Scale AKS Construction Set by levels with persistent storage
+
+Important! In order to deploy infrastructure with persistent storage uncomment "backend "azurerm" {}" line in *main.tf* !
 
 ## Deploying levels with IaC
 
@@ -110,3 +112,5 @@ echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1
 kubectl get ns
 
 ```
+
+You may use [automated integration tests](testing.md) to test the deployed infrastructure. 

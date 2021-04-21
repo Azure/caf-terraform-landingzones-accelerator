@@ -49,7 +49,7 @@ terraform {
   
   
   # comment it out for the local backend experience
-  backend "azurerm" {}
+  # backend "azurerm" {}
 }
 
 

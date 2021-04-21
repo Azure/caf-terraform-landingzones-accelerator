@@ -54,19 +54,21 @@ cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks
 configuration_folder=online/aks_secure_baseline/configuration
 
 # Define the configuration files to apply, all tfvars files within the above folder recursively
-parameter_files=$(find $configuration_folder | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
+parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
+
+# Define prefix for the resources 
+prefix=<MY_UNIQUE_PREFIX>
 
 # Load the CAF module and related providers
 terraform init -upgrade
 
 # Trigger the deployment of the resources
-eval terraform apply ${parameter_files}
+eval terraform apply ${parameter_files} -var test_prefix=$PREFIX
 
 ```
 
 You are done with deployment of AKS environment, next step is to deploy the application and reference components.
 
-You may use [automated integration tests](testing.md) to test the deployed infrastructure. 
 
 ## Next step
 
