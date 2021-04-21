@@ -103,6 +103,8 @@ export PREFIX=<MY_UNIQUE_PREFIX>
 ./scripts/deploy_level_with_rover.sh 3_aks
 
 # Deploy level 4. Flux
+export TF_VAR_github_owner=<Owner of GitHub repo with cluster configurations>
+export TF_VAR_github_token=<Owner PAT to the repo with cluster configurations>
 ./scripts/deploy_level_with_rover.sh 4_flux
 
 # Get access to the K8s cluster
