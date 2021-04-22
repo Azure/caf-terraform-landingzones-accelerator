@@ -48,4 +48,5 @@ module "caf" {
   security = {
     keyvault_certificate_requests = var.keyvault_certificate_requests
   }
+  
 }

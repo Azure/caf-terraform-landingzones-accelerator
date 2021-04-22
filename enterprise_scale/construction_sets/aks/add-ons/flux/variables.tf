@@ -1,4 +1,9 @@
-# Flux Variables 
+variable "aks_clusters" {
+  default = {}
+}
+
+variable "cluster_key" {
+}
 
 variable "flux_namespace" {
   type        = string  
@@ -53,9 +58,5 @@ variable "target_sync_path" {
   default     =  ""
 }
 
-variable "k8s_configPath" {
-  type        = string
-  default     =  ""
-}
 
 
