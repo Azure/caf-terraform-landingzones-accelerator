@@ -31,6 +31,8 @@ The following components will be deployed by the Enterprise-Scale AKS Constructi
 
 ## Deployment
 
+If you are just experimenting with this repository and perform operations locally from your workstation then follow the instructions below. In order to deploy the construction set with persistent state storage and to automate the process follow the [Deployment of Enterprise-Scale AKS Construction Set by levels](iac-pipeline.md). 
+
 ```bash
 # Script to execute from bash shell
 
@@ -51,8 +53,8 @@ cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks
 
 configuration_folder=online/aks_secure_baseline/configuration
 
-# Define the configuration files to apply, all tfvars files within the above folder recursively
-parameter_files=$(find $configuration_folder | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
+# Define the configuration files to apply, all tfvars files within the above folder recursively except for launchpad subfolder which is not relevant for this standalone guide
+parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
 
 # Load the CAF module and related providers
 terraform init -upgrade
@@ -63,6 +65,7 @@ eval terraform apply ${parameter_files}
 ```
 
 You are done with deployment of AKS environment, next step is to deploy the application and reference components.
+
 
 ## Next step
 

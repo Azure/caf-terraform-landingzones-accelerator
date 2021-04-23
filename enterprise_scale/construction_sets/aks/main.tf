@@ -34,6 +34,10 @@ terraform {
     }
   }
   required_version = ">= 0.13"
+  
+  
+  # comment it out for the local backend experience
+  # backend "azurerm" {}
 }
 
 
@@ -44,3 +48,4 @@ provider "azurerm" {
     }
   }
 }
+

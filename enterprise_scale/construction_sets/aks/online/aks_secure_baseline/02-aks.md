@@ -2,7 +2,12 @@
 
 ## Deploy cluster baseline settings via Flux
 
+Flux V2 and [infrastructure configurations](./cluster-baseline-settings) are installed automatically by the Terraform module. 
+
+If you are following the manual approach, then perform the instructions below:  
+
 Make sure the current folder is "*enterprise_scale/construction_sets/aks*"
+
 
   ```bash
  # Login to the AKS if in ESLZ
@@ -14,6 +19,7 @@ Make sure the current folder is "*enterprise_scale/construction_sets/aks*"
   # Make sure logged in
   kubectl get pods -A
   ```
+```  
 
 Please review the Baseline components that are deployed at [cluster-baseline-settings](./cluster-baseline-settings):
 
@@ -23,14 +29,12 @@ Please review the Baseline components that are deployed at [cluster-baseline-set
 - Kured
 
   ```bash
-  # Deploy Baseline components via Flux
-  kubectl apply -f online/aks_secure_baseline/cluster-baseline-settings/flux.yaml
-  # Watch Flux deployment, Ctrl-C to quit
-  kubectl get po -n cluster-baseline-settings -w
+  # Watch configurations deployment, Ctrl-C to quit
+  kubectl get pod -n cluster-baseline-settings -w
   ```
 
-Flux will pull from [cluster-baseline-settings](./cluster-baseline-settings) and synchronize the folder to AKS.
-If there is a need to change the folder to your own folk, please modify [flux.yaml](cluster-baseline-settings/flux.yaml) --git-url args
+Flux pulls yamls from [cluster-baseline-settings](./cluster-baseline-settings) and applies them to the cluster.
+If there is a need to change the folder to your own, please modify [cluster-baseline-settings.yaml](flux/cluster-baseline-settings.yaml) 
 
 ## Deploy sample workload
 
