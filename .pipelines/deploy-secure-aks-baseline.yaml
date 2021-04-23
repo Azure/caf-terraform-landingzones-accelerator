@@ -110,7 +110,7 @@ stages:
         inputs:
           version: '1.15' 
       - task: AzureCLI@2
-        displayName: Srared Services Test        
+        displayName: Shared Services Test        
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
           scriptLocation: inlineScript
