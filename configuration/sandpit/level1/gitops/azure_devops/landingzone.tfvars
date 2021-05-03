@@ -5,7 +5,7 @@ landingzone = {
   key                 = "azdo-contoso_demo"
   tfstates = {
     launchpad = {
-      level   = "current"
+      level   = "lower"
       tfstate = "caf_launchpad.tfstate"
     }
   }

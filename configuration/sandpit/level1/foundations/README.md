@@ -28,7 +28,7 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -parallelism 30 \
   -level level1 \
   -env ${environment} \
-  -a 
+  -a
 ```
 
 ## Deploying CAF foundations with enterprise-scale (experimental)
