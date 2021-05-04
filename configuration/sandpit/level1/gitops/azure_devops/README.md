@@ -3,8 +3,8 @@
 export environment=sandpit
 export caf_environment=sandpit
 
-# Note: if you have deployed the demo environment and want to upgrade it to the sandpit configuration, 
-# set 
+# Note: if you have deployed the demo environment and want to upgrade it to the sandpit configuration,
+# set
 # export caf_environment=demo
 
 rover -lz /tf/caf/landingzones/caf_solution/add-ons/azure_devops \
@@ -13,6 +13,6 @@ rover -lz /tf/caf/landingzones/caf_solution/add-ons/azure_devops \
   -level level0 \
   -env ${caf_environment} \
   -launchpad \
-  -a 
+  -a
 
 ```

@@ -58,7 +58,7 @@ virtual_machines = {
     os_type = "linux"
 
     # the auto-generated ssh key in keyvault secret. Secret name being {VM name}-ssh-public and {VM name}-ssh-private
-    keyvault_key = "secrets"
+    keyvault_key = "vmsecrets"
 
     # Define the number of networking cards to attach the virtual machine
     networking_interfaces = {
@@ -106,16 +106,44 @@ virtual_machines = {
           version   = "latest"
         }
 
-        identity = {
-          type = "UserAssigned"
-          managed_identity_keys = [
-            "level0", "level1", "level2", "level3", "level4"
-          ]
-        }
-
       }
     }
 
   }
 }
 
+keyvaults = {
+  vmsecrets = {
+    name                = "bastionsecrets"
+    resource_group_key  = "bastion_launchpad"
+    sku_name            = "standard"
+    soft_delete_enabled = true
+    tags = {
+      tfstate     = "vmsecrets"
+      environment = "sandpit"
+    }
+
+    creation_policies = {
+      logged_in_user = {
+        # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
+        # More examples in /examples/keyvault
+        secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
+      }
+    }
+
+    # you can setup up to 5 profiles
+    diagnostic_profiles = {
+      operations = {
+        definition_key   = "default_all"
+        destination_type = "log_analytics"
+        destination_key  = "central_logs"
+      }
+      siem = {
+        definition_key   = "siem_all"
+        destination_type = "storage"
+        destination_key  = "all_regions"
+      }
+    }
+
+  }
+}
