@@ -71,19 +71,20 @@ func TestAksLoadBalancerProfile(t *testing.T) {
 func TestAksNetworkProfile(t *testing.T) {
 	t.Parallel()
 
-	expectedValues := getExpectedValues()
-
-	cluster := getCluster(t, expectedValues.ResourceGroupName, expectedValues.ClusterName)
-	managedOutboundIpCount := 0
-
-	// Test loadbalancer managed outbound IP count
-	if cluster.ManagedClusterProperties.NetworkProfile.LoadBalancerProfile != nil {
-		managedOutboundIpCount = int(*(*&cluster.ManagedClusterProperties.NetworkProfile.LoadBalancerProfile.ManagedOutboundIPs.Count))
-	}
-
 	//Looks like there is a new bug in AKS API
 	//It returns empty NetworkProfile.LoadBalancerProfile
 	//commenting it out for now
+
+// 	expectedValues := getExpectedValues()
+
+// 	cluster := getCluster(t, expectedValues.ResourceGroupName, expectedValues.ClusterName)
+// 	managedOutboundIpCount := 0
+
+	// Test loadbalancer managed outbound IP count
+// 	if cluster.ManagedClusterProperties.NetworkProfile.LoadBalancerProfile != nil {
+// 		managedOutboundIpCount = int(*(*&cluster.ManagedClusterProperties.NetworkProfile.LoadBalancerProfile.ManagedOutboundIPs.Count))
+// 	}
+
 	//assert.Equal(t, expectedValues.ManagedOutboundIpCount, managedOutboundIpCount)
 }
 
