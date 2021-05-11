@@ -2,15 +2,15 @@ provider "flux" {}
 
 provider "kubectl" {
  host                   = try(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.host, null)
- client_key             = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate), null)
- client_certificate     = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.client_key), null)
+ client_key             = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.client_key), null)
+ client_certificate     = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate), null)
  cluster_ca_certificate = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate), null)
 }
 
 provider "kubernetes" {
  host                   = try(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.host, null)
- client_key             = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate), null)
- client_certificate     = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.client_key), null)
+ client_key             = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.client_key), null)
+ client_certificate     = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate), null)
  cluster_ca_certificate = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate), null)
 }
 
