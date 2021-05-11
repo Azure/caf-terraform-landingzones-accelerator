@@ -103,6 +103,8 @@ azurerm_firewall_application_rule_collection_definition = {
           "ghcr.io",
           "*.ghcr.io",
           "github.com",
+          "*.githubusercontent.com",
+          "charts.bitnami.com"
         ]
         protocol = {
           http = {
