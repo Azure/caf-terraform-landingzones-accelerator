@@ -74,6 +74,7 @@ func TestAksNetworkProfile(t *testing.T) {
 	expectedValues := getExpectedValues()
 
 	cluster := getCluster(t, expectedValues.ResourceGroupName, expectedValues.ClusterName)
+	managedOutboundIpCount := 0
 
 	// Test loadbalancer managed outbound IP count
 	if cluster.ManagedClusterProperties.NetworkProfile.LoadBalancerProfile != nil {
