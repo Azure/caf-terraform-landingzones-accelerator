@@ -6,9 +6,11 @@ repository_name = "caf-terraform-landingzones-starter"
 
 repository_visibility = "public"
 
-branch = "starter"
+branch = "CSE-AKS-TERRATEST"
 
 target_install_path = "./enterprise_scale/construction_sets/aks/online/aks_secure_baseline/flux"
 
 target_sync_path = "./enterprise_scale/construction_sets/aks/online/aks_secure_baseline/flux"
+
+
 
