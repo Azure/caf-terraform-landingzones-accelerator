@@ -76,8 +76,11 @@ func TestAksNetworkProfile(t *testing.T) {
 	cluster := getCluster(t, expectedValues.ResourceGroupName, expectedValues.ClusterName)
 
 	// Test loadbalancer managed outbound IP count
-	assert.Equal(t, expectedValues.ManagedOutboundIpCount, int(*(*&cluster.ManagedClusterProperties.NetworkProfile.LoadBalancerProfile.ManagedOutboundIPs.Count)))
+	if cluster.ManagedClusterProperties.NetworkProfile.LoadBalancerProfile != nil {
+		managedOutboundIpCount = int(*(*&cluster.ManagedClusterProperties.NetworkProfile.LoadBalancerProfile.ManagedOutboundIPs.Count))
+	}
 
+	assert.Equal(t, expectedValues.ManagedOutboundIpCount, managedOutboundIpCount)
 }
 
 func TestAksRbacEnbaled(t *testing.T) {
