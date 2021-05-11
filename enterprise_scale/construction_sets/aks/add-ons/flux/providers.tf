@@ -1,17 +1,17 @@
 provider "flux" {}
 
 provider "kubectl" {
- host                   = data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.host
- client_key             = base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate)
- client_certificate     = base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.client_key)
- cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate)
+ host                   = try(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.host, null)
+ client_key             = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate), null)
+ client_certificate     = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.client_key), null)
+ cluster_ca_certificate = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate), null)
 }
 
 provider "kubernetes" {
- host                   = data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.host
- client_key             = base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate)
- client_certificate     = base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.client_key)
- cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate)
+ host                   = try(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.host, null)
+ client_key             = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate), null)
+ client_certificate     = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.client_key), null)
+ cluster_ca_certificate = try(base64decode(data.azurerm_kubernetes_cluster.kubeconfig[var.cluster_key].kube_admin_config.0.cluster_ca_certificate), null)
 }
 
 # Get kubeconfig from AKS clusters
