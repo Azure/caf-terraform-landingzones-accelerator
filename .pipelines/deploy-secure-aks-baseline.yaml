@@ -31,10 +31,10 @@ stages:
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
-      - task: GoTool@0
-        displayName: 'Use Go 1.15'   
-        inputs:
-          version: '1.15' 
+      # - task: GoTool@0
+      #   displayName: 'Use Go 1.15'   
+      #   inputs:
+      #     version: '1.15' 
       - task: AzureCLI@2
         displayName: Launchpad Test        
         inputs:
@@ -43,7 +43,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level0_launchpad/launchpad_test.go
+            ./run_test.sh part0_launchpad/launchpad_test.go
         env:
           LAUNCHPAD_PREFIX: $(deploy_launchpad.LAUNCHPAD_PREFIX)
 
@@ -64,15 +64,15 @@ stages:
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_level_with_rover.sh 1_foundation level1
+            ./scripts/deploy_part_with_rover.sh 1_foundation
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
           TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
-      - task: GoTool@0
-        displayName: 'Use Go 1.15'   
-        inputs:
-          version: '1.15' 
+      # - task: GoTool@0
+      #   displayName: 'Use Go 1.15'   
+      #   inputs:
+      #     version: '1.15' 
       - task: AzureCLI@2
         displayName: Foundation Test        
         inputs:
@@ -81,7 +81,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level1_foundation/level1_foundation_test.go
+            ./run_test.sh part1_foundation/part1_foundation_test.go
 
 - stage: deploy_shared_services
   jobs:
@@ -100,15 +100,15 @@ stages:
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_level_with_rover.sh 2_shared_services level2
+            ./scripts/deploy_part_with_rover.sh 2_shared_services
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
           TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
-      - task: GoTool@0
-        displayName: 'Use Go 1.15'   
-        inputs:
-          version: '1.15' 
+      # - task: GoTool@0
+      #   displayName: 'Use Go 1.15'   
+      #   inputs:
+      #     version: '1.15' 
       - task: AzureCLI@2
         displayName: Shared Services Test        
         inputs:
@@ -117,7 +117,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level2_shared_services/level2_shared_services_test.go
+            ./run_test.sh part2_shared_services/part2_shared_services_test.go
 
 - stage: deploy_networking
   jobs:
@@ -136,15 +136,15 @@ stages:
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_level_with_rover.sh 2_networking level2
+            ./scripts/deploy_part_with_rover.sh 2_networking
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
           TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
-      - task: GoTool@0
-        displayName: 'Use Go 1.15'   
-        inputs:
-          version: '1.15' 
+      # - task: GoTool@0
+      #   displayName: 'Use Go 1.15'   
+      #   inputs:
+      #     version: '1.15' 
       - task: AzureCLI@2
         displayName: Networking Test        
         inputs:
@@ -171,15 +171,15 @@ stages:
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_level_with_rover.sh 3_aks level3
+            ./scripts/deploy_part_with_rover.sh 3_aks
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
           TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
-      - task: GoTool@0
-        displayName: 'Use Go 1.15'   
-        inputs:
-          version: '1.15' 
+      # - task: GoTool@0
+      #   displayName: 'Use Go 1.15'   
+      #   inputs:
+      #     version: '1.15' 
       - task: AzureCLI@2
         displayName: AKS Test        
         inputs:
@@ -188,7 +188,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level3_aks/level3_aks_test.go
+            ./run_test.sh part3_aks/part3_aks_test.go
 
 - stage: deploy_flux
   jobs:
@@ -207,17 +207,17 @@ stages:
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks            
-            ./scripts/deploy_level_with_rover.sh 4_flux level4
+            ./scripts/deploy_part_with_rover.sh 4_flux
             echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
           TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
           TF_VAR_github_owner: $(TF_VAR_GITHUB_OWNER)
 
-      - task: GoTool@0
-        displayName: 'Use Go 1.15'   
-        inputs:
-          version: '1.15' 
+      # - task: GoTool@0
+      #   displayName: 'Use Go 1.15'   
+      #   inputs:
+      #     version: '1.15' 
       - task: AzureCLI@2
         displayName: Flux Test        
         inputs:
@@ -226,6 +226,6 @@ stages:
           scriptType: bash
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level4_flux/level4_flux_test.go
+            ./run_test.sh part4_flux/part4_flux_test.go
         env:
           KUBECONFIGPATH: /home/vsts_azpcontainer/.kube/config

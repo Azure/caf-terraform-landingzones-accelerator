@@ -59,7 +59,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level0_launchpad/launchpad_test.go
+            ./run_test.sh part0_launchpad/launchpad_test.go
 
 
 
@@ -90,7 +90,7 @@ jobs:
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_level_with_rover.sh 1_foundation level1
+            ./scripts/deploy_part_with_rover.sh 1_foundation
 
       - name: Setup Go
         uses: actions/setup-go@v2
@@ -101,7 +101,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level1_foundation/level1_foundation_test.go
+            ./run_test.sh part1_foundation/part1_foundation_test.go
 
   deploy-shared-services: 
     runs-on: ubuntu-latest
@@ -130,7 +130,7 @@ jobs:
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_level_with_rover.sh 2_shared_services level2
+            ./scripts/deploy_part_with_rover.sh 2_shared_services
 
       - name: Setup Go
         uses: actions/setup-go@v2
@@ -141,7 +141,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level2_shared_services/level2_shared_services_test.go
+            ./run_test.sh part2_shared_services/part2_shared_services_test.go
 
   deploy-networking: 
     runs-on: ubuntu-latest
@@ -170,7 +170,7 @@ jobs:
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_level_with_rover.sh 2_networking level2
+            ./scripts/deploy_part_with_rover.sh 2_networking
 
       - name: Test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'           
@@ -205,7 +205,7 @@ jobs:
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_level_with_rover.sh 3_aks level3
+            ./scripts/deploy_part_with_rover.sh 3_aks
 
       - name: Setup Go
         uses: actions/setup-go@v2
@@ -216,7 +216,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level3_aks/level3_aks_test.go
+            ./run_test.sh part3_aks/part3_aks_test.go
            
   deploy-flux: 
     runs-on: ubuntu-latest
@@ -245,7 +245,7 @@ jobs:
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_level_with_rover.sh 4_flux level4
+            ./scripts/deploy_part_with_rover.sh 4_flux
             echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
 
       - name: Setup Go
@@ -257,7 +257,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-flux') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh level4_flux/level4_flux_test.go
+            ./run_test.sh part4_flux/part4_flux_test.go
         env:
           KUBECONFIGPATH: /github/home/.kube/config
            

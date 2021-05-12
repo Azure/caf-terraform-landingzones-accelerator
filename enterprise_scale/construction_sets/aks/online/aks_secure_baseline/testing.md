@@ -1,10 +1,10 @@
 # Integration testing of Enterprise-Scale AKS Construction Set with Terratest
 
-There is a set of [sample integration tests](../../test) that cover some levels of this constructions set. These tests are used by IaC pipeline after deploying each level.
+There is a set of [sample integration tests](../../test) that cover some parts of this constructions set. These tests are used by IaC pipeline after deploying each part.
 
-In order to run tests locally you must have [GoLang installed](https://golang.org/doc/install) as Terratest is based on GoLang.
+In order to run tests locally you must have [GoLang installed](https://golang.org/doc/install) as Terratest is based on GoLang, or you may run tests from the *rover* container which has GoLang installed.  
 
-Each test for each level reads expected values from ExpectedValues.yaml file in a corresponding test folder. 
+Each test for each part reads expected values from ExpectedValues.yaml file in a corresponding test folder. 
 
 To run all tests perform the following steps:
 
