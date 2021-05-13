@@ -54,7 +54,7 @@ In this section we use foundations as passthrough:
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
   -tfstate caf_foundations.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level1 \
+  -var-folder /tf/caf/configuration/${environment}/level1/foundations \
   -parallelism 30 \
   -level level1 \
   -env ${caf_environment} \
@@ -75,10 +75,10 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -a [plan|apply|destroy]
 ```
 
-#### Deploy the networking hub (required to add parallel spoke projects)
+#### Deploy the networking hub (required to add spoke projects)
 
 ```bash
-rover -lz /tf/caf/landingzones/caf_networking/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
   -tfstate networking_hub.tfstate \
   -var-folder /tf/caf/configuration/${environment}/level2/networking/hub \
   -parallelism 30 \
@@ -92,7 +92,7 @@ rover -lz /tf/caf/landingzones/caf_networking/ \
 #### Deploy an AKS landing zone
 
 ```bash
-rover -lz /tf/caf/landingzones/caf_solutions/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
   -tfstate landing_zone_aks.tfstate \
   -var-folder /tf/caf/configuration/${environment}/level3/aks \
   -parallelism 30 \
@@ -115,7 +115,7 @@ landingzone_key="cluster_aks"
 # Key of the cluster to deploy the application
 cluster_key="cluster_re1"
 
-rover -lz /tf/caf/landingzones/caf_solutions/add-ons/aks_applications \
+rover -lz /tf/caf/landingzones/caf_solution/add-ons/aks_applications \
   -tfstate landing_zone_aks_level4_demo.tfstate \
   -var-folder /tf/caf/configuration/${environment}/level4/${application} \
   -parallelism 30 \
