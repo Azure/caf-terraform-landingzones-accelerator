@@ -26,8 +26,6 @@ Set-up the launchpads for level0 to level4
 
 ```bash
 caf_env="es-aks"
-# TF_VAR_tfstate_subscription_id=""
-# target_subscription=""
 
 rover \
   -lz /tf/caf/landingzones/caf_launchpad \
