@@ -4,6 +4,8 @@ NOTE: before proceeding, owner of the subscription is required.
 
 ## Login the Azure AD Tenant
 
+Make sure either VSCode is opened in Container or the below commands are run within the Rover container
+
 ```bash
 TENANT_ID
 SUB_ID
