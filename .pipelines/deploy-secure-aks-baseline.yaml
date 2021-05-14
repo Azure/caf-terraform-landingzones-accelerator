@@ -18,7 +18,7 @@ stages:
 
     steps:
       - task: AzureCLI@2
-        displayName: Deploy Launchpad
+        displayName: Deploy Launchpad. Part 0
         name: deploy_launchpad
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
@@ -50,7 +50,7 @@ stages:
 - stage: deploy_foundation
   jobs:
   - job: deploy_foundation
-    displayName: "Deploy Foundation"
+    displayName: "Deploy Foundation. Part 1"
     container: rover
 
     steps:
@@ -86,7 +86,7 @@ stages:
 - stage: deploy_shared_services
   jobs:
   - job: deploy_shared_services
-    displayName: "Deploy Shared Services"
+    displayName: "Deploy Shared Services. Part 2"
     container: rover
 
     steps:
@@ -122,7 +122,7 @@ stages:
 - stage: deploy_networking
   jobs:
   - job: deploy_networking
-    displayName: "Deploy Networking"
+    displayName: "Deploy Networking. Part 2"
     container: rover
 
     steps:
@@ -157,7 +157,7 @@ stages:
 - stage: deploy_aks
   jobs:
   - job: deploy_aks
-    displayName: "Deploy AKS"
+    displayName: "Deploy AKS. Part 3"
     container: rover
 
     steps:
@@ -193,7 +193,7 @@ stages:
 - stage: deploy_flux
   jobs:
   - job: deploy_flux
-    displayName: "Deploy Flux"
+    displayName: "Deploy Flux. Part 4"
     container: rover
 
     steps:
