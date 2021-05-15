@@ -17,6 +17,9 @@ az account set -s
 
 ```bash
 git clone --branch azure_devops_v1 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
+
+#temp
+git clone --branch HN-aks-diagnostics https://github.com/aztfmod/terraform-azurerm-caf.git /tf/caf/public
 ```
 
 ## Level 0

@@ -1,13 +1,9 @@
 landingzone = {
   backend_type        = "azurerm"
-  global_settings_key = "networking_spoke"
+  global_settings_key = "shared_services"
   level               = "level2"
   key                 = "aks"
   tfstates = {
-    launchpad = {
-      level   = "lower"
-      tfstate = "caf_launchpad.tfstate"
-    }
     shared_services = {
       level   = "lower"
       tfstate = "caf_shared_services.tfstate"
