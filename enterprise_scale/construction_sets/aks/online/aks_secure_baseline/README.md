@@ -6,7 +6,7 @@ The Azure Kubernetes Services Construction Set is an implementation of [AKS Secu
 
 This implementation is based on [Cloud Adoption Framework Landing Zones for Terraform best practices](https://github.com/Azure/caf-terraform-landingzones).
 
-![network](pictures/ns-vwan2.png)
+![network](pictures/ns-vwan2.PNG)
 
 ## Applied Azure Policies for Online Landing zones
 
