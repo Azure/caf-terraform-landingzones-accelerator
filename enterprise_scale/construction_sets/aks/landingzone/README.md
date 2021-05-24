@@ -7,10 +7,9 @@ NOTE: before proceeding, owner of the subscription is required.
 Make sure either VSCode is opened in Container or the below commands are run within the Rover container
 
 ```bash
-TENANT_ID
-SUB_ID
+TENANT_ID=
+SUB_ID=
 rover login -t $TENANT_ID -s $SUB_ID
-az account set -s
 ```
 
 ## Prerequisites

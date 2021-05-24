@@ -97,6 +97,5 @@ aks_clusters = {
         }
       }
     }
-
   }
 }
