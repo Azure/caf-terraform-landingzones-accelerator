@@ -8,7 +8,7 @@ landingzone = {
       level   = "lower"
       tfstate = "caf_shared_services.tfstate"
     }
-    networking_hub = {
+    network_hub = {
       level   = "lower"
       tfstate = "caf_network_hub.tfstate"
     }
