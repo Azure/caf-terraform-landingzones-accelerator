@@ -8,7 +8,8 @@ This means configuring the different variables for:
 
 - Launchpad (remote state management, security, bastion host, Azure DevOps environment, and DevOps agents, GitHub or Terraform Cloud)
 - Foundations
-- Networking (hub network, Virtual WAN, Application Gateway, etc.)
+- Networking (network hub, Virtual WAN, Application Gateway, etc.)
+- Shared Services (diagnostics, monitoring, etc.)
 - Any application landing zone (data and analytics, Azure Kubernetes Services, etc.)
 
 In order to create those customized configuration environment, you can leverage:

@@ -26,6 +26,7 @@ export caf_environment=contoso-demo
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_launchpad \
+  -tfstate caf_launchpad.tfstate
   -launchpad \
   -var-folder /tf/caf/configuration/${environment}/level0/launchpad \
   -parallelism 30 \
@@ -43,7 +44,7 @@ In this section we use foundations as passthrough:
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
   -tfstate caf_foundations.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level1 \
+  -var-folder /tf/caf/configuration/${environment}/level1/foundations \
   -parallelism 30 \
   -level level1 \
   -env ${caf_environment} \
@@ -68,8 +69,8 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate networking_hub.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level2/networking/hub \
+  -tfstate caf_network_hub.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/level2/networking/network_hub \
   -parallelism 30 \
   -level level2 \
   -env ${caf_environment} \
@@ -82,8 +83,8 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate landing_zone_aks.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/aks \
+  -tfstate caf_cluster_aks.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/level3/cluster_aks \
   -parallelism 30 \
   -level level3 \
   -env ${caf_environment} \
@@ -94,8 +95,8 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate landing_zone_101_aml_workspace.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/data_analytics/101-aml-workspace \
+  -tfstate caf_aml_workspace.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/level3/data_analytics/aml_workspace \
   -parallelism 30 \
   -level level3 \
   -env ${caf_environment} \
@@ -108,7 +109,7 @@ Warning: this is time consuming.
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate landing_zone_ase.tfstate \
+  -tfstate caf_app_service.tfstate \
   -var-folder /tf/caf/configuration/${environment}/level3/app_service \
   -parallelism 30 \
   -level level3 \

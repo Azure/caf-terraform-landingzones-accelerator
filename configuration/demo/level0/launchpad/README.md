@@ -1,9 +1,8 @@
-# Launchpad - scenario 100
+# Launchpad - demo
 
-The 100 scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
+The demo scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
 The focus of this scenario is to be able to deploy a basic launchpad from a remote machine and use the portal to review the settings in a non-constrained environment.
-For example in this scenario you can go to the Key Vaults and view the secrets from the portal, a feature that is disabled in the 300+ scenarios.
-We recommend using the 100 scenario for demonstration purposes.
+For example in this scenario you can go to the Key Vaults and view the secrets from the portal, a feature that is disabled in more complex scenarios.
 
 An estimated time of 5 minutes is required to deploy this scenario.
 
@@ -16,22 +15,14 @@ This scenario require the following privileges:
 | Active Directory   | None               |
 | Azure subscription | Subscription owner |
 
-## Deployment
+## Deploymnet
 
-```bash
-rover -lz /tf/caf/landingzones/caf_launchpad \
-  -launchpad -var-folder \
-  /tf/caf/landingzones/caf_launchpad/scenario/100 \
-  -a apply
-
-rover -lz /tf/caf/landingzones/caf_launchpad \
-  -launchpad \
-  -var-folder /tf/caf/landingzones/caf_launchpad/scenario/100 \
-  -a destroy
-```
+Please refer to the getting started and local deployment rover commands found in the demo folder [README.md](../../README.md).
 
 ## Architecture diagram
 ![Launchpad 100](../../documentation/img/launchpad-100.PNG)
+
+For a review of the hierarchy approach of Cloud Adoption Framework for Azure landing zones on Terraform, you can refer to [the following documentation](https://github.com/Azure/caf-terraform-landingzones/blob/master/documentation/code_architecture/hierarchy.md).
 
 ## Services deployed in this scenario
 

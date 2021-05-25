@@ -8,33 +8,12 @@ The foundations landing zone allows you to manage the core components of an envi
 
 Foundations landing zone operates at **level 1**.
 
-For a review of the hierarchy approach of Cloud Adoption Framework for Azure landing zones on Terraform, you can refer to [the following documentation](../../documentation/code_architecture/hierarchy.md).
+For a review of the hierarchy approach of Cloud Adoption Framework for Azure landing zones on Terraform, you can refer to [the following documentation](https://github.com/Azure/caf-terraform-landingzones/blob/master/documentation/code_architecture/hierarchy.md).
 
-</BR>
+## Deploymnet
 
-## Components
+Please refer to the getting started and local deployment rover commands found in the demo folder [README.md](../../README.md).
 
-CAF foundations landing zone leverages the enterprise-scale module in order to deploy its core components.
+## Architecture
 
-## Deploying CAF foundations
-
-By default, the content of this landing zone is empty unless you specify a configuration file to enable it.
-
-```bash
-#  To deploy the CAF foundations in passthrough mode
-rover -lz /tf/caf/public/landingzones/caf_foundations \
--level level1 \
--a [plan|apply|destroy]
-```
-
-## Deploying CAF foundations with enterprise-scale (experimental)
-
-This is currently work in progress.
-Use the following configuration file in order to get started with the enterprise-scale module integration:
-
-```bash
-rover -lz /tf/caf/public/landingzones/caf_foundations \
--var-folder /tf/caf/configuration/demo/level1/foundations \
--level level1 \
--a [plan|apply|destroy]
-```
+For different scenarios you can refer to Cloud Adoption Framework [caf_solution foundation examples](https://github.com/Azure/caf-terraform-landingzones/tree/master/caf_solution/scenario/foundations).
