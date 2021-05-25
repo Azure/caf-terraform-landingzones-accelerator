@@ -1,17 +1,17 @@
 
 landingzone = {
   backend_type        = "azurerm"
-  global_settings_key = "shared_services"
   level               = "level3"
-  key                 = "ase"
+  key                 = "app_service"
+  global_settings_key = "shared_services"
   tfstates = {
-    # networking_spoke_ase = {
-    #   level   = "current"
-    #   tfstate = "networking_spoke_ase.tfstate"
-    # }
     shared_services = {
       level   = "lower"
       tfstate = "caf_shared_services.tfstate"
+    }
+    networking_hub = {
+      level   = "lower"
+      tfstate = "caf_network_hub.tfstate"
     }
   }
 }
