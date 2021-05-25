@@ -17,27 +17,27 @@ aks_clusters = {
       type = "SystemAssigned"
     }
 
-    kubernetes_version = "1.19.6"
+    # kubernetes_version = "1.19.6"
     vnet_key           = "vnet_aks_re1"
 
     network_profile = {
       network_plugin    = "azure"
       load_balancer_sku = "Standard"
+      outbound_type     = "userDefinedRouting"
     }
 
     role_based_access_control = {
       enabled = true
       azure_active_directory = {
         managed = true
-        admin_group_object_names = ["aks-cluster-re1-admins"]
-        # admin_group_object_ids = ["7304e4e7-b148-4ada-a135-6049c702d21e"]
+        # admin_group_object_names = ["aks-cluster-re1-admins"]
+        admin_group_object_ids = ["7304e4e7-b148-4ada-a135-6049c702d21e"]
         # azuread_groups = {
         #   keys = ["aks_cluster_re1_admins"]
         # }
       }
     }
 
-    outbound_type = "userDefinedRouting"
 
     addon_profile = {
       oms_agent = {
@@ -67,7 +67,7 @@ aks_clusters = {
       node_count            = 3
       os_disk_type          = "Ephemeral"
       os_disk_size_gb       = 80
-      orchestrator_version  = "1.19.6"
+      # orchestrator_version  = "1.19.6"
       tags = {
         "project" = "system services"
       }
@@ -86,7 +86,7 @@ aks_clusters = {
         os_disk_type          = "Ephemeral"
         enable_auto_scaling  = false
         os_disk_size_gb      = 120
-        orchestrator_version = "1.19.6"
+        # orchestrator_version = "1.19.6"
         tags = {
           "project" = "user services"
         }
