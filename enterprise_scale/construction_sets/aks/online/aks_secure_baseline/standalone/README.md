@@ -106,4 +106,4 @@ If you opt-in to setup a shell on your machine, there are required access and to
 
 # Next step
 
-:arrow_forward: [Deploy infrastructures using Terraform](./01-terraform.md)
+:arrow_forward: [Deploy infrastructures using Terraform](docs/01-terraform.md)

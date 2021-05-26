@@ -46,12 +46,13 @@ az account show -o table
 az account set --subscription {SUBSCRIPTIONID}
 
 # If you are running in Azure Cloud Shell, you need to run the following additional command:
-export TF_VAR_logged_user_objectId=$(az ad signed-in-user show --query objectId -o tsv)
+# export TF_VAR_logged_user_objectId=$(az ad signed-in-user show --query objectId -o tsv)
 
 # Go to the AKS construction set folder
-cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks
-
-configuration_folder=online/aks_secure_baseline/configuration
+cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+# If Opened in containter in VSCode
+# cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+configuration_folder=configuration
 
 # Define the configuration files to apply, all tfvars files within the above folder recursively except for launchpad subfolder which is not relevant for this standalone guide
 parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
@@ -61,7 +62,6 @@ terraform init -upgrade
 
 # Trigger the deployment of the resources
 eval terraform apply ${parameter_files}
-
 ```
 
 You are done with deployment of AKS environment, next step is to deploy the application and reference components.
