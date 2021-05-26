@@ -4,7 +4,7 @@ This reference implementation of AKS Secure Baseline Architecture within Enterpr
 
 The following components will be deployed by the Enterprise-Scale AKS Construction Set. You can review each component as described below:
 
-![aks_enterprise_scale_lz](pictures/aks_enterprise_scale_lz.png)
+![aks_enterprise_scale_lz](pictures/aks_enterprise_scale_lz2.PNG)
 
 | Components                                                                                              | Config files                                                 | Description|
 |-----------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
