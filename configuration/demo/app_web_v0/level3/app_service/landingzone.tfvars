@@ -1,25 +1,27 @@
 landingzone = {
   backend_type        = "azurerm"
-  global_settings_key = "launchpad"
-  level               = "level1"
+  global_settings_key = "shared_services"
+  level               = "level3"
   key                 = "app_service"
   tfstates = {
-    launchpad = {
+    shared_services = {
       level   = "lower"
-      tfstate = "caf_launchpad.tfstate"
+      tfstate = "shared_services.tfstate"
+    }
+    network_hub = {
+      level   = "lower"
+      tfstate = "network_hub.tfstate"
     }
   }
 }
 
-
 resource_groups = {
   webapp_region1 = {
-    name   = "webapp-rg"
+    name   = "appservice_re1"
     region = "region1"
   }
 }
 
-# By default asp1 will inherit from the resource group location
 app_service_plans = {
   asp1 = {
     resource_group_key = "webapp_region1"
