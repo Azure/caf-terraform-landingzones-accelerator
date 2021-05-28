@@ -1,7 +1,7 @@
 landingzone = {
   backend_type        = "azurerm"
   global_settings_key = "launchpad"
-  level               = "level0"
+  level               = "level1"
   key                 = "azdo-contoso_demo"
   tfstates = {
     launchpad = {
@@ -44,35 +44,35 @@ keyvaults = {
 keyvault_access_policies_azuread_apps = {
   level0 = {
     contoso_demo = {
-      lz_key             = "launchpad"
+      keyvault_lz_key             = "launchpad"
       azuread_app_key    = "contoso_demo"
       secret_permissions = ["Get", "List"]
     }
   }
   level1 = {
     contoso_demo = {
-      lz_key             = "launchpad"
+      keyvault_lz_key             = "launchpad"
       azuread_app_key    = "contoso_demo"
       secret_permissions = ["Get", "List"]
     }
   }
   level2 = {
     contoso_demo = {
-      lz_key             = "launchpad"
+      keyvault_lz_key             = "launchpad"
       azuread_app_key    = "contoso_demo"
       secret_permissions = ["Get", "List"]
     }
   }
   level3 = {
     contoso_demo = {
-      lz_key             = "launchpad"
+      keyvault_lz_key             = "launchpad"
       azuread_app_key    = "contoso_demo"
       secret_permissions = ["Get", "List"]
     }
   }
   level4 = {
     contoso_demo = {
-      lz_key             = "launchpad"
+      keyvault_lz_key             = "launchpad"
       azuread_app_key    = "contoso_demo"
       secret_permissions = ["Get", "List"]
     }
