@@ -20,15 +20,21 @@ export environment=demo
 export caf_environment=contoso-demo
 ```
 
+## Platform deployments
+
+The first 3 levels (0, 1 & 2) consist of platform resources. In some cases there may be level 3 platform resources as well. These are grouped toghether because the deployment permission in an enterprise setting may be elevated, for seperation of concerns from applicaiton development, the frequency of deployment should be lower, and multiple applications can be deployed against one platform.
+
+Platform and application folders may also be stored in diferent repositories to help manage enterprise needs. A third common repository should also be created for the landing zones and imported through your pipeline deployment process.
+
 ### 1. Launchpad-level0 landing zones
 
 #### Deploy the launchpad
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_launchpad \
-  -tfstate caf_launchpad.tfstate
+  -tfstate launchpad.tfstate
   -launchpad \
-  -var-folder /tf/caf/configuration/${environment}/level0/launchpad \
+  -var-folder /tf/caf/configuration/${environment}/platform/level0/launchpad \
   -parallelism 30 \
   -level level0 \
   -env ${caf_environment} \
@@ -43,8 +49,8 @@ In this section we use foundations as passthrough:
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate caf_foundations.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level1/foundations \
+  -tfstate foundations.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/platform/level1/foundations \
   -parallelism 30 \
   -level level1 \
   -env ${caf_environment} \
@@ -57,8 +63,8 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate caf_shared_services.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level2/shared_services \
+  -tfstate shared_services.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/platform/level2/shared_services \
   -parallelism 30 \
   -level level2 \
   -env ${caf_environment} \
@@ -69,13 +75,17 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate caf_network_hub.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level2/networking/network_hub \
+  -tfstate network_hub.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/platform/level2/networking/network_hub \
   -parallelism 30 \
   -level level2 \
   -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
+
+## Application deployments
+
+The levels 3 and 4 are where application deployments live. There may be multiple versions or different application configurations which can be created and destroyed as needed without impacting the platform deployments.
 
 ### 4. Level 3 landing zones
 
@@ -83,8 +93,8 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate caf_cluster_aks.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/cluster_aks \
+  -tfstate aks_cluster.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/application/level3/aks_cluster \
   -parallelism 30 \
   -level level3 \
   -env ${caf_environment} \
@@ -95,8 +105,8 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate caf_aml_workspace.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/data_analytics/aml_workspace \
+  -tfstate aml_workspace.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/application/level3/data_analytics/aml_workspace \
   -parallelism 30 \
   -level level3 \
   -env ${caf_environment} \
@@ -109,8 +119,8 @@ Warning: this is time consuming.
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate caf_app_service.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/app_service \
+  -tfstate app_service.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/application/level3/app_service \
   -parallelism 30 \
   -level level3 \
   -env ${caf_environment} \

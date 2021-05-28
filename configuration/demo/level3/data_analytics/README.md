@@ -1,1 +1,0 @@
-# Cloud Adoption Framework landing zones for Terraform - data and analytics landing zone configuration file
