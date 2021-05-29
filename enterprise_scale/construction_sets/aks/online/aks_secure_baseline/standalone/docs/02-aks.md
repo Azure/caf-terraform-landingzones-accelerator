@@ -2,12 +2,18 @@
 
 ## Deploy cluster baseline settings via Flux
 
-Flux V2 and [infrastructure configurations](./cluster-baseline-settings) are installed automatically by the Terraform module.
+Flux V2 and [infrastructure configurations](../../cluster-baseline-settings) are installed automatically by the Terraform module.
 
 If you are following the manual approach, then perform the instructions below:
 
-Make sure the current folder is "*enterprise_scale/construction_sets/aks*"
-
+Make sure the current folder is "*enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/*"
+If not use the below command:
+  ```bash
+  # Go to the AKS construction set standalone folder
+  cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+  # If opened in containter in VSCode
+  cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+  ```
 
   ```bash
  # Login to the AKS if in ESLZ
@@ -21,7 +27,7 @@ Make sure the current folder is "*enterprise_scale/construction_sets/aks*"
   ```
 ```
 
-Please review the Baseline components that are deployed at [cluster-baseline-settings](./cluster-baseline-settings):
+Please review the Baseline components that are deployed at [cluster-baseline-settings](../../cluster-baseline-settings):
 
 - AAD Pod Identity
 - AKV Secret Store CSI Driver
@@ -33,8 +39,8 @@ Please review the Baseline components that are deployed at [cluster-baseline-set
   kubectl get pod -n cluster-baseline-settings -w
   ```
 
-Flux pulls yamls from [cluster-baseline-settings](./cluster-baseline-settings) and applies them to the cluster.
-If there is a need to change the folder to your own, please modify [cluster-baseline-settings.yaml](flux/cluster-baseline-settings.yaml)
+Flux pulls yamls from [cluster-baseline-settings](../../cluster-baseline-settings) and applies them to the cluster.
+If there is a need to change the folder to your own, please modify [cluster-baseline-settings.yaml](../flux/cluster-baseline-settings.yaml)
 
 ## Deploy sample workload
 
@@ -120,15 +126,15 @@ If there is a need to change the folder to your own, please modify [cluster-base
     ingress_subnet_name=$(terraform output -json | jq -r .vnets.value.vnet_aks_re1.subnets.aks_ingress.name)
     # Update the traefik yaml
     # Mac UNIX:
-    sed -i "" "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" online/aks_secure_baseline/workloads/baseline/traefik.yaml
+    sed -i "" "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" workloads/baseline/traefik.yaml
 
     # Linux:
-    sed -i "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" online/aks_secure_baseline/workloads/baseline/traefik.yaml
+    sed -i "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" workloads/baseline/traefik.yaml
     ```
 
 3. Deploy Traefik & ASP.net sample appplication
     ```bash
-    kubectl apply -f online/aks_secure_baseline/workloads/baseline
+    kubectl apply -f workloads/baseline
     # It takes 2-3 mins to deploy Traefik & the sample app. Watch all pods to be provision with:
     kubectl get pods -n a0008 -w
     # Ensure sample app ingress has IP assigned
@@ -146,7 +152,7 @@ When finished, please destroy all deployments with:
 
 ```bash
 # Delete sample application, this contains PodDisruptionBudget that will block Terraform destroy
-kubectl delete -f online/aks_secure_baseline/workloads/baseline
+kubectl delete -f workloads/baseline
 
 # (When needed) Destroy the resources
 eval terraform destroy ${parameter_files}

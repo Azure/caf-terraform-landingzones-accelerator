@@ -31,7 +31,7 @@ caf_env="es-aks"
 
 rover \
   -lz /tf/caf/landingzones/caf_launchpad \
-  -var-folder /tf/caf/enterprise_scale/construction_sets/aks/landingzone/online/aks_secure_baseline/configuration/level0/launchpad \
+  -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level0/launchpad \
     -launchpad \
     -env ${caf_env} \
     -level level0 \
@@ -45,7 +45,7 @@ rover \
 
 rover \
   -lz /tf/caf/landingzones/caf_solution \
-  -var-folder /tf/caf/enterprise_scale/construction_sets/aks/landingzone/online/aks_secure_baseline/configuration/level1/shared_services \
+  -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level1/shared_services \
   -tfstate caf_shared_services.tfstate \
   -env ${caf_env} \
   -level level1 \
@@ -58,7 +58,7 @@ rover \
 
 rover \
   -lz /tf/caf/landingzones/caf_solution \
-  -var-folder /tf/caf/enterprise_scale/construction_sets/aks/landingzone/online/aks_secure_baseline/configuration/level1/networking_hub \
+  -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level1/networking_hub \
   -tfstate networking_hub.tfstate \
   -env ${caf_env} \
   -level level1 \
@@ -72,7 +72,7 @@ rover \
 
 rover \
   -lz /tf/caf/landingzones/caf_solution \
-  -var-folder /tf/caf/enterprise_scale/construction_sets/aks/landingzone/online/aks_secure_baseline/configuration/level1/networking_spoke \
+  -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level1/networking_spoke \
   -tfstate networking_spoke.tfstate \
   -env ${caf_env} \
   -level level1 \
@@ -87,7 +87,7 @@ rover \
 
 rover \
   -lz /tf/caf/landingzones/caf_solution \
-  -var-folder /tf/caf/enterprise_scale/construction_sets/aks/landingzone/online/aks_secure_baseline/configuration/level2/aks \
+  -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level2/aks \
   -tfstate aks.tfstate \
   -env ${caf_env} \
   -level level2 \
@@ -100,11 +100,12 @@ rover \
 ```bash
 
 rover \
-  -lz /tf/caf/landingzones/caf_solution/add-ons/aks_applications \
-  -var-folder /tf/caf/enterprise_scale/construction_sets/aks/landingzone/online/aks_secure_baseline/configuration/level2/aks_secure_baseline \
+  -lz /tf/caf/landingzones/caf_solution/add-ons/aks_flux \
+  -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level2/aks_secure_baseline \
   -tfstate aks_secure_baseline.tfstate \
   -env ${caf_env} \
   -level level2 \
   -a plan
+
 
 ```
