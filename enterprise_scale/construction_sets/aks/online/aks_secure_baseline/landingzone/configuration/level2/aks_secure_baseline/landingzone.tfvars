@@ -8,5 +8,9 @@ landingzone = {
       level   = "current"
       tfstate = "aks.tfstate"
     }
+    networking_spoke = {
+      level   = "lower"
+      tfstate = "networking_spoke.tfstate"
+    }
   }
 }

@@ -6,21 +6,33 @@ Flux V2 and [infrastructure configurations](../../cluster-baseline-settings) are
 
 If you are following the manual approach, then perform the instructions below:
 
-Make sure the current folder is "*enterprise_scale/construction_sets/aks/online/aks_secure_baseline/*"
+Make sure the current folder is "*enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/*"
 If not use the below command:
   ```bash
-  # Go to the AKS construction set standalone folder
+  # Go to the AKS construction set folder
   cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/
   # If opened in containter in VSCode
   cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/
   ```
 
   ```bash
- # Login to the AKS if in ESLZ
-  echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_cmd) | bash
+  output_file=/tf/caf/output.json
 
-  # Otherwise use this to login
-  echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+  rover \
+  -lz /tf/caf/landingzones/caf_solution \
+  -tfstate aks.tfstate \
+  -env ${caf_env} \
+  -level level2 \
+  -a output -json -o $output_file
+
+  # To find a path to an output key
+  output_key="aks_kubeconfig_cmd"
+  cat $output_file | jq -c 'paths | select(.[-1] == "'"$output_key"'")'
+ # Login to the AKS if in ESLZ
+  cat $output_file | jq -r .objects.value.aks.aks_clusters.cluster_re1.aks_kubeconfig_cmd | bash
+
+  # If there is lack of RBAC permission in your subscription, login with Admin (not recommended for Production)
+  cat $output_file | jq -r .objects.value.aks.aks_clusters.cluster_re1.aks_kubeconfig_admin_cmd | bash
 
   # Make sure logged in
   kubectl get pods -A
@@ -47,8 +59,8 @@ If there is a need to change the folder to your own, please modify [cluster-base
 1. Get the AKS Ingress Controller Managed Identity details.
 
     ```bash
-    export TRAEFIK_USER_ASSIGNED_IDENTITY_RESOURCE_ID=$(terraform output -json | jq -r .managed_identities.value.ingress.id)
-    export TRAEFIK_USER_ASSIGNED_IDENTITY_CLIENT_ID=$(terraform output -json | jq -r .managed_identities.value.ingress.client_id)
+    export TRAEFIK_USER_ASSIGNED_IDENTITY_RESOURCE_ID=$(cat $output_file | jq -r .objects.value.aks.managed_identities.ingress.id)
+    export TRAEFIK_USER_ASSIGNED_IDENTITY_CLIENT_ID=$(cat $output_file | jq -r .objects.value.aks.managed_identities.ingress.client_id)
     ```
 
 1. Ensure Flux has created the following namespace.
@@ -92,7 +104,7 @@ If there is a need to change the folder to your own, please modify [cluster-base
    > Create a `SecretProviderClass` resource with with your Azure Key Vault parameters for the [Azure Key Vault Provider for Secrets Store CSI driver](https://github.com/Azure/secrets-store-csi-driver-provider-azure).
 
     ```bash
-    KEYVAULT_NAME=$(terraform output -json | jq -r .keyvaults.value.secrets.name)
+    KEYVAULT_NAME=$(cat $output_file | jq -r .objects.value.aks.keyvaults.secrets.name)
     TENANTID_AZURERBAC=$(az account show --query tenantId -o tsv)
     ```
     ```yaml
@@ -123,7 +135,16 @@ If there is a need to change the folder to your own, please modify [cluster-base
 2. Update Traefik config to pin IP in Aks-ingress Subnet:
     ```bash
     # Get the ingress controller subnet name
-    ingress_subnet_name=$(terraform output -json | jq -r .vnets.value.vnet_aks_re1.subnets.aks_ingress.name)
+    output_file=/tf/caf/vnet-output.json
+    
+    rover \
+    -lz /tf/caf/landingzones/caf_solution \
+    -tfstate networking_spoke.tfstate \
+    -env ${caf_env} \
+    -level level1 \
+    -a output -json -o $output_file
+    
+    ingress_subnet_name=$(cat $output_file | jq -r .objects.value.networking_spoke.vnets.vnet_aks_re1.subnets.aks_ingress.name)
     # Update the traefik yaml
     # Mac UNIX:
     sed -i "" "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" workloads/baseline/traefik.yaml
@@ -140,8 +161,9 @@ If there is a need to change the folder to your own, please modify [cluster-base
     # Ensure sample app ingress has IP assigned
     kubectl get ingress -n a0008
     # This website will be available at the public domain below
-
-    terraform output -json | jq -r '"https://" + (.domain_name_registrations.value.random_domain.dns_domain_registration_name)'
+  
+    output_file=/tf/caf/output.json
+    cat $output_file | jq -r '"https://" + (.objects.value.aks.domain_name_registrations.random_domain.dns_domain_registration_name)'
     ```
 
 4. You can now test the application from a browser. After couple of the minutes the application gateway health check warning should disappear

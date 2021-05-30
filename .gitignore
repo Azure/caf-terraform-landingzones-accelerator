@@ -18,3 +18,4 @@ landingzones
 **/*.key
 **/*.pem
 **/*.cer
+*output.json

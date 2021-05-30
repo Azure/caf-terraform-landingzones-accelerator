@@ -7,8 +7,8 @@ NOTE: before proceeding, owner of the subscription is required.
 Make sure either VSCode is opened in Container or the below commands are run within the Rover container
 
 ```bash
-TENANT_ID=terraformdev.onmicrosoft.com
-SUB_ID=30e02b61-1190-4a13-9a5e-1303a1e5f87b
+TENANT_ID=
+SUB_ID=
 rover login -t $TENANT_ID -s $SUB_ID
 ```
 
@@ -100,7 +100,7 @@ rover \
 ```bash
 
 rover \
-  -lz /tf/caf/landingzones/caf_solution/add-ons/aks_flux \
+  -lz /tf/caf/landingzones/caf_solution/add-ons/aks_secure_baseline_v2 \
   -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level2/aks_secure_baseline \
   -tfstate aks_secure_baseline.tfstate \
   -env ${caf_env} \
@@ -109,3 +109,7 @@ rover \
 
 
 ```
+
+## Next step
+
+:arrow_forward: [Deploy sample workload into AKS](./02-aks.md)
