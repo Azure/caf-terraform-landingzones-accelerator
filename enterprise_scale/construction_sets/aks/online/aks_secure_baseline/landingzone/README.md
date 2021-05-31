@@ -112,4 +112,4 @@ rover \
 
 ## Next step
 
-:arrow_forward: [Deploy sample workload into AKS](./02-aks.md)
+:arrow_forward: [Deploy sample workload into AKS](./aks.md)
