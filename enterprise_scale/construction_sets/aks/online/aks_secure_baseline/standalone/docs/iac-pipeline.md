@@ -6,7 +6,7 @@ Important! In order to deploy infrastructure with persistent storage uncomment "
 
 An [IaC pipeline](../../../../../.github/workflows/deploy-secure-aks-baseline.yaml) deploys the AKS Construction Set in a multi-job fashion part by part, slice by slice.
 
-![iac-gh-pipeline](pictures/iac-gh-pipeline.png)
+![iac-gh-pipeline](../../pictures/iac-gh-pipeline.png)
 
 Every subsequent part is deployed on top of the deployment of the previous one. For example, part 3 "AKS cluster" can be deployed on the networking infrastructure deployed in the part 2 "Networking". The pipeline performs integration tests with Terratest after deployment of each part. So if, for example, tests fail after deployment of Networking then the pipeline will not proceed to the AKS deployment until the issue is resolved.
 
@@ -39,7 +39,7 @@ In order to deploy specific parts add one or a few of the following comments: "/
 
 In addition to the [GitHub Actions workflow](../../../../../.github/workflows/deploy-secure-aks-baseline.yaml), there is also an IaC [Azure Pipeline](../../../../../.pipelines/deploy-secure-aks-baseline.yaml) available to run on Azure DevOps orchestrator.
 
-![iac-azdo-pipeline](pictures/iac-azdo-pipeline.png)
+![iac-azdo-pipeline](../../pictures/iac-azdo-pipeline.png)
 
 This pipeline can be started manually from Azure DevOps UI with specifying what stages/parts should be deployed. The pipeline expects the following environment variables to be configured in *iac-secure-caf* variable group:
 
