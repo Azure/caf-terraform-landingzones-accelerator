@@ -28,6 +28,7 @@ Set-up the launchpads for level0 to level4
 
 ```bash
 caf_env="es-aks"
+export ARM_PARTNER_ID="f85b2775-ec1d-4fef-949e-bbd6957082af"
 
 rover \
   -lz /tf/caf/landingzones/caf_launchpad \
