@@ -15,12 +15,12 @@ To run all tests perform the following steps:
    export ARM_SUBSCRIPTION_ID=<Subscription ID>
    export LAUNCHPAD_PREFIX=<prefix of provisioned by Terraform launchpad resources>
    export ENVIRONMENT=<e.g. snadpit>
-   ./run_test.sh level0_launchpad/launchpad_test.go
+   ./run_test.sh part0_launchpad/launchpad_test.go
 
    export PREFIX=<prefix of provisioned by Terraform  resources>
-   ./run_test.sh level1_foundation/level1_foundation_test.go
-   ./run_test.sh level2_shared_services/level2_shared_services_test.go
-   ./run_test.sh level3_aks/level3_aks_test.go
+   ./run_test.sh part1_foundation/level1_foundation_test.go
+   ./run_test.sh part2_shared_services/level2_shared_services_test.go
+   ./run_test.sh part3_aks/level3_aks_test.go
 
    export KUBECONFIGPATH=<path to kubeconfig file>
    ./run_test.sh level4_flux/level4_flux_test.go
