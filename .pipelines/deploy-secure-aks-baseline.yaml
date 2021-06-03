@@ -65,7 +65,7 @@ stages:
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
-            ./scripts/deploy_level_with_rover.sh level1 shared_services
+            # ./scripts/deploy_level_with_rover.sh level1 shared_services
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
           TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
