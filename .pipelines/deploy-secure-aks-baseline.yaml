@@ -30,7 +30,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/                 
-            . /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/scripts/launchpad.sh
+            . /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
             echo "##vso[task.setvariable variable=LAUNCHPAD_PREFIX;isOutput=true]$LAUNCHPAD_PREFIX"
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
