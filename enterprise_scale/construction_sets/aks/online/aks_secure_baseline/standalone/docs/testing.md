@@ -8,9 +8,9 @@ Each test for each part reads expected values from ExpectedValues.yaml file in a
 
 To run all tests perform the following steps:
 
-```bash
+   ```bash
    # Go to the folder with tests
-   cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks/test
+   cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/test
 
    export ARM_SUBSCRIPTION_ID=<Subscription ID>
    export LAUNCHPAD_PREFIX=<prefix of provisioned by Terraform launchpad resources>
@@ -24,8 +24,7 @@ To run all tests perform the following steps:
 
    export KUBECONFIGPATH=<path to kubeconfig file>
    ./run_test.sh level4_flux/level4_flux_test.go
-```
-
+   ```
 
 
 
