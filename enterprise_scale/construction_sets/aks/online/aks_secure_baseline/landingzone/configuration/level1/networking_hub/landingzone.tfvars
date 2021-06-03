@@ -10,7 +10,7 @@ landingzone = {
     }
     shared_services = {
       level   = "current"
-      tfstate = "caf_shared_services.tfstate"
+      tfstate = "shared_services.tfstate"
     }
   }
 }

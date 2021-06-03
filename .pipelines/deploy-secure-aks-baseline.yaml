@@ -2,6 +2,10 @@ trigger: none
 
 variables:
   - group: iac-secure-caf
+  - name: TF_VAR_random_length
+    value: 0
+  - name: TF_VAR_prefix
+    value: $(PREFIX)
 
 resources:
   containers:
@@ -18,7 +22,7 @@ stages:
 
     steps:
       - task: AzureCLI@2
-        displayName: Deploy Launchpad. Part 0
+        displayName: Deploy Launchpad. Level 0.
         name: deploy_launchpad
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
@@ -31,10 +35,6 @@ stages:
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
-      # - task: GoTool@0
-      #   displayName: 'Use Go 1.15'   
-      #   inputs:
-      #     version: '1.15' 
       - task: AzureCLI@2
         displayName: Launchpad Test        
         inputs:
@@ -42,8 +42,8 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/test
-            ./run_test.sh part0_launchpad/launchpad_test.go
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            ./run_test.sh launchpad/launchpad_test.go
         env:
           LAUNCHPAD_PREFIX: $(deploy_launchpad.LAUNCHPAD_PREFIX)
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
@@ -65,15 +65,11 @@ stages:
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
-            # ./scripts/deploy_level_with_rover.sh level1 shared_services
+            ./scripts/deploy_level_with_rover.sh level1 shared_services
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
           TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
-      # - task: GoTool@0
-      #   displayName: 'Use Go 1.15'   
-      #   inputs:
-      #     version: '1.15' 
       - task: AzureCLI@2
         displayName: Shared Services Test        
         inputs:
@@ -81,152 +77,135 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/test
-            ./run_test.sh part2_shared_services/part2_shared_services_test.go
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            ./run_test.sh shared_services/shared_services_test.go
 
-# - stage: deploy_shared_services
-#   jobs:
-#   - job: deploy_shared_services
-#     displayName: "Deploy Shared Services. Part 2"
-#     container: rover
+- stage: deploy_networking_hub
+  jobs:
+  - job: deploy_networking_hub
+    displayName: "Deploy Networking Hub. Level 1"
+    container: rover
 
-#     steps:
-#       - task: AzureCLI@2
-#         displayName: Deploy Shared Services
-#         name: deploy_shared_services
-#         inputs:
-#           azureSubscription: $(AZURE_SERVICE_NAME)
-#           scriptLocation: inlineScript
-#           scriptType: bash
-#           inlineScript: |
-#             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
-#             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
-#             ./scripts/deploy_part_with_rover.sh 2_shared_services
-#         env:
-#           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-#           TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
+    steps:
+      - task: AzureCLI@2
+        displayName: Deploy Networking Hub
+        name: deploy_networking_hub
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+            ./scripts/deploy_level_with_rover.sh level1 networking_hub
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
-#       # - task: GoTool@0
-#       #   displayName: 'Use Go 1.15'   
-#       #   inputs:
-#       #     version: '1.15' 
-#       - task: AzureCLI@2
-#         displayName: Shared Services Test        
-#         inputs:
-#           azureSubscription: $(AZURE_SERVICE_NAME)
-#           scriptLocation: inlineScript
-#           scriptType: bash
-#           inlineScript: |
-#             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/test
-#             ./run_test.sh part2_shared_services/part2_shared_services_test.go
+      - task: AzureCLI@2
+        displayName: Networking Hub Test        
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            echo "Invoke integration test"
 
-# - stage: deploy_networking
-#   jobs:
-#   - job: deploy_networking
-#     displayName: "Deploy Networking. Part 2"
-#     container: rover
+- stage: deploy_networking_spoke
+  jobs:
+  - job: deploy_networking_spoke
+    displayName: "Deploy Networking Spoke. Level 1"
+    container: rover
 
-#     steps:
-#       - task: AzureCLI@2
-#         displayName: Deploy Networking
-#         name: deploy_networking
-#         inputs:
-#           azureSubscription: $(AZURE_SERVICE_NAME)
-#           scriptLocation: inlineScript
-#           scriptType: bash
-#           inlineScript: |
-#             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
-#             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
-#             ./scripts/deploy_part_with_rover.sh 2_networking
-#         env:
-#           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-#           TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
+    steps:
+      - task: AzureCLI@2
+        displayName: Deploy Networking Spoke
+        name: deploy_networking_spoke
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+            ./scripts/deploy_level_with_rover.sh level1 networking_spoke
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
-#       # - task: GoTool@0
-#       #   displayName: 'Use Go 1.15'   
-#       #   inputs:
-#       #     version: '1.15' 
-#       - task: AzureCLI@2
-#         displayName: Networking Test        
-#         inputs:
-#           azureSubscription: $(AZURE_SERVICE_NAME)
-#           scriptLocation: inlineScript
-#           scriptType: bash
-#           inlineScript: |
-#             echo "Invoke integration test"
+      - task: AzureCLI@2
+        displayName: Networking Spoke Test        
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            echo "Invoke integration test"
 
-# - stage: deploy_aks
-#   jobs:
-#   - job: deploy_aks
-#     displayName: "Deploy AKS. Part 3"
-#     container: rover
+- stage: deploy_aks
+  jobs:
+  - job: deploy_aks
+    displayName: "Deploy AKS. Level 2"
+    container: rover
 
-#     steps:
-#       - task: AzureCLI@2
-#         displayName: Deploy AKS
-#         name: deploy_aks
-#         inputs:
-#           azureSubscription: $(AZURE_SERVICE_NAME)
-#           scriptLocation: inlineScript
-#           scriptType: bash
-#           inlineScript: |
-#             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
-#             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
-#             ./scripts/deploy_part_with_rover.sh 3_aks
-#         env:
-#           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-#           TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
+    steps:
+      - task: AzureCLI@2
+        displayName: Deploy AKS
+        name: deploy_aks
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+            ./scripts/deploy_level_with_rover.sh level2 aks
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
-#       # - task: GoTool@0
-#       #   displayName: 'Use Go 1.15'   
-#       #   inputs:
-#       #     version: '1.15' 
-#       - task: AzureCLI@2
-#         displayName: AKS Test        
-#         inputs:
-#           azureSubscription: $(AZURE_SERVICE_NAME)
-#           scriptLocation: inlineScript
-#           scriptType: bash
-#           inlineScript: |
-#             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/test
-#             ./run_test.sh part3_aks/part3_aks_test.go
+      - task: AzureCLI@2
+        displayName: AKS Test        
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            ./run_test.sh aks/aks_test.go
 
-# - stage: deploy_flux
-#   jobs:
-#   - job: deploy_flux
-#     displayName: "Deploy Flux. Part 4"
-#     container: rover
+- stage: deploy_addons
+  jobs:
+  - job: deploy_addons
+    displayName: "Deploy Addons. Level 2"
+    container: rover
 
-#     steps:
-#       - task: AzureCLI@2
-#         displayName: Deploy Flux
-#         name: deploy_flux
-#         inputs:
-#           azureSubscription: $(AZURE_SERVICE_NAME)
-#           scriptLocation: inlineScript
-#           scriptType: bash
-#           inlineScript: |
-#             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
-#             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/            
-#             ./scripts/deploy_part_with_rover.sh 4_flux
-#             echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
-#         env:
-#           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-#           TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
-#           TF_VAR_github_owner: $(TF_VAR_GITHUB_OWNER)
+    steps:
+      - task: AzureCLI@2
+        displayName: Deploy Addons
+        name: deploy_addons
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/            
+            ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2
+            echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.aks_kubeconfig_admin_cmd) | bash
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
+          TF_VAR_github_owner: $(TF_VAR_GITHUB_OWNER)
 
-#       # - task: GoTool@0
-#       #   displayName: 'Use Go 1.15'   
-#       #   inputs:
-#       #     version: '1.15' 
-#       - task: AzureCLI@2
-#         displayName: Flux Test        
-#         inputs:
-#           azureSubscription: $(AZURE_SERVICE_NAME)
-#           scriptLocation: inlineScript
-#           scriptType: bash
-#           inlineScript: |
-#             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/test
-#             ./run_test.sh part4_flux/part4_flux_test.go
-#         env:
-#           KUBECONFIGPATH: /home/vsts_azpcontainer/.kube/config
+      - task: AzureCLI@2
+        displayName: Addons Test        
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            ./run_test.sh flux/flux_test.go
+        env:
+          KUBECONFIGPATH: /home/vsts_azpcontainer/.kube/config

@@ -47,7 +47,7 @@ rover \
 rover \
   -lz /tf/caf/landingzones/caf_solution \
   -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level1/shared_services \
-  -tfstate caf_shared_services.tfstate \
+  -tfstate shared_services.tfstate \
   -env ${caf_env} \
   -level level1 \
   -a plan

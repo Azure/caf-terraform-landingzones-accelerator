@@ -22,6 +22,7 @@ type ExpectedValues struct {
 	ManagedOutboundIpCount int
 	RBACEnabled            bool
 	NetworkPolicy          string
+	KeyVaultName           string
 }
 
 func TestAksAgentPoolProfile(t *testing.T) {
@@ -75,15 +76,15 @@ func TestAksNetworkProfile(t *testing.T) {
 	//It returns empty NetworkProfile.LoadBalancerProfile
 	//commenting it out for now
 
-// 	expectedValues := getExpectedValues()
+	// 	expectedValues := getExpectedValues()
 
-// 	cluster := getCluster(t, expectedValues.ResourceGroupName, expectedValues.ClusterName)
-// 	managedOutboundIpCount := 0
+	// 	cluster := getCluster(t, expectedValues.ResourceGroupName, expectedValues.ClusterName)
+	// 	managedOutboundIpCount := 0
 
 	// Test loadbalancer managed outbound IP count
-// 	if cluster.ManagedClusterProperties.NetworkProfile.LoadBalancerProfile != nil {
-// 		managedOutboundIpCount = int(*(*&cluster.ManagedClusterProperties.NetworkProfile.LoadBalancerProfile.ManagedOutboundIPs.Count))
-// 	}
+	// 	if cluster.ManagedClusterProperties.NetworkProfile.LoadBalancerProfile != nil {
+	// 		managedOutboundIpCount = int(*(*&cluster.ManagedClusterProperties.NetworkProfile.LoadBalancerProfile.ManagedOutboundIPs.Count))
+	// 	}
 
 	//assert.Equal(t, expectedValues.ManagedOutboundIpCount, managedOutboundIpCount)
 }
@@ -116,6 +117,19 @@ func getCluster(t *testing.T, expectedResourceGroupName, expectedClusterName str
 	require.NoError(t, err)
 
 	return cluster
+}
+
+func TestKeyVault(t *testing.T) {
+	t.Parallel()
+
+	expectedValues := getExpectedValues()
+
+	keyVaultName := util.ResolveNameWithPrefix(expectedValues.KeyVaultName)
+	resourceGroupName := util.ResolveNameWithPrefix(expectedValues.ResourceGroupName)
+
+	// Test key vault exists
+	keyVault := azure.GetKeyVault(t, resourceGroupName, keyVaultName, "")
+	assert.Equal(t, keyVaultName, *keyVault.Name)
 }
 
 func getExpectedValues() ExpectedValues {
