@@ -116,29 +116,29 @@ func TestLaunchpadResourceGroupHasStorageAccount(t *testing.T) {
 	}
 }
 
-func TestLaunchpadKeyVaultHasSubscriptionIdSecret(t *testing.T) {
-	t.Parallel()
+// func TestLaunchpadKeyVaultHasSubscriptionIdSecret(t *testing.T) {
+// 	t.Parallel()
 
-	test := prepareTestTable()
+// 	test := prepareTestTable()
 
-	for _, landingZone := range test.LandingZones {
-		exists := azure.KeyVaultSecretExists(t, landingZone.KeyVaultName, "subscription-id")
+// 	for _, landingZone := range test.LandingZones {
+// 		exists := azure.KeyVaultSecretExists(t, landingZone.KeyVaultName, "subscription-id")
 
-		assert.True(t, exists, "Subscription Id Secret does not exists")
-	}
-}
+// 		assert.True(t, exists, "Subscription Id Secret does not exists")
+// 	}
+// }
 
-func TestLaunchpadKeyVaultHasTenantIdSecret(t *testing.T) {
-	t.Parallel()
+// func TestLaunchpadKeyVaultHasTenantIdSecret(t *testing.T) {
+// 	t.Parallel()
 
-	test := prepareTestTable()
+// 	test := prepareTestTable()
 
-	for _, landingZone := range test.LandingZones {
-		exists := azure.KeyVaultSecretExists(t, landingZone.KeyVaultName, "tenant-id")
+// 	for _, landingZone := range test.LandingZones {
+// 		exists := azure.KeyVaultSecretExists(t, landingZone.KeyVaultName, "tenant-id")
 
-		assert.True(t, exists, "Tenant Id Secret does not exists")
-	}
-}
+// 		assert.True(t, exists, "Tenant Id Secret does not exists")
+// 	}
+// }
 
 func TestLaunchpadKeyVaultHasTags(t *testing.T) {
 	t.Parallel()
