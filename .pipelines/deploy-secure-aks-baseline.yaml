@@ -64,7 +64,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
-            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level1 shared_services
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
@@ -96,7 +96,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
-            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level1 networking_hub
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
@@ -127,7 +127,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
-            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level1 networking_spoke
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
@@ -158,7 +158,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
-            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level2 aks
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
@@ -190,7 +190,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
-            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/            
             ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2
             echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.aks_kubeconfig_admin_cmd) | bash
         env:
