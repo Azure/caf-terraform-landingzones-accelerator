@@ -64,7 +64,7 @@ Alternatively you can deploy the construction set part by part manually with *ro
 cd caf-terraform-landingzones-starter
 
 # Start Rover container
-docker run -it --rm -v $(pwd):/tf/caf --user 0  aztfmod/rover:0.15.1-2104.2711 bash
+docker run -it --rm -v $(pwd):/tf/caf --user 0  aztfmod/rover-preview:0.15.3-2105.210707 bash
 
 # Login to your Azure Active Directory tenant
 az login -t {TENANTNID}
@@ -82,7 +82,7 @@ export ARM_SUBSCRIPTION_ID=<ARM_SUBSCRIPTION_ID>
 export ARM_TENANT_ID=<ARM_TENANT_ID>
 
 # CD to the construction set folder
-cd /tf/caf/enterprise_scale/construction_sets/aks
+cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone
 
 # Provision a launchpad
 . scripts/launchpad.sh

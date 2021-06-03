@@ -1,9 +1,9 @@
 
 # Do not change the following values
 passthrough   = false
-random_length = 3
+# random_length = 3
 inherit_tags  = true
-prefix        = "esaks"
+# prefix        = "esaks"
 
 # Default region. When not set to a resource it will use that value
 default_region = "region1"

@@ -37,9 +37,9 @@ func prepareTestTable() TestStructure {
 	for iLoop := 0; iLoop < 4; iLoop++ {
 		test.LandingZones = append(test.LandingZones, LandingZone{
 			Level:              iLoop,
-			ResourceGroupName:  fmt.Sprintf("%s-rg-launchpad-level%d", prefix, iLoop),
+			ResourceGroupName:  fmt.Sprintf("%s-rg-caf-launchpad-level%d", prefix, iLoop),
 			KeyVaultName:       fmt.Sprintf("%s-kv-level%d", prefix, iLoop),
-			StorageAccountName: fmt.Sprintf("%sstlevel%d", prefix, iLoop),
+			StorageAccountName: fmt.Sprintf("%sstcafl%d", prefix, iLoop),
 		})
 	}
 
