@@ -27,7 +27,6 @@ stages:
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/                 
             . /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
-            echo "##vso[task.setvariable variable=LAUNCHPAD_PREFIX;isOutput=true]$LAUNCHPAD_PREFIX"
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
@@ -41,7 +40,7 @@ stages:
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
             ./run_test.sh launchpad/launchpad_test.go
         env:
-          LAUNCHPAD_PREFIX: $(deploy_launchpad.LAUNCHPAD_PREFIX)
+          LAUNCHPAD_PREFIX: $(PREFIX)
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
 - stage: deploy_shared_services

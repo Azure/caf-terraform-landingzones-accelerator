@@ -20,7 +20,3 @@ if [ "${storage_name}" = "null" ]; then
     storage_name=$(az storage account list --query "[?tags.tfstate=='level0' && tags.launchpad=='launchpad']" -o json | jq -r .[0].name)
 fi
 
-export LAUNCHPAD_PREFIX=${storage_name%stcaf*}
-
-echo "LAUNCHPAD_PREFIX":$LAUNCHPAD_PREFIX
-
