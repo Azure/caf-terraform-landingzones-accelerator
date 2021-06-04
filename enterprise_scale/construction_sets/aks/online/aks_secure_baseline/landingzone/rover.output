@@ -1,0 +1,16 @@
+{
+  "aks_clusters_kubeconfig": {
+    "sensitive": false,
+    "type": [
+      "object",
+      {
+        "aks_kubeconfig_admin_cmd": "string",
+        "aks_kubeconfig_cmd": "string"
+      }
+    ],
+    "value": {
+      "aks_kubeconfig_admin_cmd": "az aks get-credentials --name rebra-aks-akscluster-re1-001 --resource-group rebra-rg-aks-re1 --overwrite-existing --admin",
+      "aks_kubeconfig_cmd": "az aks get-credentials --name rebra-aks-akscluster-re1-001 --resource-group rebra-rg-aks-re1 --overwrite-existing"
+    }
+  }
+}
