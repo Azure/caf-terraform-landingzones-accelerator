@@ -6,7 +6,7 @@ landingzone = {
   tfstates = {
     shared_services = {
       level   = "lower"
-      tfstate = "caf_shared_services.tfstate"
+      tfstate = "shared_services.tfstate"
     }
     networking_spoke = {
       level   = "lower"

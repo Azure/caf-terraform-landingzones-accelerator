@@ -18,7 +18,7 @@ rover login -t $TENANT_ID -s $SUB_ID
 git clone --branch azure_devops_v1 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
 
 #temp
-git clone --branch HN-aks-diagnostics https://github.com/aztfmod/terraform-azurerm-caf.git /tf/caf/public
+git clone https://github.com/aztfmod/terraform-azurerm-caf.git /tf/caf/public
 ```
 
 ## Level 0
@@ -47,7 +47,7 @@ rover \
 rover \
   -lz /tf/caf/landingzones/caf_solution \
   -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level1/shared_services \
-  -tfstate caf_shared_services.tfstate \
+  -tfstate shared_services.tfstate \
   -env ${caf_env} \
   -level level1 \
   -a plan
@@ -110,6 +110,13 @@ rover \
 
 
 ```
+
+## Deploying construction set with IaC
+In order to deploy the construction set with an IaC pipeline to automate the process follow the [Deploying construction set with IaC](iac-pipeline.md).
+
+## Testing
+
+You may use [automated integration tests](../test/testing.md) to test the deployed infrastructure.
 
 ## Next step
 

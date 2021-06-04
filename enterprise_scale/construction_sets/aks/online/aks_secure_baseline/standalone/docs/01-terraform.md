@@ -31,8 +31,6 @@ The following components will be deployed by the Enterprise-Scale AKS Constructi
 
 ## Deployment
 
-If you are just experimenting with this repository and perform operations locally from your workstation then follow the instructions below. In order to deploy the construction set with persistent state storage and to automate the process follow the [Deployment of Enterprise-Scale AKS Construction Set by parts](iac-pipeline.md).
-
 ```bash
 # Script to execute from bash shell
 
@@ -68,6 +66,12 @@ terraform init -upgrade
 # Trigger the deployment of the resources
 eval terraform apply ${parameter_files}
 ```
+
+## Testing
+
+You may use [automated integration tests](../../test/testing.md) to test the deployed infrastructure.
+
+
 
 You are done with deployment of AKS environment, next step is to deploy the application and reference components.
 
