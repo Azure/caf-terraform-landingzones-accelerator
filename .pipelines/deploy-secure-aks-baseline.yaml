@@ -2,10 +2,6 @@ trigger: none
 
 variables:
   - group: iac-secure-caf
-  - name: TF_VAR_random_length
-    value: 0
-  - name: TF_VAR_prefix
-    value: $(PREFIX)
 
 resources:
   containers:

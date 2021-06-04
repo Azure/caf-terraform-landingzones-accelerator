@@ -13,7 +13,8 @@ if [ "${storage_name}" = "null" ]; then
     -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level0/launchpad \
         -launchpad \
         -level level0 \
-        -a apply
+        -a apply \
+        -var="random_length=0" -var="prefix=$PREFIX"
 
 
     storage_name=$(az storage account list --query "[?tags.tfstate=='level0' && tags.launchpad=='launchpad']" -o json | jq -r .[0].name)
