@@ -111,6 +111,13 @@ rover \
 
 ```
 
+## Deploying construction set with IaC
+In order to deploy the construction set with an IaC pipeline to automate the process follow the [Deploying construction set with IaC](iac-pipeline.md).
+
+## Testing
+
+You may use [automated integration tests](../test/testing.md) to test the deployed infrastructure.
+
 ## Next step
 
 :arrow_forward: [Deploy sample workload into AKS](./aks.md)

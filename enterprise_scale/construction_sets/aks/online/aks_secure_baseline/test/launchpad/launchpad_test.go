@@ -25,7 +25,7 @@ type TestStructure struct {
 }
 
 func prepareTestTable() TestStructure {
-	prefix := os.Getenv("LAUNCHPAD_PREFIX")
+	prefix := os.Getenv("PREFIX")
 
 	test := TestStructure{
 		Prefix:         prefix,
