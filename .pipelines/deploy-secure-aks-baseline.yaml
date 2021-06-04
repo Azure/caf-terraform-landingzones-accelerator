@@ -193,7 +193,6 @@ stages:
               -level level2 \
               -a output -json -o $(pwd)/rover.output
 
-            cat rover.output
             echo $(cat rover.output | jq -r .aks_clusters_kubeconfig.value.aks_kubeconfig_admin_cmd) | bash
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
