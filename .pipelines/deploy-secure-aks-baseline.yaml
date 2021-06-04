@@ -42,7 +42,7 @@ stages:
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
-- stage: deploy_shared_services
+- stage: deploy_networking_shared_services
   jobs:
   - job: deploy_shared_services
     displayName: "Deploy Shared Services. Level 1"
@@ -73,9 +73,7 @@ stages:
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
             ./run_test.sh shared_services/shared_services_test.go
-
-- stage: deploy_networking_hub
-  jobs:
+  
   - job: deploy_networking_hub
     displayName: "Deploy Networking Hub. Level 1"
     container: rover
@@ -103,12 +101,11 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            echo "Invoke integration test"
-
-- stage: deploy_networking_spoke
-  jobs:
+            echo "Invoke integration test"            
+  
   - job: deploy_networking_spoke
     displayName: "Deploy Networking Spoke. Level 1"
+    dependsOn: deploy_networking_hub
     container: rover
 
     steps:
@@ -186,7 +183,14 @@ stages:
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/            
             ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2
-            echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.aks_kubeconfig_admin_cmd) | bash
+            /tf/rover/rover.sh  \
+              -lz /tf/caf/landingzones/caf_solution/add-ons/aks_secure_baseline_v2 \
+              -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/${LEVEL_NAME}/${LZ_NAME} \
+              -tfstate aks_secure_baseline.tfstate \
+              -level level2 \
+              -a output -json -o $(pwd)/rover.output
+
+            echo $(cat rover.output | jq -r .aks_clusters_kubeconfig.value.aks_kubeconfig_admin_cmd) | bash
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
           TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)

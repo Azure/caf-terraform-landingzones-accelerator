@@ -1,7 +1,7 @@
 name: Deploy_Secure_Aks_Baseline
 # The pipeline is triggered on:
-#  - PR/Issue comments "/deploy-all", "/deploy-launchpad", "/deploy-foundation", "/deploy-networking",
-#                      "/deploy-shared-services", "/deploy-aks", "/deploy-flux"
+#  - PR/Issue comments "/deploy-all", "/deploy-launchpad", "/deploy-shared-services", "/deploy-networking-hub",
+#                      "/deploy-networking-spoke", "/deploy-aks", "/deploy-addons"
 
 
 
@@ -9,7 +9,6 @@ on:
   issue_comment:
     types:
     - created
-
     
 env:
   AZURE_CREDENTIALS: '{"clientId":"${{ secrets.SERVICE_PRINCIPAL }}", "clientSecret":"${{ secrets.SERVICE_PRINCIPAL_PWD }}", "subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.TENANT }}"}' 
@@ -27,7 +26,7 @@ jobs:
   deploy-launchpad:
     runs-on: ubuntu-latest
     container:
-      image:  aztfmod/rover:0.14.8-2103.1601
+      image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
     steps:
       - name: Checkout Repository
@@ -49,65 +48,19 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
         run: |
           cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/                 
-          . /tf/caf/enterprise_scale/construction_sets/aks/scripts/launchpad.sh
-          echo "LAUNCHPAD_PREFIX=$LAUNCHPAD_PREFIX" >> $GITHUB_ENV
-      - name: Setup Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '^1.15'        
+          . /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
       - name: Test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
         run: |
-            cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh part0_launchpad/launchpad_test.go
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            ./run_test.sh launchpad/launchpad_test.go
 
-
-
-  deploy-foundation: 
-    runs-on: ubuntu-latest
-    needs: deploy-launchpad
-    container:
-      image:  aztfmod/rover:0.14.8-2103.1601
-      options: --user 0
-    steps:
-      - name: Checkout Repository
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'      
-        uses: actions/checkout@v2
-      - name: Checkout PR code
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation')
-        run: |
-          git fetch origin ${{ env.event_sha }}
-          git checkout FETCH_HEAD
-
-      - name: Azure Login
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'     
-        uses: azure/login@v1
-        with:
-          creds: ${{ env.AZURE_CREDENTIALS }}
-
-      - name: Deploy
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
-        run: |
-            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
-            cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_part_with_rover.sh 1_foundation
-
-      - name: Setup Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '^1.15'        
-
-      - name: Test
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-foundation') || github.event_name != 'issue_comment'           
-        run: |
-            cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh part1_foundation/part1_foundation_test.go
 
   deploy-shared-services: 
     runs-on: ubuntu-latest
-    needs: deploy-foundation
+    needs: deploy-launchpad
     container:
-      image:  aztfmod/rover:0.14.8-2103.1601
+      image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
     steps:
       - name: Checkout Repository
@@ -129,60 +82,88 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'           
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
-            cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_part_with_rover.sh 2_shared_services
-
-      - name: Setup Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '^1.15'        
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 shared_services
 
       - name: Test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'           
         run: |
-            cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh part2_shared_services/part2_shared_services_test.go
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            ./run_test.sh shared_services/shared_services_test.go
 
-  deploy-networking: 
+  deploy-networking-hub: 
     runs-on: ubuntu-latest
-    needs: deploy-shared-services
+    needs: deploy-launchpad
     container:
-      image:  aztfmod/rover:0.14.8-2103.1601
+      image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
     steps:
       - name: Checkout Repository
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'      
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub') || github.event_name != 'issue_comment'      
         uses: actions/checkout@v2
       - name: Checkout PR code
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking')
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub')
         run: |
           git fetch origin ${{ env.event_sha }}
           git checkout FETCH_HEAD
 
       - name: Azure Login
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'     
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub') || github.event_name != 'issue_comment'     
         uses: azure/login@v1
         with:
           creds: ${{ env.AZURE_CREDENTIALS }}
 
       - name: Deploy
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'           
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub') || github.event_name != 'issue_comment'           
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
-            cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_part_with_rover.sh 2_networking
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 networking_hub
 
       - name: Test
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'           
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub') || github.event_name != 'issue_comment'           
         run: |
             echo "Invoke integration test"
 
+  deploy-networking-spoke: 
+    runs-on: ubuntu-latest
+    needs: deploy-networking-hub
+    container:
+      image:  aztfmod/rover-preview:0.15.3-2105.210707
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Deploy
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke') || github.event_name != 'issue_comment'           
+        run: |
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 networking_spoke
+
+      - name: Test
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke') || github.event_name != 'issue_comment'           
+        run: |
+            echo "Invoke integration test"
 
   deploy-aks: 
     runs-on: ubuntu-latest
-    needs: deploy-networking
+    needs: [deploy-networking-hub, deploy-networking-spoke, deploy-shared-services]
     container:
-      image:  aztfmod/rover:0.14.8-2103.1601
+      image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
     steps:
       - name: Checkout Repository
@@ -204,60 +185,58 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'           
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
-            cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_part_with_rover.sh 3_aks
-
-      - name: Setup Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '^1.15'        
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level2 aks
 
       - name: Test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'           
         run: |
-            cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh part3_aks/part3_aks_test.go
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            ./run_test.sh aks/aks_test.go
            
-  deploy-flux: 
+  deploy-addons: 
     runs-on: ubuntu-latest
     needs: deploy-aks
     container:
-      image:  aztfmod/rover:0.14.8-2103.1601
+      image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
     steps:
       - name: Checkout Repository
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-flux') || github.event_name != 'issue_comment'      
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'      
         uses: actions/checkout@v2
       - name: Checkout PR code
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-flux')
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons')
         run: |
           git fetch origin ${{ env.event_sha }}
           git checkout FETCH_HEAD
 
       - name: Azure Login
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-flux') || github.event_name != 'issue_comment'     
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'     
         uses: azure/login@v1
         with:
           creds: ${{ env.AZURE_CREDENTIALS }}
 
       - name: Deploy
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-flux') || github.event_name != 'issue_comment'           
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'           
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
-            cd /tf/caf/enterprise_scale/construction_sets/aks
-            ./scripts/deploy_part_with_rover.sh 4_flux
-            echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/            
+            ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2
+            /tf/rover/rover.sh  \
+              -lz /tf/caf/landingzones/caf_solution/add-ons/aks_secure_baseline_v2 \
+              -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/${LEVEL_NAME}/${LZ_NAME} \
+              -tfstate aks_secure_baseline.tfstate \
+              -level level2 \
+              -a output -json -o $(pwd)/rover.output
 
-      - name: Setup Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '^1.15'        
+            echo $(cat rover.output | jq -r .aks_clusters_kubeconfig.value.aks_kubeconfig_admin_cmd) | bash
+
 
       - name: Test
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-flux') || github.event_name != 'issue_comment'           
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'           
         run: |
-            cd /tf/caf/enterprise_scale/construction_sets/aks/test
-            ./run_test.sh part4_flux/part4_flux_test.go
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            ./run_test.sh flux/flux_test.go
         env:
           KUBECONFIGPATH: /github/home/.kube/config
            

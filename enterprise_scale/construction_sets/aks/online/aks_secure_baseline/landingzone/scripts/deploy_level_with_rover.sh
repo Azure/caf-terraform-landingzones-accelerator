@@ -20,4 +20,3 @@ git clone --branch azure_devops_v1 https://github.com/Azure/caf-terraform-landin
   -tfstate ${LZ_NAME}.tfstate \
   -level ${LEVEL_NAME} \
   -a apply
-
