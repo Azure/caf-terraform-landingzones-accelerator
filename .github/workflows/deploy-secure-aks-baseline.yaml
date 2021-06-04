@@ -9,10 +9,10 @@ on:
   issue_comment:
     types:
     - created
-  push:
-    # branches to consider in the event; optional, defaults to all
-    branches:
-      - eedorenko/fix-pipelines
+  # push:
+  #   # branches to consider in the event; optional, defaults to all
+  #   branches:
+  #     - eedorenko/fix-pipelines
 
     
 env:

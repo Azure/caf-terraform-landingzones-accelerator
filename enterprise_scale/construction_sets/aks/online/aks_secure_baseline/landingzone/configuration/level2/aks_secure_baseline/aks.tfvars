@@ -38,8 +38,10 @@ flux_settings = {
   aks_secure_baseline = {
     namespace = "flux-system"
     url = "https://github.com/Azure/caf-terraform-landingzones-starter.git"
-    branch = "CSE-AKS-terratest"
+    branch = "eedorenko/fix-pipelines"
     target_install_path = "./enterprise_scale/construction_sets/aks/online/aks_secure_baseline/cluster-baseline-settings"
     target_sync_path = "./enterprise_scale/construction_sets/aks/online/aks_secure_baseline/cluster-baseline-settings/cluster-baseline-settings.yaml"
   }
 }
+
+# branch = "CSE-AKS-terratest"
