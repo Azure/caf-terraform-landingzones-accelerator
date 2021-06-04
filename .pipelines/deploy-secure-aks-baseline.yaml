@@ -42,7 +42,7 @@ stages:
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
-- stage: deploy_shared_services
+- stage: deploy_networking_shared_services
   jobs:
   - job: deploy_shared_services
     displayName: "Deploy Shared Services. Level 1"
@@ -73,9 +73,7 @@ stages:
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
             ./run_test.sh shared_services/shared_services_test.go
-
-- stage: deploy_networking_hub
-  jobs:
+  
   - job: deploy_networking_hub
     displayName: "Deploy Networking Hub. Level 1"
     container: rover
@@ -103,12 +101,11 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            echo "Invoke integration test"
-
-- stage: deploy_networking_spoke
-  jobs:
+            echo "Invoke integration test"            
+  
   - job: deploy_networking_spoke
     displayName: "Deploy Networking Spoke. Level 1"
+    dependsOn: deploy_networking_hub
     container: rover
 
     steps:
