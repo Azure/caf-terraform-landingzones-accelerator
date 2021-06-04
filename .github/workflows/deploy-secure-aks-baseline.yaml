@@ -1,7 +1,7 @@
 name: Deploy_Secure_Aks_Baseline
 # The pipeline is triggered on:
-#  - PR/Issue comments "/deploy-all", "/deploy-launchpad", "/deploy-foundation", "/deploy-networking",
-#                      "/deploy-shared-services", "/deploy-aks", "/deploy-flux"
+#  - PR/Issue comments "/deploy-all", "/deploy-launchpad", "/deploy-shared-services", "/deploy-networking-hub",
+#                      "/deploy-networking-spoke", "/deploy-aks", "/deploy-addons"
 
 
 
@@ -9,11 +9,6 @@ on:
   issue_comment:
     types:
     - created
-  push:
-    # branches to consider in the event; optional, defaults to all
-    branches:
-      - eedorenko/gh-action-pipeline
-
     
 env:
   AZURE_CREDENTIALS: '{"clientId":"${{ secrets.SERVICE_PRINCIPAL }}", "clientSecret":"${{ secrets.SERVICE_PRINCIPAL_PWD }}", "subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.TENANT }}"}' 
@@ -104,29 +99,29 @@ jobs:
       options: --user 0
     steps:
       - name: Checkout Repository
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'      
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub') || github.event_name != 'issue_comment'      
         uses: actions/checkout@v2
       - name: Checkout PR code
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking')
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub')
         run: |
           git fetch origin ${{ env.event_sha }}
           git checkout FETCH_HEAD
 
       - name: Azure Login
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'     
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub') || github.event_name != 'issue_comment'     
         uses: azure/login@v1
         with:
           creds: ${{ env.AZURE_CREDENTIALS }}
 
       - name: Deploy
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'           
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub') || github.event_name != 'issue_comment'           
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level1 networking_hub
 
       - name: Test
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'           
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub') || github.event_name != 'issue_comment'           
         run: |
             echo "Invoke integration test"
 
@@ -138,29 +133,29 @@ jobs:
       options: --user 0
     steps:
       - name: Checkout Repository
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'      
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke') || github.event_name != 'issue_comment'      
         uses: actions/checkout@v2
       - name: Checkout PR code
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking')
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke')
         run: |
           git fetch origin ${{ env.event_sha }}
           git checkout FETCH_HEAD
 
       - name: Azure Login
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'     
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke') || github.event_name != 'issue_comment'     
         uses: azure/login@v1
         with:
           creds: ${{ env.AZURE_CREDENTIALS }}
 
       - name: Deploy
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'           
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke') || github.event_name != 'issue_comment'           
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level1 networking_spoke
 
       - name: Test
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking') || github.event_name != 'issue_comment'           
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke') || github.event_name != 'issue_comment'           
         run: |
             echo "Invoke integration test"
 
@@ -207,22 +202,22 @@ jobs:
       options: --user 0
     steps:
       - name: Checkout Repository
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-flux') || github.event_name != 'issue_comment'      
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'      
         uses: actions/checkout@v2
       - name: Checkout PR code
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-flux')
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons')
         run: |
           git fetch origin ${{ env.event_sha }}
           git checkout FETCH_HEAD
 
       - name: Azure Login
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-flux') || github.event_name != 'issue_comment'     
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'     
         uses: azure/login@v1
         with:
           creds: ${{ env.AZURE_CREDENTIALS }}
 
       - name: Deploy
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-flux') || github.event_name != 'issue_comment'           
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'           
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/            
@@ -238,7 +233,7 @@ jobs:
 
 
       - name: Test
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-flux') || github.event_name != 'issue_comment'           
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
             ./run_test.sh flux/flux_test.go
