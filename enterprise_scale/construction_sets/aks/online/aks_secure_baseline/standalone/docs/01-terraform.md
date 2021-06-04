@@ -69,7 +69,7 @@ eval terraform apply ${parameter_files}
 
 ## Testing
 
-You may use [automated integration tests](../../test/testing.md) to test the deployed infrastructure.
+You may use [automated integration tests](../../test) to test the deployed infrastructure.
 
 
 
