@@ -29,34 +29,3 @@ data "azurerm_kubernetes_cluster" "kubeconfig" {
   name                = module.caf.aks_clusters[var.aks_cluster_key].cluster_name
   resource_group_name = module.caf.aks_clusters[var.aks_cluster_key].resource_group_name
 }
-
-output "flux_addon" {
-  value = module.caf.aks_clusters[var.aks_cluster_key]
-}
-# module "flux" {
-#   source = "./add-ons/flux"
-
-#   cluster_key = "cluster_re1"
-
-#   aks_clusters = module.caf.aks_clusters
-
-#   flux_namespace = var.flux_namespace
-
-#   flux_auth_secret = var.flux_auth_secret
-
-#   github_owner = var.github_owner
-
-#   github_token = var.github_token
-
-#   repository_name = var.repository_name
-
-#   repository_visibility = var.repository_visibility
-
-
-#   branch = var.branch
-
-#   target_install_path = var.target_install_path
-
-#   target_sync_path = var.target_sync_path
-
-# }
