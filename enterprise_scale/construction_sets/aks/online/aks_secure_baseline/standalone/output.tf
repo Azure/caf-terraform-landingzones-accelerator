@@ -34,3 +34,7 @@ output "vnets" {
 output "azurerm_firewalls" {
   value = module.caf.azurerm_firewalls
 }
+
+output "global_settings" {
+  value = module.caf.global_settings
+}

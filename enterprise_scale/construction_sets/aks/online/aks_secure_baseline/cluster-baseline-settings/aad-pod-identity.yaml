@@ -613,9 +613,8 @@ metadata:
   namespace: cluster-baseline-settings
 spec:
   podLabels:
-    app.kubernetes.io/name: aad-pod-identity
-    app.kubernetes.io/instance: aad-pod-identity
-    app.kubernetes.io/component: mic
+    app: mic
+    component: mic
 ---
 apiVersion: aadpodidentity.k8s.io/v1
 kind: AzurePodIdentityException

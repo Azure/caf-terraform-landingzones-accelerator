@@ -12,7 +12,7 @@ If not use the below command:
   # Go to the AKS construction set folder
   cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/
   # If opened in containter in VSCode
-  cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/
+  cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/
   ```
 
   ```bash

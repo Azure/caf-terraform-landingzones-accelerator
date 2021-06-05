@@ -6,13 +6,13 @@ Flux V2 and [infrastructure configurations](../../cluster-baseline-settings) are
 
 If you are following the manual approach, then perform the instructions below:
 
-Make sure the current folder is "*enterprise_scale/construction_sets/aks/online/aks_secure_baseline/*"
+Make sure the current folder is "*enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone*"
 If not use the below command:
   ```bash
   # Go to the AKS construction set standalone folder
-  cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/
+  cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone
   # If opened in containter in VSCode
-  cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/
+  cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone
   ```
 
   ```bash
@@ -126,16 +126,16 @@ If there is a need to change the folder to your own, please modify [cluster-base
     ingress_subnet_name=$(terraform output -json | jq -r .vnets.value.vnet_aks_re1.subnets.aks_ingress.name)
     # Update the traefik yaml
     # Mac UNIX:
-    sed -i "" "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" workloads/baseline/traefik.yaml
+    sed -i "" "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" ../workloads/baseline/traefik.yaml
 
     # Linux:
-    sed -i "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" workloads/baseline/traefik.yaml
+    sed -i "s/azure-load-balancer-internal-subnet:.*/azure-load-balancer-internal-subnet:\ ${ingress_subnet_name}/g" ../workloads/baseline/traefik.yaml
     ```
 
 3. Deploy Traefik & ASP.net sample appplication
     ```bash
-    kubectl apply -f workloads/baseline
-    # It takes 2-3 mins to deploy Traefik & the sample app. Watch all pods to be provision with:
+    kubectl apply -f ../workloads/baseline
+    # It takes 2-3 mins to deploy Traefik & the sample app. Watch all pods to be provision with, press Ctrl + C to exit from watch:
     kubectl get pods -n a0008 -w
     # Ensure sample app ingress has IP assigned
     kubectl get ingress -n a0008
