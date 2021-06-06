@@ -66,16 +66,6 @@ terraform init -upgrade
 # Trigger the deployment of the resources
 eval terraform apply ${parameter_files}
 ```
-
-## Testing
-
-You may use [automated integration tests](../../test) to test the deployed infrastructure.
-
-
-
-You are done with deployment of AKS environment, next step is to deploy the application and reference components.
-
-
 ## Next step
 
-:arrow_forward: [Deploy sample workload into AKS](./02-aks.md)
+:arrow_forward: [Deploy sample workload into AKS](./aks.md)

@@ -1,8 +1,8 @@
 # Deploying construction set with IaC
 
-An [IaC pipeline](../../../../../../.github/workflows/deploy-secure-aks-baseline.yaml) deploys the AKS Construction Set in a multi-job fashion level by level.
+An [IaC pipeline](../../../../../../../.github/workflows/deploy-secure-aks-baseline.yaml) deploys the AKS Construction Set in a multi-job fashion level by level.
 
-![iac-gh-pipeline](../pictures/iac-gh-pipeline.png)
+![iac-gh-pipeline](../../pictures/iac-gh-pipeline.png)
 
 Every subsequent level is deployed on top of the deployment of the previous one. For example, level 2 "AKS" can be deployed on the networking infrastructure deployed in the level 1 "Networking". The pipeline performs integration tests with Terratest after deployment of each level. So if, for example, tests fail after deployment of Networking then the pipeline will not proceed to the AKS deployment until the issue is resolved.
 
@@ -21,9 +21,9 @@ The pipeline requires the following secrets to be configured in the repository:
 To start the IaC pipeline execution, add to a PR or to an Issue on your repository "/deploy-all" comment. This comment will start deployment of all stages in the pipeline from 0 (launchpad) to 3 (Addons).
 In order to deploy specific parts add one or a few of the following comments: "/deploy-launchpad", "/deploy-networking-hub", "/deploy-networking-spoke", "/deploy-shared-services", "/deploy-aks", "/deploy-addons".
 
-In addition to the [GitHub Actions workflow](../../../../../../.github/workflows/deploy-secure-aks-baseline.yaml), there is also an IaC [Azure Pipeline](../../../../../../.pipelines/deploy-secure-aks-baseline.yaml) available to run on Azure DevOps orchestrator.
+In addition to the [GitHub Actions workflow](../../../../../../../.github/workflows/deploy-secure-aks-baseline.yaml), there is also an IaC [Azure Pipeline](../../../../../../../.pipelines/deploy-secure-aks-baseline.yaml) available to run on Azure DevOps orchestrator.
 
-![iac-azdo-pipeline](../pictures/iac-azdo-pipeline.png)
+![iac-azdo-pipeline](../../pictures/iac-azdo-pipeline.png)
 
 This pipeline can be started manually from Azure DevOps UI with specifying what stages should be deployed. The pipeline expects the following environment variables to be configured in *iac-secure-caf* variable group:
 

@@ -23,11 +23,15 @@ To run all tests perform the following steps:
 
    go mod tidy
    
-   # Testing of the launchpad makes sense if the resources have been provisioned with the rover,
-   # otherwise comment the following line  
+   # If there is ERROR: AADSTS70043: The refresh token has expired or is invalid due to sign-in frequency checks by conditional access
+   # Perform rover login again
+
    go test -v  launchpad/launchpad_test.go
    go test -v  shared_services/shared_services_test.go
    go test -v  aks/aks_test.go
+
+   echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+   go test -v  flux/flux_test.go
    ```
 
    ## Standalone
@@ -39,6 +43,9 @@ To run all tests perform the following steps:
 
    go mod tidy
    
+   # If there is ERROR: AADSTS70043: The refresh token has expired or is invalid due to sign-in frequency checks by conditional access
+   # Perform az login again
+
    go test -v  shared_services/shared_services_test.go
    go test -v  aks/aks_test.go
 

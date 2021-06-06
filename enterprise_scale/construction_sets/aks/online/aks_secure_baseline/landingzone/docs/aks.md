@@ -6,7 +6,7 @@ Flux V2 and [infrastructure configurations](../../cluster-baseline-settings) are
 
 If you are following the manual approach, then perform the instructions below:
 
-Make sure the current folder is "*enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/*"
+Make sure the current folder is "*enterprise_scale/construction_sets/aks/online/aks_secure_baseline/*"
 If not use the below command:
   ```bash
   # Go to the AKS construction set folder
@@ -168,19 +168,37 @@ If there is a need to change the folder to your own, please modify [cluster-base
 
 4. You can now test the application from a browser. After couple of the minutes the application gateway health check warning should disappear
 
-## Destroy resources
 
-When finished, please destroy all deployments with:
+
+## Testing
+
+You may use [automated integration tests](../test) to test the deployed infrastructure.
+
+You are done with deployment of AKS environment, next step is to deploy the application and reference components.
 
 ```bash
-# Delete sample application, this contains PodDisruptionBudget that will block Terraform destroy
-kubectl delete -f workloads/baseline
+# Go to the Test folder
+cd ../../test
 
-# (When needed) Destroy the resources
-eval terraform destroy ${parameter_files}
+export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+export PREFIX=$(terraform output -json | jq -r '.global_settings.value.prefixes[0]')
+export ENVIRONMENT=sandpit # replace if another Environment was set in the rover, default is sandpit
 
-# or if you are facing destroy issues
-eval terraform destroy \
-  ${parameter_files} \
-  -refresh=false
+go mod tidy
+
+# If there is ERROR: AADSTS70043: The refresh token has expired or is invalid due to sign-in frequency checks by conditional access
+# Perform rover login again
+
+go test -v  launchpad/launchpad_test.go
+go test -v  shared_services/shared_services_test.go
+go test -v  aks/aks_test.go
+
+echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+go test -v  flux/flux_test.go
 ```
+
+## Destroy resources
+
+When finished, please destroy all deployments by following the below guide
+
+:arrow_forward: [Destroy Landing zones](./docs/destroy.md)

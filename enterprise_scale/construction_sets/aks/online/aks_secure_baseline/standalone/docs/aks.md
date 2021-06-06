@@ -119,6 +119,7 @@ If there is a need to change the folder to your own, please modify [cluster-base
               objectType: secret
         tenantId: $TENANTID_AZURERBAC
     EOF
+    ```
 
 2. Update Traefik config to pin IP in Aks-ingress Subnet:
     ```bash
@@ -133,6 +134,7 @@ If there is a need to change the folder to your own, please modify [cluster-base
     ```
 
 3. Deploy Traefik & ASP.net sample appplication
+
     ```bash
     kubectl apply -f ../workloads/baseline
     # It takes 2-3 mins to deploy Traefik & the sample app. Watch all pods to be provision with, press Ctrl + C to exit from watch:
@@ -146,13 +148,43 @@ If there is a need to change the folder to your own, please modify [cluster-base
 
 4. You can now test the application from a browser. After couple of the minutes the application gateway health check warning should disappear
 
+
+## Testing
+
+You may use [automated integration tests](../../test) to test the deployed infrastructure.
+
+You are done with deployment of AKS environment, next step is to deploy the application and reference components.
+
+```bash
+# Go to the Test folder
+cd ../test
+
+
+export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+export PREFIX=$(terraform output -json | jq -r '.global_settings.value.prefixes[0]')
+export ENVIRONMENT=sandpit # replace if another Environment was set in the rover, default is sandpit
+
+go mod tidy
+
+# If there is ERROR: AADSTS70043: The refresh token has expired or is invalid due to sign-in frequency checks by conditional access
+# Perform az login again
+
+go test -v  shared_services/shared_services_test.go
+go test -v  aks/aks_test.go
+
+echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+go test -v  flux/flux_test.go
+```
+
 ## Destroy resources
 
 When finished, please destroy all deployments with:
 
 ```bash
+# Go to the Standalone folder
+cd ../standalone
 # Delete sample application, this contains PodDisruptionBudget that will block Terraform destroy
-kubectl delete -f workloads/baseline
+kubectl delete -f ../workloads/baseline
 
 # (When needed) Destroy the resources
 eval terraform destroy ${parameter_files}
