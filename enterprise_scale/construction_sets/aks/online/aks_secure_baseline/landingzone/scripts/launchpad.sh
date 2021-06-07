@@ -26,7 +26,6 @@ else
     -lz /tf/caf/landingzones/caf_launchpad \
         -launchpad \
         -level level0 \
-        -var="random_length=0" -var="prefix=$PREFIX" \
         -a ${ACTION}
 fi
 
