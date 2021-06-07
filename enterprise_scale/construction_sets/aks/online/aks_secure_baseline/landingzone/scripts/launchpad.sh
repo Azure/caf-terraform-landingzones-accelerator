@@ -3,7 +3,6 @@
 storage_name=$(az storage account list --query "[?tags.tfstate=='level0' && tags.launchpad=='launchpad']" -o json | jq -r .[0].name)
 
 if [ "${storage_name}" = "null" ]; then
-     git clone https://github.com/aztfmod/terraform-azurerm-caf.git /tf/caf/public
      git clone --branch azure_devops_v1 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
 
 

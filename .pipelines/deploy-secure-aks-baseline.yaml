@@ -92,7 +92,6 @@ stages:
             ./scripts/deploy_level_with_rover.sh level1 networking_hub
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
       - task: AzureCLI@2
         displayName: Networking Hub Test        
@@ -122,7 +121,6 @@ stages:
             ./scripts/deploy_level_with_rover.sh level1 networking_spoke
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
       - task: AzureCLI@2
         displayName: Networking Spoke Test        
@@ -153,7 +151,6 @@ stages:
             ./scripts/deploy_level_with_rover.sh level2 aks
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
 
       - task: AzureCLI@2
         displayName: AKS Test        
@@ -193,8 +190,6 @@ stages:
             echo $(cat rover.output | jq -r .aks_clusters_kubeconfig.value.aks_kubeconfig_admin_cmd) | bash
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
-          TF_VAR_github_owner: $(TF_VAR_GITHUB_OWNER)
 
       - task: AzureCLI@2
         displayName: Addons Test        
