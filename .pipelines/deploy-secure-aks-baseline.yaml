@@ -48,11 +48,11 @@ stages:
             echo '##vso[task.setvariable variable=PREFIX]$prefix_output'
             echo meow
             echo $prefix_output
-            export PREFIX=$(PREFIX)
             go test -v launchpad/launchpad_test.go
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
           TF_VAR_environment: $(testenv)
+          PREFIX: $(testenv)
 
 - stage: deploy_shared_services
   jobs:
@@ -86,7 +86,7 @@ stages:
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
             go test -v shared_services/shared_services_test.go
         env:
-          PREFIX: $(PREFIX)
+          PREFIX: $(testenv)
   
   - job: deploy_networking_hub
     displayName: "Deploy Networking Hub. Level 1"
@@ -178,6 +178,8 @@ stages:
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
             go test -v aks/aks_test.go
+        env:
+          PREFIX: $(testenv)
 
 - stage: deploy_addons
   jobs:
@@ -220,6 +222,7 @@ stages:
             go test -v flux/flux_test.go
         env:
           KUBECONFIGPATH: /home/vsts_azpcontainer/.kube/config
+          PREFIX: $(testenv)
 
 
 - stage: destroy_addons
