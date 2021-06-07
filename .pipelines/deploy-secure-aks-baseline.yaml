@@ -47,7 +47,7 @@ stages:
             prefix_output=$(cat /tf/caf/rover.output | jq -r .objects.value.launchpad.global_settings.prefix)
             echo '##vso[task.setvariable variable=PREFIX]$prefix_output'
             echo meow
-            echo $(PREFIX)
+            echo $prefix_output
             export PREFIX=$(PREFIX)
             go test -v launchpad/launchpad_test.go
         env:
