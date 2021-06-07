@@ -31,7 +31,7 @@ stages:
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: 
+          TF_VAR_environment: $(env)
 
       - task: AzureCLI@2
         displayName: Launchpad Test        
