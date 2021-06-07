@@ -53,7 +53,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
-            ./run_test.sh launchpad/launchpad_test.go
+            go test -v launchpad/launchpad_test.go
 
 
   deploy-shared-services: 
@@ -89,7 +89,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
-            ./run_test.sh shared_services/shared_services_test.go
+            go test -v shared_services/shared_services_test.go
 
   deploy-networking-hub: 
     runs-on: ubuntu-latest
@@ -192,7 +192,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
-            ./run_test.sh aks/aks_test.go
+            go test -v aks/aks_test.go
            
   deploy-addons: 
     runs-on: ubuntu-latest
@@ -236,7 +236,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
-            ./run_test.sh flux/flux_test.go
+            go test -v flux/flux_test.go
         env:
           KUBECONFIGPATH: /github/home/.kube/config
            
