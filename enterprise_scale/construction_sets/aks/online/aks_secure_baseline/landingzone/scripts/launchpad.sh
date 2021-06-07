@@ -19,6 +19,7 @@ then
     -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level0/launchpad \
         -launchpad \
         -level level0 \
+        -var="random_length=0" \
         -a ${ACTION}
 else 
     /tf/rover/rover.sh \
