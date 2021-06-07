@@ -42,7 +42,7 @@ stages:
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
-- stage: deploy_networking_shared_services
+- stage: deploy_shared_services
   jobs:
   - job: deploy_shared_services
     displayName: "Deploy Shared Services. Level 1"

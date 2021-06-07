@@ -11,7 +11,7 @@ LEVEL_NAME=$1
 LZ_NAME=$2
 ADDON_NAME=$3
 
-git clone https://github.com/aztfmod/terraform-azurerm-caf.git /tf/caf/public
+# git clone https://github.com/aztfmod/terraform-azurerm-caf.git /tf/caf/public
 git clone --branch azure_devops_v1 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
 
 /tf/rover/rover.sh  \

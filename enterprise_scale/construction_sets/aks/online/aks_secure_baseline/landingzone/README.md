@@ -16,9 +16,6 @@ rover login -t $TENANT_ID -s $SUB_ID
 
 ```bash
 git clone --branch azure_devops_v1 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
-
-#temp
-git clone https://github.com/aztfmod/terraform-azurerm-caf.git /tf/caf/public
 ```
 
 ## Level 0
