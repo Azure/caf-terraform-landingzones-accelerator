@@ -2,6 +2,8 @@ trigger: none
 
 variables:
   - group: iac-secure-caf
+  - name: env
+    value: es-aks
 
 resources:
   containers:
@@ -29,6 +31,7 @@ stages:
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_environment: 
 
       - task: AzureCLI@2
         displayName: Launchpad Test        
@@ -41,6 +44,7 @@ stages:
             go test -v launchpad/launchpad_test.go
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_environment: $(env)
 
 - stage: deploy_shared_services
   jobs:
@@ -58,11 +62,10 @@ stages:
           scriptType: bash
           inlineScript: |
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
-            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
-            ./scripts/deploy_level_with_rover.sh level1 shared_services
+            /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/deploy_level_with_rover.sh level1 shared_services
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_github_token: $(TF_VAR_GITHUB_TOKEN)
+          TF_VAR_environment: $(env)
 
       - task: AzureCLI@2
         displayName: Shared Services Test        
@@ -92,6 +95,7 @@ stages:
             ./scripts/deploy_level_with_rover.sh level1 networking_hub
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_environment: $(env)
 
       - task: AzureCLI@2
         displayName: Networking Hub Test        
@@ -121,6 +125,7 @@ stages:
             ./scripts/deploy_level_with_rover.sh level1 networking_spoke
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_environment: $(env)
 
       - task: AzureCLI@2
         displayName: Networking Spoke Test        
@@ -151,6 +156,7 @@ stages:
             ./scripts/deploy_level_with_rover.sh level2 aks
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_environment: $(env)
 
       - task: AzureCLI@2
         displayName: AKS Test        
@@ -190,6 +196,7 @@ stages:
             echo $(cat rover.output | jq -r .aks_clusters_kubeconfig.value.aks_kubeconfig_admin_cmd) | bash
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          TF_VAR_environment: $(env)
 
       - task: AzureCLI@2
         displayName: Addons Test        
