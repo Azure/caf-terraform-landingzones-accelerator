@@ -52,7 +52,7 @@ stages:
           TF_VAR_environment: $(ENVIRONMENT)
           PREFIX: $(ENVIRONMENT)
 
-- stage: deploy_shared_services
+- stage: deploy_level1
   jobs:
   - job: deploy_shared_services
     displayName: "Deploy Shared Services. Level 1"

@@ -28,5 +28,3 @@ else
         -level level0 \
         -a ${ACTION}
 fi
-
-
