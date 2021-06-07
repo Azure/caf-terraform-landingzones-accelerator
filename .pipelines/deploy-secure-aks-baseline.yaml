@@ -272,7 +272,6 @@ stages:
   jobs:
   - job: destroy_networking_spoke
     displayName: "Destroy Networking Spoke. Level 1"
-    dependsOn: destroy_networking_hub
     container: rover
 
     steps:
@@ -294,6 +293,7 @@ stages:
 
   - job: destroy_networking_hub
     displayName: "Destroy Networking Hub. Level 1"
+    dependsOn: destroy_networking_spoke
     container: rover
 
     steps:
