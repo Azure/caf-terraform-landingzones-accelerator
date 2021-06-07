@@ -85,6 +85,8 @@ stages:
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
             go test -v shared_services/shared_services_test.go
+        env:
+          PREFIX: $(PREFIX)
   
   - job: deploy_networking_hub
     displayName: "Deploy Networking Hub. Level 1"
