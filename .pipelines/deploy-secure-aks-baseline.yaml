@@ -84,6 +84,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            export PREFIX=$(testenv)
             go test -v shared_services/shared_services_test.go
         env:
           PREFIX: $(testenv)
