@@ -38,7 +38,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
-            ./run_test.sh launchpad/launchpad_test.go
+            go test -v launchpad/launchpad_test.go
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
@@ -72,7 +72,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
-            ./run_test.sh shared_services/shared_services_test.go
+            go test -v shared_services/shared_services_test.go
   
   - job: deploy_networking_hub
     displayName: "Deploy Networking Hub. Level 1"
@@ -163,7 +163,7 @@ stages:
           scriptType: bash
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
-            ./run_test.sh aks/aks_test.go
+            go test -v aks/aks_test.go
 
 - stage: deploy_addons
   jobs:
@@ -204,6 +204,6 @@ stages:
           scriptType: bash
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
-            ./run_test.sh flux/flux_test.go
+            go test -v flux/flux_test.go
         env:
           KUBECONFIGPATH: /home/vsts_azpcontainer/.kube/config
