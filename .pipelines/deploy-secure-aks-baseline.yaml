@@ -14,7 +14,6 @@ stages:
   jobs:
   - job: deploy_launchpad
     displayName: "Deploy Launchpad"
-    container: rover
 
     steps:
       - task: AzureCLI@2
@@ -56,7 +55,6 @@ stages:
   jobs:
   - job: deploy_shared_services
     displayName: "Deploy Shared Services. Level 1"
-    container: rover
 
     steps:
       - task: AzureCLI@2
@@ -86,7 +84,6 @@ stages:
   
   - job: deploy_networking_hub
     displayName: "Deploy Networking Hub. Level 1"
-    container: rover
 
     steps:
       - task: AzureCLI@2
@@ -116,7 +113,6 @@ stages:
   - job: deploy_networking_spoke
     displayName: "Deploy Networking Spoke. Level 1"
     dependsOn: deploy_networking_hub
-    container: rover
 
     steps:
       - task: AzureCLI@2
@@ -147,7 +143,6 @@ stages:
   jobs:
   - job: deploy_aks
     displayName: "Deploy AKS. Level 2"
-    container: rover
 
     steps:
       - task: AzureCLI@2
@@ -179,7 +174,6 @@ stages:
   jobs:
   - job: deploy_addons
     displayName: "Deploy Addons. Level 2"
-    container: rover
 
     steps:
       - task: AzureCLI@2
