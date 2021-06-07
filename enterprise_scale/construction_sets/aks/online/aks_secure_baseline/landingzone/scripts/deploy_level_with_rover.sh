@@ -7,11 +7,12 @@
 # e.g:
 # deploy_level_with_rover.sh level1 shared_services
 
-export TF_VAR_environment=${TF_VAR_environment:="sandpit"}
 LEVEL_NAME=$1
 LZ_NAME=$2
 ADDON_NAME=$3
-ACTION=$4
+export ACTION=${ACTION:="apply"} 
+export TF_VAR_environment=${TF_VAR_environment:="sandpit"}
+
 
 if [ -d "/tf/caf/landingzones" ] 
 then
