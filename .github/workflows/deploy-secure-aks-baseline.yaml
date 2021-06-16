@@ -11,14 +11,12 @@ on:
     - created
     
 env:
-  AZURE_CREDENTIALS: '{"clientId":"${{ secrets.SERVICE_PRINCIPAL }}", "clientSecret":"${{ secrets.SERVICE_PRINCIPAL_PWD }}", "subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.TENANT }}"}' 
+  AZURE_CREDENTIALS: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}", "clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}", "subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.ARM_TENANT_ID }}"}' 
   event_sha: +refs/pull/${{ github.event.issue.number }}/merge
-  ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL }}
-  ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}            
-  ARM_TENANT_ID: ${{ secrets.TENANT }}
-  PREFIX: ${{ secrets.RESOURCE_PREFIX }} 
-  ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}            
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
 jobs:
   deploy-launchpad:
@@ -51,6 +49,13 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+
+            export ACTION="output -json -o /tf/caf/rover.output"
+            /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh 
+            prefix_output=$(cat /tf/caf/rover.output | jq -r .objects.value.launchpad.global_settings.prefix)
+            echo $prefix_output
+            echo "PREFIX=$prefix_output" >> $GITHUB_ENV
+            export PREFIX=$prefix_output
             go test -v launchpad/launchpad_test.go
 
 

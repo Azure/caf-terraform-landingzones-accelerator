@@ -44,7 +44,6 @@ stages:
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh 
             prefix_output=$(cat /tf/caf/rover.output | jq -r .objects.value.launchpad.global_settings.prefix)
             echo '##vso[task.setvariable variable=PREFIX]$prefix_output'
-            echo meow
             echo $prefix_output
             go test -v launchpad/launchpad_test.go
         env:
