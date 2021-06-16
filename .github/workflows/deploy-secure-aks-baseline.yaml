@@ -50,6 +50,7 @@ jobs:
           cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/                 
           . /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
       - name: Test
+        id: test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
@@ -60,6 +61,7 @@ jobs:
             echo $prefix_output
             echo "PREFIX=$prefix_output" >> $GITHUB_ENV
             export PREFIX=$prefix_output
+            run: echo "::set-output name=PREFIX::$prefix_output"
             go test -v launchpad/launchpad_test.go
 
 
@@ -96,6 +98,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            export PREFIX="${{jobs.deploy-launchpad.steps.test.outputs.PREFIX}}"
             go test -v shared_services/shared_services_test.go
 
   deploy-networking-hub: 
