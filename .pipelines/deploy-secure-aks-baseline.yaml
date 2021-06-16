@@ -146,6 +146,8 @@ stages:
   - job: deploy_aks
     displayName: "Deploy AKS. Level 2"
     container: rover
+    variables:
+      PREFIX_LAUNCHPAD: $[ stageDependencies.deploy_launchpad.deploy_launchpad.outputs['test.PREFIX'] ]
 
     steps:
       - task: AzureCLI@2
@@ -172,13 +174,17 @@ stages:
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
             go test -v aks/aks_test.go
+        env:
+          PREFIX: $(PREFIX_LAUNCHPAD)
 
 - stage: deploy_addons
   jobs:
   - job: deploy_addons
     displayName: "Deploy Addons. Level 2"
     container: rover
-
+    variables:
+      PREFIX_LAUNCHPAD: $[ stageDependencies.deploy_launchpad.deploy_launchpad.outputs['test.PREFIX'] ]
+      
     steps:
       - task: AzureCLI@2
         displayName: Deploy Addons
@@ -213,4 +219,5 @@ stages:
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
             go test -v flux/flux_test.go
         env:
+          PREFIX: $(PREFIX_LAUNCHPAD)
           KUBECONFIGPATH: /home/vsts_azpcontainer/.kube/config

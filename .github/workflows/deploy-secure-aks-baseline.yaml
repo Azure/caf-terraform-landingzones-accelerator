@@ -72,6 +72,8 @@ jobs:
     container:
       image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
+    outputs:
+      prefix: ${{ steps.test.outputs.PREFIX }}
     steps:
       - name: Checkout Repository
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'      
@@ -96,6 +98,7 @@ jobs:
             ./scripts/deploy_level_with_rover.sh level1 shared_services
 
       - name: Test
+        id: test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
@@ -177,6 +180,8 @@ jobs:
     container:
       image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
+    outputs:
+      prefix: ${{ steps.test.outputs.PREFIX }}
     steps:
       - name: Checkout Repository
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'      
@@ -201,6 +206,7 @@ jobs:
             ./scripts/deploy_level_with_rover.sh level2 aks
 
       - name: Test
+        id: test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
