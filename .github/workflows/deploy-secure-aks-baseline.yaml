@@ -63,7 +63,7 @@ jobs:
             echo $prefix_output
             echo "PREFIX=$prefix_output" >> $GITHUB_ENV
             export PREFIX=$prefix_output
-            run: echo "::set-output name=PREFIX::$prefix_output"
+            echo "::set-output name=PREFIX::$prefix_output"
             go test -v launchpad/launchpad_test.go
 
 
