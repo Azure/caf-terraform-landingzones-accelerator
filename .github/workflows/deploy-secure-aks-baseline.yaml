@@ -61,7 +61,6 @@ jobs:
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh 
             prefix_output=$(cat /tf/caf/rover.output | jq -r .objects.value.launchpad.global_settings.prefixes[0])
             echo $prefix_output
-            echo "PREFIX=$prefix_output" >> $GITHUB_ENV
             export PREFIX=$prefix_output
             echo "::set-output name=PREFIX::$prefix_output"
             go test -v launchpad/launchpad_test.go
