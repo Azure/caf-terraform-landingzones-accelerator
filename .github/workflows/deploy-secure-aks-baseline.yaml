@@ -28,6 +28,8 @@ jobs:
     container:
       image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
+    outputs:
+      prefix: ${{ steps.test.outputs.PREFIX }}
     steps:
       - name: Checkout Repository
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
@@ -98,7 +100,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'           
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
-            export PREFIX="${{jobs.deploy-launchpad.steps.test.outputs.PREFIX}}"
+            export PREFIX="${{needs.deploy-launchpad.outputs.prefix}}"
             go test -v shared_services/shared_services_test.go
 
   deploy-networking-hub: 
