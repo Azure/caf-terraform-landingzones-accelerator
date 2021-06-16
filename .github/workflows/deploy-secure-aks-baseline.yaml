@@ -5,10 +5,10 @@ name: Deploy_Secure_Aks_Baseline
 
 
 
-on:
- push:
-    branches:
-      - CSE-AKS-terratest
+# on:
+#  push:
+#     branches:
+#       - CSE-AKS-terratest
   # issue_comment:
   #   types:
   #   - created

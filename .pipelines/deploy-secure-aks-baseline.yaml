@@ -55,7 +55,7 @@ stages:
     displayName: "Deploy Shared Services. Level 1"
     container: rover
     variables:
-      PREFIX_LAUNCHPAD: $[ stageDependencies.deploy_launchpad.deploy_launchpad.outputs['test.PREFIX'] ]
+      PREFIX_LAUNCHPAD: $[stageDependencies.deploy_launchpad.deploy_launchpad.outputs['test.PREFIX']]
 
     steps:
       - task: AzureCLI@2
@@ -71,7 +71,6 @@ stages:
             ./deploy_level_with_rover.sh level1 shared_services
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          PREFIX: $(PREFIX_LAUNCHPAD)
 
       - task: AzureCLI@2
         displayName: Shared Services Test        
@@ -82,6 +81,8 @@ stages:
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
             go test -v shared_services/shared_services_test.go
+        env:
+          PREFIX: $(PREFIX_LAUNCHPAD)
   
   - job: deploy_networking_hub
     displayName: "Deploy Networking Hub. Level 1"
