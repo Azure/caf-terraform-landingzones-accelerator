@@ -37,7 +37,6 @@ If not use the below command:
   # Make sure logged in
   kubectl get pods -A
   ```
-```
 
 Please review the Baseline components that are deployed at [cluster-baseline-settings](../../cluster-baseline-settings):
 
@@ -201,4 +200,4 @@ go test -v  flux/flux_test.go
 
 When finished, please destroy all deployments by following the below guide
 
-:arrow_forward: [Destroy Landing zones](./docs/destroy.md)
+:arrow_forward: [Destroy Landing zones](./destroy.md)
