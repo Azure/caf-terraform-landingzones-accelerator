@@ -29,33 +29,32 @@ stages:
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
 
       - task: AzureCLI@2
-        displayName: Launchpad Test        
+        displayName: Launchpad Test
+        name: test
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
-
             export ACTION="output -json -o /tf/caf/rover.output"
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh 
             prefix_output=$(cat /tf/caf/rover.output | jq -r .objects.value.launchpad.global_settings.prefix)
-            echo '##vso[task.setvariable variable=PREFIX]$prefix_output'
+            echo "##vso[task.setvariable variable=PREFIX;isOutput=true]$prefix_output"
             echo $prefix_output
             go test -v launchpad/launchpad_test.go
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
-          PREFIX: $(ENVIRONMENT)
 
 - stage: deploy_level1
   jobs:
   - job: deploy_shared_services
     displayName: "Deploy Shared Services. Level 1"
     container: rover
+    variables:
+      PREFIX_LAUNCHPAD: $[ stageDependencies.deploy_launchpad.deploy_launchpad.outputs['test.PREFIX'] ]
 
     steps:
       - task: AzureCLI@2
@@ -71,7 +70,7 @@ stages:
             ./deploy_level_with_rover.sh level1 shared_services
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
+          PREFIX: $(PREFIX_LAUNCHPAD)
 
       - task: AzureCLI@2
         displayName: Shared Services Test        
