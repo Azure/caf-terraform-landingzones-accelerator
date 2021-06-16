@@ -14,12 +14,12 @@ azurerm_routes = {
     address_prefix     = "0.0.0.0/0"
     next_hop_type      = "VirtualAppliance"
     next_hop_type_key  = "azurerm_firewall"
-    lz_key             = "networking_hub"
 
     # To be set when next_hop_type = "VirtualAppliance"
     private_ip_keys = {
       azurerm_firewall = {
         key             = "fw_re1"
+        lz_key             = "networking_hub"
         interface_index = 0
       }
     }
