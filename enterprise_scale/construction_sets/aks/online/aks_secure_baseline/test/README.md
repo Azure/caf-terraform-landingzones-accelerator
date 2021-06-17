@@ -6,5 +6,6 @@ In order to run tests locally you must have [GoLang installed](https://golang.or
 
 Each test for each part reads expected values from ExpectedValues.yaml file in a corresponding test folder.
 
-## [Landing zone test](../landingzone/docs/aks.md#test)
-## [Standalone test](../standalone/docs/aks.md#test)
+[Landing zone test](../landingzone/docs/aks.md#test)
+
+[Standalone test](../standalone/docs/aks.md#test)

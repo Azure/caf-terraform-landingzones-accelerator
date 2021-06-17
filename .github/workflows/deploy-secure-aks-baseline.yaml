@@ -4,7 +4,8 @@ name: Deploy_Secure_Aks_Baseline
 #                      "/deploy-networking-spoke", "/deploy-aks", "/deploy-addons"
 
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
 # on:
 #  push:
 #     branches:
