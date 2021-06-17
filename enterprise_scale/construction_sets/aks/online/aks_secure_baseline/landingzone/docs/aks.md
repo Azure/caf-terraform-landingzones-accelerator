@@ -8,6 +8,7 @@ If you are following the manual approach, then perform the instructions below:
 
 Make sure the current folder is "*enterprise_scale/construction_sets/aks/online/aks_secure_baseline/*"
 If not use the below command:
+
   ```bash
   # Go to the AKS construction set folder
   cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/
@@ -37,7 +38,7 @@ If not use the below command:
   # Make sure logged in
   kubectl get pods -A
   ```
-```
+
 
 Please review the Baseline components that are deployed at [cluster-baseline-settings](../../cluster-baseline-settings):
 
@@ -45,6 +46,7 @@ Please review the Baseline components that are deployed at [cluster-baseline-set
 - AKV Secret Store CSI Driver
 - Ingress Network Policy
 - Kured
+
 
   ```bash
   # Watch configurations deployment, Ctrl-C to quit
@@ -178,7 +180,7 @@ There is a set of sample integration tests that cover some parts of this constru
 
 ```bash
 # Go to the Test folder
-cd ../../test
+cd test
 
 export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
 output_file=/tf/caf/output.json
@@ -201,4 +203,4 @@ go test -v  flux/flux_test.go
 
 When finished, please destroy all deployments by following the below guide
 
-:arrow_forward: [Destroy Landing zones](./docs/destroy.md)
+:arrow_forward: [Destroy Landing zones](./destroy.md)

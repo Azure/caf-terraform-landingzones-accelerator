@@ -1,0 +1,141 @@
+name: Destroy_Secure_Aks_Baseline
+# The pipeline is triggered on:
+#  - PR/Issue comments "/destroy-all", "/destroy-launchpad", "/destroy-shared-services", "/destroy-networking-hub",
+#                      "/destroy-networking-spoke", "/destroy-aks", "/destroy-addons"
+
+on:
+ workflow_dispatch:
+ push:
+    branches:
+      - CSE-AKS-terratest
+  # issue_comment:
+  #   types:
+  #   - created
+    
+env:
+  AZURE_CREDENTIALS: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}", "clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}", "subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.ARM_TENANT_ID }}"}' 
+  event_sha: +refs/pull/${{ github.event.issue.number }}/merge
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}            
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ENVIRONMENT: sandpit
+  ACTION: "destroy -auto-approve"
+
+jobs:
+  destroy-addons: 
+    runs-on: ubuntu-latest
+    container:
+      image:  aztfmod/rover-preview:0.15.3-2105.210707
+      options: --user 0
+    steps:
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-addons') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Destroy
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-addons') || github.event_name != 'issue_comment'           
+        run: |         
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/        
+            ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2 
+
+  destroy-aks: 
+    runs-on: ubuntu-latest
+    needs: [destroy-addons]
+    container:
+      image:  aztfmod/rover-preview:0.15.3-2105.210707
+      options: --user 0
+    steps:
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-aks') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Destroy
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-aks') || github.event_name != 'issue_comment'           
+        run: |        
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level2 aks
+
+
+
+  destroy-shared-services: 
+    runs-on: ubuntu-latest
+    needs: destroy-aks
+    container:
+      image:  aztfmod/rover-preview:0.15.3-2105.210707
+      options: --user 0
+    steps:
+
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-shared-services') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Destroy
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-shared-services') || github.event_name != 'issue_comment'           
+        run: |        
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/desploy_level_with_rover.sh level1 shared_services
+
+  destroy-networking-spoke: 
+    runs-on: ubuntu-latest
+    needs: destroy-aks
+    container:
+      image:  aztfmod/rover-preview:0.15.3-2105.210707
+      options: --user 0
+    steps:
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-networking-spoke') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Destroy
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-networking-spoke') || github.event_name != 'issue_comment'           
+        run: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/destroy_level_with_rover.sh level1 networking_spoke
+
+  destroy-networking-hub: 
+    runs-on: ubuntu-latest
+    needs: destroy-networking-spoke
+    container:
+      image:  aztfmod/rover-preview:0.15.3-2105.210707
+      options: --user 0
+    steps:
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-networking-hub') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Destroy
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-networking-hub') || github.event_name != 'issue_comment'           
+        run: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/destroy_level_with_rover.sh level1 networking_hub
+
+  destroy-launchpad:
+    runs-on: ubuntu-latest
+    needs: [destroy-networking-hub, destroy-shared-services]
+    container:
+      image:  aztfmod/rover-preview:0.15.3-2105.210707
+      options: --user 0
+    steps:
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-launchpad') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Launchpad
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-launchpad') || github.event_name != 'issue_comment'     
+        run: |               
+          . /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
+           
+

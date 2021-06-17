@@ -20,7 +20,7 @@ stages:
     steps:
       - task: AzureCLI@2
         displayName: Destroy Addons
-        name: destriy_addons
+        name: destroy_addons
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
           scriptLocation: inlineScript
