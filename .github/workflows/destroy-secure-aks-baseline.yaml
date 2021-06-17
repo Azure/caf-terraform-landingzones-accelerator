@@ -29,6 +29,14 @@ jobs:
       image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
     steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
       - name: Azure Login
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-addons') || github.event_name != 'issue_comment'     
         uses: azure/login@v1
@@ -38,9 +46,7 @@ jobs:
       - name: Destroy
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-addons') || github.event_name != 'issue_comment'           
         run: |   
-            pwd
-            ls -lta
-            find .       
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/                 
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/        
             ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2 
 
@@ -56,10 +62,10 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ env.AZURE_CREDENTIALS }}
-
       - name: Destroy
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-aks') || github.event_name != 'issue_comment'           
         run: |        
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level2 aks
 
@@ -72,7 +78,14 @@ jobs:
       image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
     steps:
-
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
       - name: Azure Login
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-shared-services') || github.event_name != 'issue_comment'     
         uses: azure/login@v1
@@ -82,6 +95,7 @@ jobs:
       - name: Destroy
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-shared-services') || github.event_name != 'issue_comment'           
         run: |        
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/desploy_level_with_rover.sh level1 shared_services
 
@@ -92,6 +106,14 @@ jobs:
       image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
     steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
       - name: Azure Login
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-networking-spoke') || github.event_name != 'issue_comment'     
         uses: azure/login@v1
@@ -101,6 +123,7 @@ jobs:
       - name: Destroy
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-networking-spoke') || github.event_name != 'issue_comment'           
         run: |
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/destroy_level_with_rover.sh level1 networking_spoke
 
@@ -111,6 +134,14 @@ jobs:
       image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
     steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
       - name: Azure Login
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-networking-hub') || github.event_name != 'issue_comment'     
         uses: azure/login@v1
@@ -120,6 +151,7 @@ jobs:
       - name: Destroy
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-networking-hub') || github.event_name != 'issue_comment'           
         run: |
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/destroy_level_with_rover.sh level1 networking_hub
 
@@ -130,6 +162,14 @@ jobs:
       image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
     steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
       - name: Azure Login
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-launchpad') || github.event_name != 'issue_comment'     
         uses: azure/login@v1
@@ -139,6 +179,7 @@ jobs:
       - name: Launchpad
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-launchpad') || github.event_name != 'issue_comment'     
         run: |               
+          cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
           . /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
            
 
