@@ -57,6 +57,14 @@ jobs:
       image:  aztfmod/rover-preview:0.15.3-2105.210707
       options: --user 0
     steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
       - name: Azure Login
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-aks') || github.event_name != 'issue_comment'     
         uses: azure/login@v1
