@@ -16,10 +16,10 @@ If not use the below command:
   ```
 
   ```bash
- # Login to the AKS if in ESLZ
+  # Login to the AKS in current user
   echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_cmd) | bash
 
-  # Otherwise use this to login
+  # If there is lack of RBAC permission in your user role, login with Admin (not recommended for Production)
   echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
 
   # Make sure logged in
