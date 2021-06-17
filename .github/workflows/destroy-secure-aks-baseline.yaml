@@ -37,7 +37,10 @@ jobs:
 
       - name: Destroy
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-addons') || github.event_name != 'issue_comment'           
-        run: |         
+        run: |   
+            pwd
+            ls -lta
+            find .       
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/        
             ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2 
 
