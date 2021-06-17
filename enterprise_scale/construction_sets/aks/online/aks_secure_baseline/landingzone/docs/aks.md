@@ -28,10 +28,10 @@ If not use the below command:
   # To find a path to an output key
   output_key="aks_kubeconfig_cmd"
   cat $output_file | jq -c 'paths | select(.[-1] == "'"$output_key"'")'
- # Login to the AKS if in ESLZ
+  # Login to the AKS in current user
   cat $output_file | jq -r .objects.value.aks.aks_clusters.cluster_re1.aks_kubeconfig_cmd | bash
 
-  # If there is lack of RBAC permission in your subscription, login with Admin (not recommended for Production)
+  # If there is lack of RBAC permission in your user role, login with Admin (not recommended for Production)
   cat $output_file | jq -r .objects.value.aks.aks_clusters.cluster_re1.aks_kubeconfig_admin_cmd | bash
 
   # Make sure logged in
@@ -170,19 +170,20 @@ If there is a need to change the folder to your own, please modify [cluster-base
 
 
 
-## Testing
+## Test
 
-You may use [automated integration tests](../test) to test the deployed infrastructure.
 
-You are done with deployment of AKS environment, next step is to deploy the application and reference components.
+There is a set of sample integration tests that cover some parts of this constructions set
+
 
 ```bash
 # Go to the Test folder
 cd ../../test
 
 export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-export PREFIX=$(terraform output -json | jq -r '.global_settings.value.prefixes[0]')
-export ENVIRONMENT=sandpit # replace if another Environment was set in the rover, default is sandpit
+output_file=/tf/caf/output.json
+export PREFIX=$(cat $output_file | jq -r .objects.value.aks.global_settings.prefixes[0])
+export ENVIRONMENT=${caf_env} # replace if another Environment was set in the rover, default is sandpit
 
 go mod tidy
 
@@ -193,7 +194,6 @@ go test -v  launchpad/launchpad_test.go
 go test -v  shared_services/shared_services_test.go
 go test -v  aks/aks_test.go
 
-echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
 go test -v  flux/flux_test.go
 ```
 

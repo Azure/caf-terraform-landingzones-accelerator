@@ -149,7 +149,7 @@ If there is a need to change the folder to your own, please modify [cluster-base
 4. You can now test the application from a browser. After couple of the minutes the application gateway health check warning should disappear
 
 
-## Testing
+## Test
 
 You may use [automated integration tests](../../test) to test the deployed infrastructure.
 
