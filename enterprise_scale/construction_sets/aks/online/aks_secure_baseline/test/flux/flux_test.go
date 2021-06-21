@@ -62,7 +62,6 @@ func TestAadPodIdentityControllers(t *testing.T) {
 	for key := range aadpods {
 		err := k8s.WaitUntilPodAvailableE(t, options, aadpods[key].Name, 60, 1*time.Second)
 		require.NoError(t, err)
-
 	}
 }
 

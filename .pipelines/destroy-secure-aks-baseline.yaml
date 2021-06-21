@@ -2,6 +2,8 @@ trigger: none
 
 variables:
   - group: iac-secure-caf
+  ARM_PARTNER_ID: "f85b2775-ec1d-4fef-949e-bbd6957082af"
+
 
 resources:
   containers:
@@ -129,7 +131,7 @@ stages:
     container: rover
 
     steps:
-      - task: AzureCLI@2
+      - task: AzureCLI@ 2
         displayName: Destroy Launchpad. Level 0.
         name: destroy_launchpad
         inputs:
