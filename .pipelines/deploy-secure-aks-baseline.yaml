@@ -4,7 +4,7 @@ variables:
   - group: iac-secure-caf
   - name: "ARM_PARTNER_ID"
     value: "f85b2775-ec1d-4fef-949e-bbd6957082af"
-  - name: "ENVIRONMENT"
+  - name: "TF_VAR_environment"
     value: "$(Build.BuildNumber)"
 
 resources:
@@ -110,7 +110,6 @@ stages:
             ./scripts/deploy_level_with_rover.sh level1 networking_hub
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
 
       - task: AzureCLI@2
         displayName: Networking Hub Test        
@@ -140,7 +139,6 @@ stages:
             ./scripts/deploy_level_with_rover.sh level1 networking_spoke
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
 
       - task: AzureCLI@2
         displayName: Networking Spoke Test        
@@ -173,7 +171,6 @@ stages:
             ./scripts/deploy_level_with_rover.sh level2 aks
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
 
       - task: AzureCLI@2
         displayName: AKS Test
@@ -219,7 +216,6 @@ stages:
             echo $(cat rover.output | jq -r .aks_clusters_kubeconfig.value.aks_kubeconfig_admin_cmd) | bash
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
 
       - task: AzureCLI@2
         displayName: Addons Test        
@@ -254,7 +250,6 @@ stages:
             ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2 
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
           ACTION: "destroy -auto-approve"
 
 - stage: destroy_aks
@@ -277,7 +272,6 @@ stages:
             ./scripts/deploy_level_with_rover.sh level2 aks
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
           ACTION: "destroy -auto-approve"
 
 - stage: destroy_level1
@@ -300,7 +294,6 @@ stages:
             ./scripts/deploy_level_with_rover.sh level1 networking_spoke
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
           ACTION: "destroy -auto-approve"
 
   - job: destroy_networking_hub
@@ -322,7 +315,6 @@ stages:
             ./scripts/deploy_level_with_rover.sh level1 networking_hub
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
           ACTION: "destroy -auto-approve"
 
   - job: destroy_shared_services
@@ -343,7 +335,6 @@ stages:
             ./deploy_level_with_rover.sh level1 shared_services
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
           ACTION: "destroy -auto-approve"
 - stage: destroy_launchpad
   jobs:
@@ -364,5 +355,4 @@ stages:
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-          TF_VAR_environment: $(ENVIRONMENT)
           ACTION: "destroy -auto-approve"
