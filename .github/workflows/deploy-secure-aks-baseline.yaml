@@ -376,7 +376,7 @@ jobs:
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
-            ./scripts/destroy_level_with_rover.sh level1 networking_spoke
+            ./scripts/deploy_level_with_rover.sh level1 networking_spoke
         env:
           ACTION: "destroy -auto-approve"
 
@@ -406,7 +406,7 @@ jobs:
         run: |
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
-            ./scripts/destroy_level_with_rover.sh level1 networking_hub
+            ./scripts/deploy_level_with_rover.sh level1 networking_hub
         env:
           ACTION: "destroy -auto-approve"
 
