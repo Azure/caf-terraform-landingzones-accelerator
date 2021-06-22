@@ -346,7 +346,7 @@ jobs:
         run: |        
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
-            ./scripts/desploy_level_with_rover.sh level1 shared_services
+            ./scripts/deploy_level_with_rover.sh level1 shared_services
         env:
           ACTION: "destroy -auto-approve"
 
