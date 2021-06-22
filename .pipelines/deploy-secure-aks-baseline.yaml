@@ -4,7 +4,7 @@ variables:
   - group: iac-secure-caf
   - name: "ARM_PARTNER_ID"
     value: "f85b2775-ec1d-4fef-949e-bbd6957082af"
-  - name: "TF_VAR_environment"
+  - name: "ENVIRONMENT"
     value: "$(Build.BuildNumber)"
 
 resources:
@@ -29,8 +29,8 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            echo "ARM_PARTNER_ID"
-            echo $ARM_PARTNER_ID
+            echo "ENVIRONMENT"
+            echo $ENVIRONMENT
             cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/                 
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
         env:

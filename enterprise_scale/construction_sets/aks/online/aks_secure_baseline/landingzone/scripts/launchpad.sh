@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export ACTION=${ACTION:="apply"} 
-export TF_VAR_environment=${TF_VAR_environment:="sandpit"}
+export TF_VAR_environment=${ENVIRONMENT:="sandpit"}
 
 if [ -d "/tf/caf/landingzones" ] 
 then
