@@ -20,7 +20,7 @@ env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}            
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   ARM_PARTNER_ID: "f85b2775-ec1d-4fef-949e-bbd6957082af"
-  ENVIRONMENT: sandpit
+  ENVIRONMENT: ${{ github.run_id }}
 
 jobs:
   deploy-launchpad:
@@ -50,7 +50,7 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
         run: |
           cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/                 
-          . /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
+          /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
       - name: Test
         id: test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
@@ -435,7 +435,7 @@ jobs:
         if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-launchpad') || github.event_name != 'issue_comment'     
         run: |               
           cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
-          . /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
+          /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
         env:
           ACTION: "destroy -auto-approve"
            

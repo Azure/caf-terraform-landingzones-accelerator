@@ -4,6 +4,8 @@ variables:
   - group: iac-secure-caf
   - name: "ARM_PARTNER_ID"
     value: "f85b2775-ec1d-4fef-949e-bbd6957082af"
+  - name: "ENVIRONMENT"
+    value: "$(Build.BuildNumber)"
 
 resources:
   containers:
