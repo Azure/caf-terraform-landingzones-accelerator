@@ -350,7 +350,7 @@ stages:
     container: rover
 
     steps:
-      - task: AzureCLI@ 2
+      - task: AzureCLI@2
         displayName: Destroy Launchpad. Level 0.
         name: destroy_launchpad
         inputs:
