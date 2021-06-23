@@ -29,6 +29,8 @@ jobs:
     container:
       image: ${{ env.image }}
       options: --user 0
+    env: 
+      image: $(image)
     outputs:
       prefix: ${{ steps.test.outputs.PREFIX }}
     steps:
