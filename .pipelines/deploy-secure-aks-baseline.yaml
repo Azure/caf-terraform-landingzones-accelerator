@@ -366,7 +366,7 @@ stages:
 
     steps:
       - task: AzureCLI@2
-        displayName: Destroy Launchpad. Level 0.
+        displayName: Purge
         name: destroy_launchpad
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
@@ -376,8 +376,8 @@ stages:
             echo BuildNumber $(Build.BuildNumber)
             for i in `az monitor diagnostic-settings subscription list -o tsv --query "value[?contains(name, '$(Build.BuildNumber)' )].name"`; do echo "purging subscription diagnostic-settings: $i" && $(az monitor diagnostic-settings subscription delete --name $i --yes); done
             for i in `az monitor log-profiles list -o tsv --query '[].name'`; do az monitor log-profiles delete --name $i; done
-            for i in `az ad group list --query "[?contains(displayName, '$(Build.BuildNumber)')].objectId" -o tsv`; do echo "purging Azure AD group: $i" && $(az ad group delete --verbose --group $i || true); done
-            for i in `az ad app list --query "[?contains(displayName, '$(Build.BuildNumber)')].appId" -o tsv`; do echo "purging Azure AD app: $i" && $(az ad app delete --verbose --id $i || true); done
+            # for i in `az ad group list --query "[?contains(displayName, '$(Build.BuildNumber)')].objectId" -o tsv`; do echo "purging Azure AD group: $i" && $(az ad group delete --verbose --group $i || true); done
+            # for i in `az ad app list --query "[?contains(displayName, '$(Build.BuildNumber)')].appId" -o tsv`; do echo "purging Azure AD app: $i" && $(az ad app delete --verbose --id $i || true); done
             for i in `az keyvault list-deleted --query "[?tags.testing_job_id=='$(Build.BuildNumber)'].name" -o tsv`; do az keyvault purge --name $i; done
             for i in `az group list --query "[?tags.testing_job_id=='$(Build.BuildNumber)'].name" -o tsv`; do echo "purging resource group: $i" && $(az group delete -n $i -y --no-wait || true); done
             for i in `az role assignment list --query "[?contains(roleDefinitionName, '$(Build.BuildNumber)')].roleDefinitionName" -o tsv`; do echo "purging role assignment: $i" && $(az role assignment delete --role $i || true); done
