@@ -25,5 +25,6 @@ fi
   -lz /tf/caf/landingzones/caf_solution${ADDON_NAME} \
   -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/${LEVEL_NAME}/${LZ_NAME} \
   -tfstate ${LZ_NAME}.tfstate \
+  -var tags='{testing_job_id='$TF_VAR_environment'}' \
   -level ${LEVEL_NAME} \
   -a ${ACTION}

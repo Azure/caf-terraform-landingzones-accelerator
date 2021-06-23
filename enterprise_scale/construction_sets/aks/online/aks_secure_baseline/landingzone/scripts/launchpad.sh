@@ -18,6 +18,7 @@ then
     -lz /tf/caf/landingzones/caf_launchpad \
     -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level0/launchpad \
         -launchpad \
+        -var tags='{testing_job_id='"$TF_VAR_environment"'}' \
         -level level0 \
         -a ${ACTION}
 else 
