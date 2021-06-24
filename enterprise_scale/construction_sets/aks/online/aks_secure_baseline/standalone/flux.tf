@@ -1,5 +1,5 @@
 module "flux_addon" {
-  source = "github.com/Azure/caf-terraform-landingzones?ref=azure_devops_v1//caf_solution/add-ons/aks_secure_baseline_v2/flux"
+  source = "github.com/Azure/caf-terraform-landingzones?ref=mtms//caf_solution/add-ons/aks_secure_baseline_v2/flux"
   for_each = var.flux_settings
   setting = each.value
   depends_on = [module.caf]
