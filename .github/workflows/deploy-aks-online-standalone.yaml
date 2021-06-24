@@ -1,0 +1,84 @@
+name: Deploy_AKS_Online_Standalone
+# The pipeline is triggered on:
+#  - PR/Issue comments "/deploy-all", "/deploy-launchpad", "/deploy-shared-services", "/deploy-networking-hub",
+#                      "/deploy-networking-spoke", "/deploy-aks", "/deploy-addons"
+
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - CSE-AKS-terratest
+  # issue_comment:
+  #   types:
+  #   - created
+    
+env:
+  AZURE_CREDENTIALS: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}", "clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}", "subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.ARM_TENANT_ID }}"}' 
+  event_sha: +refs/pull/${{ github.event.issue.number }}/merge
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}            
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ARM_PARTNER_ID: "f85b2775-ec1d-4fef-949e-bbd6957082af"
+  ENVIRONMENT: ${{ github.run_id }}
+
+jobs:
+  deploy-standalone:
+    runs-on: ubuntu-latest
+    outputs:
+      prefix: ${{ steps.test.outputs.PREFIX }}
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+
+      - name: Deploy Standalone
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        run: |
+          ls -lta
+          pwd
+          cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+          configuration_folder=configuration
+          parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
+          terraform init -upgrade
+          eval terraform apply ${parameter_files}
+      - name: Test
+        id: test
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        run: |
+          pwd
+          ls -lta
+          cd ../test
+          export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+          export PREFIX=$(terraform output -json | jq -r '.global_settings.value.prefixes[0]')
+          export ENVIRONMENT=sandpit # replace if another Environment was set in the rover, default is sandpit
+          go mod tidy
+          go test -v  shared_services/shared_services_test.go
+          go test -v  aks/aks_test.go
+          echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+          go test -v  flux/flux_test.go
+      - name: Destroy Standalone
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        run: |
+          ls -lta
+          pwd
+          cd ../standalone
+          configuration_folder=configuration
+          parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
+          eval terraform destroy ${parameter_files}
+

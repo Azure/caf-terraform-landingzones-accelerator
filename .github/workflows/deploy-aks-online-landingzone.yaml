@@ -1,4 +1,4 @@
-name: Deploy_Secure_Aks_Baseline
+name: Deploy_AKS_Online_Landingzone
 # The pipeline is triggered on:
 #  - PR/Issue comments "/deploy-all", "/deploy-launchpad", "/deploy-shared-services", "/deploy-networking-hub",
 #                      "/deploy-networking-spoke", "/deploy-aks", "/deploy-addons"
