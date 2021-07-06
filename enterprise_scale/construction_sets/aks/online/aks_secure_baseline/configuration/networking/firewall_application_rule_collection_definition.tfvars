@@ -115,7 +115,7 @@ azurerm_firewall_application_rule_collection_definition = {
         # source_addresses = [
         #   "*",
         # ]
-        
+
         source_ip_groups_keys = [
           "aks_ip_group1"
         ]

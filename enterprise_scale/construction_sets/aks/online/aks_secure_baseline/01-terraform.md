@@ -46,7 +46,7 @@ az account set --subscription {SUBSCRIPTIONID}
 # If you are running in Azure Cloud Shell, you need to run the following additional command:
 export TF_VAR_logged_user_objectId=$(az ad signed-in-user show --query objectId -o tsv)
 
-# Go to the AKS construction set folder 
+# Go to the AKS construction set folder
 cd caf-terraform-landingzones-starter/enterprise_scale/construction_sets/aks
 
 configuration_folder=online/aks_secure_baseline/configuration

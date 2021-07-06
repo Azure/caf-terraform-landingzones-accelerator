@@ -1,6 +1,6 @@
 # CAF landing zones for Terraform - Azure Machine Learning (AML) example
 
-Deploys a AML Workspace \.
+Deploys a AML Workspace.
 
 DAP landing zone operates at **level 3**.
 

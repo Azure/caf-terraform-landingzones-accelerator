@@ -28,7 +28,7 @@ landingzone_key="cluster_aks"
 # Key of the cluster to deploy the application
 cluster_key="cluster_re1"
 
-rover -lz /tf/caf/public/landingzones/caf_solutions/add-ons/aks_applications/ \
+rover -lz /tf/caf/landingzones/caf_solution/add-ons/aks_applications/ \
   -tfstate ${application}1.tfstate \
   -var-folder /tf/caf/reference_implementations/azure_kubernetes_services/applications/${application} \
   -var tags={application=\"${application}\"} \

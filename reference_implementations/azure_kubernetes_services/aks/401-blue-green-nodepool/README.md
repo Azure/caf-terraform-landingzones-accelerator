@@ -48,7 +48,7 @@ example=401-blue-green-nodepool
 ### Step 0: Deploy Blue Nodepool
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
   -tfstate landingzone_aks.tfstate \
   -var-file /tf/caf/reference_implementations/azure_kubernetes_services/aks/${example}/configuration.tfvars \
   -var-file /tf/caf/reference_implementations/azure_kubernetes_services/aks/${example}/aks_step0.tfvars \
@@ -60,7 +60,7 @@ rover -lz /tf/caf/public/landingzones/caf_solutions/ \
 
 ### Step 1: Upgrade Control Plane, system Nodepool and adding Green Nodepool
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
   -tfstate landingzone_aks.tfstate \
   -var-file /tf/caf/reference_implementations/azure_kubernetes_services/aks/${example}/configuration.tfvars \
   -var-file /tf/caf/reference_implementations/azure_kubernetes_services/aks/${example}/aks_step1.tfvars \
@@ -75,7 +75,7 @@ rover -lz /tf/caf/public/landingzones/caf_solutions/ \
 Login to the cluster using *aks_kubeconfig_admin_cmd* or *aks_kubeconfig_cmd* output: *"az aks get-credentials..."*
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
   -tfstate landingzone_aks.tfstate \
   -level level3 \
   -a output \
@@ -98,7 +98,7 @@ kubectl drain -l agentpool=nodepool1 --ignore-daemonsets --delete-local-data
 
 Delete Blue NodePool
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+rover -lz /tf/caf/public/landingzones/caf_solution/ \
   -tfstate ${example}_landingzone_aks.tfstate \
   -var-file /tf/caf/reference_implementations/azure_kubernetes_services/aks/${example}/configuration.tfvars \
   -var-file /tf/caf/reference_implementations/azure_kubernetes_services/aks/${example}/aks_step2.tfvars \

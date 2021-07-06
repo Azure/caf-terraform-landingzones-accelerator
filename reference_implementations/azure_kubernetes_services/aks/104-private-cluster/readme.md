@@ -50,7 +50,7 @@ In this section we add the Azure Firewall in the regional hub.
 
 example="104-private-cluster"
 
-rover -lz /tf/caf/public/landingzones/caf_networking/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
   -tfstate networking_hub.tfstate \
   -var-folder /tf/caf/configuration/${environment}/level2/networking/hub \
   -var-folder /tf/caf/reference_implementations/azure_kubernetes_services/aks/${example}/networking_hub/single_region \
@@ -65,7 +65,7 @@ rover -lz /tf/caf/public/landingzones/caf_networking/ \
 
 ```bash
 example=104-private-cluster
-rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
   -tfstate landingzone_aks.tfstate \
   -var-folder /tf/caf/reference_implementations/azure_kubernetes_services/aks/${example} \
   -var tags={example=\"${example}\"} \

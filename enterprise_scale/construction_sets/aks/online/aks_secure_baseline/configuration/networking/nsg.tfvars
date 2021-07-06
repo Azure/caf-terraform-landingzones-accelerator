@@ -6,7 +6,7 @@ network_security_group_definition = {
   # This entry is applied to all subnets with no NSG defined
   azure_kubernetes_cluster_nsg = {
     nsg = [
-      
+
     ]
   }
   azure_bastion_nsg = {
