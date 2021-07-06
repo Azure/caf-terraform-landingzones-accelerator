@@ -50,7 +50,7 @@ azurerm_firewall_network_rule_collection_definition = {
           "aks_ip_group1"
         ]
         destination_ports = [
-          "443","9000","22"
+          "443", "9000", "22"
         ]
         destination_addresses = [
           "AzureCloud"

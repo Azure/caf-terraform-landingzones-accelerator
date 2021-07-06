@@ -10,7 +10,7 @@ This implementation is based on [Cloud Adoption Framework Landing Zones for Terr
 
 ## Applied Azure Policies for Online Landing zones
 
-The list below details only notable Policies for this implementation, it is not exhaustive.  
+The list below details only notable Policies for this implementation, it is not exhaustive.
 Please view Azure Policy portal or [List all assigned Azure Policies](#list-all-assigned-azure-policies) section to list out the details of assigned policies
 
 | Policy                          | Config files                                                                                                                                                                                                                                                                                                                     |
@@ -30,7 +30,7 @@ Please view Azure Policy portal or [List all assigned Azure Policies](#list-all-
 az policy assignment list --disable-scope-strict-match
 
 # To view details of assigned Policies of the a resource
-az policy assignment list --disable-scope-strict-match --scope {RESOURCEID} 
+az policy assignment list --disable-scope-strict-match --scope {RESOURCEID}
 ```
 
 ## Prerequisites
@@ -86,10 +86,10 @@ If you opt-in to setup a shell on your machine, there are required access and to
    sudo apt install jq
    ```
 
-   kubectl: For more information visit [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 
+   kubectl: For more information visit [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
    ```bash
-   # kubectl: 
+   # kubectl:
    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
    ```

@@ -27,7 +27,7 @@ export environment=[YOUR_ENVIRONMENT]
 # Set the folder name of this example
 export example="102-aml-workspace-compute"
 
-rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
       -var-folder /tf/caf/reference_implementations/data_analytics/machine_learning/${example} \
       -tfstate machine_learning_102.tfstate \
 	-env ${environment} \

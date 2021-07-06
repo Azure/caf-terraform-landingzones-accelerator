@@ -48,7 +48,7 @@ example=103-multi-clusters
 ### Run AKS landing zone deployment
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
   -tfstate landingzone_aks.tfstate \
   -var-folder /tf/caf/reference_implementations/azure_kubernetes_services/aks/${example} \
   -var tags={example=\"${example}\"} \
