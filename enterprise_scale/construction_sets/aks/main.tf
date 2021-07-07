@@ -6,7 +6,7 @@ terraform {
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "~> 1.0.0"
+      version = "~> 1.4.0"
     }
     random = {
       source  = "hashicorp/random"
@@ -30,7 +30,7 @@ terraform {
     }
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "~> 1.1.0"
+      version = "~> 1.2.0"
     }
   }
   required_version = ">= 0.13"

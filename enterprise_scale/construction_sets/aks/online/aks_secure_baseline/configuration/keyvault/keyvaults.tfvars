@@ -22,14 +22,10 @@ keyvaults = {
         certificate_permissions = ["Get"]
       }
 
-      keyvault_access_policies = {
-        certificates = {
-          apgw_keyvault_secrets = {
-            managed_identity_key    = "apgw_keyvault_secrets"
-            certificate_permissions = ["Get"]
-            secret_permissions      = ["Get"]
-          }
-        }
+      apgw_keyvault_secrets = {
+        managed_identity_key    = "apgw_keyvault_secrets"
+        certificate_permissions = ["Get"]
+        secret_permissions      = ["Get"]
       }
 
     }

@@ -37,22 +37,21 @@ Ensure the below is set prior to apply or destroy.
 # Login the Azure subscription
 rover login -t [TENANT_ID/TENANT_NAME] -s [SUBSCRIPTION_GUID]
 # Environment is needed to be defined, otherwise the below LZs will land into sandpit which someone else is working on
-export environment=[YOUR_ENVIRONMENT]
+export environment=demo
 ```
 
 ## Run AKS landing zone deployment
 
 ```bash
 # Set the folder name of this example
-example=101-single-cluster
-
-rover -lz /tf/caf/ \
-  -tfstate landingzone_aks.tfstate \
-  -var-folder /tf/caf/examples/aks/${example} \
-  -var tags={example=\"${example}\"} \
-  -env ${environment} \
+rover -lz /tf/caf/landingzones/caf_solution/ \
+  -tfstate landing_zone_aks.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/level3/aks \
+  -parallelism 30 \
   -level level3 \
-  -a [plan|apply]
+  -env ${environment} \
+  -a [plan|apply|destroy]
+
 ```
 
 ## Destroy an AKS landing zone deployment
@@ -61,13 +60,13 @@ Have fun playing with the landing zone an once you are done, you can simply dele
 
 ```bash
 # Set the folder name of this example
-example=101-single-cluster
+environment=demo
 
-rover -lz /tf/caf/ \
-  -tfstate landingzone_aks.tfstate \
-  -var-folder /tf/caf/examples/aks/${example} \
-  -var tags={example=\"${example}\"} \
-  -env ${environment} \
+rover -lz /tf/caf/landingzones/caf_solution/ \
+  -tfstate landing_zone_aks.tfstate \
+  -var-folder /tf/caf/configuration/${environment}/level3/aks \
+  -parallelism 30 \
   -level level3 \
+  -env ${environment} \
   -a destroy -auto-approve
 ```
