@@ -37,7 +37,8 @@ becomes
 https://<password>@dev.azure.com/<organizationname>/caf-configuration/_git/caf-configuration
 
 ```
-- Clone and choose a location.
+- In the terminal navigate to the folder you wish to clone to.
+- Clone
 ```bash
 git clone --branch starter https://<password>@dev.azure.com/<organizationname>/caf-configuration/_git/caf-configuration
 ```
@@ -280,6 +281,7 @@ rover -lz /tf/caf/landingzones/caf_solution/add-ons/azure_devops_agent \
   -a [plan|apply|destroy]
 ```
 
+_Note: First time this is deployed, you may get an error saying the Blob "devops_runtime_baremetal.sh" cannot be parsed. This seems to be a race condition, where it is trying to be read before it has fully uploaded to your storage account. Re-run the apply, it will work from now on._
 ### 4. Check in your repo code changes back into Azure Devops
 First time you attempt to check code in, it might error saying you need to update the username and email of git configuration. 
 
