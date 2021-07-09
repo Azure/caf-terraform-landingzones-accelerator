@@ -39,7 +39,7 @@ https://<password>@dev.azure.com/<organizationname>/caf-configuration/_git/caf-c
 ```
 - Clone and choose a location.
 ```bash
-git clone --branch starter https://<password>@dev.azure.com/caf-configuration/_git/caf-configuration
+git clone --branch starter https://<password>@dev.azure.com/<organizationname>/caf-configuration/_git/caf-configuration
 ```
 - Ensure Docker is running
 
