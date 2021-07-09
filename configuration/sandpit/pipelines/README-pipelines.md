@@ -225,7 +225,17 @@ variable_groups = {
       }
     }
 ```
+### 3.3.2.1 Changing the git_repo_name
+If you didn't call the project "caf-configuration" when you imported the repo, then you will need to update all `git_repo_name` lines in the [azure_devops.tfvars](../level1/gitops/azure_devops/azure_devops.tfvars). 
 
+- Using a find and replace, replace:
+```hcl
+git_repo_name = "caf-configuration"
+```
+with
+```hcl
+git_repo_name = "<Your Project Name>"
+```
 ### 3.3.3 Deploy the GitOps Configuration for Azure DevOps
 
 ```bash
