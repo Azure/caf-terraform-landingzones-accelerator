@@ -11,6 +11,7 @@ Assumptions:
 In this example, we will seed the initial deployment locally and then deploy the environment from an Azure DevOps set of pipelines.
 
 ## Prerequisite
+
 - VS Code
 - Docker
 
@@ -19,9 +20,10 @@ In this example, we will seed the initial deployment locally and then deploy the
 ### 1.1 Import Starter Landing Zone into your Azure DevOps environment
 
 Go to your Azure DevOps organization (this could be an on premises organization or hosted on http://dev.azure.com), create your first project and then clone the starter repository [this repository](https://github.com/Azure/caf-terraform-landingzones-starter) in your Azure DevOps.
-This repository will be called the ```caf-configuration``` repository in the example pipelines. In order to make things easier, you might want to rename your git repo ```caf-configuration``` in your DevOps project.
+This repository will be called the `caf-configuration` repository in the example pipelines. In order to make things easier, you might want to rename your git repo `caf-configuration` in your DevOps project.
 
 ### 1.2 Clone project.
+
 With Azure DevOps, clone into Visual Studio code, by Generating Git Credentials. By generating with Git Credentials allows the project to be checked in from within a container.
 
 ## 2. Clone the public landing zones
@@ -60,7 +62,8 @@ The deployment of an environment via pipeline always starts by deploying the Dev
 
 ### 3.1 Level0 - Launchpad
 
-### 3.1.1 Customize Level0 - Launchpad 
+### 3.1.1 Customize Level0 - Launchpad
+
 - Open [diagnostics_destinations.tfvars](../level0/launchpad/diagnostics_destinations.tfvars), change lines 10 & 14 to match the regions you are deploying to.
 - Open [landingzone.tfvars](../level0/launchpad/landingzone.tfvars). Add `prefix` just before `regions` and update the regions to match your regions.
 
@@ -90,19 +93,21 @@ rover -lz /tf/caf/landingzones/caf_launchpad \
 ### 3.2 DevOps Personal Access Tokens (PAT)
 
 ### 3.2.1 Create Admin PAT
+
 - Within Azure Devops Settings -> Personal Access Tokens. Click New Token.
   - **Name:** azdo-pat-admin
   - **Organization:** _(Your Organization)_
-  - **Expiration:**  30 days _(can set Custom defined)
+  - **Expiration:** 30 days _(can set Custom defined)_
   - **Scopes:** Full Access.
   - Click Create
 - Take note of the Token.
 
 ### 3.2.2 Create Agent PAT
+
 - Within Azure Devops Settings -> Personal Access Tokens. Click New Token.
   - **Name:** azdo-pat-agent
   - **Organization:** _(Your Organization)_
-  - **Expiration:**  30 days _(can set Custom defined)
+  - **Expiration:** 30 days _(can set Custom defined)_
   - **Scopes:** Custom defined.
     - Click `Show all scopes` at the bottom.
     - Under `Agent Pools` tick `Read & manage`
@@ -110,16 +115,19 @@ rover -lz /tf/caf/landingzones/caf_launchpad \
 - Take note of the Token.
 
 ### 3.2.3 Store Tokens in Azure Secrets KeyVault
+
 Within your Azure environment from deploying Launchpad, there will be a keyvault in the form of `<prefix>-kv-secrets`. Located in the `<prefix>-rg-launchpad-security` resource group.
 
 - Go to the KeyVault Secrets and update the following Secrets
 
 **AZDO-PAT_ADMIN**
+
 - Click secret named `azdo-pat-admin`
 - Click New Version
-- Put the Token value you took note of earlier into the 'Value' field and click Create  
+- Put the Token value you took note of earlier into the 'Value' field and click Create
 
-**AZDO-PAT_AGENT** 
+**AZDO-PAT_AGENT**
+
 - Click secret named `azdo-pat-agent`
 - Click New Version
 - Put the Token value you took note of earlier into the 'Value' field and click Create
@@ -127,6 +135,7 @@ Within your Azure environment from deploying Launchpad, there will be a keyvault
 ### 3.3 Level 1 - GitOps
 
 ### 3.3.1 Deploy the GitOps Connectivity Virtual Network
+
 _No customization are required to work in your environment_
 
 ```bash
@@ -142,8 +151,10 @@ rover -lz /tf/caf/landingzones/caf_solution \
 ```
 
 ### 3.3.2 Customize the GitOps Configuration for Azure DevOps
+
 - Open [azure_devops.tfvars](../level1/gitops/azure_devops/azure_devops.tfvars).
-Change the URL to match your Azure DevOps organization in the azure_devops, and the name you gave the project:
+  Change the URL to match your Azure DevOps organization in the azure_devops, and the name you gave the project:
+
 ```hcl
 azure_devops = {
 
@@ -151,7 +162,7 @@ azure_devops = {
   project = "caf-configuration"
 ```
 
-  - Into the service connection object, make sure you replace the connection properties with the ones from the launchpad subscription:
+- Into the service connection object, make sure you replace the connection properties with the ones from the launchpad subscription:
 
 ```hcl
   service_endpoints = {
@@ -164,14 +175,16 @@ azure_devops = {
     }
   }
 ```
+
 _Note: You can get your subscription ID and Name by running:_
 
 ```bash
 az account show
 ```
 
-- Update the variable group `ROVER_IMAGE` to match the rover version you are running in this project. Update the `LANDINGZONE_BRANCH` to match the tag/branch you pulled down in Step 2.
-```hcl 
+- Update the variable group `ROVER_IMAGE` to match the rover version you are running in this project. Update the `LANDINGZONE_BRANCH` to match the tag/branch you pulled down in step **2. Clone the public landing zones**.
+
+```hcl
 
 variable_groups = {
     global = {
@@ -206,6 +219,7 @@ rover -lz /tf/caf/landingzones/caf_solution/add-ons/azure_devops \
 ```
 
 ### 3.3.4 Customize the Azure DevOps Agents (runners)
+
 - Open [landingzones.tfvars](../level1/gitops/azure_devops_agents_vm/landingzones.tfvars).
 - Within azure_devops replace all the levels `rover_version` to match the rover version you are running in this project. Change all `url` to match your Azure DevOps organization.
 
@@ -219,7 +233,7 @@ azure_devops = {
     rover_version = "aztfmod/<current rover version>"
     url     = "https://dev.azure.com/<change_with_your_org>/"
   ...
-  
+
 ```
 
 ### 3.3.5 Deploy the Azure DevOps Agents (runners)
@@ -234,14 +248,13 @@ rover -lz /tf/caf/landingzones/caf_solution/add-ons/azure_devops_agent \
   -a [plan|apply|destroy]
 ```
 
-### 4. Check in your code
+### 4. Check in your repo code changes back into Azure Devops
 
 ### 5. Deploy the higher levels from Azure DevOps pipelines
 
 Launchpad and level0 are deployed manually from the console to seed the environment, but all higher levels are deployed using pipelines as defined by the pipelines configuration.
 
 Once the agents are deployed for all levels, you can start deploying the landing zones for the levels:
-
 
 - Go into your Azure DevOps Pipelines.
 - View All Pipelines
@@ -252,14 +265,17 @@ Once the agents are deployed for all levels, you can start deploying the landing
   4. level 3: AKS Cluster, Data and AI, App Service, etc.
 
 ### 5.1 End to End
+
 ### 5.1.1 logged_in_user issue with Pipelines
+
 When you run End to End pipeline the first time you will see an error message about trying to `logged_in_user` for keyvault access policy, and that the `already exists - to be managed via Terraform this resource needs to be imported into the State.`
 This is because when you ran it locally, it added your user account and the MSI to the keyvault. When you run in the pipeline, the current user is the MSI, and it attempts to remove the previous current user (_your user account_) and replace it with the MSI account. However, the MSI was already added previously, but not under the "logged_in_user" key.
 
 - Open [keyvaults.tfvars](../level1/gitops/azure_devops_agents_vm/keyvaults.tfvars).
-- Comment out all the logged_in_user sections.
+- Comment out all the 'logged_in_user' sections.
 
 Replace
+
 ```hcl
  logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
@@ -267,7 +283,9 @@ Replace
         secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
       }
 ```
+
 With
+
 ```hcl
 # logged_in_user = {
 #        # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
@@ -277,8 +295,10 @@ With
 ```
 
 - Redeploy step: **3.3.5 Deploy the Azure DevOps Agents (runners)**
+- Check in your repo code changes back into Azure Devops.
 
 ### 5.1.2 Running Pipelines - End To End
+
 If you would rather deploy each level separately, skip this step and continue from **5.2 Run Pipelines - Level 1**
 
 - Go into Azure Devops Pipelines
@@ -289,7 +309,7 @@ If you would rather deploy each level separately, skip this step and continue fr
 - Click Run.
 - Once successful, you can run the `end_to_end_apply` pipeline.
 
-You have now successfully deployed Level 1 - 3 using pipelines, follow the remaining steps only if you wish to deploy levels separately. 
+You have now successfully deployed Level 1 - 3 using pipelines, follow the remaining steps only if you wish to deploy levels separately.
 
 ### 5.2 Run Pipelines - Level 1
 
@@ -304,6 +324,7 @@ You have now successfully deployed Level 1 - 3 using pipelines, follow the remai
 ### 5.3 Run Pipelines - Level 2
 
 ### 5.3.1 Run Pipelines - Level 2 Network Hub.
+
 - Go into Azure Devops Pipelines
 - View All Pipelines
 - Expand configuration/level2/networking/hub
@@ -313,6 +334,7 @@ You have now successfully deployed Level 1 - 3 using pipelines, follow the remai
 - Once successful, you can run the `caf_networking_hub_apply` pipeline.
 
 ### 5.3.2 Run Pipelines - Level 2 Shared Services
+
 - Go into Azure Devops Pipelines
 - View All Pipelines
 - Expand configuration/level2/shared_services
@@ -322,7 +344,9 @@ You have now successfully deployed Level 1 - 3 using pipelines, follow the remai
 - Once successful, you can run the `caf_shared_services_apply` pipeline.
 
 ### 5.4 Run Pipelines - Level 3
+
 ### 5.3.1 Run Pipelines - Level 3 AKS
+
 - Go into Azure Devops Pipelines
 - View All Pipelines
 - Expand configuration/level3/aks
