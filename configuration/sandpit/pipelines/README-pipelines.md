@@ -13,7 +13,8 @@ In this example, we will seed the initial deployment locally and then deploy the
 ## Prerequisite
 
 - VS Code
-- Docker
+  - 'Remote - Containers' Extension installed
+- Docker 
 
 ## 1. Import the starter landing zone into your Azure DevOps environment
 
@@ -24,12 +25,33 @@ This repository will be called the `caf-configuration` repository in the example
 
 ### 1.2 Clone project.
 
-With Azure DevOps, clone into Visual Studio code, by Generating Git Credentials. By generating with Git Credentials allows the project to be checked in from within a container.
+### 1.2.1 Clone and Open within Visual Studio code. 
+- With your Azure DevOps REPO, click Clone.
+- By generating with Git Credentials allows the project to be checked in from within a container via HTTPS
+- Take the password and Azure DevOps Repo URL replace the organization name before @dev.azure.com with the password
+```
+https://<organizationname>@dev.azure.com/<organizationname>/caf-configuration/_git/caf-configuration
+```
+becomes
+```
+https://<password>@dev.azure.com/<organizationname>/caf-configuration/_git/caf-configuration
+
+```
+- Clone and choose a location.
+```bash
+git clone --branch starter https://<password>@dev.azure.com/caf-configuration/_git/caf-configuration
+```
+- Ensure Docker is running
+
+### 1.2.2 Open the project in VSCode
+- Open the project in Visual Studio Code
+- Ctrl + Shift + P and type `Remote-Containers: Reopen in Container` and select.
+- Project now open in container.
 
 ## 2. Clone the public landing zones
 
 First step is to get the landing zones logic in the same work space, so let's clone the environment locally:
-
+- Open a VS Code terminal
 ```bash
 git clone --branch 2107.1 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
 # Or refresh an existing clone
@@ -249,7 +271,13 @@ rover -lz /tf/caf/landingzones/caf_solution/add-ons/azure_devops_agent \
 ```
 
 ### 4. Check in your repo code changes back into Azure Devops
+First time you attempt to check code in, it might error saying you need to update the username and email of git configuration. 
 
+- Run the following command replacing with your name and email address.
+```bash
+git config --global user.name "<YOUR NAME>"
+git config --global user.email "<YOUR EMAIL>"
+```
 ### 5. Deploy the higher levels from Azure DevOps pipelines
 
 Launchpad and level0 are deployed manually from the console to seed the environment, but all higher levels are deployed using pipelines as defined by the pipelines configuration.
