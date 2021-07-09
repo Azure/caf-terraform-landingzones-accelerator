@@ -75,7 +75,7 @@ regions = {
   region2 = "ukwest"
 }
 ```
-
+_Note:By not including prefix, random 4 character prefix will be automatically added to your resources_
 ### 3.1.2 Deploy Level0 - launchpad
 
 ```bash
