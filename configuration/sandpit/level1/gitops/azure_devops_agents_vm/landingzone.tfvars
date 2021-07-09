@@ -41,7 +41,7 @@ azure_devops = {
   level0 = {
     # Rover version to apply to the devops self-hosted agents during the setup.
     rover_version = "aztfmod/rover:0.14.11-2104.2711"
-    url           = "https://dev.azure.com/azure-terraform/"
+    url           = "https://dev.azure.com/update_with_your_org/"
 
     pats = {
       agent = {
@@ -59,7 +59,7 @@ azure_devops = {
     }
   }
   level1 = {
-    url           = "https://dev.azure.com/azure-terraform/"
+    url           = "https://dev.azure.com/update_with_your_org/"
     rover_version = "aztfmod/rover:0.14.11-2104.2711"
 
     pats = {
@@ -78,7 +78,7 @@ azure_devops = {
     }
   }
   level2 = {
-    url           = "https://dev.azure.com/azure-terraform/"
+    url           = "https://dev.azure.com/update_with_your_org/"
     rover_version = "aztfmod/rover:0.14.11-2104.2711"
 
     pats = {
@@ -97,7 +97,7 @@ azure_devops = {
     }
   }
   level3 = {
-    url           = "https://dev.azure.com/azure-terraform/"
+    url           = "https://dev.azure.com/update_with_your_org/"
     rover_version = "aztfmod/rover:0.14.11-2104.2711"
 
     pats = {
@@ -116,7 +116,7 @@ azure_devops = {
     }
   }
   level4 = {
-    url           = "https://dev.azure.com/azure-terraform/"
+    url           = "https://dev.azure.com/update_with_your_org/"
     rover_version = "aztfmod/rover:0.14.11-2104.2711"
 
     pats = {
