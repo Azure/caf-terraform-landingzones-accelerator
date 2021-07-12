@@ -103,6 +103,7 @@ jobs:
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
             export PREFIX="${{needs.deploy-launchpad.outputs.prefix}}"
+            echo "PREFIX"
             echo "::set-output name=PREFIX::$PREFIX"
             go test -v shared_services/shared_services_test.go
 
