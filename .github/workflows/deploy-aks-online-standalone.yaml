@@ -52,7 +52,7 @@ jobs:
         run: |
           ls -lta
           pwd
-          
+          cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
           configuration_folder=configuration
           parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
           terraform init -upgrade
