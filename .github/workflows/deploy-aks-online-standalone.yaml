@@ -63,7 +63,7 @@ jobs:
         run: |
           pwd
           ls -lta
-          cd ../test
+          cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
           export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
           export PREFIX=$(terraform output -json | jq -r '.global_settings.value.prefixes[0]')
           export ENVIRONMENT=sandpit # replace if another Environment was set in the rover, default is sandpit
@@ -77,7 +77,7 @@ jobs:
         run: |
           ls -lta
           pwd
-          cd ../standalone
+          cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone
           configuration_folder=configuration
           parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
           eval terraform destroy ${parameter_files} -auto-approve
