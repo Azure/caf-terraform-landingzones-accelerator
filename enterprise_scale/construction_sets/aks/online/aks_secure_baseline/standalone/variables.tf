@@ -20,7 +20,9 @@ variable "vnets" {
 }
 
 variable "tags" {
-  default = {}
+  description = "Tags to be used for this resource deployment."
+  type        = map(any)
+  default     = {}
 }
 
 variable "aks_clusters" {
