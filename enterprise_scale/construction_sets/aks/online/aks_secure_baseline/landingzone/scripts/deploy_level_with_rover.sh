@@ -18,7 +18,7 @@ if [ -d "/tf/caf/landingzones" ]
 then
   echo "/tf/caf/landingzones already exists"
 else
-  git clone --branch mtms https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
+  git clone https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
 fi
 
 /tf/rover/rover.sh  \
