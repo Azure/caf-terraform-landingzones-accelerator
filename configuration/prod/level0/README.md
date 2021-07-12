@@ -1,3 +1,7 @@
 # Cloud Adoption Framework landing zones for Terraform - Starter template
 
-Place here your production environment configuration files.
+In the level0 the following deployments are created:
+
+## Deployment workflow
+
+- Launchpad - create the remote state on Azure
