@@ -50,7 +50,6 @@ jobs:
       - name: Deploy Standalone
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
         run: |
-          ls -lta
           pwd
           cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
           configuration_folder=configuration
@@ -62,16 +61,20 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
         run: |
           pwd
-          ls -lta
           cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+          ls -lta
+          terraform output -json
+          terraform output -json > output.json
+          ls -lta
+          cat output.json
           echo test1
           export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
           echo test2
-          export PREFIX=$(terraform output -json | jq -r '.global_settings.value.prefixes[0]')
+          export PREFIX=$(cat output.json | jq -r '.global_settings.value.prefixes[0]')
           echo test3
-          echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+          echo $(cat output.json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
           echo test4
-          
+
           cd ../test
           go mod tidy
           go test -v  shared_services/shared_services_test.go
