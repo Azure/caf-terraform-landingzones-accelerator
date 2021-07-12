@@ -55,10 +55,9 @@ cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
 ```
 Deploy with Terraform
 ```bash
-configuration_folder=configuration
 
 # Define the configuration files to apply, all tfvars files within the above folder recursively except for launchpad subfolder which is not relevant for this standalone guide
-parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
+parameter_files=$(find configuration -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
 
 # Load the CAF module and related providers
 terraform init -upgrade
