@@ -243,14 +243,14 @@ jobs:
             cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/            
             ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2
+
             /tf/rover/rover.sh  \
               -lz /tf/caf/landingzones/caf_solution/add-ons/aks_secure_baseline_v2 \
-              -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/${LEVEL_NAME}/${LZ_NAME} \
+              -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/level2/aks_secure_baseline/ \
               -tfstate aks_secure_baseline.tfstate \
               -level level2 \
               -env $ENVIRONMENT \
               -a output -json -o $(pwd)/rover.output
-
             echo $(cat rover.output | jq -r .aks_clusters_kubeconfig.value.aks_kubeconfig_admin_cmd) | bash
 
 
