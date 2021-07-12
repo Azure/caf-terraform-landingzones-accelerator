@@ -56,7 +56,7 @@ jobs:
           configuration_folder=configuration
           parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
           terraform init -upgrade
-          eval terraform apply ${parameter_files}
+          eval terraform apply ${parameter_files} -auto-approve
       - name: Test
         id: test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
@@ -80,5 +80,5 @@ jobs:
           cd ../standalone
           configuration_folder=configuration
           parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
-          eval terraform destroy ${parameter_files}
+          eval terraform destroy ${parameter_files} -auto-approve
 
