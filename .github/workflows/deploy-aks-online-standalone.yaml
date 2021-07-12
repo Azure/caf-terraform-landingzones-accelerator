@@ -65,12 +65,12 @@ jobs:
           ls -lta
           cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
           export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-          export PREFIX=$(terraform output -json | jq -r '.global_settings.value.prefixes[0]')
+          export PREFIX=$(terraform output -json | jq -r '.global_settings.prefixes[0]')
           export ENVIRONMENT=sandpit # replace if another Environment was set in the rover, default is sandpit
           go mod tidy
           go test -v  shared_services/shared_services_test.go
           go test -v  aks/aks_test.go
-          echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+          echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.cluster_re1.aks_kubeconfig_admin_cmd) | bash
           go test -v  flux/flux_test.go
       - name: Destroy Standalone
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
