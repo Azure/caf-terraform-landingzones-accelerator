@@ -51,7 +51,7 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -level level3 \
   -env ${environment} \
   -a [plan|apply|destroy]
-  
+
 ```
 
 ## Destroy an AKS landing zone deployment

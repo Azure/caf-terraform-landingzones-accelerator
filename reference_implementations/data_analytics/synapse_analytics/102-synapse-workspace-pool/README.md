@@ -27,7 +27,7 @@ export environment=[YOUR_ENVIRONMENT]
 export example="102-synapse-workspace-pool"
 
 
-rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
     -var-folder /tf/caf/reference_implementations/data_analytics/synapse_analytics/${example} \
     -tfstate ${example}.tfstate \
     -env ${environment} \

@@ -21,7 +21,7 @@ Please make sure to change the cluster_key in /tf/caf/examples/applications/{app
 ```bash
 app_example=flux
 
-rover -lz /tf/caf/applications \
+rover -lz /tf/caf/landingzones/caf_solution/add-ons/aks_applications/ \
   -tfstate ${app_example}.tfstate \
   -var-folder /tf/caf/examples/applications/${app_example} \
   -var tags={application=\"${app_example}\"} \
@@ -34,7 +34,7 @@ Have fun playing with the landing zone an once you are done, you can simply dele
 ```bash
 app_example=flux
 
-rover -lz /tf/caf/applications \
+rover -lz /tf/caf/landingzones/caf_solution/add-ons/aks_applications/ \
   -tfstate ${app_example}.tfstate \
   -var-folder /tf/caf/examples/applications/${app_example} \
   -var tags={application=\"${app_example}\"} \

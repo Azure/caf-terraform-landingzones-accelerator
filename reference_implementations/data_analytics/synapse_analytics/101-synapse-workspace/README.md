@@ -24,7 +24,7 @@ export environment=[YOUR_ENVIRONMENT]
 # Set the folder name - for simple workspace with serverless compute
 export example="101-synapse-workspace"
 
-rover -lz /tf/caf/public/landingzones/caf_solutions/ \
+rover -lz /tf/caf/landingzones/caf_solution/ \
     -var-folder /tf/caf/reference_implementations/data_analytics/synapse_analytics/${example} \
     -tfstate ${example}.tfstate \
     -env ${environment} \

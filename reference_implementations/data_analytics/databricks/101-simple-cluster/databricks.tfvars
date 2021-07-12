@@ -1,13 +1,9 @@
 landingzone = {
   backend_type        = "azurerm"
-  global_settings_key = "shared_services"
+  global_settings_key = "networking_hub"
   level               = "level3"
   key                 = "databricks_workspace"
   tfstates = {
-    shared_services = {
-      level   = "lower"
-      tfstate = "caf_shared_services.tfstate"
-    }
     networking_hub = {
       level   = "lower"
       tfstate = "networking_hub.tfstate"
