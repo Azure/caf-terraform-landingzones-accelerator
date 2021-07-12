@@ -52,7 +52,7 @@ jobs:
         run: |
           ls -lta
           pwd
-          cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+          
           configuration_folder=configuration
           parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
           terraform init -upgrade
@@ -63,13 +63,17 @@ jobs:
         run: |
           pwd
           ls -lta
-          cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+          cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
           export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
           export PREFIX=$(terraform output -json | jq -r '.global_settings.prefixes[0]')
           export ENVIRONMENT=sandpit # replace if another Environment was set in the rover, default is sandpit
+
+          cd ../test
           go mod tidy
           go test -v  shared_services/shared_services_test.go
           go test -v  aks/aks_test.go
+
+          cd ../standalone/
           echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.cluster_re1.aks_kubeconfig_admin_cmd) | bash
           go test -v  flux/flux_test.go
       - name: Destroy Standalone
