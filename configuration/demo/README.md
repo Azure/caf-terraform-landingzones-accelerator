@@ -1,23 +1,35 @@
-# Cloud Adoption Framework landing zones for Terraform - Starter template
+# Cloud Adoption Framework landing zones for Terraform - Enterprise Scale Demo
 
-## DEMO ENVIRONMENT
+## CONTOSO DEMO ARCHITECTURE
 
-Assumptions:
+https://github.com/Azure/Enterprise-Scale/blob/main/docs/reference/contoso/Readme.md
 
-- Demo environment does not have pipelines and is meant to be run locally.
-- Demo environment does not have diagnostics enabled.
-- Demo environment does not have RBAC model.
-- All resources are provisioned in the same subscription.
+![contoso](./pictures/ns-vwan.png)
 
-## Deploying demo environment
+This implementation gives you a very simplified entreprise-scale deployment to illustrate the fundamentals of Terraform enterprise-composition and state management with Cloud Adoption Framework.
 
-After completing the steps from the general [configuration readme](../README.md), you can start using the demo deployment:
+The following deviations from enterprise-scale criterias are conciously taken to simply this scenario:
+- This environment is meant to be run locally for education purposes.
+- This environment implements diagnostics and logs for every solution deployed.
+- This environment implements rudimentary RBAC model.
+- All resources are provisioned in the same subscription by default, byt can be spread accross multiple pre-created subscriptions.
+
+You will find other scenarios that are more aligned with enterprise-scale criter under the other directories (sandpit, non-prod and prod folders)
+
+<!--
+Critical design area deviation table
+| Critical Design Area  | Demo | Sandpit | Prod |
+| -- | -- | -- | -- |  -->
+
+
+## Deploying with local experience
+
+After completing the steps from the general [configuration readme](../README.md), you can start using the sandpit deployment:
 
 You can then specify the environment you are running:
 
 ```bash
-export environment=demo
-export caf_environment=contoso-demo
+caf_environment=contoso-demo
 ```
 
 ### 1. Launchpad-level0 landing zones
@@ -26,97 +38,94 @@ export caf_environment=contoso-demo
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_launchpad \
-  -launchpad \
-  -var-folder /tf/caf/configuration/${environment}/level0/launchpad \
+  -var-folder /tf/caf/configuration/demo/level0/launchpad \
   -parallelism 30 \
   -level level0 \
   -env ${caf_environment} \
+  -launchpad \
   -a [plan|apply|destroy]
 ```
 
 ### 2. Level 1 landing zones
 
-#### Deploy foundations
+#### Deploy management subscription
 
-In this section we use foundations as passthrough:
+This layers deploys the resources from the management subscription:
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate caf_foundations.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level1 \
+  -var-folder /tf/caf/configuration/demo/level1/management \
+  -tfstate management.tfstate \
   -parallelism 30 \
   -level level1 \
   -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 
+<!-- If you want to deploy this into a diferrent subscription, you can run:
+```bash
+rover -lz /tf/caf/landingzones/caf_solution/ \
+  -TF_VAR_tfstate_subscription_id=
+  -target_subscription=<target_subscription>
+  -var-folder /tf/caf/configuration/demo/level1/management \
+  -tfstate management.tfstate \
+  -parallelism 30 \
+  -level level1 \
+  -env ${caf_environment} \
+  -a [plan|apply|destroy]
+``` -->
+
+<!-- #### [Optional] Deploy Enterprise-Scale components
+
+This command is optional, run it only if you have tenant-level access to your subscription, otherwise you can skip. Keeping in mind you wont have management groups and policies related to enterprise-scale.
+
+```bash
+rover -lz /tf/caf/landingzones/caf_solution/add-ons/caf_eslz/ \
+  -var-folder /tf/caf/configuration/demo/level1/eslz \
+  -tfstate caf_eslz.tfstate \
+  -parallelism 30 \
+  -level level1 \
+  -env ${caf_environment} \
+  -a [plan|apply|destroy]
+``` -->
+
+#### Deploy the identity subscription
+
+```bash
+rover -lz /tf/caf/landingzones/caf_solution/ \
+  -tfstate identity.tfstate \
+  -var-folder /tf/caf/configuration/demo/level1/identity \
+  -parallelism 30 \
+  -level level1 \
+  -env ${caf_environment} \
+  -a [plan|apply|destroy]
+```
+
+
 ### 3. Level 2 landing zones
 
-#### Deploy the shared services
+#### Deploy the connectivity subscription with Virtual WAN
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate caf_shared_services.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level2/shared_services \
+  -tfstate connectivity_virtual_wan.tfstate \
+  -var-folder /tf/caf/configuration/demo/level2/connectivity/virtual_wan \
   -parallelism 30 \
   -level level2 \
   -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
 
-#### Deploy the networking hub
+### 3. Level 3 landing zones
+
+#### Deploy an application landing zone
 
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate networking_hub.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level2/networking/hub \
+  -tfstate connectivity_virtual_wan.tfstate \
+  -var-folder /tf/caf/configuration/demo/level2/connectivity/virtual_wan \
   -parallelism 30 \
   -level level2 \
   -env ${caf_environment} \
   -a [plan|apply|destroy]
 ```
-
-### 4. Level 3 landing zones
-
-#### Deploy an AKS landing zone
-
-```bash
-rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate landing_zone_aks.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/aks \
-  -parallelism 30 \
-  -level level3 \
-  -env ${caf_environment} \
-  -a [plan|apply|destroy]
-```
-
-#### Deploy a data and analytics landing zone
-
-```bash
-rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate landing_zone_101_aml_workspace.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/data_analytics/101-aml-workspace \
-  -parallelism 30 \
-  -level level3 \
-  -env ${caf_environment} \
-  -a [plan|apply|destroy]
-```
-
-#### Deploy an Azure App Service Environment landing zone
-
-Warning: this is time consuming.
-
-```bash
-rover -lz /tf/caf/landingzones/caf_solution/ \
-  -tfstate landing_zone_ase.tfstate \
-  -var-folder /tf/caf/configuration/${environment}/level3/app_service \
-  -parallelism 30 \
-  -level level3 \
-  -env ${caf_environment} \
-  -a [plan|apply|destroy]
-```
-
-### 7. Level 4 - Application infrastructure components
-
-You can use level 4 landing zones to describe and deploy an application on top of an environment described in level 3 landing zones (App Service Environment, AKS, etc.).
-Keep on monitoring this repository as we will add examples related to this level.

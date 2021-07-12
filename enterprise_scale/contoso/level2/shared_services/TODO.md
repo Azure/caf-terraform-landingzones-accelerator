@@ -1,2 +1,0 @@
-- Firewall manager
-- Firewall policies

@@ -1,5 +1,0 @@
-- Firewall manager
-- Firewall policies
-- Azure Monitor
-- Azure Security Center
-- ExpressRoute Circuit
