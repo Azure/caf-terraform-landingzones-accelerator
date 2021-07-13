@@ -7,22 +7,15 @@ variables:
   - name: "ENVIRONMENT"
     value: "$(Build.BuildNumber)"
 
-resources:
-  containers:
-  - container: rover
-    image: $(ROVER_IMAGE)
-    options: --user 0:0 -e TF_PLUGIN_CACHE_DIR="/home/vsts_azpcontainer/plugin-cache" -e TF_DATA_DIR="/home/vsts_azpcontainer"
-
 stages:
-- stage: deploy_launchpad
+- stage: deploy_standalone
   jobs:
-  - job: deploy_launchpad
-    displayName: "Deploy Launchpad"
-    container: rover
+  - job: deploy_standalone
+    displayName: "Deploy Standalone"
 
     steps:
       - task: AzureCLI@2
-        displayName: Deploy Launchpad. Level 0.
+        displayName: Deploy Standalone
         name: deploy_launchpad
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
@@ -35,7 +28,9 @@ stages:
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-
+      - task: TerraformInstaller@0
+        inputs:
+          terraformVersion: '1.0.0'
       - task: AzureCLI@2
         displayName: Launchpad Test
         name: test
