@@ -47,6 +47,9 @@ jobs:
         with:
           terraform_version: 1.0.0
 
+      - name: Install jq
+        run: sudo apt-get install jq
+
       - name: Deploy Standalone
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
         run: |
