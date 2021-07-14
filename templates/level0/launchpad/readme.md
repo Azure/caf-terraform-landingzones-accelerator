@@ -1,6 +1,6 @@
 
-### billing_subscription_role_delegations
-Set-up the subscription delegations for platform and landingzone subscriptions
+### Launchpad
+Set-up the launchpads for level0 to level3
 
 ```bash
 # login a with a user member of the caf-maintainers group
@@ -10,12 +10,12 @@ export ARM_USE_AZUREAD=true
 caf_env="{{ level0.launchpad.caf_environment }}"
 
 rover \
-  -lz /tf/caf/landingzones/caf_solution \
-  -var-folder {{ level0.destination_install_path }}/level0/billing_subscription_role_delegations \
-  -tfstate {{ level0.tfstates.billing_subscription_role_delegations.tfstate }} \
+  -lz /tf/caf/landingzones/caf_launchpad \
+  -var-folder {{ level0.destination_install_path }}/{{ level }}/{{ base_folder }} \
+  -tfstate {{ level0.tfstates.launchpad.tfstate }} \
   -launchpad \
   -env ${caf_env} \
-  -level level0 \
+  -level {{ level }} \
   -a plan
 
 rover logout

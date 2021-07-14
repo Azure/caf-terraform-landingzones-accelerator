@@ -1,10 +1,25 @@
+# Launchpad - scenario 100
 
-### Launchpad
-Set-up the launchpads for level0 to level3
+The 100 scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
+The focus of this scenario is to be able to deploy a basic launchpad from a remote machine and use the portal to review the settings in a non-constrained environment.
+For example in this scenario you can go to the Key Vaults and view the secrets from the portal, a feature that is disabled in the 300+ scenarios.
+We recommend using the 100 scenario for demonstration purposes.
+
+An estimated time of 5 minutes is required to deploy this scenario.
+
+## Pre-requisites
+
+This scenario require the following privileges:
+
+| Component          | Privileges         |
+|--------------------|--------------------|
+| Active Directory   | None               |
+| Azure subscription | Subscription owner |
+
+## Deployment
 
 ```bash
-# login a with a user member of the caf-maintainers group
-rover login -t terraformdev.onmicrosoft.com
+rover login -t set_your_tenant_name.onmicrosoft.com
 
 export ARM_USE_AZUREAD=true
 caf_env="sandpit"
@@ -18,19 +33,26 @@ rover \
   -level level0 \
   -a plan
 
-rover logout
+rover \
+  -lz /tf/caf/landingzones/caf_launchpad \
+  -var-folder /tf/caf/configuration/contoso/demo/level0/launchpad \
+  -tfstate caf_launchpad.tfstate \
+  -launchpad \
+  -env ${caf_env} \
+  -level level0 \
+  -a destroy
 
 ```
 
+## Architecture diagram
+![Launchpad 100](../../../../../documentation/img/launchpad-100.PNG)
 
-| Components                                                                                              | Config files                                                 | Description|
-|-----------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
-| Global Settings |[global_settings.tfvars](./global_settings.tfvars) | Primary Region setting. Changing this will redeploy the whole stack to another Region|
-| Resource Groups | [resource_groups.tfvars](./resource_groups.tfvars)| Resource groups configs |
-||<p align="center">**Identity & Access Management**</p>||
-| Identity & Access Management | [azuread_api_permissions.tfvars](./azuread_api_permissions.tfvars) <br /> [azuread_applications.tfvars](./azuread_applications.tfvars) <br /> [service_principals.tfvars](./service_principals.tfvars) <br /> [azuread_groups.tfvars](./azuread_groups.tfvars) <br /> [azuread_roles.tfvars](./azuread_roles.tfvars) <br /> [role_mappings.tfvars](./role_mappings.tfvars)| AAD admin group, Service Principals & Role Assignments |
-||<p align="center">**Security**</p>||
-| Azure Key Vault| [keyvaults.tfvars](./keyvaults.tfvars) <br />  [keyvault_policies.tfvars](./keyvault_policies.tfvars) <br /> [dynamic_secrets.tfvars](./dynamic_secrets.tfvars) <br />  | Key Vault , policies and dynamic secrets for the rover |
-||<p align="center">**Storage**</p>||
-| Storage account| [storage_accounts.tfvars](./storage_accounts.tfvars) <br />| Azure Storage account to store the tfstates |
-<br />
+## Services deployed in this scenario
+
+| Component             | Purpose                                                                                                                                                                                                                    |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Resource group        | Multiple resource groups are created to isolate the services.                                                                                                                                                              |
+| Storage account       | A storage account for remote tfstate management is provided for each level of the framework. Additional storage accounts are created for diagnostic logs.                                                                  |
+| Key Vault             | The launchpad Key Vault hosts all secrets required by the rover to access the remote states, the Key Vault policies are created allowing the logged-in user to see secrets created and stored.                             |
+| Virtual network       | To secure the communication between the services a dedicated virtual network is deployed with a gateway subnet, bastion service, jumpbox and azure devops release agents. Service endpoints is enabled but not configured. |
+| Azure AD Applications | An Azure AD application is created. This account is mainly use to bootstrap the services during the initialization. It is also considered as a breakglass account for the launchpad landing zones                          |

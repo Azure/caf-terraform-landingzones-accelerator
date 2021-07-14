@@ -19,19 +19,33 @@ This scenario require the following privileges:
 ## Deployment
 
 ```bash
-rover -lz /tf/caf/landingzones/caf_launchpad \
-  -launchpad -var-folder \
-  /tf/caf/landingzones/caf_launchpad/scenario/100 \
-  -a apply
+rover login -t {{ level0.tenant_name }}.onmicrosoft.com
 
-rover -lz /tf/caf/landingzones/caf_launchpad \
+export ARM_USE_AZUREAD=true
+caf_env="{{ level0.launchpad.caf_environment }}"
+
+rover \
+  -lz /tf/caf/landingzones/caf_launchpad \
+  -var-folder {{ level0.destination_install_path }}/{{ level }}/{{ base_folder }} \
+  -tfstate {{ level0.tfstates.launchpad.tfstate }} \
   -launchpad \
-  -var-folder /tf/caf/landingzones/caf_launchpad/scenario/100 \
+  -env ${caf_env} \
+  -level {{ level }} \
+  -a plan
+
+rover \
+  -lz /tf/caf/landingzones/caf_launchpad \
+  -var-folder {{ level0.destination_install_path }}/{{ level }}/{{ base_folder }} \
+  -tfstate {{ level0.tfstates.launchpad.tfstate }} \
+  -launchpad \
+  -env ${caf_env} \
+  -level {{ level }} \
   -a destroy
+
 ```
 
 ## Architecture diagram
-![Launchpad 100](../../documentation/img/launchpad-100.PNG)
+![Launchpad {{ level0.scenario.number }}](../../../../../documentation/img/launchpad-{{ level0.scenario.number }}.PNG)
 
 ## Services deployed in this scenario
 

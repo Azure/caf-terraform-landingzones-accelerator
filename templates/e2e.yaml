@@ -44,7 +44,7 @@
 
         /tf/rover/rover.sh \
           -lz /tf/caf/landingzones/caf_launchpad \
-          -var-folder "{{ level0.remote_install_path }}/{{ level }}/{{ base_folder }}" \
+          -var-folder "{{ level0.destination_install_path }}/{{ level }}/{{ base_folder }}" \
           -tfstate caf_launchpad.tfstate \
           -launchpad \
           -env {{ level0.launchpad.caf_environment }} \

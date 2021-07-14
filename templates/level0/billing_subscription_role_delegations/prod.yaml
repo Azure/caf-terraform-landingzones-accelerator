@@ -1,12 +1,12 @@
 - name: Clean-up directory
   file:
-    path: "{{ level0.remote_install_path }}/{{ level }}/{{ base_folder }}"
+    path: "{{ level0.destination_install_path }}/{{ level }}/{{ base_folder }}"
     state: absent
   when: level0.cleanup_destination | bool
 
 - name: Creates directory
   file:
-    path: "{{ level0.remote_install_path }}/{{ level }}/{{ base_folder }}"
+    path: "{{ level0.destination_install_path }}/{{ level }}/{{ base_folder }}"
     state: directory
   when: level0.features.subscription_creation | bool
 
@@ -32,6 +32,6 @@
 - name: readme
   ansible.builtin.template:
     src: "{{ level }}/{{ base_folder }}/readme.md.j2"
-    dest: "{{ level0.remote_install_path }}/{{ level }}/{{ base_folder }}/readme.md"
+    dest: "{{ level0.destination_install_path }}/{{ level }}/{{ base_folder }}/readme.md"
     force: yes
   when: level0.features.subscription_creation | bool
