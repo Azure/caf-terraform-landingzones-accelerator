@@ -114,7 +114,7 @@ virtual_machines = {
 
 keyvaults = {
   vmsecrets = {
-    name                = "bastionsecrets"
+    name                = "bast-secrets"
     resource_group_key  = "bastion_launchpad"
     sku_name            = "standard"
     soft_delete_enabled = true
