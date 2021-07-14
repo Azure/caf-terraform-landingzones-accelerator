@@ -5,7 +5,7 @@ scenario:
   automated_deployment: e2e
 features:
   subscription_creation: false
-  enterprise_scale: false
+  enterprise_scale: true
   # Define the Azure Active Directory options ( none | msi | sp). msi and sp requires Azure AD groups rw.
   azuread_identity_mode: msi
 
