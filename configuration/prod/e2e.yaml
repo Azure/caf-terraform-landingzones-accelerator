@@ -46,7 +46,7 @@
           -launchpad \
           -env {{ level0.launchpad.caf_environment }} \
           -level {{ level }} \
-          -a {{ terraform_action | default(plan) }} {{ terraform_options | default(omit) }}
+          -a {{ terraform_action | default(plan) }} -no-color
 
       register: launchpad
       when: (level0.scenario.automated_deployment == 'e2e' or level0.scenario.automated_deployment == 'pipelines') and
