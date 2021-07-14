@@ -11,7 +11,7 @@ caf_env="sandpit"
 
 rover \
   -lz /tf/caf/landingzones/caf_launchpad \
-  -var-folder /tf/caf/contoso/level0/launchpad \
+  -var-folder /tf/caf/contoso/demo/level0/launchpad \
   -tfstate caf_launchpad.tfstate \
   -launchpad \
   -env ${caf_env} \

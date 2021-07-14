@@ -11,7 +11,7 @@ features:
 
 # cleanup_destination - recommended to clean and recreated a clean state from template.
 cleanup_destination: true
-remote_install_path: /tf/caf/contoso
+remote_install_path: /tf/caf/contoso/demo
 tenant_name: terraformdev
 caf_landingzone_branch: 2107.1
 sku:
