@@ -1,18 +1,18 @@
 
-### Launchpad
-Set-up the launchpads for level0 to level3
+### billing_subscription_role_delegations
+Set-up the subscription delegations for platform and landingzone subscriptions
 
 ```bash
 # login a with a user member of the caf-maintainers group
-rover login -t <tenant_name>.onmicrosoft.com
+rover login -t {{ level0.tenant_name }}.onmicrosoft.com
 
 export ARM_USE_AZUREAD=true
-caf_env="prod"
+caf_env="{{ level0.launchpad.caf_environment }}"
 
 rover \
-  -lz /tf/caf/landingzones/caf_launchpad \
-  -var-folder /tf/caf/configuration/prod/level0/launchpad \
-  -tfstate caf_launchpad.tfstate \
+  -lz /tf/caf/landingzones/caf_solution \
+  -var-folder {{ level0.remote_install_path }}/level0/billing_subscription_role_delegations \
+  -tfstate {{ level0.tfstates.billing_subscription_role_delegations.tfstate }} \
   -launchpad \
   -env ${caf_env} \
   -level level0 \

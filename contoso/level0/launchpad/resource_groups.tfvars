@@ -24,4 +24,10 @@ resource_groups = {
       level = "level3"
     }
   }
+  level4 = {
+    name = "caf-level4"
+    tags = {
+      level = "level4"
+    }
+  }
 }

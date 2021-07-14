@@ -1,0 +1,37 @@
+deployment_mode: interactive
+scenario:
+  name: prod
+features:
+  subscription_creation: true
+  enterprise_scale: tru
+cleanup_destination: true
+remote_install_path: /tf/caf/contoso
+tenant_name: terraformdev
+caf_landingzone_branch: 2107.1
+azuread_identity_mode: msi
+sku:
+  keyvault: premium
+
+billing_subscription_role_delegations:
+  billing_account_name: 123456677
+  enrollment_account_name: 4332445
+launchpad:
+  passthrough: "false"
+  inherit_tags: "false"
+  random_length: 15
+  caf_environment: sandpit
+  account_replication_type: RAGRS
+  default_region: region1
+  regions:
+    region1: southeastasia
+    region2: eastasia
+  tags:
+    ApplicationOwner: sre
+    BusinessUnit: sre
+tfstates:
+  launchpad:
+    lz_key_name: launchpad
+    tfstate: caf_launchpad.tfstate
+  billing_subscription_role_delegations:
+    lz_key_name: billing_subscription_role_delegations
+    tfstate: billing_subscription_role_delegations.tfstate

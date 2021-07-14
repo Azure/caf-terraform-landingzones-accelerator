@@ -5,14 +5,14 @@ storage_accounts = {
     resource_group_key       = "level0"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
-    account_replication_type = "GRS"
+    account_replication_type = "RAGRS"
     tags = {
       ## Those tags must never be changed after being set as they are used by the rover to locate the launchpad and the tfstates.
       # Only adjust the environment value at creation time
       tfstate         = "level0"
-      environment     = "prod"
+      environment     = "sandpit"
       launchpad       = "launchpad"
-      caf_environment = "prod"
+      caf_environment = "sandpit"
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level0"
       ##
@@ -30,13 +30,13 @@ storage_accounts = {
     resource_group_key       = "level1"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
-    account_replication_type = "GRS"
+    account_replication_type = "RAGRS"
     tags = {
       # Those tags must never be changed while set as they are used by the rover to locate the launchpad and the tfstates.
       tfstate         = "level1"
-      environment     = "prod"
+      environment     = "sandpit"
       launchpad       = "launchpad"
-      caf_environment = "prod"
+      caf_environment = "sandpit"
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level1"
     }
@@ -58,13 +58,13 @@ storage_accounts = {
     resource_group_key       = "level2"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
-    account_replication_type = "GRS"
+    account_replication_type = "RAGRS"
     tags = {
       # Those tags must never be changed while set as they are used by the rover to locate the launchpad and the tfstates.
       tfstate         = "level2"
-      environment     = "prod"
+      environment     = "sandpit"
       launchpad       = "launchpad"
-      caf_environment = "prod"
+      caf_environment = "sandpit"
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level2"
     }
@@ -80,15 +80,37 @@ storage_accounts = {
     resource_group_key       = "level3"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
-    account_replication_type = "GRS"
+    account_replication_type = "RAGRS"
     tags = {
       # Those tags must never be changed while set as they are used by the rover to locate the launchpad and the tfstates.
       tfstate         = "level3"
-      environment     = "prod"
+      environment     = "sandpit"
       launchpad       = "launchpad"
-      caf_environment = "prod"
+      caf_environment = "sandpit"
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level3"
+    }
+    containers = {
+      tfstate = {
+        name = "tfstate"
+      }
+    }
+  }
+
+  level4 = {
+    name                     = "l4"
+    resource_group_key       = "level4"
+    account_kind             = "BlobStorage"
+    account_tier             = "Standard"
+    account_replication_type = "RAGRS"
+    tags = {
+      # Those tags must never be changed while set as they are used by the rover to locate the launchpad and the tfstates.
+      tfstate         = "level4"
+      environment     = "sandpit"
+      launchpad       = "launchpad"
+      caf_environment = "sandpit"
+      caf_launchpad   = "launchpad"
+      caf_tfstate     = "level4"
     }
     containers = {
       tfstate = {
