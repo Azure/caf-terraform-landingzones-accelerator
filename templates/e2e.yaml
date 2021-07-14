@@ -1,7 +1,10 @@
+#
+# Level 0
+#
 - name: launchpad
   hosts: localhost
   vars:
-    level0: "{{ lookup('file', 'platform_{{ scenario | default(demo) }}.yaml') | from_yaml }}"
+    config: "{{ lookup('file', 'platform_{{ scenario | default(demo) }}.yaml') | from_yaml }}"
     base_folder: launchpad
     level: level0
 
@@ -12,19 +15,32 @@
 - name: billing_subscription_role_delegations
   hosts: localhost
   vars:
-    level0: "{{ lookup('file', 'platform_{{ scenario | default(demo) }}.yaml') | from_yaml }}"
+    config: "{{ lookup('file', 'platform_{{ scenario | default(demo) }}.yaml') | from_yaml }}"
     base_folder: launchpad
     level: level0
 
   tasks:
     - import_tasks: "{{ level }}/billing_subscription_role_delegations/{{ scenario }}.yaml"
-      when: level0.features.subscription_creation | bool
+      when: config.features.subscription_creation | bool
 
-
-- name: Deployment
+#
+# Level 1
+#
+- name: Generate config - level1
   hosts: localhost
   vars:
-    level0: "{{ lookup('file', 'platform_{{ scenario | default(demo) }}.yaml') | from_yaml }}"
+    config: "{{ lookup('file', 'platform_{{ scenario | default(demo) }}.yaml') | from_yaml }}"
+    base_folder: management
+    level: level1
+
+  tasks:
+    - import_tasks: "{{ level }}/management/{{ scenario }}.yaml"
+
+
+- name: Deployment - level0
+  hosts: localhost
+  vars:
+    config: "{{ lookup('file', 'platform_{{ scenario | default(demo) }}.yaml') | from_yaml }}"
     base_folder: launchpad
     level: level0
 
@@ -33,7 +49,7 @@
       git:
         repo: 'https://github.com/Azure/caf-terraform-landingzones.git'
         dest: /tf/caf/landingzones
-        version: "{{ level0.caf_landingzone_branch }}"
+        version: "{{ config.caf_landingzone_branch }}"
 
     - set_fact:
         tf_action="{{ terraform_action | default('apply') }}"
@@ -44,17 +60,18 @@
 
         /tf/rover/rover.sh \
           -lz /tf/caf/landingzones/caf_launchpad \
-          -var-folder "{{ level0.destination_install_path }}/{{ level }}/{{ base_folder }}" \
+          -var-folder "{{ config.destination_install_path }}/{{ level }}/{{ base_folder }}" \
           -tfstate caf_launchpad.tfstate \
           -launchpad \
-          -env {{ level0.launchpad.caf_environment }} \
+          -env {{ config.launchpad.caf_environment }} \
           -level {{ level }} \
           -a {{ tf_action }} -no-color
 
       register: launchpad
-      when: (level0.scenario.automated_deployment == 'e2e' or level0.scenario.automated_deployment == 'pipelines') and
+      when: (config.scenario.automated_deployment == 'e2e' or config.scenario.automated_deployment == 'pipelines') and
         tf_action != 'destroy'
 
     - debug: msg="{{ launchpad.stdout }}"
-      when: (level0.scenario.automated_deployment == 'e2e' or level0.scenario.automated_deployment == 'pipelines') and
+      when: (config.scenario.automated_deployment == 'e2e' or config.scenario.automated_deployment == 'pipelines') and
         tf_action != 'destroy' and '0 added, 0 changed, 0 destroyed' not in launchpad.stdout
+

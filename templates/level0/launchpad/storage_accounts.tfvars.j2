@@ -5,14 +5,14 @@ storage_accounts = {
     resource_group_key       = "level0"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
-    account_replication_type = "{{ level0.launchpad.account_replication_type }}"
+    account_replication_type = "{{ config.launchpad.account_replication_type }}"
     tags = {
       ## Those tags must never be changed after being set as they are used by the rover to locate the launchpad and the tfstates.
       # Only adjust the environment value at creation time
       tfstate         = "level0"
-      environment     = "{{ level0.launchpad.caf_environment }}"
+      environment     = "{{ config.launchpad.caf_environment }}"
       launchpad       = "launchpad"
-      caf_environment = "{{ level0.launchpad.caf_environment }}"
+      caf_environment = "{{ config.launchpad.caf_environment }}"
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level0"
       ##
@@ -30,13 +30,13 @@ storage_accounts = {
     resource_group_key       = "level1"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
-    account_replication_type = "{{ level0.launchpad.account_replication_type }}"
+    account_replication_type = "{{ config.launchpad.account_replication_type }}"
     tags = {
       # Those tags must never be changed while set as they are used by the rover to locate the launchpad and the tfstates.
       tfstate         = "level1"
-      environment     = "{{ level0.launchpad.caf_environment }}"
+      environment     = "{{ config.launchpad.caf_environment }}"
       launchpad       = "launchpad"
-      caf_environment = "{{ level0.launchpad.caf_environment }}"
+      caf_environment = "{{ config.launchpad.caf_environment }}"
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level1"
     }
@@ -58,13 +58,13 @@ storage_accounts = {
     resource_group_key       = "level2"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
-    account_replication_type = "{{ level0.launchpad.account_replication_type }}"
+    account_replication_type = "{{ config.launchpad.account_replication_type }}"
     tags = {
       # Those tags must never be changed while set as they are used by the rover to locate the launchpad and the tfstates.
       tfstate         = "level2"
-      environment     = "{{ level0.launchpad.caf_environment }}"
+      environment     = "{{ config.launchpad.caf_environment }}"
       launchpad       = "launchpad"
-      caf_environment = "{{ level0.launchpad.caf_environment }}"
+      caf_environment = "{{ config.launchpad.caf_environment }}"
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level2"
     }
@@ -80,13 +80,13 @@ storage_accounts = {
     resource_group_key       = "level3"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
-    account_replication_type = "{{ level0.launchpad.account_replication_type }}"
+    account_replication_type = "{{ config.launchpad.account_replication_type }}"
     tags = {
       # Those tags must never be changed while set as they are used by the rover to locate the launchpad and the tfstates.
       tfstate         = "level3"
-      environment     = "{{ level0.launchpad.caf_environment }}"
+      environment     = "{{ config.launchpad.caf_environment }}"
       launchpad       = "launchpad"
-      caf_environment = "{{ level0.launchpad.caf_environment }}"
+      caf_environment = "{{ config.launchpad.caf_environment }}"
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level3"
     }
@@ -102,13 +102,13 @@ storage_accounts = {
     resource_group_key       = "level4"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
-    account_replication_type = "{{ level0.launchpad.account_replication_type }}"
+    account_replication_type = "{{ config.launchpad.account_replication_type }}"
     tags = {
       # Those tags must never be changed while set as they are used by the rover to locate the launchpad and the tfstates.
       tfstate         = "level4"
-      environment     = "{{ level0.launchpad.caf_environment }}"
+      environment     = "{{ config.launchpad.caf_environment }}"
       launchpad       = "launchpad"
-      caf_environment = "{{ level0.launchpad.caf_environment }}"
+      caf_environment = "{{ config.launchpad.caf_environment }}"
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level4"
     }

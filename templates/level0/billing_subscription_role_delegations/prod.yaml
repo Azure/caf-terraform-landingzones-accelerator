@@ -1,19 +1,19 @@
 - name: Clean-up directory
   file:
-    path: "{{ level0.destination_install_path }}/{{ level }}/{{ base_folder }}"
+    path: "{{ config.destination_install_path }}/{{ level }}/{{ base_folder }}"
     state: absent
-  when: level0.cleanup_destination | bool
+  when: config.cleanup_destination | bool
 
 - name: Creates directory
   file:
-    path: "{{ level0.destination_install_path }}/{{ level }}/{{ base_folder }}"
+    path: "{{ config.destination_install_path }}/{{ level }}/{{ base_folder }}"
     state: directory
-  when: level0.features.subscription_creation | bool
+  when: config.features.subscription_creation | bool
 
 # - name: Retrieve default billing profile
 #   command: "az rest --method get --uri https://management.azure.com/providers/Microsoft.Billing/billingaccounts?api-version=2020-05-01 --query \"value[?properties.agreementType=='EnterpriseAgreement'].{id:properties.enrollmentAccounts[0].id}\" -o tsv"
 #   register: enrollment_account
-#   when: level0.billing_subscription_role_delegations.enrollment_account_name is not defined
+#   when: config.billing_subscription_role_delegations.enrollment_account_name is not defined
 
 # - debug: msg="{{enrollment_account}}"
 
@@ -23,7 +23,7 @@
 #   when: enrollment_account.skipped == false and enrollment_account.stdout == ""
 
 # - set_fact:
-#     enrollment_account_name="{% if enrollment_account == '' %} {{level0.billing_subscription_role_delegations.enrollment_account_name}} {% else %} {{enrollment_account}} {% endif %}"
+#     enrollment_account_name="{% if enrollment_account == '' %} {{config.billing_subscription_role_delegations.enrollment_account_name}} {% else %} {{enrollment_account}} {% endif %}"
 
 
 # - debug: msg="{{enrollment_account_name}}"
@@ -32,6 +32,6 @@
 - name: readme
   ansible.builtin.template:
     src: "{{ level }}/{{ base_folder }}/readme.md.j2"
-    dest: "{{ level0.destination_install_path }}/{{ level }}/{{ base_folder }}/readme.md"
+    dest: "{{ config.destination_install_path }}/{{ level }}/{{ base_folder }}/readme.md"
     force: yes
-  when: level0.features.subscription_creation | bool
+  when: config.features.subscription_creation | bool

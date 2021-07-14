@@ -6,7 +6,7 @@
 
 role_mapping = {
   built_in_role_mapping = {
-{% if level0.features.enterprise_scale %}
+{% if config.features.enterprise_scale %}
     management_group = {
       root = {
         "User Access Administrator" = {
@@ -27,7 +27,7 @@ role_mapping = {
       }
     }
 {% endif %}
-{% if level0.scenario.name == 'prod' %}
+{% if config.scenario.name == 'prod' %}
     subscriptions = {
       logged_in_subscription = {
         "Owner" = {
@@ -148,7 +148,7 @@ role_mapping = {
       }
     }
 {% endif %}
-{% if level0.scenario.name == 'demo' %}
+{% if config.scenario.name == 'demo' %}
     storage_accounts = {
       level0 = {
         "Storage Blob Data Contributor" = {

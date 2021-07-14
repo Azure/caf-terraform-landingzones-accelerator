@@ -3,22 +3,22 @@
 #
 # passthrough means the default CAF naming convention is not applied and you are responsible
 # of the unicity of the names you are giving. the CAF provider will clear out
-passthrough = {{ level0.launchpad.passthrough }}
+passthrough = {{ config.launchpad.passthrough }}
 # adds random chars at the end of the names produced by the provider
 # Do not change the following values once the launchpad deployed.
 
 # Enable tag inheritance (can be changed)
-inherit_tags = {{ level0.launchpad.inherit_tags }}
+inherit_tags = {{ config.launchpad.inherit_tags }}
 # When passthrough is set to false, define the number of random characters to add to the names
-random_length = {{ level0.launchpad.random_length }}
+random_length = {{ config.launchpad.random_length }}
 
 # Default region. When not set to a resource it will use that value
-default_region = "{{ level0.launchpad.default_region }}"
+default_region = "{{ config.launchpad.default_region }}"
 
 # You can reference the regions by using region1, region2 or set your own keys
 regions = {
-  region1 = "{{ level0.launchpad.regions.region1 }}"
-  region2 = "{{ level0.launchpad.regions.region2 }}"
+  region1 = "{{ config.launchpad.regions.region1 }}"
+  region2 = "{{ config.launchpad.regions.region2 }}"
 }
 
 # Rover will adjust some tags to enable the discovery of the launchpad.

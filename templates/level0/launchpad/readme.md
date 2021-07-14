@@ -4,15 +4,15 @@ Set-up the launchpads for level0 to level3
 
 ```bash
 # login a with a user member of the caf-maintainers group
-rover login -t {{ level0.tenant_name }}.onmicrosoft.com
+rover login -t {{ config.tenant_name }}.onmicrosoft.com
 
 export ARM_USE_AZUREAD=true
-caf_env="{{ level0.launchpad.caf_environment }}"
+caf_env="{{ config.launchpad.caf_environment }}"
 
 rover \
   -lz /tf/caf/landingzones/caf_launchpad \
-  -var-folder {{ level0.destination_install_path }}/{{ level }}/{{ base_folder }} \
-  -tfstate {{ level0.tfstates.launchpad.tfstate }} \
+  -var-folder {{ config.destination_install_path }}/{{ level }}/{{ base_folder }} \
+  -tfstate {{ config.tfstates.launchpad.tfstate }} \
   -launchpad \
   -env ${caf_env} \
   -level {{ level }} \

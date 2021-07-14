@@ -2,11 +2,11 @@ landingzone = {
   backend_type        = "azurerm"
   global_settings_key = "launchpad"
   level               = "level0"
-  key                 = "{{ level0.tfstates.billing_subscription_role_delegations.lz_key_name }}"
+  key                 = "{{ config.tfstates.billing_subscription_role_delegations.lz_key_name }}"
   tfstates = {
-    {{ level0.tfstates.launchpad.lz_key_name }} = {
+    {{ config.tfstates.launchpad.lz_key_name }} = {
       level   = "current"
-      tfstate = "{{ level0.tfstates.launchpad.tfstate }}"
+      tfstate = "{{ config.tfstates.launchpad.tfstate }}"
     }
   }
 }

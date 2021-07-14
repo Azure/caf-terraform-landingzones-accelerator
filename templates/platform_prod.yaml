@@ -3,9 +3,9 @@ scenario:
   number: 100
   deployment_mode: interactive
   # automated_deployment (manual | e2e | pipelines)
-  automated_deployment: e2e
+  automated_deployment: manual
 features:
-  subscription_creation: false
+  subscription_creation: true
   enterprise_scale: true
   # Define the Azure Active Directory options ( none | msi | sp). msi and sp requires Azure AD groups rw.
   azuread_identity_mode: msi
@@ -26,7 +26,7 @@ launchpad:
   passthrough: "false"
   inherit_tags: "false"
   random_length: 5
-  caf_environment: sandpit
+  caf_environment: prod
   account_replication_type: RAGRS
   default_region: region1
   # number_of_levels defines the number of levels to configure. Recommended is 4 or 5

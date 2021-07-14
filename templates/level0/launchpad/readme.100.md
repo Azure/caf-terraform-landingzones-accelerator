@@ -1,6 +1,6 @@
-# Launchpad - scenario {{ level0.scenario.number }}
+# Launchpad - scenario {{ config.scenario.number }}
 
-The {{ level0.scenario.number }} scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
+The {{ config.scenario.number }} scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
 The focus of this scenario is to be able to deploy a basic launchpad from a remote machine and use the portal to review the settings in a non-constrained environment.
 For example in this scenario you can go to the Key Vaults and view the secrets from the portal, a feature that is disabled in the 300+ scenarios.
 We recommend using the 100 scenario for demonstration purposes.
@@ -19,15 +19,15 @@ This scenario require the following privileges:
 ## Deployment
 
 ```bash
-rover login -t {{ level0.tenant_name }}.onmicrosoft.com
+rover login -t {{ config.tenant_name }}.onmicrosoft.com
 
 export ARM_USE_AZUREAD=true
-caf_env="{{ level0.launchpad.caf_environment }}"
+caf_env="{{ config.launchpad.caf_environment }}"
 
 rover \
   -lz /tf/caf/landingzones/caf_launchpad \
-  -var-folder {{ level0.destination_install_path }}/{{ level }}/{{ base_folder }} \
-  -tfstate {{ level0.tfstates.launchpad.tfstate }} \
+  -var-folder {{ config.destination_install_path }}/{{ level }}/{{ base_folder }} \
+  -tfstate {{ config.tfstates.launchpad.tfstate }} \
   -launchpad \
   -env ${caf_env} \
   -level {{ level }} \
@@ -35,8 +35,8 @@ rover \
 
 rover \
   -lz /tf/caf/landingzones/caf_launchpad \
-  -var-folder {{ level0.destination_install_path }}/{{ level }}/{{ base_folder }} \
-  -tfstate {{ level0.tfstates.launchpad.tfstate }} \
+  -var-folder {{ config.destination_install_path }}/{{ level }}/{{ base_folder }} \
+  -tfstate {{ config.tfstates.launchpad.tfstate }} \
   -launchpad \
   -env ${caf_env} \
   -level {{ level }} \
@@ -45,7 +45,7 @@ rover \
 ```
 
 ## Architecture diagram
-![Launchpad {{ level0.scenario.number }}](../../../../../documentation/img/launchpad-{{ level0.scenario.number }}.PNG)
+![Launchpad {{ config.scenario.number }}](../../../../../documentation/img/launchpad-{{ config.scenario.number }}.PNG)
 
 ## Services deployed in this scenario
 
