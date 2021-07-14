@@ -6,13 +6,14 @@ scenario:
 features:
   subscription_creation: false
   enterprise_scale: false
+  # Define the Azure Active Directory options ( none | msi | sp). msi and sp requires Azure AD groups rw.
+  azuread_identity_mode: none
 
 # cleanup_destination - recommended to clean and recreated a clean state from template.
 cleanup_destination: false
 remote_install_path: /tf/caf/contoso
 tenant_name: terraformdev
 caf_landingzone_branch: 2107.1
-azuread_identity_mode: msi
 sku:
   keyvault: standard
 
@@ -24,7 +25,7 @@ launchpad:
   inherit_tags: "false"
   random_length: 5
   caf_environment: sandpit
-  account_replication_type: RAGRS
+  account_replication_type: GRS
   default_region: region1
   # number_of_levels defines the number of levels to configure. Recommended is 4 or 5
   number_of_levels: 5

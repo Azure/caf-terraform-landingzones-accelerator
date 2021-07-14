@@ -1,14 +1,19 @@
-deployment_mode: interactive
 scenario:
   name: prod
+  deployment_mode: interactive
+  # automated_deployment (manual | e2e | pipelines)
+  automated_deployment: e2e
 features:
-  subscription_creation: true
-  enterprise_scale: tru
-cleanup_destination: true
+  subscription_creation: false
+  enterprise_scale: false
+  # Define the Azure Active Directory options ( none | msi | sp). msi and sp requires Azure AD groups rw.
+  azuread_identity_mode: msi
+
+# cleanup_destination - recommended to clean and recreated a clean state from template.
+cleanup_destination: false
 remote_install_path: /tf/caf/contoso
 tenant_name: terraformdev
 caf_landingzone_branch: 2107.1
-azuread_identity_mode: msi
 sku:
   keyvault: premium
 
@@ -18,16 +23,21 @@ billing_subscription_role_delegations:
 launchpad:
   passthrough: "false"
   inherit_tags: "false"
-  random_length: 15
+  random_length: 5
   caf_environment: sandpit
   account_replication_type: RAGRS
   default_region: region1
+  # number_of_levels defines the number of levels to configure. Recommended is 4 or 5
+  number_of_levels: 5
   regions:
     region1: southeastasia
     region2: eastasia
   tags:
-    ApplicationOwner: sre
-    BusinessUnit: sre
+    ApplicationOwner: CAF_demo
+    deploymentType: Terraform
+    costCenter: 0
+    BusinessUnit: SHARED
+    DR: NON-DR-ENABLED
 tfstates:
   launchpad:
     lz_key_name: launchpad
