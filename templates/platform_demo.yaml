@@ -1,5 +1,6 @@
 scenario:
   name: demo
+  number: 100
   deployment_mode: interactive
   # automated_deployment (manual | e2e | pipelines)
   automated_deployment: e2e

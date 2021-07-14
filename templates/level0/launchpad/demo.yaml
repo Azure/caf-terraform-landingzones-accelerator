@@ -9,7 +9,7 @@
     state: directory
 - name: launchpad - readme
   ansible.builtin.template:
-    src: "{{ level }}/{{ base_folder }}/readme.md.j2"
+    src: "{{ level }}/{{ base_folder }}/readme.{{ level0.scenario.number }}.md"
     dest: "{{ level0.remote_install_path }}/{{ level }}/{{ base_folder }}/readme.md"
     force: yes
 - name: lauchpad - demo
