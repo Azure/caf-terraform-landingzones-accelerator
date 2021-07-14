@@ -1,0 +1,60 @@
+- name: launchpad
+  hosts: localhost
+  vars:
+    level0: "{{ lookup('file', 'platform_{{ scenario | default(demo) }}.yaml') | from_yaml }}"
+    base_folder: launchpad
+    level: level0
+
+  tasks:
+    - import_tasks: "{{ level }}/launchpad/{{ scenario }}.yaml"
+
+
+- name: billing_subscription_role_delegations
+  hosts: localhost
+  vars:
+    level0: "{{ lookup('file', 'platform_{{ scenario | default(demo) }}.yaml') | from_yaml }}"
+    base_folder: launchpad
+    level: level0
+
+  tasks:
+    - import_tasks: "{{ level }}/billing_subscription_role_delegations/{{ scenario }}.yaml"
+      when: level0.features.subscription_creation | bool
+
+
+- name: Deployment
+  hosts: localhost
+  vars:
+    level0: "{{ lookup('file', 'platform_{{ scenario | default(demo) }}.yaml') | from_yaml }}"
+    base_folder: launchpad
+    level: level0
+
+  tasks:
+    - name: Clone Landingzone Terraform code
+      git:
+        repo: 'https://github.com/Azure/caf-terraform-landingzones.git'
+        dest: /tf/caf/landingzones
+        version: "{{ level0.caf_landingzone_branch }}"
+
+    - set_fact:
+        tf_action="{{ terraform_action | default('apply') }}"
+
+    - name: Deploy launchpad
+      ansible.builtin.shell: |
+        export ARM_USE_AZUREAD=true
+
+        /tf/rover/rover.sh \
+          -lz /tf/caf/landingzones/caf_launchpad \
+          -var-folder "{{ level0.remote_install_path }}/{{ level }}/{{ base_folder }}" \
+          -tfstate caf_launchpad.tfstate \
+          -launchpad \
+          -env {{ level0.launchpad.caf_environment }} \
+          -level {{ level }} \
+          -a {{ tf_action }} -no-color
+
+      register: launchpad
+      when: (level0.scenario.automated_deployment == 'e2e' or level0.scenario.automated_deployment == 'pipelines') and
+        tf_action != 'destroy'
+
+    - debug: msg="{{ launchpad.stdout }}"
+      when: (level0.scenario.automated_deployment == 'e2e' or level0.scenario.automated_deployment == 'pipelines') and
+        tf_action != 'destroy' and '0 added, 0 changed, 0 destroyed' not in launchpad.stdout
