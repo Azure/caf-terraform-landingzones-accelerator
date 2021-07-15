@@ -12,7 +12,7 @@ ansible-playbook e2e.yaml -e scenario=contoso -e model=demo
 
 ## Deploy the stack using symphony job
 
-### Prerequisites
+## Prerequisites
 
 ```bash
 branch=eslz.0.3.3
@@ -35,7 +35,7 @@ git pull
 ```
 
 
-## Full end to end
+## Only launchpad
 
 ```bash
 
