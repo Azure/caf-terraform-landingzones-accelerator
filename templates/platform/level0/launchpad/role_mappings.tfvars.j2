@@ -7,6 +7,28 @@
 role_mapping = {
   built_in_role_mapping = {
 {% if config.features.enterprise_scale %}
+{% if config.gitops.deployment_mode == 'interactive' %}
+    management_group = {
+      root = {
+        "User Access Administrator" = {
+          logged_in = {
+            keys = ["user"]
+          }
+        }
+        "Management Group Contributor" = {
+          logged_in = {
+            keys = ["user"]
+          }
+        }
+        "Owner" = {
+          logged_in = {
+            keys = ["user"]
+          }
+        }
+      }
+    }
+{% endif %}
+{% if config.features.azuread_identity_mode == 'sp' %}
     management_group = {
       root = {
         "User Access Administrator" = {
@@ -27,7 +49,8 @@ role_mapping = {
       }
     }
 {% endif %}
-{% if config.scenario.name == 'prod' %}
+{% endif %}
+{% if config.eslz.model == 'prod' %}
     subscriptions = {
       logged_in_subscription = {
         "Owner" = {
@@ -148,7 +171,7 @@ role_mapping = {
       }
     }
 {% endif %}
-{% if config.scenario.name == 'demo' %}
+{% if config.eslz.model == 'demo' %}
     storage_accounts = {
       level0 = {
         "Storage Blob Data Contributor" = {

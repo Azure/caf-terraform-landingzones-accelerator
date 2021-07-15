@@ -1,0 +1,31 @@
+environment: demo
+repositories:
+  - name: landingzones
+    uri: https://github.com/Azure/caf-terraform-landingzones.git
+    branch: 2107.1
+
+ # All paths are relative
+levels:
+- level: level0
+  type: platform
+  stacks:
+  - stack: launchpad
+    landingZonePath: landingzones/caf_launchpad
+    configurationPath: "configuration/contoso/platform/demo/level0/launchpad"
+    tfState: caf_launchpad.tfstate
+    repository: landingzones
+  launchpad: true
+- level: level1
+  type: platform
+  stacks:
+  - stack: management
+    landingZonePath: landingzones/caf_solution
+    configurationPath: "configuration/contoso/platform/demo/level1/management"
+    tfState: management.tfstate
+    repository: landingzones
+  - stack: eslz
+    landingZonePath: landingzones/caf_solution/add-ons/caf_eslz
+    configurationPath: "configuration/contoso/platform/demo/level1/eslz"
+    tfState: eslz.tfstate
+    repository: landingzones
+    branch: "eslz.0.3.3"

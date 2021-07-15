@@ -6,6 +6,25 @@
 
 role_mapping = {
   built_in_role_mapping = {
+    management_group = {
+      root = {
+        "User Access Administrator" = {
+          logged_in = {
+            keys = ["user"]
+          }
+        }
+        "Management Group Contributor" = {
+          logged_in = {
+            keys = ["user"]
+          }
+        }
+        "Owner" = {
+          logged_in = {
+            keys = ["user"]
+          }
+        }
+      }
+    }
     storage_accounts = {
       level0 = {
         "Storage Blob Data Contributor" = {

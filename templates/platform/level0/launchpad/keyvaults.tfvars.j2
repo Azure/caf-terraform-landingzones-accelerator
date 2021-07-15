@@ -12,13 +12,13 @@ keyvaults = {
     }
 
     creation_policies = {
-{% if config.scenario.name != 'demo' %}
+{% if config.eslz.model != 'demo' %}
       caf_launchpad_maintainer = {
         azuread_group_key  = "caf_launchpad_maintainer"
         secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
       }
 {% endif %}
-{% if config.scenario.deployment_mode == 'interactive' %}
+{% if config.gitops.deployment_mode == 'interactive' %}
       logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
         # More examples in /examples/keyvault
@@ -41,13 +41,13 @@ keyvaults = {
     }
 
     creation_policies = {
-{% if config.scenario.name != 'demo' %}
+{% if config.eslz.model != 'demo' %}
       caf_launchpad_maintainer = {
         azuread_group_key  = "caf_launchpad_maintainer"
         secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
       }
 {% endif %}
-{% if config.scenario.deployment_mode == 'interactive' %}
+{% if config.gitops.deployment_mode == 'interactive' %}
       logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
         # More examples in /examples/keyvault
@@ -70,13 +70,13 @@ keyvaults = {
     }
 
     creation_policies = {
-{% if config.scenario.name != 'demo' %}
+{% if config.eslz.model != 'demo' %}
       caf_launchpad_maintainer = {
         azuread_group_key  = "caf_launchpad_maintainer"
         secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
       }
 {% endif %}
-{% if config.scenario.deployment_mode == 'interactive' %}
+{% if config.gitops.deployment_mode == 'interactive' %}
       logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
         # More examples in /examples/keyvault
@@ -99,13 +99,13 @@ keyvaults = {
     }
 
     creation_policies = {
-{% if config.scenario.name != 'demo' %}
+{% if config.eslz.model != 'demo' %}
       caf_launchpad_maintainer = {
         azuread_group_key  = "caf_launchpad_maintainer"
         secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
       }
 {% endif %}
-{% if config.scenario.deployment_mode == 'interactive' %}
+{% if config.gitops.deployment_mode == 'interactive' %}
       logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
         # More examples in /examples/keyvault
@@ -128,13 +128,13 @@ keyvaults = {
     }
 
     creation_policies = {
-{% if config.scenario.name != 'demo' %}
+{% if config.eslz.model != 'demo' %}
       caf_launchpad_maintainer = {
         azuread_group_key  = "caf_launchpad_maintainer"
         secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
       }
 {% endif %}
-{% if config.scenario.deployment_mode == 'interactive' %}
+{% if config.gitops.deployment_mode == 'interactive' %}
       logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
         # More examples in /examples/keyvault

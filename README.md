@@ -27,6 +27,20 @@ This approach allows you to easily:
 * resync the code with the public codebase for updates.
 * customize the code if needed and contribute back to the community.
 
+## Generate the configuration files
+
+[Contoso - Demo](./templates/platform/platform_contoso_demo.yaml)
+
+Once you have cloned this repository you can execute the following command.
+
+```bash
+cd /tf/caf/templates/platform
+
+# Generate the contoso demo files (only this scenario is supported at the moment. More to come)
+# If you change some values in the yaml file you need to re-execute the command to update the tfvars files.
+ansible-playbook e2e.yaml -e scenario=contoso -e model=demo
+
+```
 
 
 ## Related repositories

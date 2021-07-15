@@ -1,0 +1,26 @@
+- name: Clean-up directory
+  file:
+    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ base_folder }}"
+    state: absent
+  when: config.cleanup_destination | bool
+
+- name: Creates directory
+  file:
+    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ base_folder }}"
+    state: directory
+
+- name: Symphony
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ base_folder }}/symphony*.yaml"
+
+- name: Next steps
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ base_folder }}/README.md"

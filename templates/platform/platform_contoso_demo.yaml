@@ -1,12 +1,11 @@
-scenario:
-  name: demo
-  number: 100
+gitops:
   deployment_mode: interactive
   # automated_deployment (manual | e2e | pipelines)
   automated_deployment: manual
+
 features:
   subscription_creation: false
-  enterprise_scale: false
+  enterprise_scale: true
   # Define the Azure Active Directory options ( none | msi | sp). msi and sp requires Azure AD groups rw.
   azuread_identity_mode: none
   # Enable the multi-subscription deployment
@@ -19,13 +18,20 @@ destination_relative_base_path: configuration/contoso/platform/demo
 # Set the Azure Active Directory tenant name. Do not include the .onmicrosoft.com
 tenant_name: set_your_tenant_name
 caf_landingzone_branch: 2107.1
+
 sku:
   keyvault: standard
+
+notifications:
+  service_health_alerts:
+      email1:
+        email_address: change_email@domain.com
 
 ### Level0 ####
 billing_subscription_role_delegations:
   billing_account_name: 123456677
   enrollment_account_name: 4332445
+
 launchpad:
   passthrough: "false"
   inherit_tags: "false"
@@ -47,14 +53,13 @@ launchpad:
 
 ### Level1 ###
 management:
-  service_health_alerts:
-    email1:
-      email_address: set_the_distribution_list_email_address
+
 identity:
 
 eslz:
   # Only the contoso model is supported as the moment
   scenario: contoso
+  model: demo
   # ESLZ migration to newer versions requires to adjust some configuration files.
   private_lib:
     version_to_deploy: v2
@@ -72,16 +77,32 @@ tfstates:
   launchpad:
     lz_key_name: launchpad
     tfstate: caf_launchpad.tfstate
+    base_config_path: launchpad
+    level: level0
   billing_subscription_role_delegations:
     lz_key_name: billing_subscription_role_delegations
     tfstate: billing_subscription_role_delegations.tfstate
+    base_config_path: billing
+    level: level0
+
   ### Level1 ###
   management:
     lz_key_name: management
     tfstate: management.tfstate
+    base_config_path: management
+    level: level1
   identity:
     lz_key_name: identity
     tfstate: identity.tfstate
+    base_config_path: identity
+    level: level1
   eslz:
     lz_key_name: eslz
     tfstate: eslz.tfstate
+    base_config_path: eslz
+    level: level1
+  platform_subscriptions:
+    lz_key_name: platform_subscriptions
+    tfstate: platform_subscriptions.tfstate
+    base_config_path: subscriptions
+    level: level1

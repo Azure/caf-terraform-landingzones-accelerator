@@ -44,5 +44,39 @@
     level: level1
 
   tasks:
-    - import_tasks: "{{ level }}/eslz/{{ scenario }}_{{ model }}.yaml"
+    - name: ESLZ - Clean-up directory
+      file:
+        path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ item.path }}"
+        state: absent
+      with_filetree: "{{ level }}/{{ base_folder }}"
+      when:
+        - item.state == 'directory'
+        - config.features.enterprise_scale == false | bool
 
+    - name: ESLZ - Clean-up base directory
+      file:
+        path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}"
+        state: absent
+      with_filetree: "{{ level }}/{{ base_folder }}"
+      when:
+        - item.state == 'directory'
+        - config.features.enterprise_scale == false | bool
+
+    - import_tasks: "{{ level }}/eslz/{{ scenario }}_{{ model }}.yaml"
+      when: config.features.enterprise_scale == true | bool
+
+
+
+
+#
+# Pipelines
+#
+- name: Pipelines
+  hosts: localhost
+  vars:
+    config: "{{ lookup('file', 'platform_{{ scenario }}_{{ model }}.yaml') | from_yaml }}"
+    base_folder: pipelines
+
+  tasks:
+    - import_tasks: "{{ base_folder }}/{{ model }}.yaml"
+    - debug: msg="You can now proceed to the next steps and execute the deployment. Refer to the readme in {{ config.destination_install_path }}{{ config.destination_relative_base_path }}/README.md"

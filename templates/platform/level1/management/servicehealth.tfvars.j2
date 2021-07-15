@@ -9,7 +9,7 @@ monitoring = {
     email_alert_settings = {
       email1 = {
         name                    = "email_alert_support1"
-        email_address           = "{{ config.management.service_health_alerts.email1.email_address }}"
+        email_address           = "{{ config.notifications.service_health_alerts.email1.email_address }}"
         use_common_alert_schema = false
       }
     } #add more email alerts by repeating the block.

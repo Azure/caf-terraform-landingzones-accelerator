@@ -1,6 +1,6 @@
-# Launchpad - scenario 100
+# Launchpad - scenario contoso / demo
 
-The 100 scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
+The demo scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
 The focus of this scenario is to be able to deploy a basic launchpad from a remote machine and use the portal to review the settings in a non-constrained environment.
 For example in this scenario you can go to the Key Vaults and view the secrets from the portal, a feature that is disabled in the 300+ scenarios.
 We recommend using the 100 scenario for demonstration purposes.
@@ -45,7 +45,7 @@ rover \
 ```
 
 ## Architecture diagram
-![Launchpad 100](../../../../../documentation/img/launchpad-100.PNG)
+![Launchpad demo](../../../../../documentation/img/launchpad-demo.PNG)
 
 ## Services deployed in this scenario
 
