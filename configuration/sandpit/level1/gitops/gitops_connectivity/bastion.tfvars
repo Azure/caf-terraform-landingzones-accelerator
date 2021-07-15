@@ -114,7 +114,7 @@ virtual_machines = {
 
 keyvaults = {
   vmsecrets = {
-    name                = "bast-secrets"
+    name                = "bast-secret"
     resource_group_key  = "bastion_launchpad"
     sku_name            = "standard"
     soft_delete_enabled = true
@@ -124,6 +124,17 @@ keyvaults = {
     }
 
     creation_policies = {
+      keyvault_level1_rw = {
+        # Reference a key to an azure ad group
+        lz_key             = "launchpad"
+        azuread_group_key  = "keyvault_level1_rw"
+        secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
+      }
+      msi_level1 = {
+        lz_key               = "launchpad"
+        managed_identity_key = "level1"
+        secret_permissions   = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
+      }
       logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
         # More examples in /examples/keyvault
