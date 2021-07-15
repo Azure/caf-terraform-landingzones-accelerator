@@ -8,7 +8,7 @@ export caf_environment=sandpit
 # export caf_environment=demo
 
 rover -lz /tf/caf/landingzones/caf_solution/add-ons/azure_devops \
-  -var-folder configuration/${environment}/level0/azure_devops \
+  -var-folder configuration/${environment}/level1/azure_devops \
   -parallelism 30 \
   -level level0 \
   -env ${caf_environment} \
