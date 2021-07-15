@@ -1,0 +1,50 @@
+- name: Clean-up directory
+  file:
+    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}"
+    state: absent
+  when: config.cleanup_destination | bool
+- name: Creates directory
+  file:
+    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}"
+    state: directory
+- name: launchpad - readme
+  ansible.builtin.template:
+    src: "{{ level }}/{{ base_folder }}/readme.{{ config.scenario.number }}.md"
+    dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/readme.md"
+    force: yes
+- name: lauchpad - demo
+  ansible.builtin.template:
+    src: "{{ level }}/{{ base_folder }}/{{ item }}.tfvars.j2"
+    dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ item }}.tfvars"
+    force: yes
+  when: config.scenario.name == 'demo'
+  loop:
+    - dynamic_secrets
+    - global_settings
+    - keyvaults
+    - landingzone
+    - resource_groups
+    - role_mappings
+    - storage_accounts
+- name: lauchpad - prod
+  ansible.builtin.template:
+    src: "{{ level }}/{{ base_folder }}/{{ item }}.tfvars.j2"
+    dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ item }}.tfvars"
+    force: yes
+  when: config.scenario.name == 'prod'
+  loop:
+    - azuread_api_permissions
+    - azuread_applications
+    - azuread_group_members
+    - azuread_groups
+    - azuread_roles
+    - dynamic_secrets
+    - global_settings
+    - keyvault_policies
+    - keyvaults
+    - landingzone
+    - resource_groups
+    - role_mappings
+    - service_principals
+    - storage_accounts
+

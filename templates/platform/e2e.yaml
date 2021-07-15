@@ -1,0 +1,48 @@
+#
+# Level 0
+#
+- name: launchpad
+  hosts: localhost
+  vars:
+    config: "{{ lookup('file', 'platform_{{ scenario }}_{{ model }}.yaml') | from_yaml }}"
+    base_folder: launchpad
+    level: level0
+
+  tasks:
+    - import_tasks: "{{ level }}/launchpad/{{ model }}.yaml"
+
+
+- name: billing_subscription_role_delegations
+  hosts: localhost
+  vars:
+    config: "{{ lookup('file', 'platform_{{ scenario }}_{{ model }}.yaml') | from_yaml }}"
+    base_folder: launchpad
+    level: level0
+
+  tasks:
+    - import_tasks: "{{ level }}/billing_subscription_role_delegations/{{ model }}.yaml"
+      when: config.features.subscription_creation | bool
+
+#
+# Level 1
+#
+- name: Generate config - level1 - management
+  hosts: localhost
+  vars:
+    config: "{{ lookup('file', 'platform_{{ scenario }}_{{ model }}.yaml') | from_yaml }}"
+    base_folder: management
+    level: level1
+
+  tasks:
+    - import_tasks: "{{ level }}/management/{{ model }}.yaml"
+
+- name: Generate config - level1 - ESLZ
+  hosts: localhost
+  vars:
+    config: "{{ lookup('file', 'platform_{{ scenario }}_{{ model }}.yaml') | from_yaml }}"
+    base_folder: eslz
+    level: level1
+
+  tasks:
+    - import_tasks: "{{ level }}/eslz/{{ scenario }}_{{ model }}.yaml"
+
