@@ -15,6 +15,7 @@ levels:
     tfState: caf_launchpad.tfstate
     repository: landingzones
   launchpad: true
+
 - level: level1
   type: platform
   stacks:
@@ -29,3 +30,12 @@ levels:
     tfState: eslz.tfstate
     repository: landingzones
     branch: "eslz.0.3.3"
+
+- level: level2
+  type: platform
+  stacks:
+  - stack: connectivity_virtual_wan
+    landingZonePath: landingzones/caf_solution
+    configurationPath: "configuration/contoso/platform/demo/level1/management"
+    tfState: management.tfstate
+    repository: landingzones

@@ -15,6 +15,7 @@ features:
 cleanup_destination: false
 destination_install_path: /tf/caf/
 destination_relative_base_path: configuration/contoso/platform/demo
+
 # Set the Azure Active Directory tenant name. Do not include the .onmicrosoft.com
 tenant_name: set_your_tenant_name
 caf_landingzone_branch: 2107.1
@@ -38,12 +39,16 @@ launchpad:
   random_length: 5
   caf_environment: sandpit
   account_replication_type: GRS
-  default_region: region1
+  default_region_key: region1
   # number_of_levels defines the number of levels to configure. Recommended is 4 or 5
   number_of_levels: 5
   regions:
-    region1: southeastasia
-    region2: eastasia
+    region1:
+      name: southeastasia
+      slug: sea
+    region2:
+      name: eastasia
+      slug: ea
   tags:
     ApplicationOwner: CAF_demo
     deploymentType: Terraform
@@ -71,38 +76,3 @@ eslz:
   root_name: "Contoso Demo"
   deploy_core_landing_zones: "true"
   update_lib_folder: true
-
-tfstates:
-  ### Level0 ###
-  launchpad:
-    lz_key_name: launchpad
-    tfstate: caf_launchpad.tfstate
-    base_config_path: launchpad
-    level: level0
-  billing_subscription_role_delegations:
-    lz_key_name: billing_subscription_role_delegations
-    tfstate: billing_subscription_role_delegations.tfstate
-    base_config_path: billing
-    level: level0
-
-  ### Level1 ###
-  management:
-    lz_key_name: management
-    tfstate: management.tfstate
-    base_config_path: management
-    level: level1
-  identity:
-    lz_key_name: identity
-    tfstate: identity.tfstate
-    base_config_path: identity
-    level: level1
-  eslz:
-    lz_key_name: eslz
-    tfstate: eslz.tfstate
-    base_config_path: eslz
-    level: level1
-  platform_subscriptions:
-    lz_key_name: platform_subscriptions
-    tfstate: platform_subscriptions.tfstate
-    base_config_path: subscriptions
-    level: level1

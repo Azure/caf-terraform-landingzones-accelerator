@@ -13,7 +13,7 @@ inherit_tags = false
 random_length = 5
 
 # Default region. When not set to a resource it will use that value
-default_region = "region1"
+default_region_key = "region1"
 
 # You can reference the regions by using region1, region2 or set your own keys
 regions = {

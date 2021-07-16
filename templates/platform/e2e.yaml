@@ -4,7 +4,11 @@
 - name: launchpad
   hosts: localhost
   vars:
-    config: "{{ lookup('file', 'platform_{{ scenario }}_{{ model }}.yaml') | from_yaml }}"
+    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
+    connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
+    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
+    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
+    base_templates_folder: /tf/caf/templates/platform
     base_folder: launchpad
     level: level0
 
@@ -15,7 +19,11 @@
 - name: billing_subscription_role_delegations
   hosts: localhost
   vars:
-    config: "{{ lookup('file', 'platform_{{ scenario }}_{{ model }}.yaml') | from_yaml }}"
+    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
+    connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
+    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
+    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
+    base_templates_folder: /tf/caf/templates/platform
     base_folder: launchpad
     level: level0
 
@@ -29,7 +37,11 @@
 - name: Generate config - level1 - management
   hosts: localhost
   vars:
-    config: "{{ lookup('file', 'platform_{{ scenario }}_{{ model }}.yaml') | from_yaml }}"
+    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
+    connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
+    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
+    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
+    base_templates_folder: /tf/caf/templates/platform
     base_folder: management
     level: level1
 
@@ -39,7 +51,11 @@
 - name: Generate config - level1 - ESLZ
   hosts: localhost
   vars:
-    config: "{{ lookup('file', 'platform_{{ scenario }}_{{ model }}.yaml') | from_yaml }}"
+    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
+    connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
+    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
+    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
+    base_templates_folder: /tf/caf/templates/platform
     base_folder: eslz
     level: level1
 
@@ -74,7 +90,11 @@
 - name: Pipelines
   hosts: localhost
   vars:
-    config: "{{ lookup('file', 'platform_{{ scenario }}_{{ model }}.yaml') | from_yaml }}"
+    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
+    connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
+    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
+    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
+    base_templates_folder: /tf/caf/templates/platform
     base_folder: pipelines
 
   tasks:

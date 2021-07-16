@@ -13,12 +13,12 @@ inherit_tags = {{ config.launchpad.inherit_tags }}
 random_length = {{ config.launchpad.random_length }}
 
 # Default region. When not set to a resource it will use that value
-default_region = "{{ config.launchpad.default_region }}"
+default_region_key = "{{ config.launchpad.default_region_key }}"
 
 # You can reference the regions by using region1, region2 or set your own keys
 regions = {
-  region1 = "{{ config.launchpad.regions.region1 }}"
-  region2 = "{{ config.launchpad.regions.region2 }}"
+  region1 = "{{ config.launchpad.regions.region1.name }}"
+  region2 = "{{ config.launchpad.regions.region2.name }}"
 }
 
 # Rover will adjust some tags to enable the discovery of the launchpad.

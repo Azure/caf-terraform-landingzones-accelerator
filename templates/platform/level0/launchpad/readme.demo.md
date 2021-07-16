@@ -27,7 +27,7 @@ caf_env="{{ config.launchpad.caf_environment }}"
 rover \
   -lz /tf/caf/landingzones/caf_launchpad \
   -var-folder {{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }} \
-  -tfstate {{ config.tfstates.launchpad.tfstate }} \
+  -tfstate {{ tfstates.launchpad.tfstate }} \
   -launchpad \
   -env ${caf_env} \
   -level {{ level }} \
@@ -36,7 +36,7 @@ rover \
 rover \
   -lz /tf/caf/landingzones/caf_launchpad \
   -var-folder {{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }} \
-  -tfstate {{ config.tfstates.launchpad.tfstate }} \
+  -tfstate {{ tfstates.launchpad.tfstate }} \
   -launchpad \
   -env ${caf_env} \
   -level {{ level }} \

@@ -1,0 +1,12 @@
+landingzone = {
+  backend_type        = "azurerm"
+  global_settings_key = "{{ tfstates.management.lz_key_name }}"
+  level               = "level2"
+  key                 = "connectivity_virtual_wan"
+  tfstates = {
+    {{ tfstates.management.lz_key_name }} = {
+      level   = "lower"
+      tfstate = "{{ tfstates.management.tfstate }}"
+    }
+  }
+}

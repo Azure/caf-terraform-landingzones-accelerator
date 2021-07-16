@@ -12,6 +12,8 @@ ansible-playbook e2e.yaml -e scenario=contoso -e model=demo
 
 ## Deploy the stack using symphony job
 
+```bash
+
 ## Prerequisites
 
 ```bash
@@ -35,9 +37,7 @@ git pull
 ```
 
 
-## Only launchpad
-
-```bash
+# Only launchpad
 
  rover deploy \
   apply \

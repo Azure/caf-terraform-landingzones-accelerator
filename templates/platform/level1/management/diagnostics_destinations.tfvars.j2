@@ -7,10 +7,10 @@ diagnostics_destinations = {
   # in the region of the deployment
   storage = {
     all_regions = {
-      {{ config.launchpad.regions.region1 }} = {
+      "{{ config.launchpad.regions.region1.name }}" = {
         storage_account_key = "diagsiem_region1"
       }
-      {{ config.launchpad.regions.region2 }} = {
+      "{{ config.launchpad.regions.region2.name }}" = {
         storage_account_key = "diagsiem_region2"
       }
     }
