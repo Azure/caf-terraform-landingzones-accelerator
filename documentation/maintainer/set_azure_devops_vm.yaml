@@ -81,7 +81,7 @@
         image:
           offer: Windows-10
           publisher: MicrosoftWindowsDesktop
-          sku: 20h2-pro
+          sku: 21h1-pro
           version: latest
 
     - name: Enable HTTPS WinRM listener
@@ -157,13 +157,6 @@
         name: git
         state: present
 
-    # - name: Git checkout
-    #   ansible.builtin.git:
-    #     repo: 'https://github.com/Azure/caf-terraform-landingzones-starter.git'
-    #     dest: C:\Users\{{ ansible_winrm_user }}\git\github.com\azure
-    #     clone: yes
-    #     version: starter
-
     # Instal Docker desktop
     - name: Install docker desktop
       win_chocolatey:
@@ -177,7 +170,7 @@
 
     - name: Pull the rover devcontainer base image
       docker_image:
-        name: aztfmod/rover:2012.1109
+        name: aztfmod/rover:1.0.1-2106.3012
         source: pull
 
     # Install vscode
@@ -191,4 +184,9 @@
       args:
         stdin: code --install-extension ms-vscode-remote.remote-containers
 
-
+    - name: Git checkout
+      ansible.builtin.git:
+        repo: 'https://github.com/Azure/caf-terraform-landingzones-starter.git'
+        dest: C:\Users\{{ ansible_winrm_user }}\git\github.com\azure
+        clone: yes
+        version: starter

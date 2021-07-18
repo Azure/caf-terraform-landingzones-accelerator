@@ -1,22 +1,21 @@
 
-
+Execute the following command from the cloud shell.
 
 ```bash
 
-# Install the Ansible libraries
-sudo pip3 install winrm packaging msrest msrestazure ansible[azure]
+# By default the ansible playbook deploys a Standard D8as_v4 (8 vcpus, 32 GiB memory) to get the maximum speed and reduce the time to way for terraform to execute.
 
-ansible-galaxy collection install \
-  azure.azcollection \
-  ansible.windows \
-  community.general --force
+# If you want to set a different family type you can add the -e vm_size=Standard_D4s_v4
+
+git clone https://github.com/Azure/caf-terraform-landingzones-starter.git
 
 password='set your complex password'
 
-cd documentation/maintainer
+cd caf-terraform-landingzones-starter/documentation/maintainer
+
 ansible-playbook ./set_azure_devops_vm.yaml \
-  -e "ansible_winrm_password=${password}" \
-  -e "admin_password=${password}"
+  -e ansible_winrm_password="${password}" \
+  -e admin_password="${password}"
 
 ```
 
