@@ -10,7 +10,7 @@
     - vm_name: caf-devops-01
     - admin_username: king.admin
     - admin_password:
-    - vm_size: Standard_D4s_v4
+    - vm_size: Standard_D8as_v4
 
   tasks:
     - name: Create resource group
@@ -170,7 +170,8 @@
 
     - name: Pull the rover devcontainer base image
       community.docker.docker_image:
-        name: aztfmod/rover:1.0.1-2106.3012
+        name: aztfmod/rover
+        tag: 1.0.1-2106.3012
         source: pull
 
     # Install vscode
