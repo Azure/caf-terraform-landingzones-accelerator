@@ -10,7 +10,7 @@
     - vm_name: caf-devops-01
     - admin_username: king.admin
     - admin_password:
-    - vm_size: Standard_D8as_v4
+    - vm_size: Standard_D8ds_v4
 
   tasks:
     - name: Create resource group
@@ -151,10 +151,11 @@
         path: C:\Users\{{ ansible_winrm_user }}\wsl_update_x64.msi
         state: absent
 
-    # Git clone the repository
-    - name: Install git
+    - name: Install tools
       win_chocolatey:
-        name: git
+        name: 
+          - git
+          - python3
         state: present
 
     # Instal Docker desktop
@@ -163,16 +164,16 @@
         name: docker-desktop
         state: present
 
-    - name: Pause a service
+    - name: Start Docker desktop service
       win_service:
         name: com.docker.service
         state: started
 
+    # - name: Install required pip packages
+    #   ansible.windows.win_shell: pip install docker
+
     - name: Pull the rover devcontainer base image
-      community.docker.docker_image:
-        name: aztfmod/rover
-        tag: 1.0.1-2106.3012
-        source: pull
+      ansible.windows.win_shell: docker pull aztfmod/rover:1.0.1-2106.3012
 
     # Install vscode
     - name: Install vscode
@@ -185,9 +186,5 @@
       args:
         stdin: code --install-extension ms-vscode-remote.remote-containers
 
-    - name: Git checkout
-      ansible.builtin.git:
-        repo: 'https://github.com/Azure/caf-terraform-landingzones-starter.git'
-        dest: C:\Users\{{ ansible_winrm_user }}\git\github.com\azure
-        clone: yes
-        version: starter
+    - name: Clone starter kit
+      ansible.windows.win_shell: git clone -b AL-contoso https://github.com/Azure/caf-terraform-landingzones-starter.git C:\Users\{{ ansible_winrm_user }}\git\github.com\azure\caf-terraform-landingzones-starter

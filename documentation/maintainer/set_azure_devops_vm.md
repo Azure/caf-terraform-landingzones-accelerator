@@ -5,14 +5,13 @@ The installation time is 20 minutes.
 
 ```bash
 
-# By default the ansible playbook deploys a Standard D8as_v4 (8 vcpus, 32 GiB memory) to get the maximum speed and reduce the time to way for terraform to execute.
+# By default the ansible playbook deploys a Standard D8ds_v4 (8 vcpus, 32 GiB memory) to get the maximum speed and reduce the time to way for terraform to execute.
 
-# If you want to set a different family type you can add the -e vm_size=Standard_D4s_v4
+# If you want to set a different family type you can add the -e vm_size=Standard_D2ds_v4  (2 vcpu, 8 GiB)
+# More details - https://docs.microsoft.com/en-us/azure/virtual-machines/ddv4-ddsv4-series#ddsv4-series
+# Or select another vm supporting Hyper-threading https://docs.microsoft.com/en-us/azure/virtual-machines/acu
 
 git clone https://github.com/Azure/caf-terraform-landingzones-starter.git
-
-ansible-galaxy collection install \
-  community.docker
 
 password='set your complex password'
 
