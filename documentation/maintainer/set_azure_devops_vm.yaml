@@ -169,7 +169,7 @@
         state: started
 
     - name: Pull the rover devcontainer base image
-      docker_image:
+      community.docker.docker_image:
         name: aztfmod/rover:1.0.1-2106.3012
         source: pull
 
