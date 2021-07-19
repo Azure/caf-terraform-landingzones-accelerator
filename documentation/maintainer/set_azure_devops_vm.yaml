@@ -126,6 +126,8 @@
     - rover_image: "{{ caf_rover_image | default('aztfmod/rover:1.0.1-2106.3012') }}"
     - git_starter_url: "{{ caf_git_starter_url | default('https://github.com/Azure/caf-terraform-landingzones-starter.git') }}"
     - git_starter_branch_tag: "{{ caf_git_starter_branch_tag | default('AL-contoso') }}"
+    - git_landingzones_url: "{{ caf_git_landingzones_url | default('https://github.com/Azure/caf-terraform-landingzones.git') }}"
+    - git_landingzones_branch_tag: "{{ caf_git_landingzones_branch_tag | default('2107.1') }}"
 
   tasks:
     - name: Install Linux subsystem
@@ -157,7 +159,7 @@
 
     - name: Install tools
       win_chocolatey:
-        name: 
+        name:
           - git
           - python3
         state: present
@@ -174,7 +176,7 @@
         dest: d:\start-docker-desktop.ps1
       become: yes
       become_user: "{{ ansible_winrm_user }}"
-    
+
     - name: Start Docker desktop
       win_shell: d:\start-docker-desktop.ps1
       become: yes
@@ -194,13 +196,21 @@
       args:
         stdin: code --install-extension ms-vscode-remote.remote-containers
 
-    - name: Check destination folder.
-      stat:
-        path: "c:/users/{{ ansible_winrm_user }}/git/github.com/azure/caf-terraform-landingzones-starter"
+    # Cloning the repositories
+    - name: Check starter destination folder.
+      ansible.windows.win_stat:
+        path: c:\users\{{ ansible_winrm_user }}\git\github.com\azure\caf-terraform-landingzones-starter
       register: git_destination
 
     - name: Clone starter kit
-      win_shell: "git clone -b {{ git_starter_branch_tag }} {{ git_starter_url }} C:\Users\{{ ansible_winrm_user }}\git\github.com\azure\caf-terraform-landingzones-starter"
-      when: git_destination.stat.isdir == true and git_destination.stat.exists == false
+      win_shell: git clone -b {{ git_starter_branch_tag }} {{ git_starter_url }} C:\Users\{{ ansible_winrm_user }}\git\github.com\azure\caf-terraform-landingzones-starter
+      when: git_destination.stat.exists == false
 
-      
+    - name: Check landingzones destination folder.
+      ansible.windows.win_stat:
+        path: c:\users\{{ ansible_winrm_user }}\git\github.com\azure\caf-terraform-landingzones-starter\landingzones
+      register: git_landingzones_destination
+
+    - name: Clone landing_zones
+      win_shell: git clone -b {{ git_landingzones_branch_tag }} {{ git_landingzones_url }} C:\Users\{{ ansible_winrm_user }}\git\github.com\azure\caf-terraform-landingzones-starter\landingzones
+      when: git_landingzones_destination.stat.exists == false
