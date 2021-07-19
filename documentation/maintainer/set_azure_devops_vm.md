@@ -19,7 +19,8 @@ cd caf-terraform-landingzones-starter/documentation/maintainer
 
 ansible-playbook ./set_azure_devops_vm.yaml \
   -e ansible_winrm_password="${password}" \
-  -e admin_password="${password}"
+  -e admin_password="${password}" \
+  -e location=eastus
 
 ```
 
