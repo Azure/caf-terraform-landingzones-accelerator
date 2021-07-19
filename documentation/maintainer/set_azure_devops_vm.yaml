@@ -170,13 +170,13 @@
 
     - name: Copy scripts
       ansible.windows.win_copy:
-        src: restart-docker-desktop.ps1
-        dest: d:\restart-docker-desktop.ps1
+        src: start-docker-desktop.ps1
+        dest: d:\start-docker-desktop.ps1
       become: yes
       become_user: "{{ ansible_winrm_user }}"
     
     - name: Start Docker desktop
-      win_shell: d:\restart-docker-desktop.ps1
+      win_shell: d:\start-docker-desktop.ps1
       become: yes
       become_user: "{{ ansible_winrm_user }}"
 
