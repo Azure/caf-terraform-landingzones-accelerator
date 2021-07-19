@@ -19,6 +19,7 @@ rover \
   -tfstate {{ tfstates.virtual_wan.tfstate }} \
   -env ${caf_env} \
   -level {{ level }} \
+  -parallelism 50 \
   -a plan
 
 rover logout

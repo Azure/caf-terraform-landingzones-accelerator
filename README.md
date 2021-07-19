@@ -29,7 +29,7 @@ This approach allows you to easily:
 
 ## Generate the configuration files
 
-[Contoso - Demo](./templates/platform/platform_contoso_demo.yaml)
+[Contoso - Demo](./configuration/contoso/platform/demo/platform_contoso_demo.yaml)
 
 Once you have cloned this repository you can execute the following command.
 

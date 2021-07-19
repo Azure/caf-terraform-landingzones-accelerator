@@ -38,11 +38,11 @@ Review the regions you want to use. Do not change the name of the keys (i.e regi
 ## Generate the configuration files
 
 ```bash
-cd /tf/caf/templates/platform
 
 export AZURE_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
 
 # Generate the contoso demo files (only this scenario is supported at the moment. More to come)
+cd /tf/caf/templates/platform && \
 ansible-playbook e2e.yaml \
   -e base_templates_folder=/tf/caf/templates/platform \
   -e config_folder=/tf/caf/enterprise_scale/contoso/platform \
@@ -55,13 +55,4 @@ ansible-playbook e2e.yaml \
 
 ## Launchpad
 
-```bash
-
- rover deploy plan \
-  -sc /tf/caf/configuration/contoso/platform/demo/pipelines/symphony_e2e.yaml \
-  -b /tf/caf \
-  -env sandpit \
-  -ct launchpad \
-  -level level0
-
-```
+ [Instructions](../../configuration/contoso/platform/demo/level0/launchpad/readme.md)

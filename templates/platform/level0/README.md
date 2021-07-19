@@ -40,22 +40,12 @@ rover login -t <tenant_name>.onmicrosoft.com
 
 ## Prerequisites
 
-```bash
-branch={{ config.caf_landingzone_branch }}
-cd {{ config.destination_install_path }}
-git clone --branch ${branch} https://github.com/Azure/caf-terraform-landingzones.git landingzones
 
-# If you are planning to submit PR you can clone the a forked version instead
-git clone --branch ${branch} git@github.com:Azure/caf-terraform-landingzones.git landingzones
 
-# Or refresh an existing clone
-cd {{ config.destination_install_path }}landingzones
-git fetch origin
-git checkout ${branch}
-git status
+You need a developer machine configured with the dependencies.
 
-cd {{ config.destination_install_path }}
-git pull
-
+| Repo                                                                                              | Description                                                |
+|---------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+| [Azure Windows 10](../../../documentation/maintainer/set_azure_devops_vm.md) | Azure Windows 10 Virtual Desktop with docker engine, wsl2 and vscode     |
 
 ```

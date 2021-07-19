@@ -5,19 +5,4 @@ resource_groups = {
     region = "{{ resource_group.region_key }}"
   }
 {% endfor %}
-{% for key, azurerm_firewall in connectivity.azurerm_firewalls.items() %}
-  {{ key }} = {
-    name   = "{{ connectivity.resource_groups[azurerm_firewall.resource_group_key].name }}"
-    region = "{{ connectivity.resource_groups[azurerm_firewall.resource_group_key].region_key }}"
-  }
-{% endfor %}
-  contoso_global_dns = {
-    name   = "contoso-connectivity-global-dns"
-    region = "{{ config.launchpad.default_region_key }}"
-  }
-#   contoso_er_circuits = {
-#     name   = "contoso-connectivity-er-circuits"
-#     region = "{{ config.launchpad.regions[config.launchpad.default_region_key] }}"
-#   }
-
 }
