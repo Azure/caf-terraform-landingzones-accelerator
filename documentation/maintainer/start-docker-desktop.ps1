@@ -21,8 +21,15 @@ Get-Process | Where-Object {$_.Name -ilike "*docker*"} | Stop-Process -ErrorActi
 
 foreach($svc in (Get-Service | Where-Object {$_.name -ilike "*docker*" -and $_.Status -ieq "Stopped"} ))
 {
+  $ErrorActionPreference = 'Continue'
+  try
+  {
     $svc | Start-Service 
     $svc.WaitForStatus('Running','00:00:20')
+  catch 
+  {
+    Write-Verbose "$((Get-Date).ToString("HH:mm:ss")) - `tCannot start service."
+  }
 }
 
 
