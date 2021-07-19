@@ -17,6 +17,11 @@ password='set your complex password'
 
 cd caf-terraform-landingzones-starter/documentation/maintainer
 
+# Adjust the subscription if needed
+# az account set -s subscription_id
+
+export AZURE_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+
 ansible-playbook ./set_azure_devops_vm.yaml \
   -e ansible_winrm_password="${password}" \
   -e admin_password="${password}" \
