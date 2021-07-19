@@ -1,28 +1,17 @@
 vnets = {
-  connectivity_firewall_egress = {
-    resource_group_key = "contoso_global_wan"
-    region             = "region1"
+  connectivity_hub1_firewall_egress = {
+    resource_group_key = "contoso_global_firewall"
     vnet = {
-      name          = "identity-network"
-      address_space = ["100.64.92.0/22"]
+      name          = "firewall-egress-re1"
+      address_space = ["10.10.10.0/24", "10.10.11.0/24"]
     }
     subnets = {
-      # AzureBastionSubnet = {
-      #   name    = "AzureBastionSubnet" #Must be called AzureBastionSubnet
-      #   cidr    = ["100.64.93.64/26"]
-      #   nsg_key = "azure_bastion_nsg"
-      # }
-      ActiveDirectory = {
-        name    = "ADSubnet"
-        cidr    = ["100.64.94.0/27"]
-        nsg_key = "jumpbox"
+    }
+    specialsubnets = {
+      AzureFirewallSubnet = {
+        name = "AzureFirewallSubnet"
+        cidr = ["10.10.10.0/26"]
       }
-      # private_endpoints = {
-      #   name                                           = "private_endpoints"
-      #   cidr                                           = ["100.64.95.128/25"]
-      #   enforce_private_link_endpoint_network_policies = true
-      #   nsg_key                                        = "empty_nsg"
-      # }
     }
 
     # you can setup up to 5 keys - vnet diganostic
@@ -33,6 +22,5 @@ vnets = {
         destination_key  = "central_logs"
       }
     }
-
   }
 }

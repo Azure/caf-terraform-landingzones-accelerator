@@ -39,6 +39,7 @@ private_dns = {
   #
   # Private DNS zones for Private Links
   #
+{% if connectivity.private_links is defined %}
 {% for link in connectivity.private_links %}
   "{{ link }}" = {
     name               = "{{ link }}"
@@ -46,9 +47,10 @@ private_dns = {
     vnet_links = {
       connectivity_firewall_egress = {
         name     = "connectivity-firewall-egress"
-        vnet_key = "connectivity_firewall_egress"
+        vnet_key = "connectivity_hub1_firewall_egress"
       }
     }
   }
 {% endfor %}
+{% endif %}
 }

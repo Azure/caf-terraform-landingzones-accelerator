@@ -1,0 +1,16 @@
+azurerm_firewall_policies:
+  policy1:
+    name: "Base policy"
+    region_key: region1
+    resource_group:
+      key: "contoso_global_firewall_policies"
+    dns:
+      proxy_enabled: "true"
+    threat_intelligence_mode: "Alert"
+    threat_intelligence_allowlist:
+      # ip_addresses:
+      #   - 10.0.1.0/24
+      #   - 10.0.2.0/24
+      fqdns:
+        - microsoft.com
+        - demo.com

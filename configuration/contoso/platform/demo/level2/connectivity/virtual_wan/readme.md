@@ -19,6 +19,7 @@ rover \
   -tfstate connectivity_virtual_wan.tfstate \
   -env ${caf_env} \
   -level level2 \
+  -parallelism 50 \
   -a plan
 
 rover logout

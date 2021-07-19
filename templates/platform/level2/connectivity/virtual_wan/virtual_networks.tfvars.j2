@@ -1,29 +1,32 @@
 vnets = {
-  connectivity_firewall_egress = {
-    resource_group_key = "contoso_global_wan"
-    region             = "{{ config.launchpad.default_region_key }}"
+{% for key, vnet in connectivity.virtual_networks.items() %}
+  {{ key }} = {
+    resource_group_key = "{{vnet.resource_group_key}}"
     vnet = {
-      name          = "identity-network"
-      address_space = ["100.64.92.0/22"]
+      name          = "{{ vnet.name }}"
+      address_space = {{ vnet.address_space | replace('None','[]') | replace('\'','\"') }}
     }
     subnets = {
-      # AzureBastionSubnet = {
-      #   name    = "AzureBastionSubnet" #Must be called AzureBastionSubnet
-      #   cidr    = ["100.64.93.64/26"]
-      #   nsg_key = "azure_bastion_nsg"
-      # }
-      ActiveDirectory = {
-        name    = "ADSubnet"
-        cidr    = ["100.64.94.0/27"]
-        nsg_key = "jumpbox"
+{% if vnet.subnets is defined %}
+{% for subnet_key, subnet in vnet.subnets.items() %}
+      {{ subnet_key }} = {
+        name    = "{{subnet.name}}"
+        cidr    = {{ vnet.subnets[subnet_key].cidr | replace('None','[]') | replace('\'','\"') }}
+        nsg_key = "empty_nsg"
       }
-      # private_endpoints = {
-      #   name                                           = "private_endpoints"
-      #   cidr                                           = ["100.64.95.128/25"]
-      #   enforce_private_link_endpoint_network_policies = true
-      #   nsg_key                                        = "empty_nsg"
-      # }
+{% endfor %}
+{% endif %}
     }
+{% if vnet.specialsubnets is defined %}
+    specialsubnets = {
+{% for subnet_key, subnet in vnet.specialsubnets.items() %}
+      {{ subnet_key }} = {
+        name = "{{subnet.name}}"
+        cidr = {{ vnet.specialsubnets[subnet_key].cidr | replace('None','[]') | replace('\'','\"') }}
+      }
+{% endfor %}
+    }
+{% endif %}
 
     # you can setup up to 5 keys - vnet diganostic
     diagnostic_profiles = {
@@ -33,6 +36,6 @@ vnets = {
         destination_key  = "central_logs"
       }
     }
-
   }
+{% endfor %}
 }

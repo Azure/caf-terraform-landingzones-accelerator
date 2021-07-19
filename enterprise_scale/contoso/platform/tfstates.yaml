@@ -39,3 +39,9 @@ virtual_wan:
   base_config_path: connectivity/virtual_wan
   level: level2
 
+identity_adds:
+  lz_key_name: identity_adds
+  tfstate: identity_adds.tfstate
+  base_config_path: connectivity/virtual_wan
+  level: level2
+
