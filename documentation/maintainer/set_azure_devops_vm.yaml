@@ -112,16 +112,20 @@
 
 - name: Setup the CAF development tools
   hosts: localhost
+  become_method: runas
 
   vars:
     - admin_password:
     - ansible_connection: winrm
     - ansible_winrm_host: "{{ publicipaddresses | json_query('publicipaddresses[0].ip_address')}}"
-    - ansible_winrm_user: king.admin
+    - ansible_winrm_user: "{{ admin_user | default('king.admin') }}"
     - ansible_winrm_password: "{{ admin_password }}"
     - ansible_winrm_scheme: https
     - ansible_winrm_transport: ntlm
     - ansible_winrm_server_cert_validation: ignore
+    - rover_image: "{{ caf_rover_image | default('aztfmod/rover:1.0.1-2106.3012') }}"
+    - git_starter_url: "{{ caf_git_starter_url | default('https://github.com/Azure/caf-terraform-landingzones-starter.git') }}"
+    - git_starter_branch_tag: "{{ caf_git_starter_branch_tag | default('AL-contoso') }}"
 
   tasks:
     - name: Install Linux subsystem
@@ -164,16 +168,20 @@
         name: docker-desktop
         state: present
 
-    - name: Start Docker desktop service
-      win_service:
-        name: com.docker.service
-        state: started
-
-    # - name: Install required pip packages
-    #   ansible.windows.win_shell: pip install docker
+    - name: Copy scripts
+      ansible.windows.win_copy:
+        src: restart-docker-desktop.ps1
+        dest: d:\restart-docker-desktop.ps1
+      become: yes
+      become_user: "{{ ansible_winrm_user }}"
+    
+    - name: Start Docker desktop
+      win_shell: d:\restart-docker-desktop.ps1
+      become: yes
+      become_user: "{{ ansible_winrm_user }}"
 
     - name: Pull the rover devcontainer base image
-      ansible.windows.win_shell: docker pull aztfmod/rover:1.0.1-2106.3012
+      ansible.windows.win_shell: docker pull {{ rover_image }}
 
     # Install vscode
     - name: Install vscode
@@ -187,4 +195,4 @@
         stdin: code --install-extension ms-vscode-remote.remote-containers
 
     - name: Clone starter kit
-      ansible.windows.win_shell: git clone -b AL-contoso https://github.com/Azure/caf-terraform-landingzones-starter.git C:\Users\{{ ansible_winrm_user }}\git\github.com\azure\caf-terraform-landingzones-starter
+      ansible.windows.win_shell: git clone -b {{ git_starter_branch_tag }} {{ git_starter_url }} C:\Users\{{ ansible_winrm_user }}\git\github.com\azure\caf-terraform-landingzones-starter
