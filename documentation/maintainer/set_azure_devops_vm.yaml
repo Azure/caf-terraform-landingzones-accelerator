@@ -195,4 +195,8 @@
         stdin: code --install-extension ms-vscode-remote.remote-containers
 
     - name: Clone starter kit
-      ansible.windows.win_shell: git clone -b {{ git_starter_branch_tag }} {{ git_starter_url }} C:\Users\{{ ansible_winrm_user }}\git\github.com\azure\caf-terraform-landingzones-starter
+      git:
+        repo: "{{ git_starter_url }}"
+        dest: "C:\Users\{{ ansible_winrm_user }}\git\github.com\azure\caf-terraform-landingzones-starter"
+        version: "{{ git_starter_branch_tag }}"
+
