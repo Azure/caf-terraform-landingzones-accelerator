@@ -11,7 +11,7 @@ The installation time is 20 minutes.
 # More details - https://docs.microsoft.com/en-us/azure/virtual-machines/ddv4-ddsv4-series#ddsv4-series
 # Or select another vm supporting Hyper-threading https://docs.microsoft.com/en-us/azure/virtual-machines/acu
 
-git clone https://github.com/Azure/caf-terraform-landingzones-starter.git
+git clone -b AL-contoso https://github.com/Azure/caf-terraform-landingzones-starter.git
 
 password='set your complex password'
 
