@@ -4,8 +4,16 @@ Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Restarting docker"
 
 foreach($svc in (Get-Service | Where-Object {$_.name -ilike "*docker*" -and $_.Status -ieq "Running"}))
 {
-    $svc | Stop-Service -ErrorAction Continue -Confirm:$false -Force
-    $svc.WaitForStatus('Stopped','00:00:20')
+   try
+    {
+      $svc | Stop-Service -ErrorAction Continue -Confirm:$false -Force
+      $svc.WaitForStatus('Stopped','00:00:20')
+    }
+    
+    catch 
+    {
+      Write-Verbose "$((Get-Date).ToString("HH:mm:ss")) - `tCannot stop service.` 
+    }
 }
 
 Get-Process | Where-Object {$_.Name -ilike "*docker*"} | Stop-Process -ErrorAction Continue -Confirm:$false -Force
