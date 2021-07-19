@@ -26,6 +26,7 @@ foreach($svc in (Get-Service | Where-Object {$_.name -ilike "*docker*" -and $_.S
   {
     $svc | Start-Service 
     $svc.WaitForStatus('Running','00:00:20')
+  }
   catch 
   {
     Write-Verbose "$((Get-Date).ToString("HH:mm:ss")) - `tCannot start service."
