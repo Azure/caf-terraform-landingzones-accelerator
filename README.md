@@ -38,7 +38,7 @@ cd /tf/caf/templates/platform
 
 # Generate the contoso demo files (only this scenario is supported at the moment. More to come)
 # If you change some values in the yaml file you need to re-execute the command to update the tfvars files.
-ansible-playbook e2e.yaml -e scenario=contoso -e model=demo
+ansible-playbook e2e.yaml -e scenario=contoso -e model=demo -e config_folder=/tf/caf/enterprise_scale/contoso/platform
 
 ```
 
