@@ -14,7 +14,7 @@ You can then customize your environment by following the steps inside the [confi
 
 ## Starter template
 
-The purpose of this repository is to provide you with a starting point when composing your Cloud Adoption Framework for Azure landing zones on Terraform. It provides with sample files, folder structure and advices on how to get started creating and Infrastructure as Code and DevOps environment.
+The purpose of this repository is to provide you with a starting point when composing your Cloud Adoption Framework for Azure landing zones on Terraform. It provides sample files, folder structure, and advice on how to get started creating an Infrastructure as Code DevOps environment.
 
 In CAF landing zones for Terraform, our approach is to separate the configuration repository and the logic repository:
 
