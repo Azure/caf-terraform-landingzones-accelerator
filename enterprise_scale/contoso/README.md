@@ -40,6 +40,8 @@ Review the regions you want to use. Do not change the name of the keys (i.e regi
 ```bash
 cd /tf/caf/templates/platform
 
+export AZURE_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+
 # Generate the contoso demo files (only this scenario is supported at the moment. More to come)
 ansible-playbook e2e.yaml \
   -e base_templates_folder=/tf/caf/templates/platform \
