@@ -40,8 +40,8 @@
     - "{{ level }}/{{ base_folder }}/lib/{{ config.eslz.scenario }}/{{ config.eslz.private_lib.version_to_deploy }}/*.j2"
     - "{{ level }}/{{ base_folder }}/lib/{{ config.eslz.scenario }}/{{ config.eslz.private_lib.version_to_deploy }}/*.md"
 
-- name: Clone Landingzone Terraform code
-  git:
-    repo: 'https://github.com/Azure/caf-terraform-landingzones.git'
-    dest: /tf/caf/landingzones
-    version: "{{ config.eslz.private_lib[config.eslz.private_lib.version_to_deploy].caf_landingzone_branch }}"
+# - name: Clone Landingzone Terraform code
+#   git:
+#     repo: 'https://github.com/Azure/caf-terraform-landingzones.git'
+#     dest: /tf/caf/landingzones
+#     version: "{{ config.eslz.private_lib[config.eslz.private_lib.version_to_deploy].caf_landingzone_branch }}"

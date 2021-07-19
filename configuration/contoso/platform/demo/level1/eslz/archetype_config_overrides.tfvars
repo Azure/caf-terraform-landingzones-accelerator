@@ -54,8 +54,8 @@ archetype_config_overrides = {
   } //root
 
   landing-zones = {
-    archetype_id   = "landingzone"
-    parameters     = {}
+    archetype_id = "landingzone"
+    parameters   = {}
     access_control = {}
   }
 
@@ -66,20 +66,20 @@ archetype_config_overrides = {
   }
 
   connectivity = {
-    archetype_id   = "platform_connectivity"
-    parameters     = {}
+    archetype_id = "platform_connectivity"
+    parameters   = {}
     access_control = {}
   }
 
   identity = {
-    archetype_id   = "platform_identity"
-    parameters     = {}
+    archetype_id = "platform_identity"
+    parameters   = {}
     access_control = {}
   }
 
   management = {
-    archetype_id   = "platform_management"
-    parameters     = {}
+    archetype_id = "platform_management"
+    parameters   = {}
     access_control = {}
   }
 
