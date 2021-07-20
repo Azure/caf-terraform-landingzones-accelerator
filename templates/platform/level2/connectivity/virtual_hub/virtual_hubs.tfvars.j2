@@ -1,0 +1,28 @@
+virtual_hubs = {
+  {{ virtual_hub }} = {
+    virtual_wan = {
+{% if connectivity_virtual_hub[virtual_hub].virtual_wan.lz_key is defined %}
+      lz_key = "{{ tfstates.virtual_wan.lz_key_name }}"
+{% endif %}
+      key    = "{{ connectivity_virtual_hub[virtual_hub].virtual_wan.key }}"
+    }
+
+    resource_group = {
+{% if connectivity_virtual_hub[virtual_hub].virtual_wan.lz_key is defined %}
+      lz_key = "{{ tfstates.virtual_wan.lz_key_name }}"
+{% endif %}
+      key = "{{ connectivity_virtual_hub[virtual_hub].virtual_wan.key }}"
+    }
+
+    hub_name           = "{{ connectivity_virtual_hub[virtual_hub].name }}"
+    region             = "{{ connectivity_virtual_hub[virtual_hub].region_key }}"
+    hub_address_prefix = "{{ cidr[connectivity_virtual_hub[virtual_hub].region_key].connectivity.virtual_hubs[virtual_hub] }}"
+    deploy_firewall    = false
+    deploy_p2s         = false
+    p2s_config         = {}
+    deploy_s2s         = false
+    s2s_config         = {}
+    deploy_er          = false
+  }
+}
+

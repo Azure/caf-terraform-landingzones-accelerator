@@ -1,0 +1,20 @@
+virtual_networks:
+  identity_adds:
+    name: adds-re1
+    resource_group_key: contoso_identity_adds
+    region_key: region1
+    subnets:
+      ActiveDirectory:
+        name: ADSubnet
+        address_space:
+          - 10.10.0.0/24
+        subnets:
+          ActiveDirectory:
+            name: ADSubnet
+            cidr:
+              - 10.10.0.0/27
+
+resource_groups:
+  contoso_identity_adds:
+    name: contoso-identity-adds
+    region_key: region1

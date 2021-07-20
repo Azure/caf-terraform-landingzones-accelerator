@@ -13,6 +13,7 @@ rover \
   -lz /tf/caf/landingzones/caf_launchpad \
   -var-folder {{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }} \
   -tfstate {{ tfstates.launchpad.tfstate }} \
+  -log-severity ERROR \
   -launchpad \
   -env ${caf_env} \
   -level {{ level }} \

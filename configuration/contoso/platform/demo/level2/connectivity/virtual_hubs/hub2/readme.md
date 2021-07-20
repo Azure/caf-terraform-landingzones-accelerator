@@ -1,6 +1,6 @@
 
-### Connectivity - virtual wan
-Deploy the virtual wan
+### Connectivity
+Deploy networking services
 
 ```bash
 # login a with a user member of the caf-maintainers group
@@ -15,12 +15,12 @@ caf_env="sandpit"
 
 rover \
   -lz /tf/caf/landingzones/caf_solution \
-  base_config_path: connectivity/virtual_wan
-  -var-folder /tf/caf/configuration/contoso/platform/demo/level2/connectivity/virtual_wan \
-  -tfstate connectivity_virtual_wan.tfstate \
+  -var-folder /tf/caf/configuration/contoso/platform/demo/level2/connectivity/virtual_hubs/hub2 \
+  -tfstate connectivity_virtual_hub2.tfstate \
   -log-severity ERROR \
   -env ${caf_env} \
   -level level2 \
   -a plan
+
 
 ```

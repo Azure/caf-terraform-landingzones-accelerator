@@ -39,6 +39,18 @@ virtual_wan:
   base_config_path: connectivity/virtual_wan
   level: level2
 
+virtual_hubs:
+  hub1:
+    lz_key_name: connectivity_virtual_hub1
+    tfstate: connectivity_virtual_hub1.tfstate
+    base_config_path: connectivity/virtual_hub
+    level: level2
+  hub2:
+    lz_key_name: connectivity_virtual_hub2
+    tfstate: connectivity_virtual_hub2.tfstate
+    base_config_path: connectivity/virtual_hub
+    level: level2
+
 identity_adds:
   lz_key_name: identity_adds
   tfstate: identity_adds.tfstate

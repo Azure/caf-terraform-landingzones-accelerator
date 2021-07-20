@@ -1,19 +1,3 @@
-virtual_wans:
-  contoso_global_wan:
-    name: contosov-vwan
-    resource_group_key: contoso_global_wan
-    region_key: region1
-
-
-virtual_hubs:
-  hub1:
-    name: hub1
-    virtual_wan_key: contoso_global_wan
-    region_key: region1
-  hub2:
-    name: hub2
-    virtual_wan_key: contoso_global_wan
-    region_key: region2
 
 virtual_networks:
   connectivity_hub1_firewall_egress:
@@ -40,9 +24,6 @@ azurerm_firewalls:
   #   region_key: region2
 
 resource_groups:
-  contoso_global_wan:
-    name: contoso-connectivity-global-wan
-    region_key: region1
   contoso_global_dns:
     name: contoso-connectivity-global-dns
     region_key: region1

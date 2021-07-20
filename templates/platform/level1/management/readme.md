@@ -13,6 +13,7 @@ rover \
   -lz /tf/caf/landingzones/caf_solution \
   -var-folder {{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }} \
   -tfstate {{ tfstates.management.tfstate }} \
+  -log-severity ERROR \
   -env ${caf_env} \
   -level {{ level }} \
   -a plan

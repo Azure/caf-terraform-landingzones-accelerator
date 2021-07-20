@@ -1,0 +1,20 @@
+- name: Creates directory structure
+  file:
+    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/virtual_hubs/{{ virtual_hub }}"
+    state: directory
+    
+- name: Clean-up directory
+  file:
+    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/virtual_hubs/{{ virtual_hub }}"
+    state: absent
+  when:
+    - config.cleanup_destination | bool
+
+- name: Tfvars
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/virtual_hubs/{{ virtual_hub }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ base_folder }}/virtual_hub/*.j2"
+    - "{{ base_folder }}/virtual_hub/*.md"

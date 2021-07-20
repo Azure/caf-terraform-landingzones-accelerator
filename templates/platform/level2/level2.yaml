@@ -7,6 +7,7 @@
     config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
     connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
     connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_wan.yaml') | from_yaml }}"
+    connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_hub.yaml') | from_yaml }}"
     connectivity_firewall: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall.yaml') | from_yaml }}"
     cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
     tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
@@ -28,12 +29,6 @@
         path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ base_folder }}"
         state: directory
 
-    - include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/{{ folder_name }}/{{ model }}.yaml"
-      loop:
-       - virtual_wan
-      loop_control:
-        loop_var: folder_name
-
     - name: Readme
       ansible.builtin.template:
         src: "{{ item }}"
@@ -41,3 +36,16 @@
         force: yes
       with_fileglob:
         - "{{ base_folder }}/*.md"
+
+    - name: Virtual Wan
+      include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/{{ folder_name }}/{{ model }}.yaml"
+      loop:
+       - virtual_wan
+      loop_control:
+        loop_var: folder_name
+
+    - name: virtual hubs
+      include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/virtual_hub/{{ model }}.yaml"
+      loop: "{{ tfstates.virtual_hubs.keys() }}"
+      loop_control:
+        loop_var: virtual_hub

@@ -1,0 +1,12 @@
+hub1:
+  name: hub1
+  virtual_wan: 
+    lz_key: virtual_wan
+    key: contoso_global_wan
+  region_key: region1
+hub2:
+  name: hub2
+  virtual_wan: 
+    lz_key: virtual_wan
+    key: contoso_global_wan
+  region_key: region2
