@@ -123,7 +123,7 @@
     - ansible_winrm_scheme: https
     - ansible_winrm_transport: ntlm
     - ansible_winrm_server_cert_validation: ignore
-    - rover_image: "{{ caf_rover_image | default('aztfmod/rover:1.0.1-2106.3012') }}"
+    - rover_image: "{{ caf_rover_image | default('aztfmod/rover:1.0.1-2107.2004') }}"
     - git_starter_url: "{{ caf_git_starter_url | default('https://github.com/Azure/caf-terraform-landingzones-starter.git') }}"
     - git_starter_branch_tag: "{{ caf_git_starter_branch_tag | default('AL-contoso') }}"
     - git_landingzones_url: "{{ caf_git_landingzones_url | default('https://github.com/Azure/caf-terraform-landingzones.git') }}"
