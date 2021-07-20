@@ -51,8 +51,6 @@ ansible-playbook e2e.yaml \
 
 ```
 
-# Deployment steps
+# Next steps
 
-## Launchpad
-
- [Instructions](../../configuration/contoso/platform/demo/level0/launchpad/readme.md)
+ [Deploy the launchpad](../../configuration/contoso/platform/demo/level0/launchpad/readme.md)

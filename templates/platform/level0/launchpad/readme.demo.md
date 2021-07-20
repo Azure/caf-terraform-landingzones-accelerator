@@ -45,7 +45,7 @@ rover \
 ```
 
 ## Architecture diagram
-![Launchpad {{ config.eslz.model }}](../../../../../documentation/img/launchpad-{{ config.eslz.model }}.PNG)
+![Launchpad {{ config.eslz.model }}](../../../../../../documentation/img/launchpad-{{ config.eslz.model }}.PNG)
 
 ## Services deployed in this scenario
 
@@ -56,3 +56,11 @@ rover \
 | Key Vault             | The launchpad Key Vault hosts all secrets required by the rover to access the remote states, the Key Vault policies are created allowing the logged-in user to see secrets created and stored.                             |
 | Virtual network       | To secure the communication between the services a dedicated virtual network is deployed with a gateway subnet, bastion service, jumpbox and azure devops release agents. Service endpoints is enabled but not configured. |
 | Azure AD Applications | An Azure AD application is created. This account is mainly use to bootstrap the services during the initialization. It is also considered as a breakglass account for the launchpad landing zones                          |
+
+
+# Next steps
+
+When you have successfully deployed the launchpad you can  move to the next step.
+
+ [Deploy the management services](../../level1/management/readme.md)
+ 

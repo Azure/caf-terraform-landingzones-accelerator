@@ -1,5 +1,5 @@
 
-### Management
+# Management
 Deploy the management services
 
 ```bash
@@ -17,6 +17,10 @@ rover \
   -level level1 \
   -a plan
 
-rover logout
-
 ```
+
+
+# Next steps
+
+ [Deploy Enterprise Scale](../../level1/eslz/readme.md)
+ 

@@ -1,6 +1,6 @@
 
-### Launchpad
-Set-up the launchpads for level0 to level3
+# Launchpad
+Set-up the launchpads for level0 to level3 to store the remote states in Azure storage accounts
 
 ```bash
 # login a with a user member of the caf-maintainers group
@@ -18,10 +18,18 @@ rover \
   -level {{ level }} \
   -a plan
 
-rover logout
-
 ```
 
+if you have some errors during the deployment of the launchpad you must fix them first before proceeding to the next step. Failing to do that will prevent the rover to locate a launchpad.
+
+# Next steps
+
+When you have successfully deployed the launchpad you can  move to the next step.
+
+ [Deploy the management services](../../level1/management/readme.md)
+ 
+
+# Components deployed in the launchpad
 
 | Components                                                                                              | Config files                                                 | Description|
 |-----------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|

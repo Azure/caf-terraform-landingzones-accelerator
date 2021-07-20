@@ -3,7 +3,7 @@ vnets = {
     resource_group_key = "contoso_global_firewall"
     vnet = {
       name          = "firewall-egress-re1"
-      address_space = ["10.10.10.0/24", "10.10.11.0/24"]
+      address_space = ["10.10.10.0/24"]
     }
     subnets = {
     }

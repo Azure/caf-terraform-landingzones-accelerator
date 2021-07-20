@@ -22,7 +22,6 @@ virtual_networks:
     region_key: region1
     address_space:
       - 10.10.10.0/24
-      - 10.10.11.0/24
     specialsubnets:
       AzureFirewallSubnet:
         name: AzureFirewallSubnet

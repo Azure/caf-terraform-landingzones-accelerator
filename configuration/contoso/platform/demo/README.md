@@ -3,10 +3,14 @@
 ## Generate the configuration files
 
 ```bash
-cd /tf/caf/templates/platform
 
 # Generate the contoso demo files (only this scenario is supported at the moment. More to come)
-ansible-playbook e2e.yaml -e scenario=contoso -e model=demo
+cd /tf/caf/templates/platform && \
+ansible-playbook e2e.yaml \
+  -e base_templates_folder=/tf/caf/templates/platform \
+  -e config_folder=/tf/caf/enterprise_scale/contoso/platform \
+  -e scenario=contoso \
+  -e model=demo
 
 ```
 
@@ -40,20 +44,6 @@ git pull
 # Only launchpad
 
  rover deploy \
-  apply \
-  -sc /tf/caf/configuration/contoso/platform/demo/pipelines/symphony_e2e.yaml \
-  -b /tf/caf/ \
-  -env sandpit
-
-```
-
-## Individual levels deployments
-
-```bash
-
-# Only launchpad
-
- rover deploy \
   plan \
   -sc /tf/caf/configuration/contoso/platform/demo/pipelines/symphony_e2e.yaml \
   -b /tf/caf \
@@ -61,14 +51,5 @@ git pull
   -ct launchpad \
   -level level0
 
-# Only launchpad
-
- rover deploy \
-  plan \
-  -sc /tf/caf/configuration/contoso/platform/demo/pipelines/symphony_e2e.yaml \
-  -b /tf/caf \
-  -env sandpit \
-  -ct launchpad \
-  -level level0
 
 ```

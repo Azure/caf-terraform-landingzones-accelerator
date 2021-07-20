@@ -12,6 +12,10 @@ To get started with creating your environment, you can fork this repository on y
 
 You can then customize your environment by following the steps inside the [configuration folder](./configuration) and review our sample configuration [onboarding video here](https://www.youtube.com/watch?v=M5BXm30IpdY)
 
+## Enterprise scale
+
+To build an Enterprise Scale or deploy reference implementations into a landingzone you can start from here [with the starter kit.](./enterprise_scale/README.md)
+
 ## Starter template
 
 The purpose of this repository is to provide you with a starting point when composing your Cloud Adoption Framework for Azure landing zones on Terraform. It provides sample files, folder structure, and advice on how to get started creating an Infrastructure as Code DevOps environment.
@@ -27,20 +31,6 @@ This approach allows you to easily:
 * resync the code with the public codebase for updates.
 * customize the code if needed and contribute back to the community.
 
-## Generate the configuration files
-
-[Contoso - Demo](./configuration/contoso/platform/demo/platform_contoso_demo.yaml)
-
-Once you have cloned this repository you can execute the following command.
-
-```bash
-cd /tf/caf/templates/platform
-
-# Generate the contoso demo files (only this scenario is supported at the moment. More to come)
-# If you change some values in the yaml file you need to re-execute the command to update the tfvars files.
-ansible-playbook e2e.yaml -e scenario=contoso -e model=demo -e config_folder=/tf/caf/enterprise_scale/contoso/platform
-
-```
 
 
 ## Related repositories

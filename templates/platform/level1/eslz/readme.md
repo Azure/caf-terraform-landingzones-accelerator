@@ -2,6 +2,8 @@
 ### Management
 Deploy Enteprise Scale
 
+Note you need to adjust the branch to deploy Enterprise Scale to {{ config.eslz.private_lib[config.eslz.private_lib.version_to_deploy].caf_landingzone_branch }}
+
 ```bash
 # login a with a user member of the caf-maintainers group
 rover login -t {{ config.tenant_name }}.onmicrosoft.com
@@ -21,6 +23,9 @@ rover \
   -level {{ level }} \
   -a plan
 
-rover logout
-
 ```
+
+# Next steps
+
+ [Deploy Connectivity](../../level2/connectivity/readme.md)
+ 
