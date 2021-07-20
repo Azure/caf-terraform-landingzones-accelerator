@@ -6,7 +6,7 @@ You have selected the vwan networking option to build your Enteprise Scale platf
 
 Note you need to adjust the branch {{ config.caf_landingzone_branch }} to deploy the connectivity services
 
-
+{% for folder_name in folders %}
 ## Virtual Wan
 
 ```bash
@@ -22,10 +22,12 @@ caf_env="{{ config.launchpad.caf_environment }}"
 
 rover \
   -lz {{ config.destination_install_path }}landingzones/caf_solution \
-  -var-folder {{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ config.base_config_path }} \
-  -tfstate {{ tfstates.virtual_wan.tfstate }} \
+  -var-folder {{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ folder_name }} \
+  -tfstate {{ tfstates[folder_name].tfstate }} \
   -env ${caf_env} \
   -level {{ level }} \
   -a plan
 
 ```
+
+{% endfor %}
