@@ -156,13 +156,13 @@ You may use [automated integration tests](../../test) to test the deployed infra
 You are done with deployment of AKS environment, next step is to deploy the application and reference components.
 
 ```bash
-# Go to the Test folder
-cd ../test
-
-
 export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
 export PREFIX=$(terraform output -json | jq -r '.global_settings.value.prefixes[0]')
 export ENVIRONMENT=sandpit # replace if another Environment was set in the rover, default is sandpit
+echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+
+# Go to the Test folder
+cd ../test
 
 go mod tidy
 
@@ -171,8 +171,6 @@ go mod tidy
 
 go test -v  shared_services/shared_services_test.go
 go test -v  aks/aks_test.go
-
-echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
 go test -v  flux/flux_test.go
 ```
 
