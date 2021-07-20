@@ -12,7 +12,7 @@ features:
   multi_subscriptions: false
 
 # cleanup_destination - recommended to clean and recreated a clean state from template.
-cleanup_destination: false
+cleanup_destination: true
 destination_install_path: /tf/caf/
 destination_relative_base_path: configuration/contoso/platform/demo
 

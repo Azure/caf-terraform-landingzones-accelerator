@@ -1,7 +1,6 @@
 
-# Virtual hub
+# Firewall Policy
 
-Estinated time for the deployment - 20 mins
 
 ```bash
 # login a with a user member of the caf-maintainers group
@@ -16,8 +15,8 @@ caf_env="{{ config.launchpad.caf_environment }}"
 
 rover \
   -lz {{ config.destination_install_path }}landingzones/caf_solution \
-  -var-folder {{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/virtual_hubs/{{ virtual_hub }} \
-  -tfstate {{ tfstates.virtual_hubs[virtual_hub].tfstate }} \
+  -var-folder {{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/firewall_policies/{{ firewall_policy }} \
+  -tfstate {{ tfstates.firewall_policies[firewall_policy].tfstate }} \
   -log-severity ERROR \
   -env ${caf_env} \
   -level {{ level }} \

@@ -1,6 +1,17 @@
 
-### Management
-Deploy Enteprise Scale
+# Enterprise scale
+
+## Pre-requisite
+
+Elevate your credentials to the tenant root level to have enough privileges to create the management group hierarchy.
+
+```bash
+
+az rest --method post --url "/providers/Microsoft.Authorization/elevateAccess?api-version=2016-07-01"
+
+```
+
+## Deploy Enterprise Scale
 
 Note you need to adjust the branch to deploy Enterprise Scale to {{ config.eslz.private_lib[config.eslz.private_lib.version_to_deploy].caf_landingzone_branch }}
 

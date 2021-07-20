@@ -1,0 +1,8 @@
+resource_groups = {
+{% if connectivity_firewall_policies[firewall_policy].resource_group.lz_key is not defined %}
+  {{ connectivity_firewall_policies[firewall_policy].resource_group.key }} = {
+    name   = "{{ connectivity_firewall_policies.resource_groups[connectivity_firewall_policies[firewall_policy].resource_group.key].name }}"
+    region = "{{ connectivity_firewall_policies.resource_groups[connectivity_firewall_policies[firewall_policy].resource_group.key].region_key }}"
+  }
+{% endif %}
+}

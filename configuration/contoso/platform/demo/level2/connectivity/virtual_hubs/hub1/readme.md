@@ -1,6 +1,7 @@
 
 # Virtual hub
-Deploy networking services
+
+Estinated time for the deployment - 20 mins
 
 ```bash
 # login a with a user member of the caf-maintainers group

@@ -1,10 +1,8 @@
 - name: ESLZ - Clean-up directory
   file:
-    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ item.path }}"
+    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}"
     state: absent
-  with_filetree: "{{ level }}/{{ base_folder }}"
   when:
-    - item.state == 'directory'
     - config.cleanup_destination | bool
 
 - name: Creates directory structure
@@ -39,9 +37,3 @@
   with_fileglob:
     - "{{ level }}/{{ base_folder }}/lib/{{ config.eslz.scenario }}/{{ config.eslz.private_lib.version_to_deploy }}/*.j2"
     - "{{ level }}/{{ base_folder }}/lib/{{ config.eslz.scenario }}/{{ config.eslz.private_lib.version_to_deploy }}/*.md"
-
-# - name: Clone Landingzone Terraform code
-#   git:
-#     repo: 'https://github.com/Azure/caf-terraform-landingzones.git'
-#     dest: /tf/caf/landingzones
-#     version: "{{ config.eslz.private_lib[config.eslz.private_lib.version_to_deploy].caf_landingzone_branch }}"

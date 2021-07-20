@@ -3,7 +3,7 @@ virtual_hub_route_tables = {
     name = "example-vhubroutetable1"
 
     virtual_hub = {
-      key = "hub_re1"
+      key = "hub1"
     }
 
     labels = ["label1"]
@@ -32,7 +32,7 @@ virtual_hub_route_tables = {
     name = "example-vhubroutetable2"
 
     virtual_hub = {
-      key = "hub_re1"
+      key = "hub1"
     }
 
     labels = ["label2"]

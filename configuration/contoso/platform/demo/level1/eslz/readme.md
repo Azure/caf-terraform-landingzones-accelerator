@@ -1,6 +1,17 @@
 
-### Management
-Deploy Enteprise Scale
+# Enterprise scale
+
+## Pre-requisite
+
+Elevate your credentials to the tenant root level to have enough privileges to create the management group hierarchy.
+
+```bash
+
+az rest --method post --url "/providers/Microsoft.Authorization/elevateAccess?api-version=2016-07-01"
+
+```
+
+## Deploy Enterprise Scale
 
 Note you need to adjust the branch to deploy Enterprise Scale to eslz.0.3.3
 
@@ -19,6 +30,7 @@ rover \
   -lz /tf/caf/landingzones/caf_solution/add-ons/caf_eslz \
   -var-folder /tf/caf/configuration/contoso/platform/demo/level1/eslz \
   -tfstate eslz.tfstate \
+  -log-severity ERROR \
   -env ${caf_env} \
   -level level1 \
   -a plan

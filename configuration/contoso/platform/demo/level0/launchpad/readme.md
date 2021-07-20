@@ -28,6 +28,7 @@ rover \
   -lz /tf/caf/landingzones/caf_launchpad \
   -var-folder /tf/caf/configuration/contoso/platform/demo/level0/launchpad \
   -tfstate caf_launchpad.tfstate \
+  -log-severity ERROR \
   -launchpad \
   -env ${caf_env} \
   -level level0 \
@@ -37,6 +38,7 @@ rover \
   -lz /tf/caf/landingzones/caf_launchpad \
   -var-folder /tf/caf/configuration/contoso/platform/demo/level0/launchpad \
   -tfstate caf_launchpad.tfstate \
+  -log-severity ERROR \
   -launchpad \
   -env ${caf_env} \
   -level level0 \

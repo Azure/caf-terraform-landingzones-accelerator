@@ -51,6 +51,19 @@ virtual_hubs:
     base_config_path: connectivity/virtual_hub
     level: level2
 
+firewall_policies:
+  root:
+    lz_key_name: connectivity_firewall_policy_root
+    tfstate: connectivity_firewall_policy_root.tfstate
+    base_config_path: connectivity/firewall_policy
+    level: level2
+  non_prod:
+    lz_key_name: connectivity_firewall_policy_non_prod
+    tfstate: connectivity_firewall_policy_non_prod.tfstate
+    base_config_path: connectivity/firewall_policy
+    level: level2
+
+
 identity_adds:
   lz_key_name: identity_adds
   tfstate: identity_adds.tfstate
