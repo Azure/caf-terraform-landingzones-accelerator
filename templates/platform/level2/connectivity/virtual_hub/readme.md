@@ -1,5 +1,5 @@
 
-### Connectivity
+# Virtual hub
 Deploy networking services
 
 ```bash
