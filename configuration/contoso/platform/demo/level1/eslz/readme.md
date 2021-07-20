@@ -2,7 +2,7 @@
 ### Management
 Deploy Enteprise Scale
 
-Note you need to adjust the branch to deploy Enterprise Scale eslz.0.3.3
+Note you need to adjust the branch to deploy Enterprise Scale to eslz.0.3.3
 
 ```bash
 # login a with a user member of the caf-maintainers group
