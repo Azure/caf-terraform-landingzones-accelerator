@@ -1,6 +1,7 @@
 
-### Connectivity - virtual wan
-Deploy the virtual wan
+### Identity - Active Directory Domain Controllers (ADDS)
+
+Deploy 2 domain controllers in the primary region
 
 ```bash
 # login a with a user member of the caf-maintainers group
@@ -15,8 +16,8 @@ caf_env="sandpit"
 
 rover \
   -lz /tf/caf/landingzones/caf_solution \
-  -var-folder /tf/caf/configuration/contoso/platform/demo/level2/connectivity/virtual_wan \
-  -tfstate connectivity_virtual_wan.tfstate \
+  -var-folder /tf/caf/configuration/contoso/platform/demo/level2/identity/adds \
+  -tfstate identity_adds.tfstate \
   -log-severity ERROR \
   -env ${caf_env} \
   -level level2 \

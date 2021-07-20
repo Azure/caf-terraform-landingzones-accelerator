@@ -3,7 +3,7 @@ availability_sets = {
   avset1 = {
     name               = "avset-dc"
     region             = "region1"
-    resource_group_key = "domaincontrollers_rg"
+    resource_group_key = "contoso_identity_adds"
     # Depends on the region, update and fault domain count availability varies.
     platform_update_domain_count = 2
     platform_fault_domain_count  = 2
@@ -14,10 +14,9 @@ availability_sets = {
 
 # Virtual machines
 virtual_machines = {
-
   # Configuration to deploy a bastion host linux virtual machine
   dc01 = {
-    resource_group_key                   = "domaincontrollers_rg"
+    resource_group_key                   = "contoso_identity_adds"
     provision_vm_agent                   = true
     boot_diagnostics_storage_account_key = "bootdiag_region1"
 
@@ -30,7 +29,7 @@ virtual_machines = {
     networking_interfaces = {
       nic0 = {
         # Value of the keys from networking.tfvars
-        vnet_key             = "identity_vnet"
+        vnet_key             = "identity_adds"
         subnet_key           = "ActiveDirectory"
         name                 = "dc01"
         enable_ip_forwarding = false
@@ -81,12 +80,13 @@ virtual_machines = {
         diagnostics_storage_account_keys = ["bootdiag_region1"]
 
         # Relative path to the configuration folder or full path
-        xml_diagnostics_file = "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/diagnostics/wadcfg.xml"
+        xml_diagnostics_file = "/tf/caf/configuration/contoso/platform/demo/level2/identity/adds/diagnostics/wadcfg.xml"
       }
     }
   }
+  # Configuration to deploy a bastion host linux virtual machine
   dc02 = {
-    resource_group_key                   = "domaincontrollers_rg"
+    resource_group_key                   = "contoso_identity_adds"
     provision_vm_agent                   = true
     boot_diagnostics_storage_account_key = "bootdiag_region1"
 
@@ -99,11 +99,10 @@ virtual_machines = {
     networking_interfaces = {
       nic0 = {
         # Value of the keys from networking.tfvars
-        vnet_key             = "identity_vnet"
+        vnet_key             = "identity_adds"
         subnet_key           = "ActiveDirectory"
         name                 = "dc02"
         enable_ip_forwarding = false
-        #internal_dns_name_label = "nic0"
 
         diagnostic_profiles = {
           operations = {
@@ -121,6 +120,7 @@ virtual_machines = {
         size                 = "Standard_F2"
         admin_username       = "adminuser"
         availability_set_key = "avset1"
+
         # Value of the nic keys to attach the VM. The first one in the list is the default nic
         network_interface_keys = ["nic0"]
 
@@ -150,7 +150,7 @@ virtual_machines = {
         diagnostics_storage_account_keys = ["bootdiag_region1"]
 
         # Relative path to the configuration folder or full path
-        xml_diagnostics_file = "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/diagnostics/wadcfg.xml"
+        xml_diagnostics_file = "/tf/caf/configuration/contoso/platform/demo/level2/identity/adds/diagnostics/wadcfg.xml"
       }
     }
   }
@@ -160,7 +160,7 @@ diagnostic_storage_accounts = {
   # Stores boot diagnostic for region1
   bootdiag_region1 = {
     name                     = "boot-dc-re1"
-    resource_group_key       = "domaincontrollers_rg"
+    resource_group_key       = "contoso_identity_adds"
     account_kind             = "StorageV2"
     account_tier             = "Standard"
     account_replication_type = "LRS"

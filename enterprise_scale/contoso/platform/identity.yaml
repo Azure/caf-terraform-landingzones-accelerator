@@ -3,18 +3,45 @@ virtual_networks:
     name: adds-re1
     resource_group_key: contoso_identity_adds
     region_key: region1
+    address_space:
+      - 10.10.20.0/24
     subnets:
       ActiveDirectory:
         name: ADSubnet
-        address_space:
-          - 10.10.0.0/24
-        subnets:
-          ActiveDirectory:
-            name: ADSubnet
-            cidr:
-              - 10.10.0.0/27
+        cidr:
+          - 10.10.20.0/27
+    virtual_hub_connection:
+      adds-re1-to-hub1:
+        name: adds-re1-to-hub1
+        virtual_hub:
+          lz_key_name: hub1
+          key: hub1
+        routing:
+          routetable1:
+            route_table: 
+              lz_key_name: hub1
+              key: routetable1
+            propagated_route_table:
+              lz_key_name: hub1
+              virtual_hub_route_table_keys:
+               - routetable1
+              labels:
+                - contoso-demo
+                - wan
+        
 
 resource_groups:
   contoso_identity_adds:
     name: contoso-identity-adds
     region_key: region1
+
+
+virtual_machines:
+  dc01:
+    name: dc01
+    resource_group_key: contoso_identity_adds
+    size: Standard_F2
+  dc02:
+    name: dc02
+    resource_group_key: contoso_identity_adds
+    size: Standard_F2

@@ -1,8 +1,8 @@
 keyvaults = {
   dc01 = {
     name               = "dc01-secrets"
-    resource_group_key = "domaincontrollers_rg"
-    sku_name           = "standard"
+    resource_group_key = "contoso_identity_adds"
+    sku_name           = "{{ config.sku.keyvault }}"
 
     creation_policies = {
       logged_in_user = {

@@ -1,32 +1,34 @@
-- name: Clean-up directory
+- name: Identity - ADDS - Clean-up directory
   file:
-    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}"
+    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/adds"
     state: absent
-  when: config.cleanup_destination | bool
-- name: Create directory
+  when:
+    - config.cleanup_destination | bool
+
+- name: Identity - ADDS - Creates directory structure
   file:
-    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}"
+    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/adds"
     state: directory
-- name: Create directory - diagnostics
+
+- name: Identity - ADDS - Creates directory structure for diagnostics
   file:
-    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/diagnostics"
+    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/adds/diagnostics"
     state: directory
-- name: readme
+    
+- name: Identity - ADDS - tfvars
   ansible.builtin.template:
-    src: "{{ level }}/{{ base_folder }}/readme.md"
-    dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/readme.md"
+    src: "{{ item }}"
+    dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/adds/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
-- name: management
+  with_fileglob:
+    - "{{ level }}/{{ base_folder }}/*.j2"
+    - "{{ level }}/{{ base_folder }}/*.md"
+
+- name: Identity - ADDS - diagnostics
   ansible.builtin.template:
-    src: "{{ level }}/{{ base_folder }}/{{ item }}.tfvars.j2"
-    dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ item }}.tfvars"
+    src: "{{ item }}"
+    dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/adds/diagnostics/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
-  loop:
-    - automation_account
-    - diagnostic_log_analytics
-    - diagnostic_storage_accounts
-    - diagnostics_definition
-    - diagnostics_destinations
-    - landingzone
-    - resource_groups
-    - servicehealth
+  with_fileglob:
+    - "{{ level }}/{{ base_folder }}/diagnostics/*.xml"
+

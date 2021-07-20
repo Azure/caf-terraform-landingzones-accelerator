@@ -18,6 +18,18 @@ This scenario require the following privileges:
 
 ## Deployment
 
+
+### Pre-requisite
+
+Elevate your credentials to the tenant root level to have enough privileges to create the management group hierarchy.
+
+```bash
+
+az rest --method post --url "/providers/Microsoft.Authorization/elevateAccess?api-version=2016-07-01"
+
+```
+
+
 ```bash
 rover login -t {{ config.tenant_name }}.onmicrosoft.com
 

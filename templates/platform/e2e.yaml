@@ -83,9 +83,9 @@
 
 
 #
-# Level 2 - Connectivity
+# Level 2
 #
-- name: vwan
+- name: Level 2 - Networking
   hosts: localhost
   vars:
     config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
@@ -120,7 +120,7 @@
         dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
         force: yes
       with_fileglob:
-        - "{{ base_folder }}/*.md"
+        - "{{ level }}/{{ base_folder }}/*.md"
 
     - name: "{{ base_folder }} - Virtual Wan"
       include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/{{ folder_name }}/{{ model }}.yaml"
@@ -140,6 +140,47 @@
       loop: "{{ tfstates.firewall_policies.keys() }}"
       loop_control:
         loop_var: firewall_policy
+
+- name: Level 2 - identity
+  hosts: localhost
+  vars:
+    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
+    identity: "{{ lookup('file', '{{ config_folder }}/identity.yaml') | from_yaml }}"
+    connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_wan.yaml') | from_yaml }}"
+    connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_hub.yaml') | from_yaml }}"
+    connectivity_firewall: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall.yaml') | from_yaml }}"
+    connectivity_firewall_policies: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall_policies.yaml') | from_yaml }}"
+    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
+    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
+    base_templates_folder: /tf/caf/templates/platform
+    base_folder: identity
+    level: level2
+    folders:
+      - virtual_wan
+
+
+  tasks:
+    - name: Creates {{ level }} directory
+      file:
+        path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}"
+        state: directory
+
+    - name: Creates {{ base_folder }} directory strcture
+      file:
+        path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}"
+        state: directory
+
+    - name: "{{ base_folder }} - Readme"
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
+        force: yes
+      with_fileglob:
+        - "{{ level }}/{{ base_folder }}/*.md"
+
+    - name: "{{ base_folder }} - adds"
+      include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/{{ model }}.yaml"
+
 
 
 #
