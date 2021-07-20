@@ -1,5 +1,5 @@
 resource_groups = {
-{% for key, resource_group in connectivity.resource_groups.items() %}
+{% for key, resource_group in connectivity_virtual_wan.resource_groups.items() %}
   {{ key }} = {
     name   = "{{ resource_group.name }}"
     region = "{{ resource_group.region_key }}"
