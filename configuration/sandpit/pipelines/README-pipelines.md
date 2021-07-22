@@ -58,7 +58,7 @@ rover -lz /tf/caf/landingzones/caf_solution \
 
 Go into the /level1/gitops folder where all gitops configuration lives. In that, you will find the azure_devops directory. You need to customize some variables and then only apply the landing zone.
 
-Customize your Azure DevOps environment as discussed [here](https://github.com/Azure/caf-terraform-landingzones/tree/master/landingzones/caf_launchpad/add-ons/azure_devops).
+Customize your Azure DevOps environment as discussed [here](https://github.com/Azure/caf-terraform-landingzones/tree/master/caf_solution/add-ons/azure_devops).
 
 Change the URL to match your Azure DevOps organization in the azure_devops.tfvars:
 ```hcl
