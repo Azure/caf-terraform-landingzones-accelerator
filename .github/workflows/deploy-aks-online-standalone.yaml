@@ -45,7 +45,7 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 1.0.0
+          terraform_version: 1.0.3
           terraform_wrapper: false
           # https://stackoverflow.com/questions/65170927/terraform-output-value-failed-formatted-by-jq-in-github-actions
 
@@ -82,7 +82,7 @@ jobs:
           cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone
           configuration_folder=configuration
           parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
-          eval terraform destroy ${parameter_files} -var tags='{testing_job_id='"$ENVIRONMENT"'}' -auto-approve
+          eval terraform destroy ${parameter_files} -auto-approve
 
   purge:
     name: purge
