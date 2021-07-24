@@ -49,6 +49,7 @@ stages:
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh 
             prefix_output=$(cat /tf/caf/rover.output | jq -r .objects.value.launchpad.global_settings.prefixes[0])
             echo $prefix_output
+            echo "PREFIX"
             export PREFIX=$prefix_output
             echo "##vso[task.setvariable variable=PREFIX;isOutput=true]$prefix_output"
             go test -v launchpad/launchpad_test.go
@@ -208,7 +209,6 @@ stages:
             ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2
             /tf/rover/rover.sh  \
               -lz /tf/caf/landingzones/caf_solution/add-ons/aks_secure_baseline_v2 \
-              -var-folder /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/configuration/${LEVEL_NAME}/${LZ_NAME} \
               -tfstate aks_secure_baseline.tfstate \
               -level level2 \
               -env $ENVIRONMENT \
