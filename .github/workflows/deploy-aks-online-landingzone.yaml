@@ -56,7 +56,6 @@ jobs:
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
         run: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
-
             export ACTION="output -json -o /tf/caf/rover.output"
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh 
             prefix_output=$(cat /tf/caf/rover.output | jq -r .objects.value.launchpad.global_settings.prefixes[0])

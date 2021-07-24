@@ -6,12 +6,14 @@ module "caf" {
   logged_user_objectId = var.logged_user_objectId
   tags                 = var.tags
   resource_groups      = var.resource_groups
-  azuread_apps         = var.azuread_apps
-  azuread_users        = var.azuread_users
-  azuread_groups       = var.azuread_groups
   keyvaults            = var.keyvaults
   managed_identities   = var.managed_identities
   role_mapping         = var.role_mapping
+  azuread = {
+    azuread_apps   = var.azuread_apps
+    azuread_users  = var.azuread_users
+    azuread_groups = var.azuread_groups
+  }
 
   networking = {
     application_gateways                                    = var.application_gateways
