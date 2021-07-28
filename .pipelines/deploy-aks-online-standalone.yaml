@@ -78,8 +78,6 @@ stages:
   jobs:
   - job: purge
     displayName: "Purge"
-    container: rover
-
     steps:
       - task: AzureCLI@2
         displayName: Purge
