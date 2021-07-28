@@ -68,6 +68,8 @@ stages:
             cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone
             configuration_folder=configuration
             parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
+            # remove flux from state as flux provider has issues with destroy
+            terraform state rm 'module.flux_addon'
             eval terraform destroy ${parameter_files} -var tags='{testing_job_id='"$ENVIRONMENT"'}' -auto-approve
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
