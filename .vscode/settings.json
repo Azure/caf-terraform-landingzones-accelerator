@@ -3,5 +3,5 @@
     "terminal.integrated.shell.linux": "/bin/bash",
     "editor.tabSize": 2,
     "terminal.integrated.scrollback": 8000,
-    // "terminal.integrated.cwd": "/tf/caf",
+    "terminal.integrated.cwd": "/tf/caf",
 }
