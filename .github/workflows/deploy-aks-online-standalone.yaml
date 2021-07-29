@@ -89,9 +89,7 @@ jobs:
     name: purge
     runs-on: ubuntu-latest
     if: ${{ failure() || cancelled() }}
-
     needs: [deploy-standalone]
-
     steps:
       - name: Login azure
         run: |
