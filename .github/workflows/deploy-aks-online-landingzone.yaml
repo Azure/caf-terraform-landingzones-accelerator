@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - CSE-AKS-terratest
+      - starter
   # issue_comment:
   #   types:
   #   - created
