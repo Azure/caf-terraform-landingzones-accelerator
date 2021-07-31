@@ -67,7 +67,7 @@ jobs:
           ls -lta
           export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
           export PREFIX=$(terraform output -json | jq -r '.global_settings.value.prefixes[0]')
-          echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+          $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
 
           cd ../test
           go mod tidy

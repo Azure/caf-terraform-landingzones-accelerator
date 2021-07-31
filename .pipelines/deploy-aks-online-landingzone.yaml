@@ -1,4 +1,5 @@
-trigger: none
+trigger:
+- starter
 
 variables:
   - group: iac-secure-caf
