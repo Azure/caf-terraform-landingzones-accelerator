@@ -20,7 +20,7 @@ env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}            
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   ARM_PARTNER_ID: "f85b2775-ec1d-4fef-949e-bbd6957082af"
-  ENVIRONMENT: "SA${{ github.run_id }}"
+  ENVIRONMENT: "1${{ github.run_id }}"
 
 jobs:
   deploy-standalone:
