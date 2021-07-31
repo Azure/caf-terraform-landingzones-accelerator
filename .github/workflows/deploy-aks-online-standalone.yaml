@@ -57,7 +57,7 @@ jobs:
           configuration_folder=configuration
           parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
           terraform init -upgrade
-          echo eval terraform apply ${parameter_files} -var tags='{testing_job_id='"$ENVIRONMENT"'}' -auto-approve
+          eval terraform apply ${parameter_files} -var tags='{testing_job_id='"$ENVIRONMENT"'}' -auto-approve
       - name: Test
         id: test
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
@@ -67,7 +67,7 @@ jobs:
           ls -lta
           export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
           export PREFIX=$(terraform output -json | jq -r '.global_settings.value.prefixes[0]')
-          $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+          echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
 
           cd ../test
           go mod tidy
