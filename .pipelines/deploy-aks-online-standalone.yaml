@@ -5,7 +5,7 @@ variables:
   - name: "ARM_PARTNER_ID"
     value: "f85b2775-ec1d-4fef-949e-bbd6957082af"
   - name: "ENVIRONMENT"
-    value: "$(Build.BuildNumber)"
+    value: "SA-$(Build.BuildNumber)"
 
 stages:
 - stage: deploy_standalone
@@ -87,14 +87,14 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            echo BuildNumber $(Build.BuildNumber)
-            for i in `az monitor diagnostic-settings subscription list -o tsv --query "value[?contains(name, '$(Build.BuildNumber)' )].name"`; do echo "purging subscription diagnostic-settings: $i" && $(az monitor diagnostic-settings subscription delete --name $i --yes); done
+            echo BuildNumber $ENVIRONMENT
+            for i in `az monitor diagnostic-settings subscription list -o tsv --query "value[?contains(name, '$ENVIRONMENT' )].name"`; do echo "purging subscription diagnostic-settings: $i" && $(az monitor diagnostic-settings subscription delete --name $i --yes); done
             for i in `az monitor log-profiles list -o tsv --query '[].name'`; do az monitor log-profiles delete --name $i; done
-            # for i in `az ad group list --query "[?contains(displayName, '$(Build.BuildNumber)')].objectId" -o tsv`; do echo "purging Azure AD group: $i" && $(az ad group delete --verbose --group $i || true); done
-            # for i in `az ad app list --query "[?contains(displayName, '$(Build.BuildNumber)')].appId" -o tsv`; do echo "purging Azure AD app: $i" && $(az ad app delete --verbose --id $i || true); done
-            for i in `az keyvault list-deleted --query "[?tags.testing_job_id=='$(Build.BuildNumber)'].name" -o tsv`; do az keyvault purge --name $i; done
-            for i in `az group list --query "[?tags.testing_job_id=='$(Build.BuildNumber)'].name" -o tsv`; do echo "purging resource group: $i" && $(az group delete -n $i -y --no-wait || true); done
-            for i in `az role assignment list --query "[?contains(roleDefinitionName, '$(Build.BuildNumber)')].roleDefinitionName" -o tsv`; do echo "purging role assignment: $i" && $(az role assignment delete --role $i || true); done
-            for i in `az role definition list --query "[?contains(roleName, '$(Build.BuildNumber)')].roleName" -o tsv`; do echo "purging custom role definition: $i" && $(az role definition delete --name $i || true); done
+            # for i in `az ad group list --query "[?contains(displayName, '$ENVIRONMENT')].objectId" -o tsv`; do echo "purging Azure AD group: $i" && $(az ad group delete --verbose --group $i || true); done
+            # for i in `az ad app list --query "[?contains(displayName, '$ENVIRONMENT')].appId" -o tsv`; do echo "purging Azure AD app: $i" && $(az ad app delete --verbose --id $i || true); done
+            for i in `az keyvault list-deleted --query "[?tags.testing_job_id=='$ENVIRONMENT'].name" -o tsv`; do az keyvault purge --name $i; done
+            for i in `az group list --query "[?tags.testing_job_id=='$ENVIRONMENT'].name" -o tsv`; do echo "purging resource group: $i" && $(az group delete -n $i -y --no-wait || true); done
+            for i in `az role assignment list --query "[?contains(roleDefinitionName, '$ENVIRONMENT')].roleDefinitionName" -o tsv`; do echo "purging role assignment: $i" && $(az role assignment delete --role $i || true); done
+            for i in `az role definition list --query "[?contains(roleName, '$ENVIRONMENT')].roleName" -o tsv`; do echo "purging custom role definition: $i" && $(az role definition delete --name $i || true); done
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
