@@ -1,4 +1,12 @@
+
+| Standalone                          | Landingzone                                                                                                                                                                                                                                                                                                                  |
+|---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [![Deploy_AKS_Online_Standalone](https://github.com/Azure/caf-terraform-landingzones-starter/actions/workflows/deploy-aks-online-standalone.yaml/badge.svg)](https://github.com/Azure/caf-terraform-landingzones-starter/actions/workflows/deploy-aks-online-standalone.yaml)|  [![Deploy_AKS_Online_Landingzone](https://github.com/Azure/caf-terraform-landingzones-starter/actions/workflows/deploy-aks-online-landingzone.yaml/badge.svg)](https://github.com/Azure/caf-terraform-landingzones-starter/actions/workflows/deploy-aks-online-landingzone.yaml) |
+[![Build Status](https://dev.azure.com/hieunhu/caf-terraform-landingzones-starter/_apis/build/status/Deploy%20Azure.caf-terraform-landingzones-starter?branchName=starter)](https://dev.azure.com/hieunhu/caf-terraform-landingzones-starter/_build/latest?definitionId=52&branchName=starter) | [![Build Status](https://dev.azure.com/hieunhu/caf-terraform-landingzones-starter/_apis/build/status/Azure.caf-terraform-landingzones-starter?branchName=starter)](https://dev.azure.com/hieunhu/caf-terraform-landingzones-starter/_build/latest?definitionId=54&branchName=starter) |
+
 # Enterprise-Scale Construction Set for Azure Kubernetes Services using Terraform
+
+
 
 Enterprise-scale is an architectural approach and a reference implementation that enables effective construction and operationalization of landing zones on Azure, at scale. This approach aligns with the Azure roadmap and the Cloud Adoption Framework for Azure.
 
