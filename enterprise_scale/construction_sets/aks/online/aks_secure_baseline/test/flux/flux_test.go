@@ -65,18 +65,18 @@ func TestAadPodIdentityControllers(t *testing.T) {
 	}
 }
 
-func TestKuredControllers(t *testing.T) {
-	t.Parallel()
-	expectedValues := getExpectedValues()
+// func TestKuredControllers(t *testing.T) {
+// 	t.Parallel()
+// 	expectedValues := getExpectedValues()
 
-	options := getKubectlOptions(expectedValues.K8sContextName, expectedValues.ClusterBaselineNamespace)
-	kuredpods := k8s.ListPods(t, options, metav1.ListOptions{LabelSelector: "name=kured"})
-	for key := range kuredpods {
-		err := k8s.WaitUntilPodAvailableE(t, options, kuredpods[key].Name, 60, 1*time.Second)
-		require.NoError(t, err)
+// 	options := getKubectlOptions(expectedValues.K8sContextName, expectedValues.ClusterBaselineNamespace)
+// 	kuredpods := k8s.ListPods(t, options, metav1.ListOptions{LabelSelector: "name=kured"})
+// 	for key := range kuredpods {
+// 		err := k8s.WaitUntilPodAvailableE(t, options, kuredpods[key].Name, 60, 1*time.Second)
+// 		require.NoError(t, err)
 
-	}
-}
+// 	}
+// }
 
 func getKubectlOptions(contextName, namespace string) *k8s.KubectlOptions {
 	return k8s.NewKubectlOptions(util.ResolveNameWithPrefix(contextName), os.Getenv("KUBECONFIGPATH"), namespace)
