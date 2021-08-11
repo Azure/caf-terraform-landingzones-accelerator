@@ -184,6 +184,8 @@ cd ../standalone
 # Delete sample application, this contains PodDisruptionBudget that will block Terraform destroy
 kubectl delete -f ../workloads/baseline
 
+# remove to bypass the "context deadline exceeded" error from flux provider
+terraform state rm 'module.flux_addon'
 # (When needed) Destroy the resources
 eval terraform destroy ${parameter_files}
 
