@@ -4,7 +4,13 @@ azuread_groups = {
     description            = "High privileged group to run all CAF deployments from vscode. Can be used to bootstrap or troubleshoot deployments."
     prevent_duplicate_name = true
   }
-
+  launchpad = {
+    name                   = "caf-launchpad"
+    prevent_duplicate_name = true
+    members = {
+      azuread_service_principal_keys = ["level0"]
+    }
+  }
   identity = {
     name                   = "caf-identity"
     prevent_duplicate_name = true
@@ -28,13 +34,12 @@ azuread_groups = {
       azuread_service_principal_keys = ["connectivity"]
     }
   }
-
-  level3_cs_deployer = {
-    name                   = "caf-level3-cs-deployer"
+  grp-azure-devops = {
+    name                   = "caf-azuredevops"
     prevent_duplicate_name = true
     members = {
-      azuread_service_principal_keys = ["level3_cs_deployer"]
+      azuread_service_principal_keys = ["azure_devops"]
     }
   }
-
+  
 }

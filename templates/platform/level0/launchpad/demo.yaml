@@ -36,7 +36,7 @@
     src: "{{ level }}/{{ base_folder }}/{{ item }}.tfvars.j2"
     dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ item }}.tfvars"
     force: yes
-  when: config.eslz.model == 'prod'
+  when: config.eslz.model == 'prod' or config.features.azuread_identity_mode == 'sp'
   loop:
     - azuread_api_permissions
     - azuread_applications
