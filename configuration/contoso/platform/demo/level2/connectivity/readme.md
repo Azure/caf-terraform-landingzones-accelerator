@@ -10,7 +10,7 @@ Note you need to adjust the branch 2107.1 to deploy the connectivity services
 
 ```bash
 # login a with a user member of the caf-maintainers group
-rover login -t set_your_tenant_name.onmicrosoft.com
+rover login -t sergiomiyamaoutlook.onmicrosoft.com
 
 cd /tf/caf/landingzones
 git fetch origin
@@ -35,7 +35,7 @@ rover \
 
 ```bash
 # login a with a user member of the caf-maintainers group
-rover login -t set_your_tenant_name.onmicrosoft.com
+rover login -t sergiomiyamaoutlook.onmicrosoft.com
 
 cd /tf/caf/landingzones
 git fetch origin
@@ -59,7 +59,7 @@ rover \
 
 ```bash
 # login a with a user member of the caf-maintainers group
-rover login -t set_your_tenant_name.onmicrosoft.com
+rover login -t sergiomiyamaoutlook.onmicrosoft.com
 
 cd /tf/caf/landingzones
 git fetch origin
@@ -86,7 +86,7 @@ rover \
 
 ```bash
 # login a with a user member of the caf-maintainers group
-rover login -t set_your_tenant_name.onmicrosoft.com
+rover login -t sergiomiyamaoutlook.onmicrosoft.com
 
 cd /tf/caf/landingzones
 git fetch origin
@@ -110,7 +110,7 @@ rover \
 
 ```bash
 # login a with a user member of the caf-maintainers group
-rover login -t set_your_tenant_name.onmicrosoft.com
+rover login -t sergiomiyamaoutlook.onmicrosoft.com
 
 cd /tf/caf/landingzones
 git fetch origin

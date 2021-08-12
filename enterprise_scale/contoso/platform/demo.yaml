@@ -2,22 +2,27 @@ gitops:
   deployment_mode: interactive
   # automated_deployment (manual | e2e | pipelines)
   automated_deployment: manual
+  azure_devops:
+    patadmin: azdo-pat-admin
+    patagent: azdo-pat-agent
+    url: https://dev.azure.com/sergiomiyama0883
+
 
 features:
   subscription_creation: false
   enterprise_scale: true
   # Define the Azure Active Directory options ( none | msi | sp). msi and sp requires Azure AD groups rw.
-  azuread_identity_mode: none
+  azuread_identity_mode: sp
   # Enable the multi-subscription deployment
   multi_subscriptions: false
 
 # cleanup_destination - recommended to clean and recreated a clean state from template.
-cleanup_destination: false
+cleanup_destination: true
 destination_install_path: /tf/caf/
 destination_relative_base_path: configuration/contoso/platform/demo
 
 # Set the Azure Active Directory tenant name. Do not include the .onmicrosoft.com
-tenant_name: set_your_tenant_name
+tenant_name: sergiomiyamaoutlook
 caf_landingzone_branch: 2107.1
 
 sku:
@@ -26,7 +31,7 @@ sku:
 notifications:
   service_health_alerts:
       email1:
-        email_address: change_email@domain.com
+        email_address: sergio.mym@gmail.com
 
 ### Level0 ####
 billing_subscription_role_delegations:
@@ -57,6 +62,7 @@ launchpad:
     DR: NON-DR-ENABLED
 
 ### Level1 ###
+
 management:
 
 identity:

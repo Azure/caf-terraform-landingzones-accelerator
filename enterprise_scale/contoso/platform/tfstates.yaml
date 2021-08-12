@@ -11,6 +11,12 @@ billing_subscription_role_delegations:
   level: level0
 
 ### Level1 ###
+bootstrap:
+  lz_key_name: azure_devops_bootstrap
+  tfstate: azure_devops_bootstrap.tfstate
+  base_config_path: bootstrap
+  level: level1
+
 management:
   lz_key_name: management
   tfstate: management.tfstate

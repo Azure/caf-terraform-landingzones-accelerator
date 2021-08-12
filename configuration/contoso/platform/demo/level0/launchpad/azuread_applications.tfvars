@@ -1,0 +1,26 @@
+azuread_applications = {
+  level0 = {
+    application_name = "sp-caf-level0"
+  }
+  identity = {
+    application_name = "sp-caf-identity"
+  }
+  management = {
+    application_name = "sp-caf-management"
+  }
+  eslz = {
+    application_name = "sp-caf-eslz"
+  }
+  connectivity = {
+    application_name = "sp-caf-connectivity"
+  }
+  subscription_creation_platform = {
+    application_name = "sp-caf-subscription-creation-platform"
+  }
+  subscription_creation_landingzones = {
+    application_name = "sp-caf-subscription-creation-landingzones"
+  }
+  azure_devops = {
+    application_name = "sp-caf-azure_devops"
+  }  
+}

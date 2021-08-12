@@ -4,7 +4,7 @@ Deploy the management services
 
 ```bash
 # login a with a user member of the caf-maintainers group
-rover login -t set_your_tenant_name.onmicrosoft.com
+rover login -t sergiomiyamaoutlook.onmicrosoft.com
 
 export ARM_USE_AZUREAD=true
 caf_env="sandpit"

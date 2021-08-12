@@ -5,7 +5,7 @@ Estinated time for the deployment - 20 mins
 
 ```bash
 # login a with a user member of the caf-maintainers group
-rover login -t set_your_tenant_name.onmicrosoft.com
+rover login -t sergiomiyamaoutlook.onmicrosoft.com
 
 cd /tf/caf/landingzones
 git fetch origin

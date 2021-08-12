@@ -9,7 +9,7 @@ monitoring = {
     email_alert_settings = {
       email1 = {
         name                    = "email_alert_support1"
-        email_address           = "change_email@domain.com"
+        email_address           = "sergio.mym@gmail.com"
         use_common_alert_schema = false
       }
     } #add more email alerts by repeating the block.

@@ -21,6 +21,11 @@ This scenario require the following privileges:
 
 ### Pre-requisite
 
+```bash
+rover login -t {{ config.tenant_name }}.onmicrosoft.com
+
+```
+
 Elevate your credentials to the tenant root level to have enough privileges to create the management group hierarchy.
 
 ```bash
@@ -29,9 +34,6 @@ az rest --method post --url "/providers/Microsoft.Authorization/elevateAccess?ap
 
 ```
 
-
-```bash
-rover login -t {{ config.tenant_name }}.onmicrosoft.com
 
 export ARM_USE_AZUREAD=true
 caf_env="{{ config.launchpad.caf_environment }}"

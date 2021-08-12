@@ -25,6 +25,25 @@ role_mapping = {
         }
       }
     }
+    management_group = {
+      root = {
+        "User Access Administrator" = {
+          azuread_service_principals = {
+            keys = ["level0"]
+          }
+        }
+        "Management Group Contributor" = {
+          azuread_service_principals = {
+            keys = ["eslz"]
+          }
+        }
+        "Owner" = {
+          azuread_service_principals = {
+            keys = ["eslz"]
+          }
+        }
+      }
+    }
     storage_accounts = {
       level0 = {
         "Storage Blob Data Contributor" = {
