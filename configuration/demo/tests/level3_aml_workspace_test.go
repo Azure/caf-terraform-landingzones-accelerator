@@ -5,14 +5,17 @@ package caf_tests
 import (
 	"fmt"
 	"testing"
-	"strings"
+	/* Remove comment after CAF Terratest Helper is approved
+	//"strings"
+	*/
 	"log"
 	"context"
 
 	"github.com/aztfmod/terratest-helper-caf/state"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
-
+	/* Remove comment after CAF Terratest Helper is approved
+	//"github.com/stretchr/testify/require"
+  */
 	"github.com/gruntwork-io/terratest/modules/azure"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/arm/resources/2020-06-01/armresources"
