@@ -16,8 +16,8 @@ rover \
   -lz /tf/caf/landingzones/caf_solution \
   -var-folder {{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }} \
   -tfstate_subscription_id {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
-  -target_subscription {{ platform_subscriptions_details.management.subscription_id }} \
-  -tfstate {{ tfstates.management.tfstate }} \
+  -target_subscription {{ platform_subscriptions_details.identity.subscription_id }} \
+  -tfstate {{ tfstates.identity.tfstate }} \
   -log-severity {{ config.gitops.rover_log_error }} \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \

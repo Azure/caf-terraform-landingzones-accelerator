@@ -3,22 +3,22 @@ keyvaults = {
   level0 = {
     name               = "l0"
     resource_group_key = "level0"
-    sku_name           = "{{ config.sku.keyvault}}"
+    sku_name           = "{{ config.platform_core_setup.sku.keyvault}}"
     tags = {
       tfstate         = "level0"
-      environment     = "{{ config.launchpad.caf_environment }}"
+      environment     = "{{ config.caf_terraform.launchpad.caf_environment }}"
       caf_tfstate     = "level0"
-      caf_environment = "{{ config.launchpad.caf_environment }}"
+      caf_environment = "{{ config.caf_terraform.launchpad.caf_environment }}"
     }
 
     creation_policies = {
-{% if config.eslz.model != 'demo' %}
-      caf_launchpad_maintainer = {
-        azuread_group_key  = "caf_launchpad_maintainer"
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
+      caf_platform_maintainers = {
+        azuread_group_key  = "caf_platform_maintainers"
         secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
       }
 {% endif %}
-{% if config.gitops.deployment_mode == 'interactive' %}
+{% if config.platform_identity.azuread_identity_mode == 'logged_in_user' %}
       logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
         # More examples in /examples/keyvault
@@ -32,22 +32,22 @@ keyvaults = {
   level1 = {
     name               = "l1"
     resource_group_key = "level1"
-    sku_name           = "{{ config.sku.keyvault}}"
+    sku_name           = "{{ config.platform_core_setup.sku.keyvault}}"
     tags = {
       tfstate         = "level1"
-      environment     = "{{ config.launchpad.caf_environment }}"
+      environment     = "{{ config.caf_terraform.launchpad.caf_environment }}"
       caf_tfstate     = "level1"
-      caf_environment = "{{ config.launchpad.caf_environment }}"
+      caf_environment = "{{ config.caf_terraform.launchpad.caf_environment }}"
     }
 
     creation_policies = {
-{% if config.eslz.model != 'demo' %}
-      caf_launchpad_maintainer = {
-        azuread_group_key  = "caf_launchpad_maintainer"
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
+      caf_platform_maintainers = {
+        azuread_group_key  = "caf_platform_maintainers"
         secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
       }
 {% endif %}
-{% if config.gitops.deployment_mode == 'interactive' %}
+{% if config.platform_identity.azuread_identity_mode == 'logged_in_user' %}
       logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
         # More examples in /examples/keyvault
@@ -61,22 +61,22 @@ keyvaults = {
   level2 = {
     name               = "l2"
     resource_group_key = "level2"
-    sku_name           = "{{ config.sku.keyvault}}"
+    sku_name           = "{{ config.platform_core_setup.sku.keyvault}}"
     tags = {
       tfstate         = "level2"
-      environment     = "{{ config.launchpad.caf_environment }}"
+      environment     = "{{ config.caf_terraform.launchpad.caf_environment }}"
       caf_tfstate     = "level2"
-      caf_environment = "{{ config.launchpad.caf_environment }}"
+      caf_environment = "{{ config.caf_terraform.launchpad.caf_environment }}"
     }
 
     creation_policies = {
-{% if config.eslz.model != 'demo' %}
-      caf_launchpad_maintainer = {
-        azuread_group_key  = "caf_launchpad_maintainer"
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
+      caf_platform_maintainers = {
+        azuread_group_key  = "caf_platform_maintainers"
         secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
       }
 {% endif %}
-{% if config.gitops.deployment_mode == 'interactive' %}
+{% if config.platform_identity.azuread_identity_mode == 'logged_in_user' %}
       logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
         # More examples in /examples/keyvault
@@ -90,22 +90,22 @@ keyvaults = {
   level3 = {
     name               = "l3"
     resource_group_key = "level3"
-    sku_name           = "{{ config.sku.keyvault}}"
+    sku_name           = "{{ config.platform_core_setup.sku.keyvault}}"
     tags = {
       tfstate         = "level3"
-      environment     = "{{ config.launchpad.caf_environment }}"
+      environment     = "{{ config.caf_terraform.launchpad.caf_environment }}"
       caf_tfstate     = "level3"
-      caf_environment = "{{ config.launchpad.caf_environment }}"
+      caf_environment = "{{ config.caf_terraform.launchpad.caf_environment }}"
     }
 
     creation_policies = {
-{% if config.eslz.model != 'demo' %}
-      caf_launchpad_maintainer = {
-        azuread_group_key  = "caf_launchpad_maintainer"
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
+      caf_platform_maintainers = {
+        azuread_group_key  = "caf_platform_maintainers"
         secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
       }
 {% endif %}
-{% if config.gitops.deployment_mode == 'interactive' %}
+{% if config.platform_identity.azuread_identity_mode == 'logged_in_user' %}
       logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
         # More examples in /examples/keyvault
@@ -119,22 +119,22 @@ keyvaults = {
   level4 = {
     name               = "l4"
     resource_group_key = "level4"
-    sku_name           = "{{ config.sku.keyvault}}"
+    sku_name           = "{{ config.platform_core_setup.sku.keyvault}}"
     tags = {
       tfstate         = "level4"
-      environment     = "{{ config.launchpad.caf_environment }}"
+      environment     = "{{ config.caf_terraform.launchpad.caf_environment }}"
       caf_tfstate     = "level4"
-      caf_environment = "{{ config.launchpad.caf_environment }}"
+      caf_environment = "{{ config.caf_terraform.launchpad.caf_environment }}"
     }
 
     creation_policies = {
-{% if config.eslz.model != 'demo' %}
-      caf_launchpad_maintainer = {
-        azuread_group_key  = "caf_launchpad_maintainer"
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
+      caf_platform_maintainers = {
+        azuread_group_key  = "caf_platform_maintainers"
         secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
       }
 {% endif %}
-{% if config.gitops.deployment_mode == 'interactive' %}
+{% if config.platform_identity.azuread_identity_mode == 'logged_in_user' %}
       logged_in_user = {
         # if the key is set to "logged_in_user" add the user running terraform in the keyvault policy
         # More examples in /examples/keyvault

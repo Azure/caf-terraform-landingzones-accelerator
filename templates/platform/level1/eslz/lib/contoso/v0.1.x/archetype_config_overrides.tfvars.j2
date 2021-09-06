@@ -6,16 +6,16 @@ archetype_config_overrides = {
       "Deny-Resource-Locations" = {
         "listOfAllowedLocations" = {
           value = [
-            "{{ config.launchpad.regions.region1.name }}",
-            "{{ config.launchpad.regions.region2.name }}"
+            "{{ config.caf_terraform.launchpad.regions.region1.name }}",
+            "{{ config.caf_terraform.launchpad.regions.region2.name }}"
           ]
         }
       }
       "Deny-RSG-Locations" = {
         "listOfAllowedLocations" = {
           value = [
-            "{{ config.launchpad.regions.region1.name }}",
-            "{{ config.launchpad.regions.region2.name }}"
+            "{{ config.caf_terraform.launchpad.regions.region1.name }}",
+            "{{ config.caf_terraform.launchpad.regions.region2.name }}"
           ]
         }
       }

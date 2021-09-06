@@ -1,14 +1,14 @@
-- name: Clean-up directory
+- name: "[{{ level }}-{{ base_folder }}] Clean-up directory"
   file:
-    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}"
+    path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
     state: absent
-  when: config.cleanup_destination | bool
+  when: config.configuration_folders.cleanup_destination | bool
 
-- name: Creates directory
+- name: "[{{ level }}-{{ base_folder }}] Creates directory"
   file:
-    path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}"
+    path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
     state: directory
-  when: config.features.subscription_creation | bool
+  
 
 # - name: Retrieve default billing profile
 #   command: "az rest --method get --uri https://management.azure.com/providers/Microsoft.Billing/billingaccounts?api-version=2020-05-01 --query \"value[?properties.agreementType=='EnterpriseAgreement'].{id:properties.enrollmentAccounts[0].id}\" -o tsv"
@@ -28,18 +28,11 @@
 
 # - debug: msg="{{enrollment_account_name}}"
 
-
-- name: readme
+- name: "[{{ level }}-{{ base_folder }}] subscription role delegation"
   ansible.builtin.template:
-    src: "{{ level }}/{{ base_folder }}/readme.md.j2"
-    dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/readme.md"
+    src: "{{ item }}"
+    dest: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
-  when: config.features.subscription_creation | bool
-
-- name: subscription role delegation
-  ansible.builtin.template:
-    src: "{{ level }}/{{ base_folder }}/{{ item }}.tfvars.j2"
-    dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ item }}.tfvars"
-    force: yes
-  loop:
-    - landingzone
+  with_fileglob:
+    - "{{ level }}/{{ base_folder }}/*.tfvars.j2"
+    - "{{ level }}/{{ base_folder }}/*.md"

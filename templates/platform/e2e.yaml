@@ -1,201 +1,181 @@
+- name: CAF Terraform - Generate configuration files
+  hosts: localhost
+  vars:
+    config: "{{ lookup('file', '{{ config_folder }}/{{scenario}}.{{ model }}.caf.platform.yaml') | from_yaml }}"
+    connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/{{ model }}/connectivity_virtual_wan.yaml') | from_yaml }}"
+    connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/{{ model }}/connectivity_virtual_hub.yaml') | from_yaml }}"
+    connectivity_firewall: "{{ lookup('file', '{{ config_folder }}/{{ model }}/connectivity_firewall.yaml') | from_yaml }}"
+    connectivity_firewall_policies: "{{ lookup('file', '{{ config_folder }}/{{ model }}/connectivity_firewall_policies.yaml') | from_yaml }}"
+    connectivity: "{{ lookup('file', '{{ config_folder }}/{{ model }}/connectivity.yaml') | from_yaml }}"
+    identity: "{{ lookup('file', '{{ config_folder }}/{{ model }}/identity.yaml') | from_yaml }}"
+    management: "{{ lookup('file', '{{ config_folder }}/{{ model }}/management.yaml') | from_yaml }}"
+    subscriptions: "{{ lookup('file', '{{ config_folder }}/{{ model }}/subscriptions.yaml') | from_yaml }}"
+    cidr: "{{ lookup('file', '{{ config_folder }}/{{ model }}/cidr.yaml') | from_yaml }}"
+    tfstates: "{{ lookup('file', '{{ config_folder }}/{{ model }}/tfstates.yaml') | from_yaml }}"
+    base_templates_folder: "{{ base_templates_folder }}"
+
+
+  tasks:
 #
 # Level 0
 #
-- name: launchpad
-  hosts: localhost
-  vars:
-    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
-    connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
-    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
-    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
-    base_templates_folder: /tf/caf/templates/platform
-    base_folder: launchpad
-    level: level0
 
-  tasks:
-    - import_tasks: "{{ level }}/launchpad/{{ model }}.yaml"
+## launchpad
+    - name: "[{{ level }}-{{ base_folder }}] launchpad"
+      import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
+      vars:
+        base_folder: "launchpad"
+        level: "level0"
 
+## billing_subscription_role_delegations
+    - name: "[{{ level }}-{{ base_folder }}] Configure subscription role delegations"
+      import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
+      when: (config.billing_subscription_role_delegations.enable == true and config.platform_identity.azuread_identity_mode == "service_principal")
+      vars:
+        base_folder: "billing_subscription_role_delegations"
+        level: "level0"
 
-- name: billing_subscription_role_delegations
-  hosts: localhost
-  vars:
-    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
-    connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
-    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
-    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
-    base_templates_folder: /tf/caf/templates/platform
-    base_folder: launchpad
-    level: level0
+    - name: "[{{ level }}-{{ base_folder }}] Clean-up directory"
+      file:
+        path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
+        state: absent
+      when: config.platform_identity.azuread_identity_mode == "logged_in_user"
+      vars:
+        base_folder: "billing_subscription_role_delegations"
+        level: "level0"
 
-  tasks:
-    - import_tasks: "{{ level }}/billing_subscription_role_delegations/{{ model }}.yaml"
-      when: config.features.subscription_creation | bool
+## credentials
+    - name: "[{{ level }}-{{ base_folder }}] Setup credentials"
+      import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
+      when: config.platform_identity.azuread_identity_mode == "service_principal"
+      vars:
+        base_folder: "credentials"
+        level: "level0"
+
+    - name: "[{{ level }}-{{ base_folder }}] Clean-up directory"
+      file:
+        path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
+        state: absent
+      when: config.platform_identity.azuread_identity_mode == "logged_in_user"
+      vars:
+        base_folder: "credentials"
+        level: "level0"
 
 #
 # Level 1
 #
-- name: Generate config - level1 - management
-  hosts: localhost
-  vars:
-    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
-    connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
-    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
-    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
-    base_templates_folder: /tf/caf/templates/platform
-    base_folder: management
-    level: level1
 
-  tasks:
-    - import_tasks: "{{ level }}/management/{{ model }}.yaml"
+## subscriptions
+    - name: "{{ level }}-{{ base_folder }} | Create platform subscriptions"
+      import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
+      when: (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "dedicated_new" and config.platform_identity.azuread_identity_mode != "logged_in_user")
+      vars:
+        base_folder: "subscriptions"
+        level: "level1"
 
-- name: Generate config - level1 - ESLZ
-  hosts: localhost
-  vars:
-    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
-    connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
-    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
-    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
-    base_templates_folder: /tf/caf/templates/platform
-    base_folder: eslz
-    level: level1
-
-  tasks:
-    - name: ESLZ - Clean-up directory
+    - name: "{{ level }}-{{ base_folder }} | Clean-up directory"
       file:
-        path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ item.path }}"
+        path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
         state: absent
-      with_filetree: "{{ level }}/{{ base_folder }}"
-      when:
-        - item.state == 'directory'
-        - config.features.enterprise_scale == false | bool
+      when: config.platform_identity.azuread_identity_mode == "logged_in_user"
+      vars:
+        base_folder: "subscriptions"
+        level: "level1"
 
-    - name: ESLZ - Clean-up base directory
-      file:
-        path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}"
-        state: absent
-      with_filetree: "{{ level }}/{{ base_folder }}"
-      when:
-        - item.state == 'directory'
-        - config.features.enterprise_scale == false | bool
+## management
+    - name: "{{ level }}-{{ base_folder }} | Management services"
+      import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
+      when: config.platform_management.enable | bool
+      vars:
+        base_folder: "management"
+        level: "level1"
 
-    - import_tasks: "{{ level }}/eslz/{{ scenario }}_{{ model }}.yaml"
-      when: config.features.enterprise_scale == true | bool
+## identity
+    - name: "{{ level }}-{{ base_folder }} | identity services"
+      import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
+      when: config.platform_core_setup.enterprise_scale.subscription_deployment_mode != "single_reuse"
+      vars:
+        base_folder: "identity"
+        level: "level1"
+
+## eslz
+    - name: "{{ level }}-{{ base_folder }} | enterprise scale"
+      import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
+      when: config.platform_core_setup.enterprise_scale.enable | bool
+      vars:
+        base_folder: "eslz"
+        level: "level1"
 
 
 #
 # Level 2
 #
-- name: Level 2 - Networking
-  hosts: localhost
-  vars:
-    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
-    connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
-    connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_wan.yaml') | from_yaml }}"
-    connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_hub.yaml') | from_yaml }}"
-    connectivity_firewall: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall.yaml') | from_yaml }}"
-    connectivity_firewall_policies: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall_policies.yaml') | from_yaml }}"
-    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
-    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
-    base_templates_folder: /tf/caf/templates/platform
-    base_folder: connectivity
-    level: level2
-    folders:
-      - virtual_wan
+
+    - name: "{{ level }}-{{ base_folder }} | Connectivity"
+      import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
+      when: config.networking_topology.deployment_option == "virtual_wan"
+      vars:
+        base_folder: "connectivity"
+        level: "level2"
+        folders:
+          - virtual_wan
 
 
-  tasks:
-    - name: Creates {{ level }} directory
-      file:
-        path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}"
-        state: directory
-
-    - name: Creates {{ base_folder }} directory strcture
-      file:
-        path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}"
-        state: directory
-
-    - name: "{{ base_folder }} - Readme"
-      ansible.builtin.template:
-        src: "{{ item }}"
-        dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
-        force: yes
-      with_fileglob:
-        - "{{ level }}/{{ base_folder }}/*.md"
-
-    - name: "{{ base_folder }} - Virtual Wan"
-      include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/{{ folder_name }}/{{ model }}.yaml"
-      loop:
-       - virtual_wan
-      loop_control:
-        loop_var: folder_name
-
-    - name: Virtual Hubs
-      include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/virtual_hub/{{ model }}.yaml"
-      loop: "{{ tfstates.virtual_hubs.keys() }}"
-      loop_control:
-        loop_var: virtual_hub
-
-    - name: Firewall Policies
-      include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/firewall_policy/{{ model }}.yaml"
-      loop: "{{ tfstates.firewall_policies.keys() }}"
-      loop_control:
-        loop_var: firewall_policy
-
-- name: Level 2 - identity
-  hosts: localhost
-  vars:
-    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
-    identity: "{{ lookup('file', '{{ config_folder }}/identity.yaml') | from_yaml }}"
-    connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_wan.yaml') | from_yaml }}"
-    connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_hub.yaml') | from_yaml }}"
-    connectivity_firewall: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall.yaml') | from_yaml }}"
-    connectivity_firewall_policies: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall_policies.yaml') | from_yaml }}"
-    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
-    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
-    base_templates_folder: /tf/caf/templates/platform
-    base_folder: identity
-    level: level2
-    folders:
-      - virtual_wan
+# - name: Level 2 - identity
+#   hosts: localhost
+#   vars:
+#     config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
+#     identity: "{{ lookup('file', '{{ config_folder }}/identity.yaml') | from_yaml }}"
+#     connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_wan.yaml') | from_yaml }}"
+#     connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_hub.yaml') | from_yaml }}"
+#     connectivity_firewall: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall.yaml') | from_yaml }}"
+#     connectivity_firewall_policies: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall_policies.yaml') | from_yaml }}"
+#     cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
+#     tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
+#     base_templates_folder: /tf/caf/templates/platform
+#     base_folder: identity
+#     level: level2
+#     folders:
+#       - virtual_wan
 
 
-  tasks:
-    - name: Creates {{ level }} directory
-      file:
-        path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}"
-        state: directory
+#   tasks:
+#     - name: Creates {{ level }} directory
+#       file:
+#         path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}"
+#         state: directory
 
-    - name: Creates {{ base_folder }} directory strcture
-      file:
-        path: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}"
-        state: directory
+#     - name: Creates {{ base_folder }} directory strcture
+#       file:
+#         path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
+#         state: directory
 
-    - name: "{{ base_folder }} - Readme"
-      ansible.builtin.template:
-        src: "{{ item }}"
-        dest: "{{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
-        force: yes
-      with_fileglob:
-        - "{{ level }}/{{ base_folder }}/*.md"
+#     - name: "{{ base_folder }} - Readme"
+#       ansible.builtin.template:
+#         src: "{{ item }}"
+#         dest: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
+#         force: yes
+#       with_fileglob:
+#         - "{{ level }}/{{ base_folder }}/*.md"
 
-    - name: "{{ base_folder }} - adds"
-      include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/{{ model }}.yaml"
+#     - name: "{{ base_folder }} - adds"
+#       include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/{{ model }}.yaml"
 
 
 
-#
-# Pipelines
-#
-- name: Pipelines
-  hosts: localhost
-  vars:
-    config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
-    connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
-    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
-    tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
-    base_templates_folder: /tf/caf/templates/platform
-    base_folder: pipelines
+# #
+# # Pipelines
+# #
+# - name: Pipelines
+#   hosts: localhost
+#   vars:
+#     config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
+#     connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
+#     cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
+#     tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
+#     base_templates_folder: /tf/caf/templates/platform
+#     base_folder: pipelines
 
-  tasks:
-    - import_tasks: "{{ base_folder }}/{{ model }}.yaml"
-    - debug: msg="You can now proceed to the next steps and execute the deployment. Refer to the readme in {{ config.destination_install_path }}{{ config.destination_relative_base_path }}/README.md"
+#   tasks:
+#     - import_tasks: "{{ base_folder }}/{{ model }}.yaml"
+#     - debug: msg="You can now proceed to the next steps and execute the deployment. Refer to the readme in {{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/README.md"

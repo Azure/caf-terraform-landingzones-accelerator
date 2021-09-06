@@ -1,45 +1,77 @@
+# Launchpad - scenario {{ scenario }} / {{ model }}
 
-# Launchpad
-Set-up the launchpads for level0 to level3 to store the remote states in Azure storage accounts
+The {{ model }} scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
+The focus of this scenario is to be able to deploy a basic launchpad from a remote machine and use the portal to review the settings in a non-constrained environment.
+For example in this scenario you can go to the Key Vaults and view the secrets from the portal, a feature that is disabled in the 300+ scenarios.
+We recommend using the 100 scenario for demonstration purposes.
+
+An estimated time of 5 minutes is required to deploy this scenario.
+
+## Pre-requisites
+
+This scenario require the following privileges:
+
+| Component          | Privileges         |
+|--------------------|--------------------|
+| Active Directory   | None               |
+| Azure subscription | Subscription owner |
+
+## Deployment
+
+
+### Pre-requisite
+
+Elevate your credentials to the tenant root level to have enough privileges to create the management group hierarchy.
 
 ```bash
-# login a with a user member of the caf-maintainers group
-rover login -t {{ config.tenant_name }}.onmicrosoft.com
+{% if config.billing_subscription_role_delegations.enable %}
+# Login to the subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }} with the user {{ config.billing_subscription_role_delegations.azuread_user_ea_account_owner }}
+{% else %}
+# Login to the subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }} with an account owner.
+{% endif %}
+rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
+az rest --method post --url "/providers/Microsoft.Authorization/elevateAccess?api-version=2016-07-01"
 
-export ARM_USE_AZUREAD=true
-caf_env="{{ config.launchpad.caf_environment }}"
+```
+
+### Launchpad
+
+```bash
+{% if config.billing_subscription_role_delegations.enable %}
+# Login to the subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }} with the user {{ config.billing_subscription_role_delegations.azuread_user_ea_account_owner }}
+{% else %}
+# Login to the subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }} with an account owner.
+{% endif %}
+rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com -s {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }}
+
+cd /tf/caf/landingzones
+git fetch origin
+git checkout {{ config.gitops.caf_landingzone_branch }}
 
 rover \
   -lz /tf/caf/landingzones/caf_launchpad \
-  -var-folder {{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }} \
+  -var-folder {{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }} \
+  -tfstate_subscription_id {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+  -target_subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
   -tfstate {{ tfstates.launchpad.tfstate }} \
-  -log-severity ERROR \
+  -log-severity {{ config.gitops.rover_log_error }} \
   -launchpad \
-  -env ${caf_env} \
+  -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
   -a plan
 
 ```
 
-if you have some errors during the deployment of the launchpad you must fix them first before proceeding to the next step. Failing to do that will prevent the rover to locate a launchpad.
+## Architecture diagram
+![Launchpad {{ model }}](../../../../../../documentation/img/launchpad-{{ model }}.PNG)
+
 
 # Next steps
 
 When you have successfully deployed the launchpad you can  move to the next step.
 
+{% if config.billing_subscription_role_delegations.enable %}
+ [Deploy the billing subscription role delegation](../billing_subscription_role_delegations/readme.md)
+{% else %}
  [Deploy the management services](../../level1/management/readme.md)
- 
-
-# Components deployed in the launchpad
-
-| Components                                                                                              | Config files                                                 | Description|
-|-----------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
-| Global Settings |[global_settings.tfvars](./global_settings.tfvars) | Primary Region setting. Changing this will redeploy the whole stack to another Region|
-| Resource Groups | [resource_groups.tfvars](./resource_groups.tfvars)| Resource groups configs |
-||<p align="center">**Identity & Access Management**</p>||
-| Identity & Access Management | [azuread_api_permissions.tfvars](./azuread_api_permissions.tfvars) <br /> [azuread_applications.tfvars](./azuread_applications.tfvars) <br /> [service_principals.tfvars](./service_principals.tfvars) <br /> [azuread_groups.tfvars](./azuread_groups.tfvars) <br /> [azuread_roles.tfvars](./azuread_roles.tfvars) <br /> [role_mappings.tfvars](./role_mappings.tfvars)| AAD admin group, Service Principals & Role Assignments |
-||<p align="center">**Security**</p>||
-| Azure Key Vault| [keyvaults.tfvars](./keyvaults.tfvars) <br />  [keyvault_policies.tfvars](./keyvault_policies.tfvars) <br /> [dynamic_secrets.tfvars](./dynamic_secrets.tfvars) <br />  | Key Vault , policies and dynamic secrets for the rover |
-||<p align="center">**Storage**</p>||
-| Storage account| [storage_accounts.tfvars](./storage_accounts.tfvars) <br />| Azure Storage account to store the tfstates |
-<br />
+{% endif %}

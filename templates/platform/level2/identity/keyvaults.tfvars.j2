@@ -2,7 +2,7 @@ keyvaults = {
   dc01 = {
     name               = "dc01-secrets"
     resource_group_key = "contoso_identity_adds"
-    sku_name           = "{{ config.sku.keyvault }}"
+    sku_name           = "{{ config.platform_core_setup.sku.keyvault }}"
 
     creation_policies = {
       logged_in_user = {

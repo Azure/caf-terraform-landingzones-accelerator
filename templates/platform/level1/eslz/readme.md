@@ -1,37 +1,28 @@
-
 # Enterprise scale
-
-## Pre-requisite
-
-Elevate your credentials to the tenant root level to have enough privileges to create the management group hierarchy.
-
-```bash
-
-az rest --method post --url "/providers/Microsoft.Authorization/elevateAccess?api-version=2016-07-01"
-
-```
 
 ## Deploy Enterprise Scale
 
-Note you need to adjust the branch to deploy Enterprise Scale to {{ config.eslz.private_lib[config.eslz.private_lib.version_to_deploy].caf_landingzone_branch }}
+Note you need to adjust the branch to deploy Enterprise Scale to {{ config.platform_core_setup.enterprise_scale.private_lib[config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy].caf_landingzone_branch }}
 
 ```bash
-# login a with a user member of the caf-maintainers group
-rover login -t {{ config.tenant_name }}.onmicrosoft.com
+az account clear
+# login a with a user member of the caf-platform-maintainers group
+rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
 
-cd {{ config.destination_install_path }}landingzones
+cd {{ config.configuration_folders.destination_base_path }}landingzones
 git fetch origin
-git checkout {{ config.eslz.private_lib[config.eslz.private_lib.version_to_deploy].caf_landingzone_branch }}
-
-export ARM_USE_AZUREAD=true
-caf_env="{{ config.launchpad.caf_environment }}"
+git checkout {{ config.platform_core_setup.enterprise_scale.private_lib[config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy].caf_landingzone_branch }}
 
 rover \
-  -lz {{ config.destination_install_path }}landingzones/caf_solution/add-ons/caf_eslz \
-  -var-folder {{ config.destination_install_path }}{{ config.destination_relative_base_path }}/{{ level }}/{{ base_folder }} \
+{% if config.platform_identity.azuread_identity_mode != "logged_in_user" %}
+  --impersonate-sp-from-keyvault-url {{ keyvaults.cred_eslz.vault_uri }} \
+{% endif %}
+  -lz {{ config.configuration_folders.destination_base_path }}landingzones/caf_solution/add-ons/caf_eslz \
+  -var-folder {{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }} \
+  -tfstate_subscription_id {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
   -tfstate {{ tfstates.eslz.tfstate }} \
   -log-severity ERROR \
-  -env ${caf_env} \
+  -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
   -a plan
 

@@ -1,4 +1,4 @@
-environment: {{ config.eslz.model }}
+environment: {{ model }}
 repositories:
   - name: landingzones
     uri: https://github.com/Azure/caf-terraform-landingzones.git
@@ -11,7 +11,7 @@ levels:
   stacks:
   - stack: launchpad
     landingZonePath: landingzones/caf_launchpad
-    configurationPath: "{{ config.destination_relative_base_path }}/{{ tfstates.launchpad.level }}/{{ tfstates.launchpad.base_config_path }}"
+    configurationPath: "{{ config.configuration_folders.destination_relative_path }}/{{ tfstates.launchpad.level }}/{{ tfstates.launchpad.base_config_path }}"
     tfState: {{ tfstates.launchpad.tfstate }}
     repository: landingzones
   launchpad: true
@@ -21,12 +21,12 @@ levels:
   stacks:
   - stack: management
     landingZonePath: landingzones/caf_solution
-    configurationPath: "{{ config.destination_relative_base_path }}/{{ tfstates.management.level }}/{{ tfstates.management.base_config_path }}"
+    configurationPath: "{{ config.configuration_folders.destination_relative_path }}/{{ tfstates.management.level }}/{{ tfstates.management.base_config_path }}"
     tfState: {{ tfstates.management.tfstate }}
     repository: landingzones
   - stack: eslz
     landingZonePath: landingzones/caf_solution/add-ons/caf_eslz
-    configurationPath: "{{ config.destination_relative_base_path }}/{{ tfstates.eslz.level }}/{{ tfstates.eslz.base_config_path }}"
+    configurationPath: "{{ config.configuration_folders.destination_relative_path }}/{{ tfstates.eslz.level }}/{{ tfstates.eslz.base_config_path }}"
     tfState: {{ tfstates.eslz.tfstate }}
     repository: landingzones
     branch: "{{ config.eslz.private_lib[config.eslz.private_lib.version_to_deploy].caf_landingzone_branch }}"
@@ -36,6 +36,6 @@ levels:
   stacks:
   - stack: connectivity_virtual_wan
     landingZonePath: landingzones/caf_solution
-    configurationPath: "{{ config.destination_relative_base_path }}/{{ tfstates.management.level }}/{{ tfstates.management.base_config_path }}"
+    configurationPath: "{{ config.configuration_folders.destination_relative_path }}/{{ tfstates.management.level }}/{{ tfstates.management.base_config_path }}"
     tfState: {{ tfstates.management.tfstate }}
     repository: landingzones

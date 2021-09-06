@@ -12,25 +12,17 @@
 
 subscriptions = {
 
-  # Platform Subscriptions
-{% if config.subscription_creation %}
-  management = {
-    name                    = "management"
+  {{ tfstates.launchpad.lz_key_name }} = {
+    name            = "{{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }}"
+    subscription_id = "{{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }}"
+  }
+{% for key in subscriptions.platform_subscriptions.keys() %}
+  {{ key }} = {
+    name                    = "{{ subscriptions.platform_subscriptions[key].name }}"
     billing_account_name    = "{{ config.billing_subscription_role_delegations.billing_account_name }}"
     enrollment_account_name = "{{ config.billing_subscription_role_delegations.enrollment_account_name }}"
     workload                = "Production"
   }
-  connectivity = {
-    name                    = "connectivity"
-    billing_account_name    = "{{ config.billing_subscription_role_delegations.billing_account_name }}"
-    enrollment_account_name = "{{ config.billing_subscription_role_delegations.enrollment_account_name }}"
-    workload                = "Production"
-  }
-  identity = {
-    name                    = "identity"
-    billing_account_name    = "{{ config.billing_subscription_role_delegations.billing_account_name }}"
-    enrollment_account_name = "{{ config.billing_subscription_role_delegations.enrollment_account_name }}"
-    workload                = "Production"
-  }
-{% endif %}
+{% endfor %}
+
 }

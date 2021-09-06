@@ -9,4 +9,23 @@ subscription_id_overrides = {
   identity       = []
 }
 
-subscription_id_overrides_by_keys = {}
+subscription_id_overrides_by_keys = {
+  connectivity = {
+    connectivity = {
+      lz_key = "{{ tfstates.platform_subscriptions.lz_key_name }}"
+      key    = "connectivity"
+    }
+  }
+  management = {
+    management = {
+      lz_key = "{{ tfstates.platform_subscriptions.lz_key_name }}"
+      key    = "management"
+    }
+  }
+  identity = {
+    identity = {
+      lz_key = "{{ tfstates.platform_subscriptions.lz_key_name }}"
+      key    = "identity"
+    }
+  }
+}

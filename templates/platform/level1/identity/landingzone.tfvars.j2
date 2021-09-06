@@ -1,13 +1,9 @@
 landingzone = {
   backend_type        = "azurerm"
   global_settings_key = "{{ tfstates.launchpad.lz_key_name }}"
-  level               = "level1"
-  key                 = "eslz"
+  level               = "{{ tfstates.identity.level }}"
+  key                 = "{{ tfstates.identity.lz_key_name }}"
   tfstates = {
-    {{ tfstates.management.lz_key_name }} = {
-      level   = "current"
-      tfstate = "{{ tfstates.management.tfstate }}"
-    }
     {{ tfstates.launchpad.lz_key_name }} = {
       level   = "lower"
       tfstate = "{{ tfstates.launchpad.tfstate }}"

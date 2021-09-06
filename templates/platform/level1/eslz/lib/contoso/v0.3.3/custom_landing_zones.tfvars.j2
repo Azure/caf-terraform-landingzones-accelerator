@@ -1,0 +1,59 @@
+custom_landing_zones = {
+  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-gitops = {
+    display_name               = "Gitops"
+    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-platform"
+    archetype_config = {
+      archetype_id   = "platform_gitops"
+      parameters     = {}
+      access_control = {
+        "Owner" = {
+          "azuread_groups" = {
+            lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
+            attribute_key = "id"
+            resource_keys = [
+              "level0", "caf_platform_maintainers"
+            ]
+          }
+        }
+        "Reader" = {
+          "azuread_groups" = {
+            lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
+            attribute_key = "id"
+            resource_keys = [
+              "identity"
+            ]
+          }
+        }
+      }
+    }
+    subscriptions    = {
+      {{ tfstates.launchpad.lz_key_name }} = {
+        lz_key = "{{ tfstates.platform_subscriptions.lz_key_name }}"
+        key    = "{{ tfstates.launchpad.lz_key_name }}"
+      }
+    }
+    subscription_ids = []
+  }
+  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-corp = {
+    display_name               = "Corp"
+    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-landing-zones"
+    archetype_config = {
+      archetype_id   = "landingzone_corp"
+      parameters     = {}
+      access_control = {}
+    }
+    subscriptions    = {}
+    subscription_ids = []
+  }
+  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-online = {
+    display_name               = "Online"
+    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-landing-zones"
+    archetype_config = {
+      archetype_id   = "landingzone_online"
+      parameters     = {}
+      access_control = {}
+    }
+    subscriptions    = {}
+    subscription_ids = []
+  }
+}

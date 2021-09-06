@@ -1,0 +1,56 @@
+# - name: "{{ level }}-{{ base_folder }} |  Clean-up base directory"
+#   file:
+#     path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
+#     state: absent
+#   with_filetree: "{{ level }}/{{ base_folder }}"
+#   when:
+#     - item.state == 'directory'
+#     - config.platform_core_setup.enterprise_scale.enable
+#     - config.platform_core_setup.enterprise_scale.clean_up_destination_folder
+
+- name: "{{ level }}-{{ base_folder }} |  Clean-up base directory"
+  shell: |
+    rm -rf "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
+  when:
+    - config.platform_core_setup.enterprise_scale.enable
+    - config.platform_core_setup.enterprise_scale.clean_up_destination_folder
+
+# - name: "{{ level }}-{{ base_folder }} |  Clean-up directory"
+#   file:
+#     path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
+#     state: absent
+#   when:
+#     - config.configuration_folders.cleanup_destination | bool
+
+- name: "{{ level }}-{{ base_folder }} | Creates directory structure"
+  file:
+    path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/lib/{{ item.path }}"
+    state: directory
+  with_filetree: "{{ level }}/{{ base_folder }}/lib/{{ config.platform_core_setup.enterprise_scale.scenario }}/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}"
+  when: item.state == 'directory'
+
+- name: "{{ level }}-{{ base_folder }} |  Tfvars"
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ level }}/{{ base_folder }}/*.j2"
+    - "{{ level }}/{{ base_folder }}/*.md"
+
+- name: "{{ level }}-{{ base_folder }} |  Lib"
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/lib/{{ item.path }}"
+    force: yes
+  with_filetree: "{{ level }}/{{ base_folder }}/lib/{{ config.platform_core_setup.enterprise_scale.scenario }}/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}"
+  when: item.state == 'file' and config.platform_core_setup.enterprise_scale.update_lib_folder
+
+- name: "{{ level }}-{{ base_folder }} |  overrides"
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ level }}/{{ base_folder }}/lib/{{ config.platform_core_setup.enterprise_scale.scenario }}/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}/*.j2"
+    - "{{ level }}/{{ base_folder }}/lib/{{ config.platform_core_setup.enterprise_scale.scenario }}/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}/*.md"

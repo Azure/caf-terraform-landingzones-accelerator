@@ -1,0 +1,74 @@
+- name: "[{{ level }}-{{ base_folder }}] Clean-up directory"
+  file:
+    path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
+    state: absent
+  when: config.configuration_folders.cleanup_destination | bool
+
+- name: "[{{ level }}-{{ base_folder }}] Creates directory"
+  file:
+    path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
+    state: directory
+
+- name: "[{{ level }}-{{ base_folder }}] launchpad - readme"
+  ansible.builtin.template:
+    src: "{{ level }}/{{ base_folder }}/readme.md"
+    dest: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/readme.md"
+    force: yes
+
+- name: "[{{ level }}-{{ base_folder }}] lauchpad"
+  ansible.builtin.template:
+    src: "{{ level }}/{{ base_folder }}/{{ item }}.tfvars.j2"
+    dest: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item }}.tfvars"
+    force: yes
+  loop:
+    - dynamic_secrets
+    - global_settings
+    - keyvaults
+    - landingzone
+    - resource_groups
+    - role_mappings
+    - storage_accounts
+
+- name: "[{{ level }}-{{ base_folder }}] Clean-up identity files"
+  file:
+    path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item }}.tfvars"
+    state: absent
+  when: config.platform_identity.azuread_identity_mode == "logged_in_user"
+  loop:
+    - azuread_api_permissions
+    - azuread_applications
+    - azuread_group_members
+    - azuread_groups
+    - azuread_roles
+    - keyvault_policies
+    - service_principals
+
+- name: "[{{ level }}-{{ base_folder }}] lauchpad - identity - service_principal"
+  ansible.builtin.template:
+    src: "{{ level }}/{{ base_folder }}/{{ item }}.tfvars.j2"
+    dest: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item }}.tfvars"
+    force: yes
+  when: config.platform_identity.azuread_identity_mode != 'logged_in_user'
+  loop:
+    - azuread_api_permissions
+    - azuread_applications
+    - azuread_group_members
+    - azuread_groups
+    - azuread_roles
+    - keyvault_policies
+    - service_principals
+
+- name: "[{{ level }}-{{ base_folder }}] Deploy the launchpad"
+  when: boostrap_launchpad | bool
+  shell: |
+    /tf/rover/rover.sh \
+      -lz /tf/caf/landingzones/caf_launchpad \
+      -var-folder {{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }} \
+      -tfstate_subscription_id {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+      -target_subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+      -tfstate {{ tfstates.launchpad.tfstate }} \
+      -log-severity {{ config.gitops.rover_log_error }} \
+      -launchpad \
+      -env {{ config.caf_terraform.launchpad.caf_environment }} \
+      -level {{ level }} \
+      -a apply

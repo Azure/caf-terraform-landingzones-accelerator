@@ -1,0 +1,159 @@
+archetype_config_overrides = {
+
+  root = {
+    archetype_id = "root"
+    parameters = {
+      "Deny-Resource-Locations" = {
+        "listOfAllowedLocations" = {
+          value = [
+            "{{ config.caf_terraform.launchpad.regions.region1.name }}",
+            "{{ config.caf_terraform.launchpad.regions.region2.name }}"
+          ]
+        }
+      }
+      "Deny-RSG-Locations" = {
+        "listOfAllowedLocations" = {
+          value = [
+            "{{ config.caf_terraform.launchpad.regions.region1.name }}",
+            "{{ config.caf_terraform.launchpad.regions.region2.name }}"
+          ]
+        }
+      }
+      "Deploy-Resource-Diag" = {
+        "logAnalytics" = {
+          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          output_key    = "diagnostics"
+          resource_type = "log_analytics"
+          resource_key  = "central_logs_region1"
+          attribute_key = "id"
+        }
+        "profileName" = {
+          value = "eslz-diagnostic-log"
+        }
+      }
+{% if "VM" in config.platform_management.enable_monitoring %}
+      "Deploy-VM-Monitoring" = {
+        "logAnalytics_1" = {
+          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          output_key    = "diagnostics"
+          resource_type = "log_analytics"
+          resource_key  = "central_logs_region1"
+          attribute_key = "id"
+        }
+      }
+{% endif %}
+{% if "VMSS" in config.platform_management.enable_monitoring %}
+      "Deploy-VMSS-Monitoring" = {
+        "logAnalytics_1" = {
+          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          output_key    = "diagnostics"
+          resource_type = "log_analytics"
+          resource_key  = "central_logs_region1"
+          attribute_key = "id"
+        }
+      }
+{% endif %}
+{% if "Arc" in config.platform_management.enable_monitoring %}
+      "Deploy-WS-Arc-Monitoring" = {
+        "logAnalytics" = {
+          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          output_key    = "diagnostics"
+          resource_type = "log_analytics"
+          resource_key  = "central_logs_region1"
+          attribute_key = "id"
+        }
+      }
+{% endif %}
+      "Deploy-ASC-Defender" = {
+        "emailSecurityContact" = {
+          value = "{{ config.notifications.security_center_email_contact }}"
+        }
+        "logAnalytics" = {
+          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          output_key    = "diagnostics"
+          resource_type = "log_analytics"
+          resource_key  = "central_logs_region1"
+          attribute_key = "id"
+        }
+{% for parameter_key in config.management_groups_policies.root["Deploy-ASC-Defender"].keys() %}
+        "{{ parameter_key }}" = {
+          value = "{{ config.management_groups_policies.root["Deploy-ASC-Defender"][parameter_key] }}"
+        }
+{% endfor %}
+      }
+    }
+    access_control = {}
+  } //root
+
+  landing-zones = {
+    archetype_id = "landingzone"
+    parameters   = {}
+    access_control = {}
+  }
+
+  platform = {
+    archetype_id   = "platform"
+    parameters     = {}
+    access_control = {}
+  }
+
+  connectivity = {
+    archetype_id = "platform_connectivity"
+    parameters   = {}
+    access_control = {
+      "Owner" = {
+        "azuread_groups" = {
+          lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
+          attribute_key = "id"
+          resource_keys = [
+            "connectivity"
+          ]
+        }
+      }
+    }
+  }
+
+  identity = {
+    archetype_id = "platform_identity"
+    parameters   = {}
+    access_control = {
+      "Owner" = {
+        "azuread_groups" = {
+          lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
+          attribute_key = "id"
+          resource_keys = [
+            "identity"
+          ]
+        }
+      }
+    }
+  }
+
+  management = {
+    archetype_id = "platform_management"
+    parameters   = {}
+    access_control = {
+      "Owner" = {
+        "azuread_groups" = {
+          lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
+          attribute_key = "id"
+          resource_keys = [
+            "management"
+          ]
+        }
+      }
+    }
+  }
+
+  decommissioned = {
+    archetype_id   = "es_decommissioned"
+    parameters     = {}
+    access_control = {}
+  }
+
+  sandboxes = {
+    archetype_id   = "es_sandboxes"
+    parameters     = {}
+    access_control = {}
+  }
+}
