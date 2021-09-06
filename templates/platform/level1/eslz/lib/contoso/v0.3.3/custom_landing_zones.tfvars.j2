@@ -3,8 +3,8 @@ custom_landing_zones = {
     display_name               = "Gitops"
     parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-platform"
     archetype_config = {
-      archetype_id   = "platform_gitops"
-      parameters     = {}
+      archetype_id = "platform_gitops"
+      parameters   = {}
       access_control = {
         "Owner" = {
           "azuread_groups" = {
@@ -26,7 +26,7 @@ custom_landing_zones = {
         }
       }
     }
-    subscriptions    = {
+    subscriptions = {
       {{ tfstates.launchpad.lz_key_name }} = {
         lz_key = "{{ tfstates.platform_subscriptions.lz_key_name }}"
         key    = "{{ tfstates.launchpad.lz_key_name }}"
