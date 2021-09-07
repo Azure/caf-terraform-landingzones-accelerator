@@ -65,7 +65,6 @@ func TestAKSClustersIsExists(t *testing.T) {
 	}
 }
 
-/* Remove comment after CAF Terratest Helper is approved
 func TestAzureContainerRegistriesIsExists(t *testing.T) {
 	t.Parallel()
 	tfState := state.NewTerraformState(t, "cluster_aks")
@@ -78,7 +77,6 @@ func TestAzureContainerRegistriesIsExists(t *testing.T) {
 			assert.True(t, isFound, fmt.Sprintf("Azure Container Registry (%s) does not exists", acr.GetString("name")))
 	}
 }
-*/
 
 func contains(arr []string, str string) bool {
 	for _, a := range arr {

@@ -5,17 +5,17 @@ package caf_tests
 import (
 	"fmt"
 	"testing"
-	/* Remove comment after CAF Terratest Helper is approved
-	//"strings"
-	*/
+
+	"strings"
+
 	"log"
 	"context"
 
 	"github.com/aztfmod/terratest-helper-caf/state"
 	"github.com/stretchr/testify/assert"
-	/* Remove comment after CAF Terratest Helper is approved
-	//"github.com/stretchr/testify/require"
-  */
+
+	"github.com/stretchr/testify/require"
+
 	"github.com/gruntwork-io/terratest/modules/azure"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/arm/resources/2020-06-01/armresources"
@@ -77,7 +77,6 @@ func TestAMLWorkspaceResourceGroupHasKeyVault(t *testing.T) {
 	}
 }
 
-/* Remove comment after CAF Terratest Helper is approved
 func TestAMLWorkspaceResourceGroupHasAppInsights(t *testing.T) {
 	t.Parallel()
 	tfState := state.NewTerraformState(t, "101-aml-workspace")
@@ -85,20 +84,19 @@ func TestAMLWorkspaceResourceGroupHasAppInsights(t *testing.T) {
 
 	for _, resourceGroup := range resourceGroups {
 		rgName := resourceGroup.GetName()
-		appInsights, err := tfState.GetAppInsights()
-		if err != nil {
-			panic(err)
+		appInsights := tfState.GetAppInsights()
+
+		for _, appInsight := range appInsights {
+			appInsightsID := appInsight.GetID()
+			idSplit := strings.Split(appInsightsID, "/")
+			appInsightsName := idSplit[len(idSplit)-1]
+
+			resources, resourceErr := ListResourcesNamesInResourceGroupE(rgName, tfState.SubscriptionID)
+			require.NoError(t, resourceErr)
+
+			isFound := contains(resources,appInsightsName)
+			assert.True(t, isFound, fmt.Sprintf("App Insights (%s) does not exists", appInsightsName))
 		}
-
-		appInsightsID := appInsights.GetID()
-		idSplit := strings.Split(appInsightsID, "/")
-		appInsightsName := idSplit[len(idSplit)-1]
-
-		resources, resourceErr := ListResourcesNamesInResourceGroupE(rgName, tfState.SubscriptionID)
-		require.NoError(t, resourceErr)
-
-		isFound := contains(resources,appInsightsName)
-		assert.True(t, isFound, fmt.Sprintf("App Insights (%s) does not exists", appInsightsName))
 	}
 }
 
@@ -109,10 +107,7 @@ func TestAMLWorkspaceResourceGroupHasMachineLearningWorkspaces(t *testing.T) {
 
 	for _, resourceGroup := range resourceGroups {
 		rgName := resourceGroup.GetName()
-		machineLearningWorkspaces, err := tfState.GetMachineLearningWorkspaces()
-		if err != nil {
-			panic(err)
-		}
+		machineLearningWorkspaces := tfState.GetMachineLearningWorkspaces()
 
 		for _, machineLearningWorkspace := range machineLearningWorkspaces {
 			machineLearningWorkspaceName := machineLearningWorkspace.GetName()
@@ -125,7 +120,7 @@ func TestAMLWorkspaceResourceGroupHasMachineLearningWorkspaces(t *testing.T) {
 		}
 	}
 }
-*/
+
 
 func contains(arr []string, str string) bool {
 	for _, a := range arr {
