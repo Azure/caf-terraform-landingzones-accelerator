@@ -5,9 +5,7 @@ package caf_tests
 import (
 	"fmt"
 	"testing"
-
 	"strings"
-
 	"log"
 	"context"
 
