@@ -169,7 +169,7 @@
     - name: "{{ level }}-{{ base_folder_asvm }} | Azure Subscription Vending Machine (ASVM)"
       when: launchpad_tfstate_exists.rc == 0
       include_tasks: "{{ level }}/{{ base_folder_asvm }}/ansible.yaml"
-      loop: "{{ directories_to_process.files | json_query('[*].path') }}"
+      loop: "{{ directories_to_process.files if directories_to_process.files is iterable else []  | json_query('[*].path') }}"
       loop_control:
         loop_var: asvm_long_folder
 

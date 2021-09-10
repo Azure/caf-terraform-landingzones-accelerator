@@ -73,7 +73,7 @@
       -level {{ level }} \
       -a apply
 
-- name: "[{{ level }}-{{ base_folder }}] Get tfstate details"
+- name: "[{{ level }}-{{ base_folder }}] Get tfstate account name"
   register: launchpad_storage_account
   shell: |
     az storage account list \
@@ -85,8 +85,8 @@
   ignore_errors: true
   shell: |
     az storage blob download \
-      --name "{{ tfstates.launchpad_credentials.tfstate }}" \
-      --account-name "{{ subscription_tfstate_file_name.stdout }}" \
-      --container-name "{{ tfstate_launchpad_container_name }}" \
+      --name "{{ tfstates.launchpad.tfstate }}" \
+      --account-name "{{ launchpad_storage_account.stdout | default('') }}" \
+      --container-name "{{ tfstates.launchpad.workspace | default('tfstates') }}" \
       --auth-mode "login" \
-      --file "~/.terraform.cache/launchpad/{{ tfstates.launchpad_credentials.tfstate }}"
+      --file "~/.terraform.cache/launchpad/{{ tfstates.launchpad.tfstate }}"
