@@ -31,7 +31,9 @@
 ## billing_subscription_role_delegations
     - name: "[{{ level }}-{{ base_folder }}] Configure subscription role delegations"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: (config.billing_subscription_role_delegations.enable == true and config.platform_identity.azuread_identity_mode == "service_principal")
+      when: 
+        - (config.billing_subscription_role_delegations.enable == true and config.platform_identity.azuread_identity_mode == "service_principal")
+        - launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "billing_subscription_role_delegations"
         level: "level0"
@@ -40,7 +42,9 @@
       file:
         path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
         state: absent
-      when: config.platform_identity.azuread_identity_mode == "logged_in_user"
+      when: 
+        - config.platform_identity.azuread_identity_mode == "logged_in_user"
+        - launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "billing_subscription_role_delegations"
         level: "level0"
@@ -48,7 +52,9 @@
 ## credentials
     - name: "[{{ level }}-{{ base_folder }}] Setup credentials"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: config.platform_identity.azuread_identity_mode == "service_principal"
+      when: 
+        - config.platform_identity.azuread_identity_mode == "service_principal"
+        - launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "credentials"
         level: "level0"
@@ -57,7 +63,9 @@
       file:
         path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
         state: absent
-      when: config.platform_identity.azuread_identity_mode == "logged_in_user"
+      when: 
+        - config.platform_identity.azuread_identity_mode == "logged_in_user"
+        - launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "credentials"
         level: "level0"
@@ -69,7 +77,9 @@
 ## subscriptions
     - name: "{{ level }}-{{ base_folder }} | Create platform subscriptions"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "dedicated_new" and config.platform_identity.azuread_identity_mode != "logged_in_user")
+      when: 
+        - (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "dedicated_new" and config.platform_identity.azuread_identity_mode != "logged_in_user")
+        - launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "subscriptions"
         level: "level1"
@@ -78,7 +88,9 @@
       file:
         path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
         state: absent
-      when: config.platform_identity.azuread_identity_mode == "logged_in_user"
+      when: 
+        - config.platform_identity.azuread_identity_mode == "logged_in_user"
+        - launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "subscriptions"
         level: "level1"
@@ -86,7 +98,9 @@
 ## management
     - name: "{{ level }}-{{ base_folder }} | Management services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: config.platform_management.enable | bool
+      when: 
+        - config.platform_management.enable | bool
+        - launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "management"
         level: "level1"
@@ -94,7 +108,9 @@
 ## identity
     - name: "{{ level }}-{{ base_folder }} | identity services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: config.platform_core_setup.enterprise_scale.subscription_deployment_mode != "single_reuse"
+      when: 
+        - config.platform_core_setup.enterprise_scale.subscription_deployment_mode != "single_reuse"
+        - launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "identity"
         level: "level1"
@@ -102,7 +118,9 @@
 ## eslz
     - name: "{{ level }}-{{ base_folder }} | enterprise scale"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: config.platform_core_setup.enterprise_scale.enable | bool
+      when: 
+        - config.platform_core_setup.enterprise_scale.enable | bool
+        - launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "eslz"
         level: "level1"
@@ -114,7 +132,9 @@
 
     - name: "{{ level }}-{{ base_folder }} | Connectivity"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: config.networking_topology.deployment_option == "virtual_wan"
+      when: 
+        - config.networking_topology.deployment_option == "virtual_wan"
+        - launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "connectivity"
         level: "level2"
@@ -130,6 +150,7 @@
 
     - name: List of asvm to process
       register: directories_to_process
+      when: launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "asvm"
         level: "level3"
@@ -139,12 +160,14 @@
         file_type: directory
 
     - name: set asvm base_folder
+      when: launchpad_tfstate_exists.rc == 0
       set_fact:
         base_folder_asvm: "asvm"
         base_folder_platform: "platform"
         level: "level3"
 
     - name: "{{ level }}-{{ base_folder_asvm }} | Azure Subscription Vending Machine (ASVM)"
+      when: launchpad_tfstate_exists.rc == 0
       include_tasks: "{{ level }}/{{ base_folder_asvm }}/ansible.yaml"
       loop: "{{ directories_to_process.files | json_query('[*].path') }}"
       loop_control:
