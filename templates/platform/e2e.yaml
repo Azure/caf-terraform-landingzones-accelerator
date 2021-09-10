@@ -54,7 +54,6 @@
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
       when: 
         - config.platform_identity.azuread_identity_mode == "service_principal"
-        - launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "credentials"
         level: "level0"
@@ -65,7 +64,6 @@
         state: absent
       when: 
         - config.platform_identity.azuread_identity_mode == "logged_in_user"
-        - launchpad_tfstate_exists.rc == 0
       vars:
         base_folder: "credentials"
         level: "level0"
