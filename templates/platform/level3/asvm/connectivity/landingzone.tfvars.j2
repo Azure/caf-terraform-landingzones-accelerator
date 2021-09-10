@@ -1,0 +1,20 @@
+
+landingzone = {
+  backend_type        = "azurerm"
+  global_settings_key = "{{ tfstates_asvm[asvm_folder].resources.lz_key_name }}"
+  level               = "{{ tfstates_asvm[asvm_folder].level }}"
+  key                 = "{{ tfstates_asvm[asvm_folder].connectivity.lz_key_name }}"
+  tfstates = {
+    {{  tfstates_asvm[asvm_folder].resources.lz_key_name }} = {
+      tfstate   = "{{ tfstates_asvm[asvm_folder].resources.tfstate }}"
+      workspace = "{{ tfstates_asvm[asvm_folder].workspace }}"
+    }
+{% for key in asvm_resources.landingzone["remote_tfstates"]["platform"]["virtual_hubs"] %}
+    {{ tfstates.virtual_hubs[key].lz_key_name }} = {
+      tfstate   = "{{ tfstates.virtual_hubs[key].tfstate }}"
+      level     = "lower"
+      workspace = "{{ tfstates.virtual_hubs[key].workspace }}"
+    }
+{% endfor %}
+  }
+}

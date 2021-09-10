@@ -1,0 +1,24 @@
+virtual_hub_subscription_id = "{{ platform_subscriptions_details.connectivity.subscription_id }}"
+virtual_hub_tenant_id       = "{{ platform_subscriptions_details.connectivity.tenant_id }}"
+{% for key, vhc in asvm_resources.virtual_hub_connections.items() %}
+virtual_hub_lz_key          = "{{ tfstates.virtual_hubs[vhc.virtual_hub.key].lz_key_name }}"
+{% endfor %}
+
+virtual_network_subscription_id = "{{ asvm_subscriptions_details[asvm_folder].subscription_id }}"
+virtual_network_tenant_id       = "{{ asvm_subscriptions_details[asvm_folder].tenant_id }}"
+
+virtual_hub_connections = {
+{% for key, vhc in asvm_resources.virtual_hub_connections.items() %}
+  {{ key }} = {
+    name = "{{ vhc.name }}"
+    virtual_hub = {
+      lz_key = "{{ vhc.virtual_hub.lz_key }}"
+      key    = "{{ vhc.virtual_hub.key }}"
+    }
+    vnet = {
+      lz_key   = "{{ vhc.vnet.lz_key }}"
+      vnet_key = "{{ vhc.vnet.vnet_key }}"
+    }
+  }
+{% endfor %}
+}

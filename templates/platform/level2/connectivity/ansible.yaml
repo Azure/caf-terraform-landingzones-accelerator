@@ -23,14 +23,14 @@
   loop_control:
     loop_var: folder_name
 
-# - name: Virtual Hubs
-#   include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/virtual_hub/{{ model }}.yaml"
-#   loop: "{{ tfstates.virtual_hubs.keys() }}"
-#   loop_control:
-#     loop_var: virtual_hub
+- name: Virtual Hubs
+  include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/virtual_hub/ansible.yaml"
+  loop: "{{ tfstates.virtual_hubs.keys() }}"
+  loop_control:
+    loop_var: virtual_hub
 
 # - name: Firewall Policies
-#   include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/firewall_policy/{{ model }}.yaml"
+#   include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/firewall_policy/ansible.yaml"
 #   loop: "{{ tfstates.firewall_policies.keys() }}"
 #   loop_control:
 #     loop_var: firewall_policy

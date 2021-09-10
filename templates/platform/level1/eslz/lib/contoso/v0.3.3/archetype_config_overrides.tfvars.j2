@@ -3,7 +3,7 @@ archetype_config_overrides = {
   root = {
     archetype_id = "root"
     parameters = {
-      "Deny-Resource-Locations" = {
+      "Allowed-Locations" = {
         "listOfAllowedLocations" = {
           value = [
             "{{ config.caf_terraform.launchpad.regions.region1.name }}",
@@ -88,7 +88,17 @@ archetype_config_overrides = {
   landing-zones = {
     archetype_id   = "landingzone"
     parameters     = {}
-    access_control = {}
+    access_control = {
+      "Owner" = {
+        "azuread_groups" = {
+          lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
+          attribute_key = "id"
+          resource_keys = [
+            "subscription_creation_landingzones"
+          ]
+        }
+      }
+    }
   }
 
   platform = {
@@ -110,6 +120,17 @@ archetype_config_overrides = {
           ]
         }
       }
+{% if config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine %}
+      "[{{ config.platform_core_setup.enterprise_scale.management_group_prefix | upper }}-CONNECTIVITY] CAF-network-vhub-peering" = {
+        "azuread_groups" = {
+          lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
+          attribute_key = "id"
+          resource_keys = [
+            "subscription_creation_landingzones"
+          ]
+        }
+      }
+{% endif %}
     }
   }
 

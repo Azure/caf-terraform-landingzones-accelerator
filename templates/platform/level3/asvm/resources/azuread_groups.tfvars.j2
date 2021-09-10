@@ -1,0 +1,11 @@
+azuread_groups = {
+
+{% for key, azuread_group in asvm_resources.azuread_groups.items() %}
+  {{ key }} = {
+    name                   = "{{ azuread_group.name }}"
+    description            = "{{ azuread_group.description }}"
+    prevent_duplicate_name = {{ azuread_group.prevent_duplicate_name | default(true) | string | lower }}
+  }
+{% endfor %}
+
+}

@@ -1,0 +1,13 @@
+landingzone = {
+  backend_type        = "azurerm"
+  global_settings_key = "{{ tfstates.virtual_hubs.hub1.lz_key_name }}"
+  level               = "{{ tfstates_asvm[asvm_folder].level }}"
+  key                 = "{{ tfstates_asvm[asvm_folder].subscription.lz_key_name }}"
+  tfstates = {
+    {{ tfstates.virtual_hubs.hub1.lz_key_name }} = {
+      level     = "lower"
+      tfstate   = "{{ tfstates.virtual_hubs.hub1.tfstate }}"
+      workspace = "{{ tfstates.virtual_hubs.hub1.workspace }}"
+    }
+  }
+}

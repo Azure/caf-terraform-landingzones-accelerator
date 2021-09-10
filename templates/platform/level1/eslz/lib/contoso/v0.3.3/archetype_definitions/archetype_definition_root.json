@@ -1,7 +1,7 @@
 {
   "root": {
     "policy_assignments": [
-      "Deny-Resource-Locations",
+      "Allowed-Locations",
       "Deny-RSG-Locations",
       "Deploy-ASC-Monitoring",
       "Deploy-ASC-Defender",

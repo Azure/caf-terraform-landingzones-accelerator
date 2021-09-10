@@ -1,0 +1,27 @@
+
+keyvaults = {
+{% for key, resource_group in asvm_resources.keyvaults.items() %}
+  {{ key }} = {
+    name               = "{{ asvm_resources.keyvaults[key].name }}"
+    resource_group_key = "{{ asvm_resources.keyvaults[key].resource_group_key }}"
+    sku_name           = "{{ config.platform_core_setup.sku.keyvault}}"
+    
+    creation_policies = {
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
+      logged_in_user = {
+        secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
+      }
+{% if asvm_resources.azuread_service_principals is defined %}
+{% for sp_key, sp in asvm_resources.azuread_service_principals.items() %}
+      {{ sp_key }} = {
+        service_principal_key  = "{{ sp_key }}"
+        secret_permissions = ["Get"]
+      }
+{% endfor %}
+{% endif %}
+{% endif %}
+    }
+  }
+
+{% endfor %}
+}
