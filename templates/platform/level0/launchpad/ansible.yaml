@@ -75,11 +75,18 @@
 
 - name: "[{{ level }}-{{ base_folder }}] Get tfstate details"
   register: launchpad_storage_account
-  ignore_errors: true
   shell: |
     az storage account list \
       --subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
       --query "[?tags.caf_tfstate=='{{ tfstates.launchpad.level }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
 
-- debug:
-    msg: "{{ launchpad_storage_account }}"
+- name: "[{{ level }}-{{ base_folder }}] Get tfstate details"
+  register: launchpad_tfstate_exists
+  ignore_errors: true
+  shell: |
+    az storage blob download \
+      --name "{{ tfstates.launchpad_credentials.tfstate }}" \
+      --account-name "{{ subscription_tfstate_file_name.stdout }}" \
+      --container-name "{{ tfstate_launchpad_container_name }}" \
+      --auth-mode "login" \
+      --file "~/.terraform.cache/launchpad/{{ tfstates.launchpad_credentials.tfstate }}"
