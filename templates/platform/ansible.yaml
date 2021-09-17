@@ -138,7 +138,7 @@
       vars:
         base_folder: "connectivity"
         level: "level2"
-        folders:
+        folders: 
           - virtual_wan
 
 # - name: Level 2 - identity

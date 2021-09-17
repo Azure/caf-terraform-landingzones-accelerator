@@ -1,7 +1,7 @@
 - name: set asvm context
   set_fact:
-    destination_base_path: "{{ config.configuration_folders[base_folder_platform].destination_base_path }}"
-    destination_relative_path: "{{ config.configuration_folders[base_folder_platform].destination_relative_path }}"
+    destination_base_path: "{{ config.configuration_folders[base_folder_asvm].destination_base_path }}"
+    destination_relative_path: "{{ config.configuration_folders[base_folder_asvm].destination_relative_path }}"
     asvm_folder: "{{ asvm_long_folder.path | regex_search('[^\/]+(?=\/$|$)') }}"
 
 - name: set source path
@@ -30,7 +30,6 @@
   file:
     path: "{{ destination_path_subscription }}"
     state: directory
-  loop: "{{ directories_to_process.files | json_query('[*].path') }}"
 
 #### Get subscription_id
 
@@ -91,25 +90,15 @@
     dest: "{{ destination_path_subscription}}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
   with_fileglob:
-    - "{{ base_templates_folder }}/{{ level }}/{{ base_folder_asvm }}/subscription/*.tfvars.j2"
-    - "{{ base_templates_folder }}/{{ level }}/{{ base_folder_asvm }}/subscription/*.md"
+    - "{{ base_templates_folder }}/{{ base_folder_asvm }}/{{ level }}/{{ base_folder_asvm }}/subscription/*.tfvars.j2"
+    - "{{ base_templates_folder }}/{{ base_folder_asvm }}/{{ level }}/{{ base_folder_asvm }}/subscription/*.md"
 
 #### Resources
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - resources - Clean-up directory"
-  file:
-    path: "{{ destination_path_resources }}"
-    state: absent
-  when: 
-    - config.configuration_folders.asvm.cleanup_destination | bool
-    - subscription_tfstate_exists.rc == 0
-
-
 - name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - resources - Creates directory"
   file:
-    path: "{{ asvm_long_folder.path }}"
+    path: "{{ destination_path_resources }}"
     state: directory
-  loop: "{{ directories_to_process.files | json_query('[*].path') }}"
 
 - name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - resources - generate configuration files."
   when: subscription_tfstate_exists.rc == 0
@@ -118,27 +107,15 @@
     dest: "{{ destination_path_resources }}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
   with_fileglob:
-    - "{{ base_templates_folder }}/{{ level }}/{{ base_folder_asvm }}/resources/*.tfvars.j2"
-    - "{{ base_templates_folder }}/{{ level }}/{{ base_folder_asvm }}/resources/*.md"
+    - "{{ base_templates_folder }}/{{ base_folder_asvm }}/{{ level }}/{{ base_folder_asvm }}/resources/*.tfvars.j2"
+    - "{{ base_templates_folder }}/{{ base_folder_asvm }}/{{ level }}/{{ base_folder_asvm }}/resources/*.md"
 
 
-### vnet connections
-
-
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - connectivity - Clean-up directory"
-  file:
-    path: "{{ destination_path_vnet_connections }}"
-    state: absent
-  when: 
-    - config.configuration_folders.asvm.cleanup_destination | bool
-    - subscription_tfstate_exists.rc == 0
-
-    
+### connectivity
 - name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - connectivity - Creates directory"
   file:
     path: "{{ destination_path_vnet_connections }}"
     state: directory
-  loop: "{{ directories_to_process.files | json_query('[*].path') }}"
 
 - name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - connectivity - generate configuration files."
   when: subscription_tfstate_exists.rc == 0
@@ -147,5 +124,5 @@
     dest: "{{ destination_path_vnet_connections }}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
   with_fileglob:
-    - "{{ base_templates_folder }}/{{ level }}/{{ base_folder_asvm }}/connectivity/*.tfvars.j2"
-    - "{{ base_templates_folder }}/{{ level }}/{{ base_folder_asvm }}/connectivity/*.md"
+    - "{{ base_templates_folder }}/{{ base_folder_asvm }}/{{ level }}/{{ base_folder_asvm }}/connectivity/*.tfvars.j2"
+    - "{{ base_templates_folder }}/{{ base_folder_asvm }}/{{ level }}/{{ base_folder_asvm }}/connectivity/*.md"
