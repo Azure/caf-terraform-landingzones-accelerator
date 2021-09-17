@@ -141,6 +141,15 @@
         folders: 
           - virtual_wan
 
+#
+# Linters
+#
+
+    - name: Terraform linter
+      shell: |
+        terraform fmt -recursive {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}
+        terraform fmt -recursive {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.asvm.destination_relative_path }}
+
 # - name: Level 2 - identity
 #   hosts: localhost
 #   vars:

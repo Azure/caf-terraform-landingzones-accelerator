@@ -118,3 +118,12 @@
       loop: "{{ directories_to_process.files if directories_to_process.files is iterable else []  | json_query('[*].path') }}"
       loop_control:
         loop_var: asvm_long_folder
+
+#
+# Linters
+#
+
+    - name: Terraform linter
+      shell: |
+        terraform fmt -recursive {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}
+        terraform fmt -recursive {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.asvm.destination_relative_path }}

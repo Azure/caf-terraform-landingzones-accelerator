@@ -21,7 +21,7 @@ rover \
 rover logout
 
 ```
-Once you have executed the rover apply to create the subscription, you need to execute the rover ignite to generate the instructions for the next steps. 
+Once you have executed the rover apply to create the subscription, you need to execute the rover ignite to generate the instructions for the next steps.
 
 Note you need to logout and login as a caf_maintainer group member
 
