@@ -31,6 +31,15 @@ archetype_config_overrides = {
           value = "eslz-diagnostic-log"
         }
       }
+      "Deploy-AzActivity-Log" = {
+        "logAnalytics" = {
+          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          output_key    = "diagnostics"
+          resource_type = "log_analytics"
+          resource_key  = "central_logs_region1"
+          attribute_key = "id"
+        }
+      }
 {% if "VM" in config.platform_management.enable_monitoring %}
       "Deploy-VM-Monitoring" = {
         "logAnalytics_1" = {
@@ -55,6 +64,15 @@ archetype_config_overrides = {
 {% endif %}
 {% if "Arc" in config.platform_management.enable_monitoring %}
       "Deploy-WS-Arc-Monitoring" = {
+        "logAnalytics" = {
+          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          output_key    = "diagnostics"
+          resource_type = "log_analytics"
+          resource_key  = "central_logs_region1"
+          attribute_key = "id"
+        }
+      }
+      "Deploy-LX-Arc-Monitoring" = {
         "logAnalytics" = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
