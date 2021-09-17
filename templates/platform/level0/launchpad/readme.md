@@ -1,6 +1,6 @@
-# Launchpad - scenario {{ scenario }} / {{ model }}
+# Launchpad - scenario {{ scenario }} / {{ config.caf_terraform.launchpad.caf_environment }}
 
-The {{ model }} scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
+The {{ scenario }} scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
 The focus of this scenario is to be able to deploy a basic launchpad from a remote machine and use the portal to review the settings in a non-constrained environment.
 For example in this scenario you can go to the Key Vaults and view the secrets from the portal, a feature that is disabled in the 300+ scenarios.
 We recommend using the 100 scenario for demonstration purposes.
@@ -50,7 +50,7 @@ git checkout {{ config.gitops.caf_landingzone_branch }}
 
 rover \
   -lz /tf/caf/landingzones/caf_launchpad \
-  -var-folder {{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }} \
+  -var-folder {{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }} \
   -tfstate_subscription_id {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
   -target_subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
   -tfstate {{ tfstates.launchpad.tfstate }} \
@@ -63,7 +63,7 @@ rover \
 ```
 
 ## Architecture diagram
-![Launchpad {{ model }}](../../../../../../documentation/img/launchpad-{{ model }}.PNG)
+![Launchpad demo](../../../../../../documentation/img/launchpad-demo.PNG)
 
 
 # Next steps

@@ -2,12 +2,16 @@
   set_fact:
     destination_base_path: "{{ config.configuration_folders[base_folder_platform].destination_base_path }}"
     destination_relative_path: "{{ config.configuration_folders[base_folder_platform].destination_relative_path }}"
-    asvm_folder: "{{ asvm_long_folder | regex_search('[^\/]+(?=\/$|$)') }}"
+    asvm_folder: "{{ asvm_long_folder.path | regex_search('[^\/]+(?=\/$|$)') }}"
+
+- name: set source path
+  set_fact:
+    asvm_config_folder: "{{ config_folder }}/{{ base_folder_asvm }}/{{ asvm_folder }}"
 
 - name: set destination paths
   set_fact:
-    asvm_subscription: "{{ lookup('file', '{{ config_folder }}/{{ base_folder_asvm }}/{{ asvm_folder }}/subscription.caf.asvm.yaml') | from_yaml }}"
-    asvm_resources: "{{ lookup('file', '{{ config_folder }}/{{ base_folder_asvm }}/{{ asvm_folder }}/resources.caf.asvm.yaml') | from_yaml }}"
+    asvm_resources: "{{ lookup('file', '{{ asvm_config_folder }}/resources.caf.asvm.yaml') | from_yaml }}"
+    asvm_subscription: "{{ lookup('file', '{{ asvm_config_folder }}/subscription.caf.asvm.yaml') | from_yaml }}"
     destination_path_subscription:  "{{ destination_base_path }}{{ destination_relative_path }}/{{ level }}/{{ base_folder_asvm }}/{{ asvm_folder }}/subscription"
     destination_path_resources:  "{{ destination_base_path }}{{ destination_relative_path }}/{{ level }}/{{ base_folder_asvm }}/{{ asvm_folder }}/resources"
     destination_path_vnet_connections: "{{ destination_base_path }}{{ destination_relative_path }}/{{ level }}/{{ base_folder_asvm }}/{{ asvm_folder }}/connectivity"
@@ -22,7 +26,7 @@
   when: config.configuration_folders.asvm.cleanup_destination | bool
 
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder }}] Creates directory"
+- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] Creates directory"
   file:
     path: "{{ destination_path_subscription }}"
     state: directory
@@ -81,7 +85,7 @@
     msg: "Platform subscriptions - {{ asvm_subscriptions_details }}"
   when: subscription_tfstate_exists.rc == 0
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder }}] generate configuration files."
+- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] generate configuration files."
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ destination_path_subscription}}/{{ item | basename | regex_replace('.j2$', '') }}"
@@ -92,7 +96,7 @@
 
 #### Resources
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder }}] - resources - Clean-up directory"
+- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - resources - Clean-up directory"
   file:
     path: "{{ destination_path_resources }}"
     state: absent
@@ -101,13 +105,13 @@
     - subscription_tfstate_exists.rc == 0
 
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder }}] - resources - Creates directory"
+- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - resources - Creates directory"
   file:
-    path: "{{ destination_path_resources }}"
+    path: "{{ asvm_long_folder.path }}"
     state: directory
   loop: "{{ directories_to_process.files | json_query('[*].path') }}"
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder }}] - resources - generate configuration files."
+- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - resources - generate configuration files."
   when: subscription_tfstate_exists.rc == 0
   ansible.builtin.template:
     src: "{{ item }}"
@@ -121,7 +125,7 @@
 ### vnet connections
 
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder }}] - connectivity - Clean-up directory"
+- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - connectivity - Clean-up directory"
   file:
     path: "{{ destination_path_vnet_connections }}"
     state: absent
@@ -130,13 +134,13 @@
     - subscription_tfstate_exists.rc == 0
 
     
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder }}] - connectivity - Creates directory"
+- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - connectivity - Creates directory"
   file:
     path: "{{ destination_path_vnet_connections }}"
     state: directory
   loop: "{{ directories_to_process.files | json_query('[*].path') }}"
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder }}] - connectivity - generate configuration files."
+- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - connectivity - generate configuration files."
   when: subscription_tfstate_exists.rc == 0
   ansible.builtin.template:
     src: "{{ item }}"

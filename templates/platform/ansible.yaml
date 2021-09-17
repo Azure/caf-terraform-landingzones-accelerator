@@ -1,18 +1,18 @@
-- name: CAF Terraform - Generate configuration files
+- name: CAF Terraform - Generate Azure Subscription Vending Machine (asvm) configuration files
   hosts: localhost
   vars:
     config: "{{ lookup('file', '{{ config_folder }}/{{scenario}}.caf.platform.yaml') | from_yaml }}"
-    connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/{{ model }}/connectivity_virtual_wan.yaml') | from_yaml }}"
-    connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/{{ model }}/connectivity_virtual_hub.yaml') | from_yaml }}"
-    connectivity_firewall: "{{ lookup('file', '{{ config_folder }}/{{ model }}/connectivity_firewall.yaml') | from_yaml }}"
-    connectivity_firewall_policies: "{{ lookup('file', '{{ config_folder }}/{{ model }}/connectivity_firewall_policies.yaml') | from_yaml }}"
-    connectivity: "{{ lookup('file', '{{ config_folder }}/{{ model }}/connectivity.yaml') | from_yaml }}"
-    identity: "{{ lookup('file', '{{ config_folder }}/{{ model }}/identity.yaml') | from_yaml }}"
-    management: "{{ lookup('file', '{{ config_folder }}/{{ model }}/management.yaml') | from_yaml }}"
-    subscriptions: "{{ lookup('file', '{{ config_folder }}/{{ model }}/subscriptions.yaml') | from_yaml }}"
-    cidr: "{{ lookup('file', '{{ config_folder }}/{{ model }}/cidr.yaml') | from_yaml }}"
-    tfstates: "{{ lookup('file', '{{ config_folder }}/{{ model }}/tfstates.yaml') | from_yaml }}"
-    tfstates_asvm: "{{ lookup('file', '{{ config_folder }}/{{ model }}/tfstates_asvm.yaml') | from_yaml }}"
+    connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/platform/connectivity_virtual_wan.yaml') | from_yaml }}"
+    connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/platform/connectivity_virtual_hub.yaml') | from_yaml }}"
+    connectivity_firewall: "{{ lookup('file', '{{ config_folder }}/platform/connectivity_firewall.yaml') | from_yaml }}"
+    connectivity_firewall_policies: "{{ lookup('file', '{{ config_folder }}/platform/connectivity_firewall_policies.yaml') | from_yaml }}"
+    connectivity: "{{ lookup('file', '{{ config_folder }}/platform/connectivity.yaml') | from_yaml }}"
+    identity: "{{ lookup('file', '{{ config_folder }}/platform/identity.yaml') | from_yaml }}"
+    management: "{{ lookup('file', '{{ config_folder }}/platform/management.yaml') | from_yaml }}"
+    subscriptions: "{{ lookup('file', '{{ config_folder }}/platform/subscriptions.yaml') | from_yaml }}"
+    cidr: "{{ lookup('file', '{{ config_folder }}/platform/cidr.yaml') | from_yaml }}"
+    tfstates: "{{ lookup('file', '{{ config_folder }}/platform/tfstates.yaml') | from_yaml }}"
+    tfstates_asvm: "{{ lookup('file', '{{ config_folder }}/asvm/tfstates.yaml') | from_yaml }}"
     base_templates_folder: "{{ base_templates_folder }}"
 
 
@@ -141,42 +141,10 @@
         folders:
           - virtual_wan
 
-
-#
-# Level 3
-#
-
-# asvm
-
-    - name: List of asvm to process
-      register: directories_to_process
-      when: launchpad_tfstate_exists.rc == 0
-      vars:
-        base_folder: "asvm"
-        level: "level3"
-      find:
-        paths: "{{ config_folder }}/{{ base_folder }}"
-        recurse: yes
-        file_type: directory
-
-    - name: set asvm base_folder
-      when: launchpad_tfstate_exists.rc == 0
-      set_fact:
-        base_folder_asvm: "asvm"
-        base_folder_platform: "platform"
-        level: "level3"
-
-    - name: "{{ level }}-{{ base_folder_asvm }} | Azure Subscription Vending Machine (ASVM)"
-      when: launchpad_tfstate_exists.rc == 0
-      include_tasks: "{{ level }}/{{ base_folder_asvm }}/ansible.yaml"
-      loop: "{{ directories_to_process.files if directories_to_process.files is iterable else []  | json_query('[*].path') }}"
-      loop_control:
-        loop_var: asvm_long_folder
-
 # - name: Level 2 - identity
 #   hosts: localhost
 #   vars:
-#     config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
+#     config: "{{ lookup('file', '{{ config_folder }}/platform.yaml') | from_yaml }}"
 #     identity: "{{ lookup('file', '{{ config_folder }}/identity.yaml') | from_yaml }}"
 #     connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_wan.yaml') | from_yaml }}"
 #     connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_hub.yaml') | from_yaml }}"
@@ -211,7 +179,7 @@
 #         - "{{ level }}/{{ base_folder }}/*.md"
 
 #     - name: "{{ base_folder }} - adds"
-#       include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/{{ model }}.yaml"
+#       include_tasks: "{{ base_templates_folder }}/{{ level }}/{{ base_folder }}/platform.yaml"
 
 
 
@@ -221,7 +189,7 @@
 # - name: Pipelines
 #   hosts: localhost
 #   vars:
-#     config: "{{ lookup('file', '{{ config_folder }}/{{ model }}.yaml') | from_yaml }}"
+#     config: "{{ lookup('file', '{{ config_folder }}/platform.yaml') | from_yaml }}"
 #     connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
 #     cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
 #     tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
@@ -229,5 +197,5 @@
 #     base_folder: pipelines
 
 #   tasks:
-#     - import_tasks: "{{ base_folder }}/{{ model }}.yaml"
+#     - import_tasks: "{{ base_folder }}/platform.yaml"
 #     - debug: msg="You can now proceed to the next steps and execute the deployment. Refer to the readme in {{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/README.md"

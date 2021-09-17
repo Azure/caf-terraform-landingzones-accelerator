@@ -8,7 +8,7 @@ rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
 
 rover \
   -lz /tf/caf/landingzones/caf_solution \
-  -var-folder {{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/level0/billing_subscription_role_delegations \
+  -var-folder {{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/level0/billing_subscription_role_delegations \
   -tfstate_subscription_id {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
   -tfstate {{ tfstates.billing_subscription_role_delegations.tfstate }} \
   -target_subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \

@@ -1,19 +1,19 @@
 - name: Firewall_policy ({{ firewall_policy }}) - Clean-up directory
   file:
-    path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/firewall_policies/{{ firewall_policy }}"
+    path: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/firewall_policies/{{ firewall_policy }}"
     state: absent
   when:
-    - config.configuration_folders.cleanup_destination | bool
+    - config.configuration_folders.platform.cleanup_destination | bool
 
 - name: Firewall_policy ({{ firewall_policy }}) - Creates directory structure
   file:
-    path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/firewall_policies/{{ firewall_policy }}"
+    path: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/firewall_policies/{{ firewall_policy }}"
     state: directory
     
 - name: Firewall_policy ({{ firewall_policy }}) - tfvars
   ansible.builtin.template:
     src: "{{ item }}"
-    dest: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/firewall_policies/{{ firewall_policy }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    dest: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/firewall_policies/{{ firewall_policy }}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
   with_fileglob:
     - "{{ level }}/{{ base_folder }}/firewall_policy/*.j2"
@@ -22,7 +22,7 @@
 - name: Firewall_policy ({{ firewall_policy }}) - rule collection groups
   ansible.builtin.template:
     src: "{{ level }}/{{ base_folder }}/firewall_policy/rule_collection_groups/{{ item }}"
-    dest: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/firewall_policies/{{ firewall_policy }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    dest: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/firewall_policies/{{ firewall_policy }}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
   loop: "{{ connectivity_firewall_policies.azurerm_firewall_policy_rule_collection_groups[firewall_policy].rules }}"
 
