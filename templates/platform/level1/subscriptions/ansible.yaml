@@ -49,6 +49,8 @@
     msg: "{{ subscription_tfstate_file_name.stdout }}"
 
 - name: "[{{ level }}-{{ base_folder }}] Download tfstate details"
+  register: platform_subscriptions_tfstate_exists
+  ignore_errors: true
   shell: |
     az storage blob download \
       --name "{{ tfstates.platform_subscriptions.tfstate }}" \
@@ -60,21 +62,26 @@
 - name: "[{{ level }}-{{ base_folder }}] Get platform_subscriptions details"
   shell: "cat {{ job_cache_base_path }}/{{ tfstates.platform_subscriptions.tfstate }}"
   register: platform_subscriptions
+  when: platform_subscriptions_tfstate_exists.rc == 0
 
 - name: "[{{ level }}-{{ base_folder }}] Get platform_subscriptions json data"
+  when: platform_subscriptions_tfstate_exists.rc == 0
   set_fact:
     platform_sub_jsondata: "{{ platform_subscriptions.stdout | from_json }}"
 
 - name: "[{{ level }}-{{ base_folder }}] Get subscriptions list"
+  when: platform_subscriptions_tfstate_exists.rc == 0
   set_fact:
     platform_subscriptions_details: "{{ platform_sub_jsondata | json_query(path) }}"
   vars: 
     path: 'outputs.objects.value.{{ tfstates.platform_subscriptions.lz_key_name }}.subscriptions'
 
 - name: "[{{ level }}-{{ base_folder }}] cleanup"
+  when: platform_subscriptions_tfstate_exists.rc == 0
   file:
     path: "{{ job_cache_base_path }}/{{ tfstates.platform_subscriptions.tfstate }}"
     state: absent
 
 - debug:
     msg: "Platform subscriptions - {{ platform_subscriptions_details }}"
+  when: platform_subscriptions_tfstate_exists.rc == 0

@@ -7,7 +7,7 @@
 rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
 
 rover \
-{% if config.platform_identity.azuread_identity_mode != "logged_in_user" %}
+{% if ((config.platform_identity.azuread_identity_mode != "logged_in_user") and (credentials_tfstate_exists.rc == 0)) %}
   --impersonate-sp-from-keyvault-url {{ keyvaults.cred_identity.vault_uri }} \
 {% endif %}
   -lz /tf/caf/landingzones/caf_solution \

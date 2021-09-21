@@ -28,27 +28,6 @@
         base_folder: "launchpad"
         level: "level0"
 
-## billing_subscription_role_delegations
-    - name: "[{{ level }}-{{ base_folder }}] Configure subscription role delegations"
-      import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: 
-        - (config.billing_subscription_role_delegations.enable == true and config.platform_identity.azuread_identity_mode == "service_principal")
-        - launchpad_tfstate_exists.rc == 0
-      vars:
-        base_folder: "billing_subscription_role_delegations"
-        level: "level0"
-
-    - name: "[{{ level }}-{{ base_folder }}] Clean-up directory"
-      file:
-        path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
-        state: absent
-      when: 
-        - config.platform_identity.azuread_identity_mode == "logged_in_user"
-        - launchpad_tfstate_exists.rc == 0
-      vars:
-        base_folder: "billing_subscription_role_delegations"
-        level: "level0"
-
 ## credentials
     - name: "[{{ level }}-{{ base_folder }}] Setup credentials"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
@@ -70,6 +49,30 @@
         base_folder: "credentials"
         level: "level0"
 
+## billing_subscription_role_delegations
+    - name: "[{{ level }}-{{ base_folder }}] Configure subscription role delegations"
+      import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
+      when: 
+        - (config.billing_subscription_role_delegations.enable == true and config.platform_identity.azuread_identity_mode == "service_principal")
+        - launchpad_tfstate_exists.rc == 0
+        - credentials_tfstate_exists.rc == 0
+      vars:
+        base_folder: "billing_subscription_role_delegations"
+        level: "level0"
+
+    - name: "[{{ level }}-{{ base_folder }}] Clean-up directory"
+      file:
+        path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}"
+        state: absent
+      when: 
+        - config.platform_identity.azuread_identity_mode == "logged_in_user"
+        - launchpad_tfstate_exists.rc == 0
+        - credentials_tfstate_exists.rc == 0
+      vars:
+        base_folder: "billing_subscription_role_delegations"
+        level: "level0"
+
+
 #
 # Level 1
 #
@@ -80,6 +83,7 @@
       when: 
         - (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "dedicated_new" and config.platform_identity.azuread_identity_mode != "logged_in_user")
         - launchpad_tfstate_exists.rc == 0
+        - credentials_tfstate_exists.rc == 0
       vars:
         base_folder: "subscriptions"
         level: "level1"
@@ -91,6 +95,7 @@
       when: 
         - config.platform_identity.azuread_identity_mode == "logged_in_user"
         - launchpad_tfstate_exists.rc == 0
+        - credentials_tfstate_exists.rc == 0
       vars:
         base_folder: "subscriptions"
         level: "level1"
@@ -101,6 +106,8 @@
       when: 
         - config.platform_management.enable | bool
         - launchpad_tfstate_exists.rc == 0
+        - credentials_tfstate_exists.rc == 0
+        - platform_subscriptions_tfstate_exists.rc == 0
       vars:
         base_folder: "management"
         level: "level1"
@@ -111,6 +118,8 @@
       when: 
         - config.platform_core_setup.enterprise_scale.subscription_deployment_mode != "single_reuse"
         - launchpad_tfstate_exists.rc == 0
+        - credentials_tfstate_exists.rc == 0
+        - platform_subscriptions_tfstate_exists.rc == 0
       vars:
         base_folder: "identity"
         level: "level1"
@@ -121,6 +130,8 @@
       when: 
         - config.platform_core_setup.enterprise_scale.enable | bool
         - launchpad_tfstate_exists.rc == 0
+        - credentials_tfstate_exists.rc == 0
+        - platform_subscriptions_tfstate_exists.rc == 0
       vars:
         base_folder: "eslz"
         level: "level1"
@@ -135,6 +146,8 @@
       when: 
         - config.networking_topology.deployment_option == "virtual_wan"
         - launchpad_tfstate_exists.rc == 0
+        - credentials_tfstate_exists.rc == 0
+        - platform_subscriptions_tfstate_exists.rc == 0
       vars:
         base_folder: "connectivity"
         level: "level2"
@@ -148,7 +161,6 @@
     - name: Terraform linter
       shell: |
         terraform fmt -recursive {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}
-        terraform fmt -recursive {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.asvm.destination_relative_path }}
 
 # - name: Level 2 - identity
 #   hosts: localhost
