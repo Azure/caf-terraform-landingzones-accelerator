@@ -1,5 +1,11 @@
 subscription_id_overrides = {
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
   root           = []
+{% else %}
+  root           = [
+    "{{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }}"
+  ]
+{% endif %}
   decommissioned = []
   sandboxes      = []
   landing-zones  = []
@@ -9,6 +15,7 @@ subscription_id_overrides = {
   identity       = []
 }
 
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
 subscription_id_overrides_by_keys = {
   connectivity = {
     connectivity = {
@@ -29,3 +36,6 @@ subscription_id_overrides_by_keys = {
     }
   }
 }
+{% else %}
+subscription_id_overrides_by_keys = {}
+{% endif %}

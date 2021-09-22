@@ -17,8 +17,9 @@ default_region = "{{ config.caf_terraform.launchpad.default_region_key }}"
 
 # You can reference the regions by using region1, region2 or set your own keys
 regions = {
-  region1 = "{{ config.caf_terraform.launchpad.regions.region1.name }}"
-  region2 = "{{ config.caf_terraform.launchpad.regions.region2.name }}"
+{% for key in config.caf_terraform.launchpad.regions.keys() %}
+  {{ key }} = "{{ config.caf_terraform.launchpad.regions[key].name }}"
+{% endfor %}
 }
 
 # Rover will adjust some tags to enable the discovery of the launchpad.

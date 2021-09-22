@@ -12,9 +12,11 @@ landingzone = {
       level   = "current"
       tfstate = "{{ tfstates.management.tfstate }}"
     }
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
     {{ tfstates.platform_subscriptions.lz_key_name }} = {
       level   = "current"
       tfstate = "{{ tfstates.platform_subscriptions.tfstate }}"
     }
+{% endif %}
   }
 }

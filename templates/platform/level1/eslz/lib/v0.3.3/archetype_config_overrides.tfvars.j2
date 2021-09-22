@@ -6,16 +6,18 @@ archetype_config_overrides = {
       "Allowed-Locations" = {
         "listOfAllowedLocations" = {
           value = [
-            "{{ config.caf_terraform.launchpad.regions.region1.name }}",
-            "{{ config.caf_terraform.launchpad.regions.region2.name }}"
+{% for key in config.caf_terraform.launchpad.regions.keys() %}
+            "{{ config.caf_terraform.launchpad.regions[key].name }}",
+{% endfor %}
           ]
         }
       }
       "Deny-RSG-Locations" = {
         "listOfAllowedLocations" = {
           value = [
-            "{{ config.caf_terraform.launchpad.regions.region1.name }}",
-            "{{ config.caf_terraform.launchpad.regions.region2.name }}"
+{% for key in config.caf_terraform.launchpad.regions.keys() %}
+            "{{ config.caf_terraform.launchpad.regions[key].name }}",
+{% endfor %}
           ]
         }
       }
@@ -24,7 +26,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_region1"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
           attribute_key = "id"
         }
         "profileName" = {
@@ -36,7 +38,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_region1"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
           attribute_key = "id"
         }
       }
@@ -46,7 +48,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_region1"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
           attribute_key = "id"
         }
       }
@@ -57,7 +59,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_region1"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
           attribute_key = "id"
         }
       }
@@ -68,7 +70,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_region1"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
           attribute_key = "id"
         }
       }
@@ -77,7 +79,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_region1"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
           attribute_key = "id"
         }
       }
@@ -90,7 +92,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_region1"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
           attribute_key = "id"
         }
 {% for parameter_key in config.management_groups_policies.root["Deploy-ASC-Defender"].keys() %}
@@ -107,6 +109,7 @@ archetype_config_overrides = {
     archetype_id   = "landingzone"
     parameters     = {}
     access_control = {
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
       "Owner" = {
         "azuread_groups" = {
           lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
@@ -116,6 +119,7 @@ archetype_config_overrides = {
           ]
         }
       }
+{% endif %}
     }
   }
 
@@ -129,6 +133,7 @@ archetype_config_overrides = {
     archetype_id = "platform_connectivity"
     parameters   = {}
     access_control = {
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
       "Owner" = {
         "azuread_groups" = {
           lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
@@ -149,6 +154,7 @@ archetype_config_overrides = {
         }
       }
 {% endif %}
+{% endif %}
     }
   }
 
@@ -156,6 +162,7 @@ archetype_config_overrides = {
     archetype_id = "platform_identity"
     parameters   = {}
     access_control = {
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
       "Owner" = {
         "azuread_groups" = {
           lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
@@ -165,6 +172,7 @@ archetype_config_overrides = {
           ]
         }
       }
+{% endif %}
     }
   }
 
@@ -172,6 +180,7 @@ archetype_config_overrides = {
     archetype_id = "platform_management"
     parameters   = {}
     access_control = {
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
       "Owner" = {
         "azuread_groups" = {
           lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
@@ -181,6 +190,7 @@ archetype_config_overrides = {
           ]
         }
       }
+{% endif %}
     }
   }
 

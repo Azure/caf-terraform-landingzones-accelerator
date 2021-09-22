@@ -5,6 +5,7 @@
   when: config.configuration_folders.platform.cleanup_destination | bool
 
 - name: "[{{ level }}-{{ base_folder }}] Creates directory"
+  register: level1_subscriptions
   file:
     path: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
     state: directory

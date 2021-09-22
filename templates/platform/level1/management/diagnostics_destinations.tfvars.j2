@@ -7,25 +7,24 @@ diagnostics_destinations = {
   # in the region of the deployment
   storage = {
     all_regions = {
-      "{{ config.caf_terraform.launchpad.regions.region1.name }}" = {
-        storage_account_key = "diagsiem_region1"
+{% for key in config.caf_terraform.launchpad.regions.keys() %}
+      "{{ config.caf_terraform.launchpad.regions[key].name }}" = {
+        storage_account_key = "diagsiem_{{key}}"
       }
-      "{{ config.caf_terraform.launchpad.regions.region2.name }}" = {
-        storage_account_key = "diagsiem_region2"
-      }
+{% endfor %}
     }
   }
 
   log_analytics = {
     central_logs = {
-      log_analytics_key              = "central_logs_region1"
+      log_analytics_key              = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].name}}"
       log_analytics_destination_type = "Dedicated"
     }
   }
 
   event_hub_namespaces = {
     central_logs = {
-      event_hub_namespace_key = "central_logs_region1"
+      event_hub_namespace_key = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].name}}"
     }
   }
 }

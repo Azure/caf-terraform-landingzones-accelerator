@@ -15,18 +15,9 @@
     - config.platform_core_setup.enterprise_scale.enable
     - config.platform_core_setup.enterprise_scale.clean_up_destination_folder
 
-# - name: "{{ level }}-{{ base_folder }} |  Clean-up directory"
-#   file:
-#     path: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
-#     state: absent
-#   when:
-#     - config.configuration_folders.platform.cleanup_destination | bool
-
 - name: "{{ level }}-{{ base_folder }} | Creates directory structure"
-  file:
-    path: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/lib/{{ item.path }}"
-    state: directory
-  with_filetree: "{{ level }}/{{ base_folder }}/lib/{{ config.platform_core_setup.enterprise_scale.scenario }}/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}"
+  shell: mkdir -p "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/lib/{{ item.path }}"
+  with_filetree: "{{ level }}/{{ base_folder }}/lib/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}"
   when: item.state == 'directory'
 
 - name: "{{ level }}-{{ base_folder }} |  Tfvars"
@@ -43,7 +34,7 @@
     src: "{{ item.src }}"
     dest: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/lib/{{ item.path }}"
     force: yes
-  with_filetree: "{{ level }}/{{ base_folder }}/lib/{{ config.platform_core_setup.enterprise_scale.scenario }}/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}"
+  with_filetree: "{{ level }}/{{ base_folder }}/lib/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}"
   when: item.state == 'file' and config.platform_core_setup.enterprise_scale.update_lib_folder
 
 - name: "{{ level }}-{{ base_folder }} |  overrides"
@@ -52,5 +43,5 @@
     dest: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
   with_fileglob:
-    - "{{ level }}/{{ base_folder }}/lib/{{ config.platform_core_setup.enterprise_scale.scenario }}/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}/*.j2"
-    - "{{ level }}/{{ base_folder }}/lib/{{ config.platform_core_setup.enterprise_scale.scenario }}/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}/*.md"
+    - "{{ level }}/{{ base_folder }}/lib/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}/*.j2"
+    - "{{ level }}/{{ base_folder }}/lib/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}/*.md"

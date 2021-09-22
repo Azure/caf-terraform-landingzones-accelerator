@@ -48,29 +48,24 @@ role_mapping = {
       }
     }
 {% endif %}
-    subscriptions = {
-      logged_in_subscription = {
-        "Owner" = {
-{% if config.platform_identity.azuread_identity_mode == 'logged_in_user' %}
-          logged_in = {
-            keys = ["user"]
-          }
-{% endif %}
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
-          azuread_groups = {
-            keys = ["level0", "caf_platform_maintainers", "subscription_creation_platform"]
-          }
-{% endif %}
-        }
+  subscriptions = {
+    logged_in_subscription = {
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
-        "Reader" = {
-          azuread_groups = {
-            keys = ["identity"]
-          }
+        azuread_groups = {
+          keys = ["level0", "caf_platform_maintainers", "subscription_creation_platform"]
         }
 {% endif %}
       }
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
+      "Reader" = {
+        azuread_groups = {
+          keys = ["identity"]
+        }
+      }
+{% endif %}
     }
+{% endif %}
 
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
     resource_groups = {

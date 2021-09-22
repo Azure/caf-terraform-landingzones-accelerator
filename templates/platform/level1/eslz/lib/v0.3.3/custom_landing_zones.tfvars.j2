@@ -1,4 +1,5 @@
 custom_landing_zones = {
+{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
   {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-gitops = {
     display_name               = "Gitops"
     parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-platform"
@@ -34,6 +35,7 @@ custom_landing_zones = {
     }
     subscription_ids = []
   }
+{% endif %}
   {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-corp = {
     display_name               = "Corp"
     parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-landing-zones"

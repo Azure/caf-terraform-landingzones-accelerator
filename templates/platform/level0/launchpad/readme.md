@@ -19,6 +19,7 @@ This scenario require the following privileges:
 ## Deployment
 
 
+{% if config.billing_subscription_role_delegations is defined %}
 ### Pre-requisite
 
 Elevate your credentials to the tenant root level to have enough privileges to create the management group hierarchy.
@@ -33,14 +34,17 @@ rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
 az rest --method post --url "/providers/Microsoft.Authorization/elevateAccess?api-version=2016-07-01"
 
 ```
+{% endif %}
 
 ### Launchpad
 
 ```bash
+{% if config.billing_subscription_role_delegations is defined %}
 {% if config.billing_subscription_role_delegations.enable %}
 # Login to the subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }} with the user {{ config.billing_subscription_role_delegations.azuread_user_ea_account_owner }}
 {% else %}
 # Login to the subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }} with an account owner.
+{% endif %}
 {% endif %}
 rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com -s {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }}
 
@@ -70,8 +74,13 @@ rover \
 
 When you have successfully deployed the launchpad you can  move to the next step.
 
+
+{% if config.billing_subscription_role_delegations is defined %}
 {% if config.billing_subscription_role_delegations.enable %}
  [Deploy the billing subscription role delegation](../billing_subscription_role_delegations/readme.md)
+{% else %}
+ [Deploy the management services](../../level1/management/readme.md)
+{% endif %}
 {% else %}
  [Deploy the management services](../../level1/management/readme.md)
 {% endif %}

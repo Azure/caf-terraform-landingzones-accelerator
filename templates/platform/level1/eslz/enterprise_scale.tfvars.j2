@@ -2,6 +2,6 @@ library_path                    = "../../../../{{ config.configuration_folders.p
 root_id                         = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}"
 root_name                       = "{{ config.platform_core_setup.enterprise_scale.management_group_name }}"
 deploy_core_landing_zones       = {{ config.platform_core_setup.enterprise_scale.deploy_core_landing_zones | string | lower }}
-{% if config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine %}
+{% if (config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine | default(false)) and config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
 reconcile_vending_subscriptions = true
 {% endif %}

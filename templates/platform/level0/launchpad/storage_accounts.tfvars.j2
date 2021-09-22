@@ -94,11 +94,13 @@ storage_accounts = {
       tfstate = {
         name = "tfstate"
       }
+{% if tfstates_asvm is defined %}
 {% for key in tfstates_asvm %}
       {{ tfstates_asvm[key].workspace }} = {
         name = "{{ tfstates_asvm[key].workspace }}"
       }
 {% endfor %}
+{% endif %}
     }
   }
 
@@ -121,11 +123,13 @@ storage_accounts = {
       tfstate = {
         name = "tfstate"
       }
+{% if tfstates_asvm is defined %}
 {% for key in tfstates_asvm %}
       {{ tfstates_asvm[key].workspace }} = {
         name = "{{ tfstates_asvm[key].workspace }}"
       }
 {% endfor %}
+{% endif %}
     }
   }
 

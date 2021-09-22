@@ -1,12 +1,5 @@
-- name: Creates {{ level }} directory
-  file:
-    path: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}"
-    state: directory
-
 - name: Creates {{ base_folder }} directory strcture
-  file:
-    path: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
-    state: directory
+  shell: mkdir -p "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
 
 - name: "{{ base_folder }} - Readme"
   ansible.builtin.template:
@@ -25,7 +18,7 @@
 
 - name: Virtual Hubs
   include_tasks: "{{ level }}/{{ base_folder }}/virtual_hub/ansible.yaml"
-  loop: "{{ tfstates.virtual_hubs.keys() }}"
+  loop: "{{ connectivity_virtual_hub.keys() }}"
   loop_control:
     loop_var: virtual_hub
 

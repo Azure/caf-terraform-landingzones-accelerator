@@ -5,30 +5,14 @@
   when: config.configuration_folders.platform.cleanup_destination | bool
 
 - name: "[{{ level }}-{{ base_folder }}] Creates directory"
+  when: config.billing_subscription_role_delegations.enable == true
+  register: level0_billing_subscription_role_delegations
   file:
     path: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
     state: directory
   
-
-# - name: Retrieve default billing profile
-#   command: "az rest --method get --uri https://management.azure.com/providers/Microsoft.Billing/billingaccounts?api-version=2020-05-01 --query \"value[?properties.agreementType=='EnterpriseAgreement'].{id:properties.enrollmentAccounts[0].id}\" -o tsv"
-#   register: enrollment_account
-#   when: config.billing_subscription_role_delegations.enrollment_account_name is not defined
-
-# - debug: msg="{{enrollment_account}}"
-
-# - name: Check enrollment account
-#   fail:
-#     msg: You must be connected to Azure with a user being an account owner.
-#   when: enrollment_account.skipped == false and enrollment_account.stdout == ""
-
-# - set_fact:
-#     enrollment_account_name="{% if enrollment_account == '' %} {{config.billing_subscription_role_delegations.enrollment_account_name}} {% else %} {{enrollment_account}} {% endif %}"
-
-
-# - debug: msg="{{enrollment_account_name}}"
-
 - name: "[{{ level }}-{{ base_folder }}] subscription role delegation"
+  when: config.billing_subscription_role_delegations.enable == true
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
