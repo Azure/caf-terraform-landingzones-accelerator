@@ -1,0 +1,41 @@
+### Level0 ###
+launchpad:
+  lz_key_name: launchpad
+  tfstate: caf_launchpad.tfstate
+  base_config_path: launchpad
+  level: level0
+
+### Level1 ###
+management:
+  lz_key_name: management
+  tfstate: management.tfstate
+  base_config_path: management
+  level: level1
+eslz:
+  lz_key_name: eslz
+  tfstate: eslz.tfstate
+  base_config_path: eslz
+  level: level1
+
+## Level2 ##
+virtual_wan:
+  lz_key_name: connectivity_virtual_wan
+  tfstate: connectivity_virtual_wan.tfstate
+  base_config_path: connectivity/virtual_wan
+  level: level2
+
+virtual_hubs:
+  hub1:
+    lz_key_name: connectivity_virtual_hub1
+    tfstate: connectivity_virtual_hub1.tfstate
+    workspace: tfstate
+    base_config_path: connectivity/virtual_hub
+    level: level2
+    
+firewall_policies:
+  root:
+    lz_key_name: connectivity_firewall_policy_root
+    tfstate: connectivity_firewall_policy_root.tfstate
+    workspace: tfstate
+    base_config_path: connectivity/firewall_policy
+    level: level2

@@ -1,0 +1,52 @@
+region1:
+  connectivity:
+    cidr: 10.10.0.0/16
+    virtual_hubs:
+      hub1: 10.10.0.0/24
+    vnets:
+      connectivity_hub1_firewall_egress:
+        resource_group_key: simple_global_firewall
+        name: hub1-firewall
+        address_space:
+          - 10.10.10.0/24
+          - 10.10.11.0/24
+        specialsubnets:
+          AzureFirewallSubnet:
+            name: AzureFirewallSubnet
+            cidr:
+              - 10.10.10.0/26
+      identity_adds:
+        address_space:
+          - 10.10.0.0/24
+        subnets:
+          ActiveDirectory:
+            name: ADSubnet
+            cidr:
+              - 10.10.0.0/27
+
+
+
+region2:
+  connectivity:
+    cidr: 10.11.0.0/16
+    virtual_hubs:
+      hub2: 10.11.0.0/24
+    vnets:
+      connectivity_firewall_egress:
+        resource_group_key: simple_global_firewall
+        name: hub2-firewall
+        address_space:
+          - 10.11.10.0/24
+        specialsubnets:
+          AzureFirewallSubnet:
+            name: AzureFirewallSubnet
+            cidr:
+              - 10.11.10.0/26
+      identity_adds:
+        address_space:
+          - 10.11.0.0/24
+        subnets:
+          ActiveDirectory:
+            name: ADSubnet
+            cidr:
+              - 10.11.0.0/27

@@ -1,0 +1,6 @@
+hub1:
+  name: hub1
+  virtual_wan:
+    lz_key: virtual_wan
+    key: simple_global_wan
+  region_key: region1

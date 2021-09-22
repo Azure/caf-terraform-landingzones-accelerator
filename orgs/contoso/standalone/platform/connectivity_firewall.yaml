@@ -1,0 +1,5 @@
+
+resource_groups:
+  simple_global_firewall:
+    name: simple-connectivity-global-firewall
+    region_key: region1

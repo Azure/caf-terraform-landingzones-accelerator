@@ -1,0 +1,37 @@
+root:
+  name: "base-root-policy"
+  region_key: region1
+  resource_group:
+    key: simple_global_firewall_policies
+  dns:
+    proxy_enabled: "true"
+  threat_intelligence_mode: "Alert"
+  threat_intelligence_allowlist:
+    # ip_addresses:
+    #   - 10.0.1.0/24
+    #   - 10.0.2.0/24
+    fqdns:
+      - microsoft.com
+      - demo.com
+non_prod:
+  name: "non-production"
+  region_key: region1
+  resource_group:
+    lz_key: root
+    key: simple_global_firewall_policies
+  base_policy:
+    lz_key: root
+    key: root
+
+azurerm_firewall_policy_rule_collection_groups:
+  root:
+    rules:
+      - rule_collection_groups_root.tfvars.j2
+  non_prod:
+    rules:
+      - rule_collection_groups_aks.tfvars.j2
+
+resource_groups:
+  simple_global_firewall_policies:
+    name: simple-connectivity-global-firewall-policies
+    region_key: region1
