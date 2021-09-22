@@ -26,7 +26,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
           attribute_key = "id"
         }
         "profileName" = {
@@ -38,7 +38,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
           attribute_key = "id"
         }
       }
@@ -48,7 +48,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
           attribute_key = "id"
         }
       }
@@ -59,7 +59,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
           attribute_key = "id"
         }
       }
@@ -70,7 +70,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
           attribute_key = "id"
         }
       }
@@ -79,7 +79,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
           attribute_key = "id"
         }
       }
@@ -92,7 +92,7 @@ archetype_config_overrides = {
           lz_key        = "{{ tfstates.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
-          resource_key  = "central_logs_{{config.caf_terraform.launchpad.default_region_key}}"
+          resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
           attribute_key = "id"
         }
 {% for parameter_key in config.management_groups_policies.root["Deploy-ASC-Defender"].keys() %}
