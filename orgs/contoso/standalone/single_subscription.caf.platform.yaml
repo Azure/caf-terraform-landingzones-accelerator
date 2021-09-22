@@ -32,9 +32,9 @@ platform_core_setup:
     update_lib_folder: true
     subscription_deployment_mode: single_reuse
     primary_subscription_details:
-      subscription_id: dbf68ed2-d840-4e8d-a3b9-2fcf8e05ad2b
-      subscription_name: LLE-Resource Sub1
-      tenant_id: 5bdf57ff-f379-49df-9f50-b5ed7fabd05f
+      subscription_id: set_subscription_guid
+      subscription_name: set_subscription_name
+      tenant_id: set_tenant_id
     private_lib:
       version_to_deploy: v0.3.3
       v0.1.x:

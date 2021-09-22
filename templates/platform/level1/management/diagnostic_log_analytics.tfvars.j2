@@ -2,13 +2,13 @@
 # Define the settings for log analytics workspace and solution map
 #
 diagnostic_log_analytics = {
-  central_logs_region1 = {
-    region             = "region1"
+  central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}} = {
+    region             = "{{config.caf_terraform.launchpad.default_region_key}}"
     name               = "log"
     resource_group_key = "mgmt"
     # you can setup up to 5 key
     diagnostic_profiles = {
-      central_logs_region1 = {
+      central_logs_{{config.caf_terraform.launchpad.default_region_key}} = {
         definition_key   = "log_analytics"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
