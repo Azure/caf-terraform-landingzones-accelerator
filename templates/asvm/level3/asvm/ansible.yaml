@@ -1,20 +1,20 @@
 - name: set asvm context
   set_fact:
-    destination_base_path: "{{ config.configuration_folders[base_folder_asvm].destination_base_path }}"
-    destination_relative_path: "{{ config.configuration_folders[base_folder_asvm].destination_relative_path }}"
+    destination_base_path: "{{ config_asvm.configuration_folders[base_folder_asvm].destination_base_path }}"
+    destination_relative_path: "{{ config_asvm.configuration_folders[base_folder_asvm].destination_relative_path }}"
     asvm_folder: "{{ asvm_long_folder.path | regex_search('[^\/]+(?=\/$|$)') }}"
 
 - name: set source path
   set_fact:
-    asvm_config_folder: "{{ config_folder }}/{{ base_folder_asvm }}/{{ asvm_folder }}"
+    asvm_config_folder: "{{ config_folder }}/{{ asvm_folder }}"
 
 - name: set destination paths
   set_fact:
     asvm_resources: "{{ lookup('file', '{{ asvm_config_folder }}/resources.caf.asvm.yaml') | from_yaml }}"
     asvm_subscription: "{{ lookup('file', '{{ asvm_config_folder }}/subscription.caf.asvm.yaml') | from_yaml }}"
-    destination_path_subscription:  "{{ destination_base_path }}{{ destination_relative_path }}/{{ level }}/{{ base_folder_asvm }}/{{ asvm_folder }}/subscription"
-    destination_path_resources:  "{{ destination_base_path }}{{ destination_relative_path }}/{{ level }}/{{ base_folder_asvm }}/{{ asvm_folder }}/resources"
-    destination_path_vnet_connections: "{{ destination_base_path }}{{ destination_relative_path }}/{{ level }}/{{ base_folder_asvm }}/{{ asvm_folder }}/connectivity"
+    destination_path_subscription:  "{{ destination_base_path }}/{{ destination_relative_path }}/{{ level }}/{{ asvm_folder }}/subscription"
+    destination_path_resources:  "{{ destination_base_path }}/{{ destination_relative_path }}/{{ level }}/{{ asvm_folder }}/resources"
+    destination_path_vnet_connections: "{{ destination_base_path }}/{{ destination_relative_path }}/{{ level }}/{{ asvm_folder }}/connectivity"
 
 - debug:
     msg: "{{ destination_base_path }}"
@@ -23,7 +23,7 @@
   file:
     path: "{{ destination_path_subscription }}"
     state: absent
-  when: config.configuration_folders.asvm.cleanup_destination | bool
+  when: config_asvm.configuration_folders.asvm.cleanup_destination | bool
 
 
 - name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] Creates directory"
@@ -34,21 +34,21 @@
 #### Get subscription_id
 
 
-- name: "[{{ level }}-{{ base_folder }}] Set cache folder"
+- name: "[{{ level }}-{{ asvm_folder }}] Set cache folder"
   set_fact:
     job_cache_base_path: "/home/vscode/.terraform.cache"
 
-- name: "[{{ level }}-{{ base_folder }}] Get tfstate details"
+- name: "[{{ level }}-{{ asvm_folder }}] Get tfstate details"
   register: subscription_tfstate_storage_account_name
   shell: |
     az storage account list \
-      --subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
-      --query "[?tags.caf_tfstate=='{{ tfstates_asvm[asvm_folder].level }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
+      --subscription {{ config_platform.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+      --query "[?tags.caf_tfstate=='{{ tfstates_asvm[asvm_folder].level }}' && tags.caf_environment=='{{ config_platform.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
 
 - debug:
     msg: "{{ subscription_tfstate_storage_account_name.stdout }}"
 
-- name: "[{{ level }}-{{ base_folder }}] Download tfstate details"
+- name: "[{{ level }}-{{ asvm_folder }}] Download tfstate details"
   register: subscription_tfstate_exists
   ignore_errors: true
   shell: |
@@ -62,19 +62,19 @@
 - debug:
     msg: "{{ subscription_tfstate_exists }}"
 
-- name: "[{{ level }}-{{ base_folder }}] Get platform_subscriptions details"
+- name: "[{{ level }}-{{ asvm_folder }}] Get platform_subscriptions details"
   shell: "cat {{ job_cache_base_path }}/{{ tfstates_asvm[asvm_folder].subscription.tfstate }}"
   register: platform_subscriptions
   when: subscription_tfstate_exists.rc == 0
 
-- name: "[{{ level }}-{{ base_folder }}] Get subscriptions data"
+- name: "[{{ level }}-{{ asvm_folder }}] Get subscriptions data"
   when: subscription_tfstate_exists.rc == 0
   set_fact:
     asvm_subscriptions_details: "{{ platform_subscriptions.stdout | from_json | json_query(path) }}"
   vars: 
     path: 'outputs.objects.value.{{ tfstates_asvm[asvm_folder].subscription.lz_key_name }}.subscriptions'
 
-- name: "[{{ level }}-{{ base_folder }}] cleanup"
+- name: "[{{ level }}-{{ asvm_folder }}] cleanup"
   when: subscription_tfstate_exists.rc == 0
   file:
     path: "{{ job_cache_base_path }}/{{ tfstates_asvm[asvm_folder].subscription.tfstate }}"
@@ -84,7 +84,7 @@
     msg: "Platform subscriptions - {{ asvm_subscriptions_details }}"
   when: subscription_tfstate_exists.rc == 0
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] generate configuration files."
+- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - subscriptions - generate configuration files."
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ destination_path_subscription}}/{{ item | basename | regex_replace('.j2$', '') }}"

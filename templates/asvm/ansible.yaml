@@ -1,40 +1,42 @@
 - name: CAF Terraform - Generate configuration files
   hosts: localhost
   vars:
-    config: "{{ lookup('file', '{{ config_folder }}/{{scenario}}.caf.platform.yaml') | from_yaml }}"
-    connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/platform/connectivity_virtual_wan.yaml') | from_yaml }}"
-    connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/platform/connectivity_virtual_hub.yaml') | from_yaml }}"
-    connectivity_firewall: "{{ lookup('file', '{{ config_folder }}/platform/connectivity_firewall.yaml') | from_yaml }}"
-    connectivity_firewall_policies: "{{ lookup('file', '{{ config_folder }}/platform/connectivity_firewall_policies.yaml') | from_yaml }}"
-    connectivity: "{{ lookup('file', '{{ config_folder }}/platform/connectivity.yaml') | from_yaml }}"
-    identity: "{{ lookup('file', '{{ config_folder }}/platform/identity.yaml') | from_yaml }}"
-    management: "{{ lookup('file', '{{ config_folder }}/platform/management.yaml') | from_yaml }}"
-    subscriptions: "{{ lookup('file', '{{ config_folder }}/platform/subscriptions.yaml') | from_yaml }}"
-    cidr: "{{ lookup('file', '{{ config_folder }}/platform/cidr.yaml') | from_yaml }}"
-    tfstates: "{{ lookup('file', '{{ config_folder }}/platform/tfstates.yaml') | from_yaml }}"
-    tfstates_asvm: "{{ lookup('file', '{{ config_folder }}/asvm/tfstates.yaml') | from_yaml }}"
+    config_platform: "{{ lookup('file', '{{ platform_config_folder }}/{{scenario}}.caf.platform.yaml') | from_yaml }}"
+    config_asvm: "{{ lookup('file', '{{ config_folder }}/{{scenario}}.caf.platform.yaml') | from_yaml }}"
+    connectivity_virtual_wan: "{{ lookup('file', '{{ platform_config_folder }}/connectivity_virtual_wan.yaml') | from_yaml }}"
+    connectivity_virtual_hub: "{{ lookup('file', '{{ platform_config_folder }}/connectivity_virtual_hub.yaml') | from_yaml }}"
+    connectivity_firewall: "{{ lookup('file', '{{ platform_config_folder }}/connectivity_firewall.yaml') | from_yaml }}"
+    connectivity_firewall_policies: "{{ lookup('file', '{{ platform_config_folder }}/connectivity_firewall_policies.yaml') | from_yaml }}"
+    connectivity: "{{ lookup('file', '{{ platform_config_folder }}/connectivity.yaml') | from_yaml }}"
+    identity: "{{ lookup('file', '{{ platform_config_folder }}/identity.yaml') | from_yaml }}"
+    management: "{{ lookup('file', '{{ platform_config_folder }}/management.yaml') | from_yaml }}"
+    subscriptions: "{{ lookup('file', '{{ platform_config_folder }}/subscriptions.yaml') | from_yaml }}"
+    cidr: "{{ lookup('file', '{{ platform_config_folder }}/cidr.yaml') | from_yaml }}"
+    tfstates: "{{ lookup('file', '{{ platform_config_folder }}/tfstates.yaml') | from_yaml }}"
+    tfstates_asvm: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
     base_templates_folder: "{{ base_templates_folder }}"
+    level: level3
 
 
   tasks:
 
 # Get Platform subscriptions
 
-    - name: "[{{ level }}-{{ base_folder }}] Get latest cache folder"
+    - name: "Get latest cache folder"
       set_fact:
         job_cache_base_path: "/home/vscode/.terraform.cache"
 
-    - name: "[{{ level }}-{{ base_folder }}] Get tfstate details"
+    - name: "Get tfstate details"
       register: subscription_tfstate_file_name
       shell: |
         az storage account list \
-          --subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
-          --query "[?tags.caf_tfstate=='{{ tfstates.platform_subscriptions.level }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
+          --subscription {{ config_platform.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+          --query "[?tags.caf_tfstate=='{{ tfstates.platform_subscriptions.level }}' && tags.caf_environment=='{{ config_platform.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
 
     - debug:
         msg: "{{ subscription_tfstate_file_name.stdout }}"
 
-    - name: "[{{ level }}-{{ base_folder }}] Download tfstate details"
+    - name: "Download tfstate details"
       shell: |
         az storage blob download \
           --name "{{ tfstates.platform_subscriptions.tfstate }}" \
@@ -43,15 +45,15 @@
           --auth-mode "login" \
           --file "{{ job_cache_base_path }}/{{ tfstates.platform_subscriptions.tfstate }}"
 
-    - name: "[{{ level }}-{{ base_folder }}] Get platform_subscriptions details"
+    - name: "Get platform_subscriptions details"
       shell: "cat {{ job_cache_base_path }}/{{ tfstates.platform_subscriptions.tfstate }}"
       register: platform_subscriptions
 
-    - name: "[{{ level }}-{{ base_folder }}] Get platform_subscriptions json data"
+    - name: "Get platform_subscriptions json data"
       set_fact:
         platform_sub_jsondata: "{{ platform_subscriptions.stdout | from_json }}"
 
-    - name: "[{{ level }}-{{ base_folder }}] Get subscriptions list"
+    - name: "Get subscriptions list"
       set_fact:
         platform_subscriptions_details: "{{ platform_sub_jsondata | json_query(path) }}"
       vars: 
@@ -59,14 +61,14 @@
 
 
 # Get Platofrm keyvaults
-    - name: "[{{ level }}-{{ base_folder }}] Get tfstate account name"
+    - name: "Get tfstate account name"
       register: launchpad_storage_account
       shell: |
         az storage account list \
-          --subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
-          --query "[?tags.caf_tfstate=='{{ tfstates.launchpad.level }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
+          --subscription {{ config_platform.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+          --query "[?tags.caf_tfstate=='{{ tfstates.launchpad.level }}' && tags.caf_environment=='{{ config_platform.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
   
-    - name: "[{{ level }}-{{ base_folder }}] Get tfstate details"
+    - name: "Get tfstate details"
       register: credentials_tfstate_exists
       ignore_errors: true
       shell: |
@@ -77,15 +79,15 @@
           --auth-mode "login" \
           --file "~/.terraform.cache/launchpad/{{ tfstates.launchpad_credentials.tfstate }}"
 
-    - name: "[{{ level }}-{{ base_folder }}] Get launchpad_credentials details"
+    - name: "Get launchpad_credentials details"
       shell: "cat ~/.terraform.cache/launchpad/{{ tfstates.launchpad_credentials.tfstate }}"
       register: launchpad_credentials
 
-    - name: "[{{ level }}-{{ base_folder }}] Get launchpad_credentials json data"
+    - name: "Get launchpad_credentials json data"
       set_fact:
         credjsondata: "{{ launchpad_credentials.stdout | from_json }}"
 
-    - name: "[{{ level }}-{{ base_folder }}] set keyvaults"
+    - name: "Set keyvaults variable"
       set_fact:
         keyvaults: "{{ credjsondata | json_query(path) }}"
       vars: 
@@ -103,7 +105,7 @@
         base_folder: "asvm"
         level: "level3"
       find:
-        paths: "{{ config_folder }}/{{ base_folder }}"
+        paths: "{{ config_folder }}"
         recurse: yes
         file_type: directory
 
@@ -125,5 +127,5 @@
 
     - name: Terraform linter
       shell: |
-        terraform fmt -recursive {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}
-        terraform fmt -recursive {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.asvm.destination_relative_path }}
+        terraform fmt -recursive {{ config_platform.configuration_folders.platform.destination_base_path }}/{{ config_platform.configuration_folders.platform.destination_relative_path }}
+        terraform fmt -recursive {{ config_asvm.configuration_folders.asvm.destination_base_path }}/{{ config_asvm.configuration_folders.asvm.destination_relative_path }}

@@ -5,7 +5,7 @@ archetype_config_overrides = {
     parameters = {
       "Allowed-Locations" = {
         "listOfAllowedLocations" = {
-          value = [
+          values = [
 {% for key in config.caf_terraform.launchpad.regions.keys() %}
             "{{ config.caf_terraform.launchpad.regions[key].name }}",
 {% endfor %}
@@ -14,7 +14,7 @@ archetype_config_overrides = {
       }
       "Deny-RSG-Locations" = {
         "listOfAllowedLocations" = {
-          value = [
+          values = [
 {% for key in config.caf_terraform.launchpad.regions.keys() %}
             "{{ config.caf_terraform.launchpad.regions[key].name }}",
 {% endfor %}

@@ -11,7 +11,7 @@ rover \
   --impersonate-sp-from-keyvault-url {{ keyvaults.cred_identity.vault_uri }} \
 {% endif %}
   -lz /tf/caf/landingzones/caf_solution \
-  -var-folder {{ config.configuration_folders.platform.destination_base_path }}{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }} \
+  -var-folder {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }} \
   -tfstate_subscription_id {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
   -target_subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
   -tfstate {{ tfstates.launchpad_credentials.tfstate }} \

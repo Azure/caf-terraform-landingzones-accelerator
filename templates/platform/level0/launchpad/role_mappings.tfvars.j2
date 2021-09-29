@@ -52,11 +52,12 @@ role_mapping = {
   subscriptions = {
     logged_in_subscription = {
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
+      "Owner" = {
         azuread_groups = {
           keys = ["level0", "caf_platform_maintainers", "subscription_creation_platform"]
         }
-{% endif %}
       }
+{% endif %}
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
       "Reader" = {
         azuread_groups = {
@@ -64,6 +65,7 @@ role_mapping = {
         }
       }
 {% endif %}
+      }
     }
 {% endif %}
 
