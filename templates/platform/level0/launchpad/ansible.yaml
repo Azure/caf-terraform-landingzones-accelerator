@@ -9,12 +9,6 @@
     path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
     state: directory
 
-- name: "[{{ level }}-{{ base_folder }}] launchpad - readme"
-  ansible.builtin.template:
-    src: "{{ level }}/{{ base_folder }}/readme.md"
-    dest: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/readme.md"
-    force: yes
-
 - name: "[{{ level }}-{{ base_folder }}] lauchpad"
   ansible.builtin.template:
     src: "{{ level }}/{{ base_folder }}/{{ item }}.tfvars.j2"
@@ -80,7 +74,7 @@
       --subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
       --query "[?tags.caf_tfstate=='{{ tfstates.launchpad.level }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
 
-- name: "[{{ level }}-{{ base_folder }}] Get tfstate details"
+- name: "[{{ level }}-{{ base_folder }}] Get launchpad tfstate details"
   register: launchpad_tfstate_exists
   ignore_errors: true
   shell: |
@@ -90,3 +84,44 @@
       --container-name "{{ tfstates.launchpad.workspace | default('tfstate') }}" \
       --auth-mode "login" \
       --file "~/.terraform.cache/launchpad/{{ tfstates.launchpad.tfstate }}"
+
+- name: "[{{ level }}-{{ base_folder }}] Get credentials tfstate details"
+  register: credentials_tfstate_exists
+  ignore_errors: true
+  shell: |
+    az storage blob download \
+      --name "{{ tfstates.launchpad_credentials.tfstate }}" \
+      --account-name "{{ launchpad_storage_account.stdout }}" \
+      --container-name "{{ tfstates.launchpad.workspace | default('tfstate') }}" \
+      --auth-mode "login" \
+      --file "~/.terraform.cache/launchpad/{{ tfstates.launchpad_credentials.tfstate }}"
+
+- name: "[{{ level }}-{{ base_folder }}] Get launchpad_credentials details"
+  when: credentials_tfstate_exists.rc == 0
+  shell: "cat ~/.terraform.cache/launchpad/{{ tfstates.launchpad_credentials.tfstate }}"
+  register: launchpad_credentials
+    
+- name: "[{{ level }}-{{ base_folder }}] Get launchpad_credentials json data"
+  when: credentials_tfstate_exists.rc == 0
+  set_fact:
+    credjsondata: "{{ launchpad_credentials.stdout | from_json }}"
+
+- name: "[{{ level }}-{{ base_folder }}] set keyvaults"
+  when: credentials_tfstate_exists.rc == 0
+  set_fact:
+    keyvaults: "{{ credjsondata | json_query(path) }}"
+  vars: 
+    path: 'outputs.objects.value.launchpad_credentials_rotation.keyvaults'
+
+- name: "[{{ level }}-{{ base_folder }}] cleanup"
+  when: credentials_tfstate_exists.rc == 0
+  file:
+    path: "~/.terraform.cache/launchpad/{{ tfstates.launchpad_credentials.tfstate }}"
+    state: absent
+
+# Update readme
+- name: "[{{ level }}-{{ base_folder }}] launchpad - readme"
+  ansible.builtin.template:
+    src: "{{ level }}/{{ base_folder }}/readme.md"
+    dest: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/readme.md"
+    force: yes
