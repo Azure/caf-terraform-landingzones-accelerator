@@ -20,7 +20,7 @@
     // You can edit these settings after create using File > Preferences > Settings > Remote.
     "settings": {
         "files.eol": "\n",
-        "terminal.integrated.shell.linux": "/bin/bash",
+        "terminal.integrated.shell.linux": "/usr/bin/zsh",
         "editor.tabSize": 2,
         "terminal.integrated.scrollback": 8000,
     },
