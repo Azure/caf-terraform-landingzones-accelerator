@@ -1,0 +1,22 @@
+{% if asvm_subscription.global_settings is defined %}
+  global_settings = {
+    passthrough = {{ asvm_subscription.global_settings.passthrough | string | lower }}
+    prefix = "{{ asvm_subscription.global_settings.prefix }}"
+    use_slug = {{ asvm_subscription.global_settings.use_slug | string | lower }}
+    inherit_tags = {{ asvm_subscription.global_settings.inherit_tags | string | lower }}
+    random_length = {{ asvm_subscription.global_settings.random_length }}
+{% if asvm_subscription.global_settings.tags is defined %}
+    tags = {
+{% for tag, value in asvm_subscription.global_settings.tags.items() %}
+      "{{ tag }}" = "{{value}}"
+{% endfor %}
+    }
+{% endif %}
+    default_region = "{{ asvm_subscription.global_settings.default_region_key }}"
+    regions = {
+{% for key in asvm_subscription.global_settings.regions.keys() %}
+      {{ key }} = "{{ asvm_subscription.global_settings.regions[key].name }}"
+{% endfor %}
+    }
+  }
+{% endif %}

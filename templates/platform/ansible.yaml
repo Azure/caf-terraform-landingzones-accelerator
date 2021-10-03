@@ -93,7 +93,9 @@
 ## management
     - name: "{{ level }}-{{ base_folder }} | Management services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: ((config.platform_management.enable | bool) and ( (config.platform_core_setup.enterprise_scale.subscription_deployment_mode != "single_reuse") and (level1_subscriptions is not skipped) ) or (config.platform_identity.azuread_identity_mode == 'logged_in_user') )
+      when: 
+        - ((config.platform_management.enable | bool) and ( (config.platform_core_setup.enterprise_scale.subscription_deployment_mode != "single_reuse") and (level1_subscriptions is not skipped) ) or (config.platform_identity.azuread_identity_mode == 'logged_in_user') )
+        - (platform_subscriptions_details | length ) > 0
 
       vars:
         base_folder: "management"
@@ -107,6 +109,7 @@
         - launchpad_tfstate_exists is not skipped
         - credentials_tfstate_exists is not skipped
         - level1_subscriptions is not skipped
+        - (platform_subscriptions_details | length ) > 0
 
       vars:
         base_folder: "identity"
@@ -115,7 +118,10 @@
 ## eslz
     - name: "{{ level }}-{{ base_folder }} | enterprise scale"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: ( (config.platform_core_setup.enterprise_scale.enable | bool) and (level1_subscriptions is not skipped) ) or (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "single_reuse")
+      when: 
+        - ( (config.platform_core_setup.enterprise_scale.enable | bool) and (level1_subscriptions is not skipped) ) or (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "single_reuse")
+        - (platform_subscriptions_details | length ) > 0
+
       vars:
         base_folder: "eslz"
         level: "level1"
@@ -127,7 +133,9 @@
 
     - name: "{{ level }}-{{ base_folder }} | Connectivity"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: ( ((config.networking_topology.deployment_option == "virtual_wan") and (level1_subscriptions is not skipped) ) or (config.platform_identity.azuread_identity_mode == 'logged_in_user') )
+      when: 
+        - ( ((config.networking_topology.deployment_option == "virtual_wan") and (level1_subscriptions is not skipped) ) or (config.platform_identity.azuread_identity_mode == 'logged_in_user') )
+        - (platform_subscriptions_details | length ) > 0
       vars:
         base_folder: "connectivity"
         level: "level2"

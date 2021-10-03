@@ -1,6 +1,6 @@
 
-# Management
-Deploy the management services
+# Identity
+Deploy the identity services
 
 ```bash
 #Note: close previous session if you logged with a different service principal using --impersonate-sp-from-keyvault-url
@@ -11,7 +11,7 @@ rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
 
 rover \
 {% if config.platform_identity.azuread_identity_mode != "logged_in_user" %}
-  --impersonate-sp-from-keyvault-url {{ keyvaults.cred_management.vault_uri }} \
+  --impersonate-sp-from-keyvault-url {{ keyvaults.cred_identity.vault_uri }} \
 {% endif %}
   -lz /tf/caf/landingzones/caf_solution \
   -var-folder {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }} \
@@ -21,6 +21,7 @@ rover \
   -log-severity {{ config.gitops.rover_log_error }} \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
+  -p ${TF_DATA_DIR}/{{ tfstates.identity.tfstate }}.tfplan \
   -a plan
 
 ```

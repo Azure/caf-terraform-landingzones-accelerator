@@ -19,6 +19,7 @@ rover \
   -log-severity {{ config.gitops.rover_log_error }} \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
+  -p ${TF_DATA_DIR}/{{ tfstates.launchpad_credentials.tfstate }}.tfplan \
   -a plan
 
 rover logout

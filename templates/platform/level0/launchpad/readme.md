@@ -62,6 +62,7 @@ rover \
   -launchpad \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
+  -p ${TF_DATA_DIR}/{{ tfstates.launchpad.tfstate }}.tfplan \
   -a plan
 
 ```

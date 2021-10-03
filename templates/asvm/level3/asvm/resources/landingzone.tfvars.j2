@@ -8,12 +8,10 @@ landingzone = {
       tfstate   = "{{ tfstates_asvm[asvm_folder].subscription.tfstate }}"
       workspace = "{{ tfstates_asvm[asvm_folder].workspace }}"
     }
-{% for key in asvm_resources.landingzone["remote_tfstates"]["platform"]["virtual_hubs"] %}
-    {{ tfstates.virtual_hubs[key].lz_key_name }} = {
-      tfstate   = "{{ tfstates.virtual_hubs[key].tfstate }}"
+    {{ tfstates.virtual_hubs[asvm_resources.landingzone.remote_tfstates.platform.virtual_hub].lz_key_name }} = {
+      tfstate   = "{{ tfstates.virtual_hubs[asvm_resources.landingzone.remote_tfstates.platform.virtual_hub].tfstate }}"
       level     = "lower"
-      workspace = "{{ tfstates.virtual_hubs[key].workspace }}"
+      workspace = "{{ tfstates.virtual_hubs[asvm_resources.landingzone.remote_tfstates.platform.virtual_hub].workspace }}"
     }
-{% endfor %}
   }
 }

@@ -12,16 +12,23 @@
 
 subscriptions = {
 
-  {{ tfstates.launchpad.lz_key_name }} = {
+  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ tfstates.launchpad.lz_key_name }} = {
     name            = "{{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }}"
     subscription_id = "{{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }}"
   }
 {% for key in subscriptions.platform_subscriptions.keys() %}
   {{ key }} = {
     name                    = "{{ subscriptions.platform_subscriptions[key].name }}"
+{% if subscriptions.platform_subscriptions[key].alias is defined %}
+    alias                   = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ subscriptions.platform_subscriptions[key].alias }}"
+{% endif %}
+{% if subscriptions.platform_subscriptions[key].billing_account_name is defined %}
     billing_account_name    = "{{ config.billing_subscription_role_delegations.billing_account_name }}"
     enrollment_account_name = "{{ config.billing_subscription_role_delegations.enrollment_account_name }}"
-    workload                = "Production"
+    workload                = "{{ subscriptions.platform_subscriptions[key].workload | default('DevTest') }}"
+{% else %}
+    subscription_id = "{{ subscriptions.platform_subscriptions[key].subscription_id }}"
+{% endif %}
   }
 {% endfor %}
 

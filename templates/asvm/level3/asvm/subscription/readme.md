@@ -4,6 +4,8 @@
 ```bash
 rover login -t {{ config_platform.platform_identity.tenant_name }}.onmicrosoft.com
 
+export ARM_SKIP_PROVIDER_REGISTRATION=true
+
 rover \
 {% if config_platform.platform_identity.azuread_identity_mode != "logged_in_user" %}
   --impersonate-sp-from-keyvault-url {{ keyvaults.cred_subscription_creation_landingzones.vault_uri }} \
@@ -16,6 +18,7 @@ rover \
   -log-severity {{ config_platform.gitops.rover_log_error }} \
   -env {{ config_platform.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
+  -p ${TF_DATA_DIR}/{{  tfstates_asvm[asvm_folder].subscription.tfstate }}.tfplan \
   -a plan
 
 rover logout
@@ -29,11 +32,11 @@ Note you need to logout and login as a caf_maintainer group member
 rover login -t {{ config_platform.platform_identity.tenant_name }}.onmicrosoft.com
 
 rover ignite \
-  --playbook /tf/caf/starter/templates/platform/e2e.yaml \
-  -e base_templates_folder=/tf/caf/starter/templates/platform \
-  -e config_folder=/tf/caf/orgs/contoso \
-  -e scenario=contoso \
-  -e model=platform \
+  --playbook /tf/caf/starter/templates/asvm/ansible.yaml \
+  -e base_templates_folder=/tf/caf/starter/templates \
+  -e config_folder={{ config_folder }} \
+  -e platform_config_folder={{ platform_config_folder }} \
+  -e scenario={{ scenario }} \
   -e boostrap_launchpad=false \
   -e deploy_subscriptions=false
 

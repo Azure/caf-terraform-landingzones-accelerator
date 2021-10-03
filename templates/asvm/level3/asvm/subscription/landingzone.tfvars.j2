@@ -1,13 +1,17 @@
 landingzone = {
   backend_type        = "azurerm"
-  global_settings_key = "{{ tfstates.virtual_hubs.hub1.lz_key_name }}"
+{% if asvm_subscription.landingzone.remote_tfstates.platform.management %}
+  global_settings_key = "{{ tfstates.management[asvm_subscription.landingzone.remote_tfstates.platform.management].lz_key_name }}"
+{% endif %}
   level               = "{{ tfstates_asvm[asvm_folder].level }}"
   key                 = "{{ tfstates_asvm[asvm_folder].subscription.lz_key_name }}"
   tfstates = {
-    {{ tfstates.virtual_hubs.hub1.lz_key_name }} = {
+{% if asvm_subscription.landingzone.remote_tfstates.platform.management %}
+    {{ tfstates.management[asvm_subscription.landingzone.remote_tfstates.platform.virtual_hub].lz_key_name }} = {
       level     = "lower"
-      tfstate   = "{{ tfstates.virtual_hubs.hub1.tfstate }}"
-      workspace = "{{ tfstates.virtual_hubs.hub1.workspace }}"
+      tfstate   = "{{ tfstates.management[asvm_subscription.landingzone.remote_tfstates.platform.management].tfstate }}"
+      workspace = "{{ tfstates.management[asvm_subscription.landingzone.remote_tfstates.platform.management].workspace }}"
     }
+{% endif %}
   }
 }

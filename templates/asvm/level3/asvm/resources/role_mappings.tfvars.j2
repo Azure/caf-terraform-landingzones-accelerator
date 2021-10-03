@@ -1,5 +1,6 @@
 
 role_mapping = {
+{% if asvm_resources.role_mapping.custom_role_mapping is defined %}
   custom_role_mapping = {
 {% for key, role_mappings in asvm_resources.role_mapping.custom_role_mapping.items() %}
     {{ key }} = {
@@ -14,4 +15,29 @@ role_mapping = {
     }
 {% endfor %}
   }
+{% endif %}
+{% if asvm_resources.role_mapping.built_in_role_mapping is defined %}
+  built_in_role_mapping = {
+{% for key, role_mappings in asvm_resources.role_mapping.built_in_role_mapping.items() %}
+    {{ key }} = {
+{% for resource_key, roles_objects in role_mappings.items() %}
+      {{ resource_key }} = {
+        lz_key = "{{ roles_objects.lz_key }}"
+{% for role_name, principals_objects in roles_objects.items() %}
+{% if role_name != 'lz_key' %}
+        "{{ role_name }}" = {
+{% for key_principal_type, principal_mapping in principals_objects.items() %}
+          {{ key_principal_type }} = {
+            keys = {{principal_mapping['keys']  | replace('\'','\"')}}
+          }
+{% endfor %}
+        }
+{% endif %}
+{% endfor %}
+      }
+{% endfor %}
+    }
+{% endfor %}
+  }
+{% endif %}
 }

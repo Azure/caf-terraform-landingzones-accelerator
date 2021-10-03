@@ -44,12 +44,6 @@ storage_accounts = {
       tfstate = {
         name = "tfstate"
       }
-      credentials = {
-        name = "credentials"
-      }
-      devops = {
-        name = "devops"
-      }
     }
   }
 
@@ -91,9 +85,6 @@ storage_accounts = {
       caf_tfstate     = "level3"
     }
     containers = {
-      tfstate = {
-        name = "tfstate"
-      }
 {% if tfstates_asvm is defined %}
 {% for key in tfstates_asvm %}
       {{ tfstates_asvm[key].workspace }} = {
@@ -120,9 +111,6 @@ storage_accounts = {
       caf_tfstate     = "level4"
     }
     containers = {
-      tfstate = {
-        name = "tfstate"
-      }
 {% if tfstates_asvm is defined %}
 {% for key in tfstates_asvm %}
       {{ tfstates_asvm[key].workspace }} = {

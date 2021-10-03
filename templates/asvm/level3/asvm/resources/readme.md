@@ -4,6 +4,12 @@
 ```bash
 rover login -t {{ config_platform.platform_identity.tenant_name }}.onmicrosoft.com
 
+unset ARM_SKIP_PROVIDER_REGISTRATION
+
+cd /tf/caf/landingzones
+git pull
+git checkout {{ asvm_resources.gitops.landingzones }}
+
 rover \
 {% if config_platform.platform_identity.azuread_identity_mode != "logged_in_user" %}
   --impersonate-sp-from-keyvault-url {{ keyvaults.cred_subscription_creation_landingzones.vault_uri }} \
@@ -17,6 +23,7 @@ rover \
   -log-severity {{ config_platform.gitops.rover_log_error }} \
   -env {{ config_platform.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
+  -p ${TF_DATA_DIR}/{{ tfstates_asvm[asvm_folder].resources.tfstate }}.tfplan \
   -a plan
 
 rover logout

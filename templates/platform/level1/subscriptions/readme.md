@@ -18,6 +18,7 @@ rover \
   -log-severity {{ config.gitops.rover_log_error }} \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
+  -p ${TF_DATA_DIR}/{{ tfstates.platform_subscriptions.tfstate }}.tfplan \
   -a plan
 
 ```

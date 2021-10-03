@@ -1,4 +1,4 @@
-
+{% if asvm_resources.custom_role_definitions is defined %}
 custom_role_definitions = {
 
 {% for key, crd in asvm_resources.custom_role_definitions.items() %}
@@ -21,4 +21,4 @@ custom_role_definitions = {
 {% endfor %}
 
 }
-
+{% endif %}
