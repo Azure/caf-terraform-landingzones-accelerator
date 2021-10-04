@@ -1,0 +1,16 @@
+landingzone = {
+  backend_type        = "azurerm"
+  global_settings_key = "{{ tfstates.virtual_wan.lz_key_name }}"
+  level               = "{{ tfstates.vpn_sites[site].level }}"
+  key                 = "{{ tfstates.vpn_sites[site].lz_key_name }}"
+  tfstates = {
+    {{ tfstates.virtual_wan.lz_key_name }} = {
+      level   = "current"
+      tfstate = "{{ tfstates.virtual_wan.tfstate }}"
+    }
+    {{ tfstates.virtual_hubs[connectivity_vpn.vpn_gateway_connections[site].vpn_site.key].lz_key_name }} = {
+      level   = "current"
+      tfstate = "{{ tfstates.virtual_hubs[connectivity_vpn.vpn_gateway_connections[site].vpn_site.key].tfstate }}"
+    }
+  }
+}

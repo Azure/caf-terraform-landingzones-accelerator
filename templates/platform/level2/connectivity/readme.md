@@ -74,6 +74,44 @@ rover \
 ```
 {% endfor %}
 
+{% if connectivity_vpn.vpn_sites is defined %}
+## Virtual Hub VPN Sites
+
+{% for vpnsite in connectivity_vpn.vpn_sites.keys() %}
+### {{ vpnsite }}
+
+```bash
+# login a with a user member of the caf-platform-maintainers group
+rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
+
+cd {{ config.configuration_folders.platform.destination_base_path }}/landingzones
+git fetch origin
+git checkout {{ config.gitops.caf_landingzone_branch }}
+
+rover \
+{% if config.platform_identity.azuread_identity_mode != "logged_in_user" %}
+  --impersonate-sp-from-keyvault-url {{ keyvaults.cred_connectivity.vault_uri }} \
+{% endif %}
+  -lz {{ config.configuration_folders.platform.destination_base_path }}/landingzones/caf_solution \
+  -var-folder {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/vpn_sites/{{ vpnsite }} \
+  -tfstate_subscription_id {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+{% if platform_subscriptions_details is defined %}
+  -target_subscription {{ platform_subscriptions_details.connectivity.subscription_id }} \
+{% else %}
+  -target_subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+{% endif %}
+  -tfstate {{ tfstates.vpn_sites[vpnsite].tfstate }} \
+  -log-severity ERROR \
+  -env {{ config.caf_terraform.launchpad.caf_environment }} \
+  -level {{ level }} \
+  -p ${TF_DATA_DIR}/{{ tfstates.vpn_sites[vpnsite].tfstate }}.tfplan \
+  -a plan
+
+
+```
+{% endfor %}
+{% endif %}
+
 {% if tfstates.firewall_policies is defined %}
 ## Firewall policies
 

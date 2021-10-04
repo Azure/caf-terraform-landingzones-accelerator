@@ -6,6 +6,7 @@
     level1: "{{ lookup('file', '{{ config_folder }}/level1.yaml') | from_yaml }}"
     connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_wan.yaml') | from_yaml }}"
     connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_hub.yaml') | from_yaml }}"
+    connectivity_vpn: "{{ lookup('file', '{{ config_folder }}/connectivity_vpn.yaml') | from_yaml }}"
     connectivity_firewall: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall.yaml') | from_yaml }}"
     connectivity_firewall_policies: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall_policies.yaml') | from_yaml }}"
     connectivity: "{{ lookup('file', '{{ config_folder }}/connectivity.yaml') | from_yaml }}"
