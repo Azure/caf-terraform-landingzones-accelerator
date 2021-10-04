@@ -7,7 +7,7 @@ Deploy the identity services
 rover logout
 
 # login a with a user member of the caf-maintainers group
-rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config.platform_identity.tenant_name }}
 
 rover \
 {% if config.platform_identity.azuread_identity_mode != "logged_in_user" %}

@@ -34,7 +34,7 @@ Below are the steps to be followed for deployment.
 
 ```bash
 az account clear
-rover login -t <tenant_name>.onmicrosoft.com
+rover login -t <tenant_name>
 
 ```
 

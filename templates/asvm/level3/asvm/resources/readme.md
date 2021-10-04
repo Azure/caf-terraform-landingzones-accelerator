@@ -2,7 +2,7 @@
 ### Deploy base resources in {{ asvm_folder }}
 
 ```bash
-rover login -t {{ config_platform.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config_platform.platform_identity.tenant_name }}
 
 unset ARM_SKIP_PROVIDER_REGISTRATION
 

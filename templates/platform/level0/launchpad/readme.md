@@ -30,7 +30,7 @@ Elevate your credentials to the tenant root level to have enough privileges to c
 {% else %}
 # Login to the subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }} with an account owner.
 {% endif %}
-rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config.platform_identity.tenant_name }}
 az rest --method post --url "/providers/Microsoft.Authorization/elevateAccess?api-version=2016-07-01"
 
 ```
@@ -46,7 +46,7 @@ az rest --method post --url "/providers/Microsoft.Authorization/elevateAccess?ap
 # Login to the subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }} with an account owner.
 {% endif %}
 {% endif %}
-rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com -s {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }}
+rover login -t {{ config.platform_identity.tenant_name }} -s {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }}
 
 cd /tf/caf/landingzones
 git fetch origin

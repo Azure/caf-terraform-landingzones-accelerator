@@ -4,7 +4,7 @@
 ```bash
 # For manual bootstrap:
 # Login to the subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }} with the user {{ config.billing_subscription_role_delegations.azuread_user_ea_account_owner }}
-rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config.platform_identity.tenant_name }}
 
 rover \
 {% if ((config.platform_identity.azuread_identity_mode != "logged_in_user") and (credentials_tfstate_exists.rc == 0)) %}

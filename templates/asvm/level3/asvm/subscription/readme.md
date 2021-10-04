@@ -2,7 +2,7 @@
 ### Generate asvm for {{ asvm_folder }}
 
 ```bash
-rover login -t {{ config_platform.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config_platform.platform_identity.tenant_name }}
 
 export ARM_SKIP_PROVIDER_REGISTRATION=true
 
@@ -29,7 +29,7 @@ Once you have executed the rover apply to create the subscription, you need to e
 Note you need to logout and login as a caf_maintainer group member
 
 ```bash
-rover login -t {{ config_platform.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config_platform.platform_identity.tenant_name }}
 
 rover ignite \
   --playbook /tf/caf/starter/templates/asvm/ansible.yaml \

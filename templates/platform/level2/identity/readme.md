@@ -5,7 +5,7 @@ Deploy 2 domain controllers in the primary region
 
 ```bash
 # login a with a user member of the caf-maintainers group
-rover login -t {{ config.tenant_name }}.onmicrosoft.com
+rover login -t {{ config.tenant_name }}
 
 cd {{ config.configuration_folders.destination_base_path }}landingzones
 git fetch origin

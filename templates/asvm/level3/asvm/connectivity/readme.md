@@ -1,6 +1,6 @@
 
 ```bash
-rover login -t {{ config_platform.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config_platform.platform_identity.tenant_name }}
 
 
 cd /tf/caf/landingzones

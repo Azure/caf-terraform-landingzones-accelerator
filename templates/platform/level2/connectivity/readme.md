@@ -11,7 +11,7 @@ Note you need to adjust the branch {{ config.gitops.caf_landingzone_branch }} to
 
 ```bash
 # login a with a user member of the caf-platform-maintainers group
-rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config.platform_identity.tenant_name }}
 
 cd {{ config.configuration_folders.platform.destination_base_path }}/landingzones
 git fetch origin
@@ -45,7 +45,7 @@ rover \
 
 ```bash
 # login a with a user member of the caf-platform-maintainers group
-rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config.platform_identity.tenant_name }}
 
 cd {{ config.configuration_folders.platform.destination_base_path }}/landingzones
 git fetch origin
@@ -82,7 +82,7 @@ rover \
 
 ```bash
 # login a with a user member of the caf-platform-maintainers group
-rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config.platform_identity.tenant_name }}
 
 cd {{ config.configuration_folders.platform.destination_base_path }}/landingzones
 git fetch origin
@@ -120,7 +120,7 @@ rover \
 
 ```bash
 # login a with a user member of the caf-platform-maintainers group
-rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config.platform_identity.tenant_name }}
 
 cd {{ config.configuration_folders.platform.destination_base_path }}/landingzones
 git fetch origin

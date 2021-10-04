@@ -4,7 +4,7 @@ Set-up the subscription delegations for platform and landingzone subscriptions
 
 ```bash
 # Login to the subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }} with the user {{ config.billing_subscription_role_delegations.azuread_user_ea_account_owner }}
-rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config.platform_identity.tenant_name }}
 
 rover \
   -lz /tf/caf/landingzones/caf_solution \
@@ -31,7 +31,7 @@ To execute this step you need to login with on of the CAF maintainers:
 {% endfor %}
 
 ```bash
-rover login -t {{ config.platform_identity.tenant_name }}.onmicrosoft.com
+rover login -t {{ config.platform_identity.tenant_name }}
 
 rover ignite \
   --playbook /tf/caf/starter/templates/platform/ansible.yaml \
