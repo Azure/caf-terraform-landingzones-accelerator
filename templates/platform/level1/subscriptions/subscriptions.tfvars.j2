@@ -27,7 +27,9 @@ subscriptions = {
     enrollment_account_name = "{{ config.billing_subscription_role_delegations.enrollment_account_name }}"
     workload                = "{{ subscriptions.platform_subscriptions[key].workload | default('DevTest') }}"
 {% else %}
+{% if subscriptions.platform_subscriptions[key].subscription_id is defined  %}
     subscription_id = "{{ subscriptions.platform_subscriptions[key].subscription_id }}"
+{% endif %}
 {% endif %}
   }
 {% endfor %}
