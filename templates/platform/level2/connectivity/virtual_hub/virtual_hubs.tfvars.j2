@@ -20,9 +20,24 @@ virtual_hubs = {
     deploy_firewall    = false
     deploy_p2s         = false
     p2s_config         = {}
+{% if connectivity_virtual_hub[virtual_hub].deploy_s2s  %}
+    deploy_s2s         = true
+    s2s_config         = {
+      name       = "{{ connectivity_virtual_hub[virtual_hub].s2s_config.name }}" 
+      scale_unit = {{ connectivity_virtual_hub[virtual_hub].s2s_config.scale_unit }}
+    }
+{% else %}
     deploy_s2s         = false
-    s2s_config         = {}
+{% endif %}
+{% if connectivity_virtual_hub[virtual_hub].deploy_er  %}
+    deploy_er          = true
+    er_config          = {
+      name       = "{{ connectivity_virtual_hub[virtual_hub].er_config.name }}" 
+      scale_unit = {{ connectivity_virtual_hub[virtual_hub].er_config.scale_unit }}
+    }
+{% else %}
     deploy_er          = false
+{% endif %}
   }
 }
 

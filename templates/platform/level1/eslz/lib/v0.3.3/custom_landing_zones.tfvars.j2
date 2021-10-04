@@ -36,26 +36,93 @@ custom_landing_zones = {
     subscription_ids = []
   }
 {% endif %}
-  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-corp = {
-    display_name               = "Corp"
-    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-landing-zones"
+{% for level1_key, level1 in config.management_group_hierarchy.root.items() %}
+{% for level2_key, level2 in level1.items() %}
+  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ level2_key }} = {
+    display_name               = "{{ config.management_group_details[level2_key].display_name }}"
+    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ level1_key }}"
     archetype_config = {
-      archetype_id   = "landingzone_corp"
-      parameters     = {}
-      access_control = {}
+      archetype_id     = "{{ config.management_group_details[level2_key].archetype_id }}"
+      parameters       = {}
+{% if config.management_group_details[level2_key].access_control is defined %}
+      access_control = {
+{% for level2_ac_key, level2_ac in config.management_group_details[level2_key].access_control.items() %}
+        "{{level2_ac_key}}" = {
+{% for level2_res_key, level2_res in level2_ac.items()  %}
+          "{{ level2_res_key }}" = {
+            lz_key        = "{{ level2_res.lz_key }}"
+            attribute_key = "{{ level2_res.attribute_key }}"
+            resource_keys = {{ level2_res.resource_keys | replace('None','[]') | replace('\'','\"') }}
+          }
+        }
+{% endfor %}
+{% endfor %}
+      }
+{% else %}
+      access_control   = {}
+{% endif %}
     }
     subscriptions    = {}
     subscription_ids = []
   }
-  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-online = {
-    display_name               = "Online"
-    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-landing-zones"
+{% for level3_key, level3 in level2.items() %}
+  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ level3_key }} = {
+    display_name               = "{{ config.management_group_details[level3_key].display_name }}"
+    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ level2_key }}"
     archetype_config = {
-      archetype_id   = "landingzone_online"
-      parameters     = {}
-      access_control = {}
+      archetype_id     = "{{ config.management_group_details[level3_key].archetype_id }}"
+      parameters       = {}
+{% if config.management_group_details[level3_key].access_control is defined %}
+      access_control = {
+{% for level3_ac_key, level3_ac in config.management_group_details[level3_key].access_control.items() %}
+        "{{level3_ac_key}}" = {
+{% for level3_res_key, level3_res in level3_ac.items()  %}
+          "{{ level3_res_key }}" = {
+            lz_key        = "{{ level3_res.lz_key }}"
+            attribute_key = "{{ level3_res.attribute_key }}"
+            resource_keys = {{ level3_res.resource_keys | replace('None','[]') | replace('\'','\"') }}
+          }
+        }
+{% endfor %}
+{% endfor %}
+      }
+{% else %}
+      access_control   = {}
+{% endif %}
     }
     subscriptions    = {}
     subscription_ids = []
   }
+{% for level4_key, level4 in level3.items() %}
+  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ level4_key }} = {
+    display_name               = "{{ config.management_group_details[level4_key].display_name }}"
+    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ level3_key }}"
+    archetype_config = {
+      archetype_id     = "{{ config.management_group_details[level4_key].archetype_id }}"
+      parameters       = {}
+{% if config.management_group_details[level4_key].access_control is defined %}
+      access_control = {
+{% for level4_ac_key, level4_ac in config.management_group_details[level4_key].access_control.items() %}
+        "{{level4_ac_key}}" = {
+{% for level4_res_key, level4_res in level4_ac.items()  %}
+          "{{ level4_res_key }}" = {
+            lz_key        = "{{ level4_res.lz_key }}"
+            attribute_key = "{{ level4_res.attribute_key }}"
+            resource_keys = {{ level4_res.resource_keys | replace('None','[]') | replace('\'','\"') }}
+          }
+        }
+{% endfor %}
+{% endfor %}
+      }
+{% else %}
+      access_control   = {}
+{% endif %}
+    }
+    subscriptions    = {}
+    subscription_ids = []
+  }
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{% endfor %}
 }

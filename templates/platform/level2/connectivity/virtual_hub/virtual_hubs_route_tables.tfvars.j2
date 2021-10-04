@@ -1,13 +1,15 @@
+{% if connectivity_virtual_hub[virtual_hub].virtual_hub_route_tables is defined %}
 virtual_hub_route_tables = {
-  routetable1 = {
-    name = "example-vhubroutetable1"
+{% for key, route_table in connectivity_virtual_hub[virtual_hub].virtual_hub_route_tables.items() %}
+  {{ key }} = {
+    name = "{{ route_table.name }}"
 
     virtual_hub = {
       key = "{{ virtual_hub }}"
     }
 
-    labels = ["label1"]
-    routes = {
+    # labels = ["label1"]
+    # routes = {
       # egress_internet = {
       #   name              = "egress-internet"
       #   destinations_type = "CIDR"
@@ -26,15 +28,8 @@ virtual_hub_route_tables = {
       #   #to cather for external object
       #   #next_hop_id       = "Azure_Resource_ID"
       # }
-    }
+    # }
   }
-  routetable2 = {
-    name = "example-vhubroutetable2"
-
-    virtual_hub = {
-      key = "{{ virtual_hub }}"
-    }
-
-    labels = ["label2"]
-  }
+{% endfor %}
 }
+{% endif %}
