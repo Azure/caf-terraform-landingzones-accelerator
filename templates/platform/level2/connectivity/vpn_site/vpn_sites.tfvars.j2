@@ -10,6 +10,9 @@ vpn_sites = {
       key    = "{{ connectivity_vpn.vpn_sites[site].virtual_wan.key }}"
     }
     device_vendor = "{{ connectivity_vpn.vpn_sites[site].device_vendor }}"
+{% if connectivity_vpn.vpn_sites[site].address_cidrs is defined %}
+    address_cidrs = {{ connectivity_vpn.vpn_sites[site].address_cidrs | replace('None','[]') | replace('\'','\"') }}
+{% endif %}
     links = {
 {% for link_key, link in connectivity_vpn.vpn_sites[site].links.items() %}
       {{ link_key }} = {
