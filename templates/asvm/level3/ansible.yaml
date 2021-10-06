@@ -1,7 +1,7 @@
 - name: set asvm context
   set_fact:
-    destination_base_path: "{{ config_asvm.configuration_folders[base_folder_asvm].destination_base_path }}"
-    destination_relative_path: "{{ config_asvm.configuration_folders[base_folder_asvm].destination_relative_path }}"
+    destination_base_path: "{{ config_asvm.configuration_folders['asvm'].destination_base_path }}"
+    destination_relative_path: "{{ config_asvm.configuration_folders['asvm'].destination_relative_path }}"
     asvm_folder: "{{ asvm_long_folder.path | regex_search('[^\/]+(?=\/$|$)') }}"
 
 - name: set source path
@@ -27,7 +27,7 @@
   when: config_asvm.configuration_folders.asvm.cleanup_destination | bool
 
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] Creates directory"
+- name: "[{{ level }}-{{ asvm_long_folder.path }}] Creates directory"
   file:
     path: "{{ destination_path_subscription }}"
     state: directory
@@ -85,45 +85,47 @@
     msg: "Platform subscriptions - {{ asvm_subscriptions_details }}"
   when: subscription_tfstate_exists.rc == 0
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - subscriptions - generate configuration files."
+- name: "[{{ level }}-{{ asvm_long_folder.path }}] - subscriptions - generate configuration files."
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ destination_path_subscription}}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
   with_fileglob:
-    - "{{ base_templates_folder }}/{{ base_folder_asvm }}/{{ level }}/{{ base_folder_asvm }}/subscription/*.tfvars.j2"
-    - "{{ base_templates_folder }}/{{ base_folder_asvm }}/{{ level }}/{{ base_folder_asvm }}/subscription/*.md"
+    - "{{ base_templates_folder }}/{{ level }}/subscription/*.tfvars.j2"
+    - "{{ base_templates_folder }}/{{ level }}/subscription/*.md"
 
 #### Resources
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - resources - Creates directory"
+- name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources - Creates directory"
   file:
     path: "{{ destination_path_resources }}"
     state: directory
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - resources - generate configuration files."
+- name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources"
+  include_tasks: "{{ level }}/ansible-resources.yaml"
+
+- name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources - *.md"
   when: subscription_tfstate_exists.rc == 0
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ destination_path_resources }}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
   with_fileglob:
-    - "{{ base_templates_folder }}/{{ base_folder_asvm }}/{{ level }}/{{ base_folder_asvm }}/resources/*.tfvars.j2"
-    - "{{ base_templates_folder }}/{{ base_folder_asvm }}/{{ level }}/{{ base_folder_asvm }}/resources/*.md"
+    - "{{ base_templates_folder }}/{{ level }}/resources/*.md"
 
 
 ### connectivity
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - connectivity - Creates directory"
+- name: "[{{ level }}-{{ asvm_long_folder.path }}] - connectivity - Creates directory"
   file:
     path: "{{ destination_path_vnet_connections }}"
     state: directory
 
-- name: "[{{ level }}-{{ base_folder_asvm }}-{{ asvm_long_folder.path }}] - connectivity - generate configuration files."
+- name: "[{{ level }}-{{ asvm_long_folder.path }}] - connectivity - generate configuration files."
   when: subscription_tfstate_exists.rc == 0
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ destination_path_vnet_connections }}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
   with_fileglob:
-    - "{{ base_templates_folder }}/{{ base_folder_asvm }}/{{ level }}/{{ base_folder_asvm }}/connectivity/*.tfvars.j2"
-    - "{{ base_templates_folder }}/{{ base_folder_asvm }}/{{ level }}/{{ base_folder_asvm }}/connectivity/*.md"
+    - "{{ base_templates_folder }}/{{ level }}/connectivity/*.tfvars.j2"
+    - "{{ base_templates_folder }}/{{ level }}/connectivity/*.md"

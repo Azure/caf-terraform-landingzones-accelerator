@@ -1,14 +1,17 @@
 
+# Generate the terraform configuration files
+
+To execute this step you need to login with on of the CAF maintainers:
+{% for maintainer in config.platform_identity.caf_platform_maintainers %}
+  - {{ maintainer }}
+{% endfor %}
+
 ```bash
-cd /tf/caf/templates/platform
+rover login -t {{ config.platform_identity.tenant_name }}
 
 rover ignite \
   --playbook /tf/caf/starter/templates/platform/ansible.yaml \
-  -e base_templates_folder=/tf/caf/starter/templates \
-  -e config_folder=/tf/caf/orgs/contoso/multi-sub/platform \
-  -e config_folder_asvm=/tf/caf/orgs/contoso/multi-sub/asvm \
-  -e scenario=demo \
-  -e boostrap_launchpad=false \
-  -e deploy_subscriptions=false
-
-```
+  -e base_templates_folder={{ base_templates_folder }} \
+  -e config_folder={{ config_folder }} \
+  -e config_folder_asvm={{ config_folder_asvm }} \
+  -e scenario={{ scenario }}

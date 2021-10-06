@@ -60,7 +60,7 @@
         path: 'outputs.objects.value.{{ tfstates.platform_subscriptions.lz_key_name }}.subscriptions'
 
 
-# Get Platofrm keyvaults
+# Get Platform keyvaults
     - name: "Get tfstate account name"
       register: launchpad_storage_account
       shell: |
@@ -111,12 +111,11 @@
 
     - name: set asvm base_folder
       set_fact:
-        base_folder_asvm: "asvm"
         base_folder_platform: "platform"
         level: "level3"
 
-    - name: "{{ level }}-{{ base_folder_asvm }} | Azure Subscription Vending Machine (ASVM)"
-      include_tasks: "{{ level }}/{{ base_folder_asvm }}/ansible.yaml"
+    - name: "{{ level }} | Azure Subscription Vending Machine (ASVM)"
+      include_tasks: "{{ level }}/ansible.yaml"
       loop: "{{ directories_to_process.files if directories_to_process.files is iterable else []  | json_query('[*].path') }}"
       loop_control:
         loop_var: asvm_long_folder
