@@ -1,5 +1,5 @@
 {
-    "{{ mg.archetype_definitions[item].archetype_id }}": {
+    "{{ mg_custom.archetype_definitions[item].archetype_id }}": {
         "policy_assignments": [
 {% if mg.archetype_definitions[item].policy_assignments is defined %}
 {% for key in mg.archetype_definitions[item].policy_assignments.keys() %}
