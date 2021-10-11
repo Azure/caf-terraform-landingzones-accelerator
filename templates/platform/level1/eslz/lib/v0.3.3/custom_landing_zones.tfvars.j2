@@ -8,6 +8,7 @@ custom_landing_zones = {
 {% if mg_custom.archetype_definitions[key].policy_assignments is defined %}
       parameters = {
 {% for pa_key, pa_value in mg_custom.archetype_definitions[key].policy_assignments.items() %}
+{% if pa_value is mapping %}
         "{{ pa_key }}" = {
 {% for attribute, attribute_value in pa_value.items()  %}
           "{{attribute}}" = {
@@ -18,11 +19,18 @@ custom_landing_zones = {
 {% elif attribute_value is number %}
           value = {{ attribute_value }}
 {% else %}
+{% if attribute_value is mapping %}
+{% for caf_key, caf_value in attribute_value.items() %}
+          {{ caf_key }} = "{{ caf_value }}"
+{% endfor %}
+{% else %}
           values = {{ attribute_value | replace('None','[]') | replace('\'','\"') }}
+{% endif %}
 {% endif %}
           }
 {% endfor %}
         }
+{% endif %}
 {% endfor %}
       }
 {% else %}
