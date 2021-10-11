@@ -25,13 +25,13 @@
 {% endif %}
         ],
         "policy_set_definitions": [
-{% if mg.archetype_definitions[item].policy_definitions is defined %}
-{% for key in mg.archetype_definitions[item].policy_definitions.keys() %}
+{% if mg.archetype_definitions[item].policy_set_definitions is defined %}
+{% for key in mg.archetype_definitions[item].policy_set_definitions.keys() %}
             "{{ key }}",
 {% endfor %}
 {% endif %}
-{% if mg_custom.archetype_definitions[item].policy_definitions is defined %}
-{% for key in mg_custom.archetype_definitions[item].policy_definitions.keys() %}
+{% if mg_custom.archetype_definitions[item].policy_set_definitions is defined %}
+{% for key in mg_custom.archetype_definitions[item].policy_set_definitions.keys() %}
             "{{ key }}",
 {% endfor %}
 {% endif %}
