@@ -53,7 +53,7 @@
     - service_principals
 
 - name: "[{{ level }}-{{ base_folder }}] Deploy the launchpad"
-  when: boostrap_launchpad | bool
+  when: boostrap_launchpad | bool | default(false)
   shell: |
     /tf/rover/rover.sh \
       -lz /tf/caf/landingzones/caf_launchpad \

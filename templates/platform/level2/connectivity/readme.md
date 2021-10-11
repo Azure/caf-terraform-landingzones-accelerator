@@ -74,10 +74,10 @@ rover \
 ```
 {% endfor %}
 
-{% if connectivity_vpn.vpn_sites is defined %}
+{% if connectivity_vpn_sites.vpn_sites is defined %}
 ## Virtual Hub VPN Sites
 
-{% for vpnsite in connectivity_vpn.vpn_sites.keys() %}
+{% for vpnsite in connectivity_vpn_sites.vpn_sites.keys() %}
 ### {{ vpnsite }}
 
 ```bash

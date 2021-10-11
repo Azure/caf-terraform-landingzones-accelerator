@@ -1,0 +1,38 @@
+{
+    "{{ item }}": {
+        "policy_assignments": [
+{% if mg.archetype_definitions[item].policy_assignments is defined %}
+{% for key in mg.archetype_definitions[item].policy_assignments.keys() %}
+            "{{ key }}",
+{% endfor %}
+{% endif %}
+        ],
+        "policy_definitions": [
+{% if mg.archetype_definitions[item].policy_definitions is defined %}
+{% for key in mg.archetype_definitions[item].policy_definitions.keys() %}
+            "{{ key }}",
+{% endfor %}
+{% endif %}
+        ],
+        "policy_set_definitions": [
+{% if mg.archetype_definitions[item].policy_definitions is defined %}
+{% for key in mg.archetype_definitions[item].policy_definitions.keys() %}
+            "{{ key }}",
+{% endfor %}
+{% endif %}
+        ],
+        "role_definitions": [
+{% if mg.archetype_definitions[item].role_definitions is defined %}
+{% for key in mg.archetype_definitions[item].role_definitions.keys() %}
+            "{{ key }}",
+{% endfor %}
+{% endif %}
+        ],
+        "archetype_config": {
+            "parameters": {
+            },
+            "access_control": {
+            }
+        }
+    }
+}

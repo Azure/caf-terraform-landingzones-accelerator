@@ -8,9 +8,9 @@ landingzone = {
       level   = "current"
       tfstate = "{{ tfstates.virtual_wan.tfstate }}"
     }
-    {{ tfstates.virtual_hubs[connectivity_vpn.vpn_gateway_connections[site].vpn_site.key].lz_key_name }} = {
+    {{ tfstates.virtual_hubs[connectivity_vpn_gateway_connections.vpn_gateway_connections[site].vpn_site.key].lz_key_name }} = {
       level   = "current"
-      tfstate = "{{ tfstates.virtual_hubs[connectivity_vpn.vpn_gateway_connections[site].vpn_site.key].tfstate }}"
+      tfstate = "{{ tfstates.virtual_hubs[connectivity_vpn_gateway_connections.vpn_gateway_connections[site].vpn_site.key].tfstate }}"
     }
   }
 }

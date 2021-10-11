@@ -26,6 +26,11 @@
       set_fact:
         job_cache_base_path: "/home/vscode/.terraform.cache"
 
+    - name: "Creates cache directory"
+      file:
+        path: "{{ job_cache_base_path }}/launchpad"
+        state: directory
+
     - name: "Get tfstate details"
       register: subscription_tfstate_file_name
       shell: |

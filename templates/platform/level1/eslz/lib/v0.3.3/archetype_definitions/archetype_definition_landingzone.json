@@ -6,7 +6,6 @@
             "Deny-Storage-http",
             "Deploy-AKS-Policy",
             "Deploy-SQL-DB-Auditing",
-            "Deploy-VM-Backup",
             "Deploy-SQL-Security",
             "Deny-Priv-Escalation-AKS",
             "Deny-Priv-Containers-AKS",

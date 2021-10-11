@@ -1,4 +1,18 @@
 #
+# azuread_application_credentials
+#
+- name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources - azuread_application_credentials"
+  when: 
+    - asvm_resources.azuread_application_credentials is defined
+    - subscription_tfstate_exists.rc == 0
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ destination_path_resources }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ base_templates_folder }}/{{ level }}/resources/azuread_application_credentials.tfvars.j2"
+
+#
 # azuread_applications
 #
 - name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources - azuread_applications"
@@ -11,20 +25,6 @@
     force: yes
   with_fileglob:
     - "{{ base_templates_folder }}/{{ level }}/resources/azuread_applications.tfvars.j2"
-
-#
-# azuread_credentials
-#
-- name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources - azuread_credentials"
-  when: 
-    - asvm_resources.azuread_credentials is defined
-    - subscription_tfstate_exists.rc == 0
-  ansible.builtin.template:
-    src: "{{ item }}"
-    dest: "{{ destination_path_resources }}/{{ item | basename | regex_replace('.j2$', '') }}"
-    force: yes
-  with_fileglob:
-    - "{{ base_templates_folder }}/{{ level }}/resources/azuread_credentials.tfvars.j2"
 
 #
 # azuread_credential_policies
@@ -109,6 +109,20 @@
     force: yes
   with_fileglob:
     - "{{ base_templates_folder }}/{{ level }}/resources/landingzone.tfvars.j2"
+
+#
+# recovery_vaults
+#
+- name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources - recovery_vaults"
+  when: 
+    - asvm_resources.recovery_vaults is defined
+    - subscription_tfstate_exists.rc == 0
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ destination_path_resources }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ base_templates_folder }}/{{ level }}/resources/recovery_vaults.tfvars.j2"
   
 #
 # resource_groups
@@ -137,21 +151,7 @@
     force: yes
   with_fileglob:
     - "{{ base_templates_folder }}/{{ level }}/resources/role_mapping.tfvars.j2"
-  
-#
-# recovery_vaults
-#
-- name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources - recovery_vaults"
-  when: 
-    - asvm_resources.recovery_vaults is defined
-    - subscription_tfstate_exists.rc == 0
-  ansible.builtin.template:
-    src: "{{ item }}"
-    dest: "{{ destination_path_resources }}/{{ item | basename | regex_replace('.j2$', '') }}"
-    force: yes
-  with_fileglob:
-    - "{{ base_templates_folder }}/{{ level }}/resources/recovery_vaults.tfvars.j2"
-  
+
 #
 # virtual_hub_connections
 #

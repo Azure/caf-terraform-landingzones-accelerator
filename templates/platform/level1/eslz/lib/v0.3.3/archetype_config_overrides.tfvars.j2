@@ -95,9 +95,9 @@ archetype_config_overrides = {
           resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
           attribute_key = "id"
         }
-{% for parameter_key in config.management_groups_policies.root["Deploy-ASC-Defender"].keys() %}
+{% for parameter_key in mg.archetype_definitions.root.policy_assignments["Deploy-ASC-Defender"].keys() %}
         "{{ parameter_key }}" = {
-          value = "{{ config.management_groups_policies.root["Deploy-ASC-Defender"][parameter_key] }}"
+          value = "{{ mg.archetype_definitions.root.policy_assignments["Deploy-ASC-Defender"][parameter_key] }}"
         }
 {% endfor %}
       }

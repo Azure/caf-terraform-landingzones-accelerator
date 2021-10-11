@@ -12,7 +12,6 @@
   set_fact:
     asvm_subscription: "{{ lookup('file', '{{ asvm_config_folder }}/subscription.caf.asvm.yaml') | from_yaml }}"
     asvm_resources: "{{ lookup('file', '{{ asvm_config_folder }}/resources.caf.asvm.yaml') | from_yaml }}"
-    asvm_connectivity: "{{ lookup('file', '{{ asvm_config_folder }}/connectivity.caf.asvm.yaml') | from_yaml }}"
     destination_path_subscription:  "{{ destination_base_path }}/{{ destination_relative_path }}/{{ level }}/{{ asvm_folder }}/subscription"
     destination_path_resources:  "{{ destination_base_path }}/{{ destination_relative_path }}/{{ level }}/{{ asvm_folder }}/resources"
     destination_path_vnet_connections: "{{ destination_base_path }}/{{ destination_relative_path }}/{{ level }}/{{ asvm_folder }}/connectivity"
@@ -115,17 +114,17 @@
 
 
 ### connectivity
-- name: "[{{ level }}-{{ asvm_long_folder.path }}] - connectivity - Creates directory"
-  file:
-    path: "{{ destination_path_vnet_connections }}"
-    state: directory
+# - name: "[{{ level }}-{{ asvm_long_folder.path }}] - connectivity - Creates directory"
+#   file:
+#     path: "{{ destination_path_vnet_connections }}"
+#     state: directory
 
-- name: "[{{ level }}-{{ asvm_long_folder.path }}] - connectivity - generate configuration files."
-  when: subscription_tfstate_exists.rc == 0
-  ansible.builtin.template:
-    src: "{{ item }}"
-    dest: "{{ destination_path_vnet_connections }}/{{ item | basename | regex_replace('.j2$', '') }}"
-    force: yes
-  with_fileglob:
-    - "{{ base_templates_folder }}/{{ level }}/connectivity/*.tfvars.j2"
-    - "{{ base_templates_folder }}/{{ level }}/connectivity/*.md"
+# - name: "[{{ level }}-{{ asvm_long_folder.path }}] - connectivity - generate configuration files."
+#   when: subscription_tfstate_exists.rc == 0
+#   ansible.builtin.template:
+#     src: "{{ item }}"
+#     dest: "{{ destination_path_vnet_connections }}/{{ item | basename | regex_replace('.j2$', '') }}"
+#     force: yes
+#   with_fileglob:
+#     - "{{ base_templates_folder }}/{{ level }}/connectivity/*.tfvars.j2"
+#     - "{{ base_templates_folder }}/{{ level }}/connectivity/*.md"

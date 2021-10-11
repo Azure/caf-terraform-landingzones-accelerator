@@ -1,61 +1,45 @@
 custom_landing_zones = {
-{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
-  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-gitops = {
-    display_name               = "Gitops"
-    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-platform"
+{% for key, level in mg_custom.archetype_definitions.items() %}
+  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ key }} = {
+    display_name               = "{{ mg_custom.archetype_definitions[key].display_name }}"
+    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ mg_custom.archetype_definitions[key].parent_management_group_id }}"
     archetype_config = {
-      archetype_id = "platform_gitops"
-      parameters   = {}
-      access_control = {
-        "Owner" = {
-          "azuread_groups" = {
-            lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
-            attribute_key = "id"
-            resource_keys = [
-              "level0", "caf_platform_maintainers"
-            ]
-          }
-        }
-        "Reader" = {
-          "azuread_groups" = {
-            lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
-            attribute_key = "id"
-            resource_keys = [
-              "identity"
-            ]
-          }
-        }
-      }
-    }
-    subscriptions = {
-      {{ tfstates.launchpad.lz_key_name }} = {
-        lz_key = "{{ tfstates.platform_subscriptions.lz_key_name }}"
-        key    = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ tfstates.launchpad.lz_key_name }}"
-      }
-    }
-    subscription_ids = []
-  }
+      archetype_id     = "{{mg_custom.archetype_definitions[key].archetype_id }}"
+{% if mg_custom.archetype_definitions[key].policy_assignments is defined %}
+      parameters = {
+{% for pa_key, pa_value in mg_custom.archetype_definitions[key].policy_assignments.items() %}
+        "{{ pa_key }}" = {
+{% for attribute, attribute_value in pa_value.items()  %}
+          "{{attribute}}" = {
+{% if attribute_value is string %}
+          value = "{{ attribute_value }}"
+{% elif attribute_value is boolean %}
+          value = {{ attribute_value | string | lower }}
+{% elif attribute_value is number %}
+          value = {{ attribute_value }}
+{% else %}
+          values = {{ attribute_value | replace('None','[]') | replace('\'','\"') }}
 {% endif %}
-{% for level1_key, level1 in config.management_group_hierarchy.root.items() %}
-{% for level2_key, level2 in level1.items() %}
-  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ level2_key }} = {
-    display_name               = "{{ config.management_group_details[level2_key].display_name }}"
-    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ level1_key }}"
-    archetype_config = {
-      archetype_id     = "{{ config.management_group_details[level2_key].archetype_id }}"
-      parameters       = {}
-{% if config.management_group_details[level2_key].access_control is defined %}
-      access_control = {
-{% for level2_ac_key, level2_ac in config.management_group_details[level2_key].access_control.items() %}
-        "{{level2_ac_key}}" = {
-{% for level2_res_key, level2_res in level2_ac.items()  %}
-          "{{ level2_res_key }}" = {
-            lz_key        = "{{ level2_res.lz_key }}"
-            attribute_key = "{{ level2_res.attribute_key }}"
-            resource_keys = {{ level2_res.resource_keys | replace('None','[]') | replace('\'','\"') }}
           }
+{% endfor %}
         }
 {% endfor %}
+      }
+{% else %}
+      parameters       = {}
+{% endif %}
+{% if mg_custom.archetype_definitions[key].archetype_config.access_control is defined %}
+      access_control = {
+{% for level_ac_key, level_ac in mg_custom.archetype_definitions[key].archetype_config.access_control.items() %}
+        "{{level_ac_key}}" = {
+{% for level_role_key, level_role in level_ac.items()  %}
+          "{{ level_role_key }}" = {
+            lz_key        = "{{ level_role.lz_key }}"
+            attribute_key = "{{ level_role.attribute_key }}"
+            resource_keys = {{ level_role.resource_keys | replace('None','[]') | replace('\'','\"') }}
+          }
+{% endfor %}
+        }
 {% endfor %}
       }
 {% else %}
@@ -65,64 +49,6 @@ custom_landing_zones = {
     subscriptions    = {}
     subscription_ids = []
   }
-{% for level3_key, level3 in level2.items() %}
-  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ level3_key }} = {
-    display_name               = "{{ config.management_group_details[level3_key].display_name }}"
-    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ level2_key }}"
-    archetype_config = {
-      archetype_id     = "{{ config.management_group_details[level3_key].archetype_id }}"
-      parameters       = {}
-{% if config.management_group_details[level3_key].access_control is defined %}
-      access_control = {
-{% for level3_ac_key, level3_ac in config.management_group_details[level3_key].access_control.items() %}
-        "{{level3_ac_key}}" = {
-{% for level3_res_key, level3_res in level3_ac.items()  %}
-          "{{ level3_res_key }}" = {
-            lz_key        = "{{ level3_res.lz_key }}"
-            attribute_key = "{{ level3_res.attribute_key }}"
-            resource_keys = {{ level3_res.resource_keys | replace('None','[]') | replace('\'','\"') }}
-          }
-        }
-{% endfor %}
-{% endfor %}
-      }
-{% else %}
-      access_control   = {}
-{% endif %}
-    }
-    subscriptions    = {}
-    subscription_ids = []
-  }
-{% for level4_key, level4 in level3.items() %}
-  {{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ level4_key }} = {
-    display_name               = "{{ config.management_group_details[level4_key].display_name }}"
-    parent_management_group_id = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ level3_key }}"
-    archetype_config = {
-      archetype_id     = "{{ config.management_group_details[level4_key].archetype_id }}"
-      parameters       = {}
-{% if config.management_group_details[level4_key].access_control is defined %}
-      access_control = {
-{% for level4_ac_key, level4_ac in config.management_group_details[level4_key].access_control.items() %}
-        "{{level4_ac_key}}" = {
-{% for level4_res_key, level4_res in level4_ac.items()  %}
-          "{{ level4_res_key }}" = {
-            lz_key        = "{{ level4_res.lz_key }}"
-            attribute_key = "{{ level4_res.attribute_key }}"
-            resource_keys = {{ level4_res.resource_keys | replace('None','[]') | replace('\'','\"') }}
-          }
-        }
-{% endfor %}
-{% endfor %}
-      }
-{% else %}
-      access_control   = {}
-{% endif %}
-    }
-    subscriptions    = {}
-    subscription_ids = []
-  }
-{% endfor %}
-{% endfor %}
-{% endfor %}
+
 {% endfor %}
 }
