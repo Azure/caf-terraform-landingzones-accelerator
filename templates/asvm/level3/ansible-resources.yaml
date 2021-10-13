@@ -3,7 +3,7 @@
 #
 - name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources - azuread_application_credentials"
   when: 
-    - asvm_resources.azuread_application_credentials is defined
+    - asvm_resources.azuread_credential_policies is defined
     - subscription_tfstate_exists.rc == 0
   ansible.builtin.template:
     src: "{{ item }}"

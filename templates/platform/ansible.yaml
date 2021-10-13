@@ -10,6 +10,7 @@
     connectivity_firewall_policies: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall_policies.yaml') | from_yaml }}"
     connectivity_vpn_sites: "{{ lookup('file', '{{ config_folder }}/connectivity_vpn_sites.yaml') | from_yaml }}"
     connectivity_vpn_gateway_connections: "{{ lookup('file', '{{ config_folder }}/connectivity_vpn_gateway_connections.yaml') | from_yaml }}"
+    connectivity_express_routes: "{{ lookup('file', '{{ config_folder }}/connectivity_express_routes.yaml') | from_yaml }}"
     identity: "{{ lookup('file', '{{ config_folder }}/identity.yaml') | from_yaml }}"
     management: "{{ lookup('file', '{{ config_folder }}/management.yaml') | from_yaml }}"
     subscriptions: "{{ lookup('file', '{{ config_folder }}/subscriptions.yaml') | from_yaml }}"

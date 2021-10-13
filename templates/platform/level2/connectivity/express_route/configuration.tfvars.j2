@@ -2,15 +2,11 @@ landingzone = {
   backend_type        = "azurerm"
   global_settings_key = "{{ tfstates.virtual_wan.lz_key_name }}"
   level               = "level2"
-  key                 = "{{ tfstates.virtual_hubs[virtual_hub].lz_key_name }}"
+  key                 = "{{ tfstates.express_route_circuits[circuit].lz_key_name }}"
   tfstates = {
     {{ tfstates.virtual_wan.lz_key_name }} = {
       level   = "current"
       tfstate = "{{ tfstates.virtual_wan.tfstate }}"
     }
   }
-}
-
-custom_variables = {
-  virtual_hub_lz_key = "{{ tfstates.virtual_hubs[virtual_hub].lz_key_name }}"
 }

@@ -1,0 +1,15 @@
+azurerm_express_route_circuit_peerings = {
+{% for key, value in connectivity_express_routes.azurerm_express_route_circuit_peerings[circuit].items() %}
+  {{ key }} = {
+    resource_group_key            = "{{ value.resource_group_key }}"
+    express_route_key             = "{{ circuit }}"
+    peering_type                  = "{{ value.peering_type }}"
+    primary_peer_address_prefix   = "{{ value.primary_peer_address_prefix }}"
+    secondary_peer_address_prefix = "{{ value.secondary_peer_address_prefix }}"
+    vlan_id                       = "{{ value.vlan_id }}"
+{% if value.peer_asn is defined %}
+    peer_asn                      = "{{ value.peer_asn }}"
+{% endif %}
+  }
+{% endfor %}
+}

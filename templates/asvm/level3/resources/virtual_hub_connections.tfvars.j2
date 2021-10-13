@@ -1,5 +1,3 @@
-virtual_hub_lz_key = "{{ asvm_resources.virtual_hub_lz_key }}"
-
 virtual_hub_connections = {
 {% for key, vhc in asvm_resources.virtual_hub_connections.items() %}
   {{ key }} = {

@@ -28,6 +28,12 @@
   loop_control:
     loop_var: site
 
+- name: Express Route
+  include_tasks: "{{ level }}/{{ base_folder }}/express_route/ansible.yaml"
+  loop: "{{ tfstates.express_route_circuits.keys() }}"
+  loop_control:
+    loop_var: circuit
+
 # - name: Firewall Policies
 #   include_tasks: "{{ level }}/{{ base_folder }}/firewall_policy/ansible.yaml"
 #   loop: "{{ tfstates.firewall_policies.keys() }}"
