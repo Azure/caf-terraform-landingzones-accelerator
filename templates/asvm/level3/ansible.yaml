@@ -103,16 +103,6 @@
 - name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources"
   include_tasks: "{{ level }}/ansible-resources.yaml"
 
-- name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources - *.md"
-  when: subscription_tfstate_exists.rc == 0
-  ansible.builtin.template:
-    src: "{{ item }}"
-    dest: "{{ destination_path_resources }}/{{ item | basename | regex_replace('.j2$', '') }}"
-    force: yes
-  with_fileglob:
-    - "{{ base_templates_folder }}/{{ level }}/resources/*.md"
-
-
 ### connectivity
 # - name: "[{{ level }}-{{ asvm_long_folder.path }}] - connectivity - Creates directory"
 #   file:

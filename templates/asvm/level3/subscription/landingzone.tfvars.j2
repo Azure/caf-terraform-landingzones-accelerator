@@ -7,7 +7,7 @@ landingzone = {
   key                 = "{{ tfstates_asvm[asvm_folder].subscription.lz_key_name }}"
   tfstates = {
 {% if asvm_subscription.landingzone.remote_tfstates.platform.management %}
-    {{ tfstates.management[asvm_subscription.landingzone.remote_tfstates.platform.virtual_hub].lz_key_name }} = {
+    {{ tfstates.management[asvm_subscription.landingzone.remote_tfstates.platform.platform].lz_key_name }} = {
       level     = "lower"
       tfstate   = "{{ tfstates.management[asvm_subscription.landingzone.remote_tfstates.platform.management].tfstate }}"
       workspace = "{{ tfstates.management[asvm_subscription.landingzone.remote_tfstates.platform.management].workspace }}"
