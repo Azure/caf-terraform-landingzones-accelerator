@@ -41,3 +41,33 @@ virtual_hubs = {
   }
 }
 
+{% if connectivity_virtual_hub.express_route_connections is defined and connectivity_virtual_hub.virtual_hubs[virtual_hub].enable_er_connections %}
+express_route_connections = {
+  {{ virtual_hub }} = {
+    name = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].name }}"
+    virtual_hub = {
+      key   = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].virtual_hub.key }}"
+    }
+    circuit_peering = {
+      lz_key = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering.lz_key }}"
+      key    = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering.key }}"
+    }
+{% if connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization is defined %}
+    express_route_circuit_authorization = {
+      lz_key = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization.lz_key }}"
+      key    = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization.key }}"
+    }
+{% endif %}
+{% if connectivity_virtual_hub.express_route_connections[virtual_hub].route_table is defined %}
+    express_route_circuit_authorization = {
+      key    = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].route_table.key }}"
+    }
+{% endif %}
+{% if connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization is defined %}
+    propagated_route_tables = {
+      key    = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].propagated_route_tables.key }}"
+    }
+{% endif %}
+  }
+}
+{% endif %}
