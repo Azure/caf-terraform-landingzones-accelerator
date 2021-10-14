@@ -1,8 +1,10 @@
-azurerm_express_route_circuit_peerings = {
-{% for key, value in connectivity_express_routes.azurerm_express_route_circuit_peerings[circuit].items() %}
+express_route_circuit_peerings = {
+{% for key, value in connectivity_express_route_peerings.express_route_circuit_peerings[circuit].items() %}
   {{ key }} = {
-    resource_group_key            = "{{ value.resource_group_key }}"
-    express_route_key             = "{{ circuit }}"
+    express_route = {
+      lz_key = "{{ value.express_route.lz_key }}"
+      key    = "{{ value.express_route.key }}"
+    } 
     peering_type                  = "{{ value.peering_type }}"
     primary_peer_address_prefix   = "{{ value.primary_peer_address_prefix }}"
     secondary_peer_address_prefix = "{{ value.secondary_peer_address_prefix }}"

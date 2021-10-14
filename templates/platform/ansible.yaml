@@ -11,6 +11,7 @@
     connectivity_vpn_sites: "{{ lookup('file', '{{ config_folder }}/connectivity_vpn_sites.yaml') | from_yaml }}"
     connectivity_vpn_gateway_connections: "{{ lookup('file', '{{ config_folder }}/connectivity_vpn_gateway_connections.yaml') | from_yaml }}"
     connectivity_express_routes: "{{ lookup('file', '{{ config_folder }}/connectivity_express_routes.yaml') | from_yaml }}"
+    connectivity_express_route_peerings: "{{ lookup('file', '{{ config_folder }}/connectivity_express_route_peerings.yaml') | from_yaml }}"
     identity: "{{ lookup('file', '{{ config_folder }}/identity.yaml') | from_yaml }}"
     management: "{{ lookup('file', '{{ config_folder }}/management.yaml') | from_yaml }}"
     subscriptions: "{{ lookup('file', '{{ config_folder }}/subscriptions.yaml') | from_yaml }}"
@@ -24,11 +25,20 @@
 
 
   tasks:
+    - name: "Get latest cache folder"
+      set_fact:
+        job_cache_base_path: "/home/vscode/.terraform.cache"
+
+    - name: "Creates cache directory"
+      file:
+        path: "{{ job_cache_base_path }}/launchpad"
+        state: directory
 #
 # Level 0
 #
 
 ## launchpad
+        
     - name: "[{{ level }}-{{ base_folder }}] launchpad"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
       vars:

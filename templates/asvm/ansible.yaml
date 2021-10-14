@@ -31,7 +31,7 @@
         path: "{{ job_cache_base_path }}/launchpad"
         state: directory
 
-    - name: "Get tfstate details"
+    - name: "Get platform subscriptions tfstate details"
       register: subscription_tfstate_file_name
       shell: |
         az storage account list \
@@ -41,7 +41,7 @@
     - debug:
         msg: "{{ subscription_tfstate_file_name.stdout }}"
 
-    - name: "Download tfstate details"
+    - name: "Download platform subscriptions tfstate details"
       shell: |
         az storage blob download \
           --name "{{ tfstates.platform_subscriptions.tfstate }}" \
@@ -66,14 +66,14 @@
 
 
 # Get Platform keyvaults
-    - name: "Get tfstate account name"
+    - name: "Get tfstate keyvauls account name"
       register: launchpad_storage_account
       shell: |
         az storage account list \
           --subscription {{ config_platform.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
           --query "[?tags.caf_tfstate=='{{ tfstates.launchpad.level }}' && tags.caf_environment=='{{ config_platform.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
   
-    - name: "Get tfstate details"
+    - name: "Get tfstate keyvaults details"
       register: credentials_tfstate_exists
       ignore_errors: true
       shell: |
