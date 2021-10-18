@@ -45,8 +45,8 @@ virtual_hubs = {
 express_route_connections = {
   {{ virtual_hub }} = {
     name = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].name }}"
-{% if connectivity_virtual_hub.express_route_connections[virtual_hub].enable_er_connections %}
-    enable_er_connections = {{ connectivity_virtual_hub.express_route_connections[virtual_hub].enable_er_connections | string | lower }}
+{% if connectivity_virtual_hub.virtual_hubs[virtual_hub].enable_er_connections %}
+    enable_er_connections = {{ connectivity_virtual_hub.virtual_hubs[virtual_hub].enable_er_connections | string | lower }}
 {% endif %}
 {% if connectivity_virtual_hub.express_route_connections[virtual_hub].routing_weight is defined %}
     routing_weight = {{ connectivity_virtual_hub.express_route_connections[virtual_hub].routing_weight }}
