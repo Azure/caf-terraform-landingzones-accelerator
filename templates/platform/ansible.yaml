@@ -159,6 +159,21 @@
         folders: 
           - virtual_wan
 
+## identity
+    - name: "{{ level }}-{{ base_folder }} | identity services"
+      import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
+      when: 
+        - config.platform_core_setup.enterprise_scale.subscription_deployment_mode != "single_reuse"
+        - launchpad_tfstate_exists is not skipped
+        - credentials_tfstate_exists is not skipped
+        - level1_subscriptions is not skipped
+        - (platform_subscriptions_details | length ) > 0
+        - identity.level2 is defined
+
+      vars:
+        base_folder: "identity"
+        level: "level2"
+
 #
 # Linters
 #

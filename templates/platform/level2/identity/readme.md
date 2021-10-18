@@ -1,26 +1,32 @@
 
-### Identity - Active Directory Domain Controllers (ADDS)
-
-Deploy 2 domain controllers in the primary region
+# Identity
+Deploy the identity services
 
 ```bash
+#Note: close previous session if you logged with a different service principal using --impersonate-sp-from-keyvault-url
+rover logout
+
 # login a with a user member of the caf-maintainers group
-rover login -t {{ config.tenant_name }}
-
-cd {{ config.configuration_folders.destination_base_path }}landingzones
-git fetch origin
-git checkout {{ config.caf_landingzone_branch }}
-
-export ARM_USE_AZUREAD=true
-caf_env="{{ config.caf_terraform.launchpad.caf_environment }}"
+rover login -t {{ config.platform_identity.tenant_name }}
 
 rover \
-  -lz {{ config.configuration_folders.destination_base_path }}landingzones/caf_solution \
-  -var-folder {{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ tfstates["identity_adds"].base_config_path }}/adds \
-  -tfstate {{ tfstates["identity_adds"].tfstate }} \
-  -log-severity ERROR \
-  -env ${caf_env} \
+{% if config.platform_identity.azuread_identity_mode != "logged_in_user" %}
+  --impersonate-sp-from-keyvault-url {{ keyvaults.cred_identity.vault_uri }} \
+{% endif %}
+  -lz /tf/caf/landingzones/caf_solution \
+  -var-folder {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }} \
+  -tfstate_subscription_id {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+  -target_subscription {{ platform_subscriptions_details.identity.subscription_id }} \
+  -tfstate {{ tfstates.identity.tfstate }} \
+  -log-severity {{ config.gitops.rover_log_error }} \
+  -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
+  -p ${TF_DATA_DIR}/{{ tfstates.identity.tfstate }}.tfplan \
   -a plan
 
 ```
+
+
+# Next steps
+
+ [Deploy Enterprise Scale](../../level1/eslz/readme.md)
