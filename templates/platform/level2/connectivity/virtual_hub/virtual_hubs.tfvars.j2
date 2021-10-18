@@ -54,12 +54,12 @@ express_route_connections = {
     }
 {% if connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization is defined %}
     express_route_circuit_authorization = {
-      lz_key = "{{ tfstates.express_route_circuit_peerings[connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization.tfstate_key].lz_key_name }}"
+      lz_key = "{{ tfstates.express_route_circuits[connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization.tfstate_key].lz_key_name }}"
       key    = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization.key }}"
     }
 {% endif %}
 {% if connectivity_virtual_hub.express_route_connections[virtual_hub].route_table is defined %}
-    express_route_circuit_authorization = {
+    route_table = {
       key    = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].route_table.key }}"
     }
 {% endif %}

@@ -11,16 +11,16 @@ landingzone = {
     }
 {% if connectivity_virtual_hub.virtual_hubs[virtual_hub].enable_er_connections and connectivity_virtual_hub.express_route_connections[virtual_hub] is defined %}
     # Express Route Circuit
-    {{ tfstates.express_route_circuits[connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering.tfstate_key].lz_key_name }} = {
+    {{ tfstates.express_route_circuits[connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization.tfstate_key].lz_key_name }} = {
       level   = "current"
-      tfstate = "{{ tfstates.express_route_circuits[connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering.tfstate_key].tfstate  }}"
+      tfstate = "{{ tfstates.express_route_circuits[connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization.tfstate_key].tfstate  }}"
     }
 {% endif %}
-{% if connectivity_virtual_hub.virtual_hubs[virtual_hub].enable_er_connections and connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization is defined %}
-    # Express Route Circuit Authorization keys
-    {{ tfstates.express_route_circuit_peerings[connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization.tfstate_key].lz_key_name }} = {
+{% if connectivity_virtual_hub.virtual_hubs[virtual_hub].enable_er_connections and connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering is defined %}
+    # Express Route Circuit Peerings
+    {{ tfstates.express_route_circuit_peerings[connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering.tfstate_key].lz_key_name }} = {
       level   = "current"
-      tfstate = "{{ tfstates.express_route_circuit_peerings[connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization.tfstate_key].tfstate  }}"
+      tfstate = "{{ tfstates.express_route_circuit_peerings[connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering.tfstate_key].tfstate  }}"
     }
 {% endif %}
   }
