@@ -1,5 +1,5 @@
 azuread_groups = {
-{% for key, ad_group in identity.azuread_groups.items() %}
+{% for key, ad_group in identity.level1.azuread_groups.items() %}
   {{ key }} = {
     name        = "{{ ad_group.name }}"
 {% if ad_group.description is defined %}
