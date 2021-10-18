@@ -27,7 +27,10 @@ role_mapping = {
         "{{ role_name }}" = {
 {% for key_principal_type, principal_mapping in principals_objects.items() %}
           {{ key_principal_type }} = {
-            keys = {{principal_mapping['keys']  | replace('\'','\"')}}
+{% if principal_mapping['lz_key'] is defined %}
+            lz_key = "{{ principal_mapping['lz_key'] }}"
+{% endif %}
+            keys = {{ principal_mapping['keys']  | replace('\'','\"')}}
           }
 {% endfor %}
         }
