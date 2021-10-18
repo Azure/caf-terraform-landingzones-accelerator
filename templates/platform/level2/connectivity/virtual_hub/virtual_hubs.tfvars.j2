@@ -49,7 +49,7 @@ express_route_connections = {
       key   = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].virtual_hub.key }}"
     }
     circuit_peering = {
-      lz_key = "{{ tfstates.express_route_circuits[connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering.tfstate_key].lz_key_name }}"
+      lz_key = "{{ tfstates.express_route_circuit_peerings[connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering.tfstate_key].lz_key_name }}"
       key    = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering.key }}"
     }
 {% if connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization is defined %}
