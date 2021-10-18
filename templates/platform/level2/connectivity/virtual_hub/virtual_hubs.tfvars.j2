@@ -63,7 +63,7 @@ express_route_connections = {
       key    = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].route_table.key }}"
     }
 {% endif %}
-{% if connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization is defined %}
+{% if connectivity_virtual_hub.express_route_connections[virtual_hub].propagated_route_tables is defined %}
     propagated_route_tables = {
       key    = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].propagated_route_tables.key }}"
     }
