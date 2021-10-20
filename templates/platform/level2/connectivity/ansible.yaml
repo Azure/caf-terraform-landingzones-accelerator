@@ -18,32 +18,40 @@
 
 - name: Virtual Hubs
   include_tasks: "{{ level }}/{{ base_folder }}/virtual_hub/ansible.yaml"
+  when: 
+    - connectivity_virtual_hub.virtual_hubs is defined
   loop: "{{ tfstates.virtual_hubs.keys() }}"
   loop_control:
     loop_var: virtual_hub
     
 - name: VPN Sites
   include_tasks: "{{ level }}/{{ base_folder }}/vpn_site/ansible.yaml"
+  when: 
+    - connectivity_vpn_sites.vpn_sites is defined
   loop: "{{ tfstates.vpn_sites.keys() }}"
   loop_control:
     loop_var: site
 
 - name: Express Route Circuit
-  when: connectivity_express_routes is defined
   include_tasks: "{{ level }}/{{ base_folder }}/express_route_circuit/ansible.yaml"
+  when: 
+    - connectivity_express_routes.express_route_circuits is defined 
   loop: "{{ tfstates.express_route_circuits.keys() }}"
   loop_control:
     loop_var: circuit
 
 - name: Express Route Circuit Peerings
-  when: connectivity_express_route_peerings
   include_tasks: "{{ level }}/{{ base_folder }}/express_route_circuit_peering/ansible.yaml"
+  when: 
+    - connectivity_express_routes.express_route_circuit_peerings is defined 
   loop: "{{ tfstates.express_route_circuit_peerings.keys() }}"
   loop_control:
     loop_var: circuit
 
 # - name: Firewall Policies
 #   include_tasks: "{{ level }}/{{ base_folder }}/firewall_policy/ansible.yaml"
+#   when: 
+#     - connectivity_firewall_policies.root is defined 
 #   loop: "{{ tfstates.firewall_policies.keys() }}"
 #   loop_control:
 #     loop_var: firewall_policy
