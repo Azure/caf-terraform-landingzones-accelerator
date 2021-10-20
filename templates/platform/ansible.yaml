@@ -126,7 +126,7 @@
         - launchpad_tfstate_exists is not skipped
         - credentials_tfstate_exists is not skipped
         - level1_subscriptions is not skipped
-        - (platform_subscriptions_details | length ) > 0
+        - platform_subscriptions_details is defined
 
       vars:
         base_folder: "identity"
@@ -137,7 +137,7 @@
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
       when: 
         - ( (config.platform_core_setup.enterprise_scale.enable | bool) and (level1_subscriptions is not skipped) ) or (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "single_reuse")
-        - (platform_subscriptions_details | length ) > 0
+        - (platform_subscriptions_details is defined) or (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "single_reuse")
 
       vars:
         base_folder: "eslz"
@@ -151,8 +151,8 @@
     - name: "{{ level }}-{{ base_folder }} | Connectivity"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
       when: 
-        - ( ((config.networking_topology.deployment_option == "virtual_wan") and (level1_subscriptions is not skipped) ) or (config.platform_identity.azuread_identity_mode == 'logged_in_user') )
-        - (platform_subscriptions_details | length ) > 0
+        - ( (config.networking_topology.deployment_option == "virtual_wan") or (config.platform_identity.azuread_identity_mode == 'logged_in_user') )
+        - (platform_subscriptions_details is defined) or (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "single_reuse")
       vars:
         base_folder: "connectivity"
         level: "level2"
@@ -167,7 +167,7 @@
         - launchpad_tfstate_exists is not skipped
         - credentials_tfstate_exists is not skipped
         - level1_subscriptions is not skipped
-        - (platform_subscriptions_details | length ) > 0
+        - (platform_subscriptions_details is defined) or (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "single_reuse")
         - identity.level2 is defined
 
       vars:
@@ -175,10 +175,10 @@
         level: "level2"
 
 #
-# Linters
+# Formatting & Linters
 #
 
-    - name: Terraform linter
+    - name: Terraform Formatting
       shell: |
         terraform fmt -recursive {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}
 

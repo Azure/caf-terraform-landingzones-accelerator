@@ -10,7 +10,7 @@ rover logout
 rover login -t {{ config.platform_identity.tenant_name }}
 
 rover \
-{% if config.platform_identity.azuread_identity_mode != "logged_in_user" %}
+{% if keyvaults is defined and config.platform_identity.azuread_identity_mode != "logged_in_user" %}
   --impersonate-sp-from-keyvault-url {{ keyvaults.cred_management.vault_uri }} \
 {% endif %}
   -lz /tf/caf/landingzones/caf_solution \

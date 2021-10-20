@@ -10,7 +10,7 @@ git fetch origin
 git checkout {{ connectivity_express_routes.gitops.caf_landingzone_branch }}
 
 rover \
-{% if config.platform_identity.azuread_identity_mode != "logged_in_user" %}
+{% if keyvaults is defined and config.platform_identity.azuread_identity_mode != "logged_in_user" %}
   --impersonate-sp-from-keyvault-url {{ keyvaults.cred_connectivity.vault_uri }} \
 {% endif %}
   -lz {{ config.configuration_folders.platform.destination_base_path }}/landingzones/caf_solution \

@@ -3,13 +3,12 @@
 The {{ scenario }} scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
 The focus of this scenario is to be able to deploy a basic launchpad from a remote machine and use the portal to review the settings in a non-constrained environment.
 For example in this scenario you can go to the Key Vaults and view the secrets from the portal, a feature that is disabled in the 300+ scenarios.
-We recommend using the 100 scenario for demonstration purposes.
 
 An estimated time of 5 minutes is required to deploy this scenario.
 
 ## Pre-requisites
 
-This scenario require the following privileges:
+This scenario requires the following privileges:
 
 | Component          | Privileges         |
 |--------------------|--------------------|
@@ -17,7 +16,6 @@ This scenario require the following privileges:
 | Azure subscription | Subscription owner |
 
 ## Deployment
-
 
 {% if config.billing_subscription_role_delegations is defined %}
 ### Pre-requisite

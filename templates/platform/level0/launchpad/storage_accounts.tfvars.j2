@@ -17,6 +17,11 @@ storage_accounts = {
       caf_tfstate     = "level0"
       ##
     }
+    blob_properties = {
+      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower }}
+      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy }}
+      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy }}
+    }
     containers = {
       # It is recommended to keep the default container name to tfstate
       tfstate = {
@@ -40,6 +45,11 @@ storage_accounts = {
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level1"
     }
+    blob_properties = {
+      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower }}
+      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy }}
+      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy }}
+    }
     containers = {
       tfstate = {
         name = "tfstate"
@@ -62,6 +72,11 @@ storage_accounts = {
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level2"
     }
+    blob_properties = {
+      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower }}
+      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy }}
+      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy }}
+    }
     containers = {
       tfstate = {
         name = "tfstate"
@@ -83,6 +98,11 @@ storage_accounts = {
       caf_environment = "{{ config.caf_terraform.launchpad.caf_environment }}"
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level3"
+    }
+    blob_properties = {
+      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower }}
+      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy }}
+      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy }}
     }
     containers = {
 {% if tfstates_asvm is defined %}
@@ -109,6 +129,11 @@ storage_accounts = {
       caf_environment = "{{ config.caf_terraform.launchpad.caf_environment }}"
       caf_launchpad   = "launchpad"
       caf_tfstate     = "level4"
+    }
+    blob_properties = {
+      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower }}
+      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy }}
+      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy }}
     }
     containers = {
 {% if tfstates_asvm is defined %}
