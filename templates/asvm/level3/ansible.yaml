@@ -1,120 +1,48 @@
 - name: set asvm context
   set_fact:
-    destination_base_path: "{{ config_asvm.configuration_folders['asvm'].destination_base_path }}"
-    destination_relative_path: "{{ config_asvm.configuration_folders['asvm'].destination_relative_path }}"
-    asvm_folder: "{{ asvm_long_folder.path | regex_search('[^\/]+(?=\/$|$)') }}"
-
-- name: set source path
-  set_fact:
-    asvm_config_folder: "{{ config_folder }}/{{ asvm_folder }}"
-
-- name: set destination paths
-  set_fact:
-    asvm_subscription: "{{ lookup('file', '{{ asvm_config_folder }}/subscription.caf.asvm.yaml') | from_yaml }}"
-    asvm_resources: "{{ lookup('file', '{{ asvm_config_folder }}/resources.caf.asvm.yaml') | from_yaml }}"
-    destination_path_subscription:  "{{ destination_base_path }}/{{ destination_relative_path }}/{{ level }}/{{ asvm_folder }}/subscription"
-    destination_path_resources:  "{{ destination_base_path }}/{{ destination_relative_path }}/{{ level }}/{{ asvm_folder }}/resources"
-    destination_path_vnet_connections: "{{ destination_base_path }}/{{ destination_relative_path }}/{{ level }}/{{ asvm_folder }}/connectivity"
-
-- debug:
-    msg: "{{ destination_base_path }}"
-
-- name: "Clean-up directory"
-  file:
-    path: "{{ destination_path_subscription }}"
-    state: absent
-  when: config_asvm.configuration_folders.asvm.cleanup_destination | bool
-
-
-- name: "[{{ level }}-{{ asvm_long_folder.path }}] Creates directory"
-  file:
-    path: "{{ destination_path_subscription }}"
-    state: directory
-
-#### Get subscription_id
-
+    asvm_folder: "{{ asvm_long_folder if 'path' not in asvm_long_folder else asvm_long_folder.path | regex_search('[^\/]+(?=\/$|$)') }}"
 
 - name: "[{{ level }}-{{ asvm_folder }}] Set cache folder"
   set_fact:
     job_cache_base_path: "/home/vscode/.terraform.cache"
+    subscription_key: "{{ asvm_folder }}"
 
-- name: "[{{ level }}-{{ asvm_folder }}] Get tfstate details"
-  register: subscription_tfstate_storage_account_name
-  shell: |
-    az storage account list \
-      --subscription {{ config_platform.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
-      --query "[?tags.caf_tfstate=='{{ tfstates_asvm[asvm_folder].level }}' && tags.caf_environment=='{{ config_platform.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
+#### Get subscription_id
 
-- debug:
-    msg: "{{ subscription_tfstate_storage_account_name.stdout }}"
+- name: "[{{ level }} {{ subscription_key }}] - subscription"
+  include_tasks: "{{ level }}/ansible-subscription-id.yaml"
+  when: config.tfstates['asvm'][subscription_key].subscription.subscription_id is not defined
 
-- name: "[{{ level }}-{{ asvm_folder }}] Download tfstate details"
-  register: subscription_tfstate_exists
-  ignore_errors: true
-  shell: |
-    az storage blob download \
-      --name "{{ tfstates_asvm[asvm_folder].subscription.tfstate }}" \
-      --account-name "{{ subscription_tfstate_storage_account_name.stdout }}" \
-      --container-name "{{ tfstates_asvm[asvm_folder].workspace }}" \
-      --auth-mode "login" \
-      --file "{{ job_cache_base_path }}/{{ tfstates_asvm[asvm_folder].subscription.tfstate }}"
+### Subscription
 
-- debug:
-    msg: "{{ subscription_tfstate_exists }}"
-
-- name: "[{{ level }}-{{ asvm_folder }}] Get platform_subscriptions details"
-  shell: "cat {{ job_cache_base_path }}/{{ tfstates_asvm[asvm_folder].subscription.tfstate }}"
-  register: platform_subscriptions
-  when: subscription_tfstate_exists.rc == 0
-
-- name: "[{{ level }}-{{ asvm_folder }}] Get subscriptions data"
-  when: subscription_tfstate_exists.rc == 0
+- name: set destination paths
   set_fact:
-    asvm_subscriptions_details: "{{ platform_subscriptions.stdout | from_json | json_query(path) }}"
-  vars: 
-    path: 'outputs.objects.value."{{ tfstates_asvm[asvm_folder].subscription.lz_key_name }}".subscriptions'
+    destination_path:  "{{ destination_base_path }}/{{ subscription_key }}/subscription"
 
-- name: "[{{ level }}-{{ asvm_folder }}] cleanup"
-  when: subscription_tfstate_exists.rc == 0
+- name: "Clean-up directory - subscription - {{ destination_path }}"
   file:
-    path: "{{ job_cache_base_path }}/{{ tfstates_asvm[asvm_folder].subscription.tfstate }}"
+    path: "{{ destination_path }}"
     state: absent
+  when: config.configuration_folders.asvm.cleanup_destination  | default(true) | bool
 
-- debug:
-    msg: "Platform subscriptions - {{ asvm_subscriptions_details }}"
-  when: subscription_tfstate_exists.rc == 0
+- name: "[{{ level }} {{ subscription_key }}] - subscription"
+  include_tasks: "{{ level }}/ansible-subscription.yaml"
+  when: config.tfstates['asvm'][subscription_key].subscription.subscription_id is not defined
 
-- name: "[{{ level }}-{{ asvm_long_folder.path }}] - subscriptions - generate configuration files."
-  ansible.builtin.template:
-    src: "{{ item }}"
-    dest: "{{ destination_path_subscription}}/{{ item | basename | regex_replace('.j2$', '') }}"
-    force: yes
-  with_fileglob:
-    - "{{ base_templates_folder }}/{{ level }}/subscription/*.tfvars.j2"
-    - "{{ base_templates_folder }}/{{ level }}/subscription/*.md"
 
 #### Resources
 
-- name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources - Creates directory"
+- name: set destination paths
+  set_fact:
+    destination_path:  "{{ destination_base_path }}/{{ subscription_key }}/resources"
+
+- name: "Clean-up directory - subscription - {{ destination_path }}"
   file:
-    path: "{{ destination_path_resources }}"
-    state: directory
+    path: "{{ destination_path }}"
+    state: absent
+  when: config.configuration_folders.asvm.cleanup_destination  | default(true) | bool
 
-- name: "[{{ level }}-{{ asvm_long_folder.path }}] - resources"
+- name: "[{{ level }} {{ subscription_key }}] - resources"
   include_tasks: "{{ level }}/ansible-resources.yaml"
-
-### connectivity
-# - name: "[{{ level }}-{{ asvm_long_folder.path }}] - connectivity - Creates directory"
-#   file:
-#     path: "{{ destination_path_vnet_connections }}"
-#     state: directory
-
-# - name: "[{{ level }}-{{ asvm_long_folder.path }}] - connectivity - generate configuration files."
-#   when: subscription_tfstate_exists.rc == 0
-#   ansible.builtin.template:
-#     src: "{{ item }}"
-#     dest: "{{ destination_path_vnet_connections }}/{{ item | basename | regex_replace('.j2$', '') }}"
-#     force: yes
-#   with_fileglob:
-#     - "{{ base_templates_folder }}/{{ level }}/connectivity/*.tfvars.j2"
-#     - "{{ base_templates_folder }}/{{ level }}/connectivity/*.md"
+  when: 
+    - resources.subscriptions[subscription_key] is defined

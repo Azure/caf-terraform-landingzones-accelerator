@@ -3,7 +3,7 @@ azurerm_firewall_policies = {
     name   = "base-root-policy"
     region = "region1"
     resource_group = {
-      key    = "contoso_global_firewall_policies"
+      key = "contoso_global_firewall_policies"
     }
     dns = {
       proxy_enabled = "true"

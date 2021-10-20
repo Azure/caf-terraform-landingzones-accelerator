@@ -6,8 +6,8 @@ azurerm_firewall_policy_rule_collection_groups = {
       lz_key = "caf_networking_firewall"
       key    = "non_prod"
     }
-    name                = "firewall-policy-aks-egress"
-    priority            = 600
+    name     = "firewall-policy-aks-egress"
+    priority = 600
 
     application_rule_collections = {
       aks = {
@@ -16,7 +16,7 @@ azurerm_firewall_policy_rule_collection_groups = {
         action   = "Allow"
         rules = {
           aks = {
-            name = "aks"
+            name             = "aks"
             source_addresses = ["*"]
             destination_fqdn_tags = [
               "AzureKubernetesService",
@@ -32,7 +32,7 @@ azurerm_firewall_policy_rule_collection_groups = {
             }
           }
           monitoring = {
-            name = "azure-monitor"
+            name             = "azure-monitor"
             source_addresses = ["*"]
             destination_fqdns = [
               "dc.services.visualstudio.com",
@@ -48,7 +48,7 @@ azurerm_firewall_policy_rule_collection_groups = {
             }
           }
           policy = {
-            name = "azure-policy"
+            name             = "azure-policy"
             source_addresses = ["*"]
             destination_fqdns = [
               "data.policy.core.windows.net",
@@ -70,7 +70,7 @@ azurerm_firewall_policy_rule_collection_groups = {
         action   = "Allow"
         rules = {
           nvidia = {
-            name = "nvidia-gpu"
+            name             = "nvidia-gpu"
             source_addresses = ["*"]
             destination_fqdns = [
               "nvidia.github.io",
@@ -85,7 +85,7 @@ azurerm_firewall_policy_rule_collection_groups = {
             }
           }
           ubuntu = {
-            name = "ubuntu"
+            name             = "ubuntu"
             source_addresses = ["*"]
             destination_fqdns = [
               "security.ubuntu.com",
@@ -105,7 +105,7 @@ azurerm_firewall_policy_rule_collection_groups = {
             }
           },
           docker = {
-            name = "docker"
+            name             = "docker"
             source_addresses = ["*"]
             destination_fqdns = [
               "download.docker.com", # Docker
@@ -120,7 +120,7 @@ azurerm_firewall_policy_rule_collection_groups = {
             }
           },
           tools = {
-            name = "tools"
+            name             = "tools"
             source_addresses = ["*"]
             destination_fqdns = [
               "acs-mirror.azureedge.net",
@@ -138,7 +138,7 @@ azurerm_firewall_policy_rule_collection_groups = {
             }
           },
           github = {
-            name = "github"
+            name             = "github"
             source_addresses = ["*"]
             destination_fqdns = [
               "api.github.com",
@@ -153,7 +153,7 @@ azurerm_firewall_policy_rule_collection_groups = {
             }
           },
           management = {
-            name = "management"
+            name             = "management"
             source_addresses = ["*"]
             destination_fqdns = [
               "login.microsoftonline.com",
@@ -179,7 +179,7 @@ azurerm_firewall_policy_rule_collection_groups = {
         priority = 1000
         rules = {
           ntp = {
-            name = "ntp"
+            name             = "ntp"
             source_addresses = ["*"]
             destination_ports = [
               "123",
@@ -192,7 +192,7 @@ azurerm_firewall_policy_rule_collection_groups = {
             ]
           },
           DNS = {
-            name = "DNS"
+            name             = "DNS"
             source_addresses = ["*"]
             destination_ports = [
               "53",
@@ -205,7 +205,7 @@ azurerm_firewall_policy_rule_collection_groups = {
             ]
           },
           monitor = {
-            name = "monitor"
+            name             = "monitor"
             source_addresses = ["*"]
             destination_ports = [
               "443",

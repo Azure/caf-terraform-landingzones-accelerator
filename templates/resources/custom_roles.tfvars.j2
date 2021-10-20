@@ -1,5 +1,5 @@
 custom_role_definitions = {
-{% for key, crd in asvm_resources.custom_role_definitions.items() %}
+{% for key, crd in resources.subscriptions[subscription_key].custom_role_definitions.items() %}
   {{ key }} = {
     name        = "{{ crd.name }}"
     description = "{{ crd.description }}"

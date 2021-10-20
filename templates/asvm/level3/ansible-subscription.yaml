@@ -1,0 +1,50 @@
+- name: "Load variable for subscriptions"
+  include_vars:
+    name: resources
+    dir: "{{config_folder}}"
+    depth: 1
+    ignore_unknown_extensions: true
+    files_matching: "subscriptions.asvm.yaml"
+
+- name: "Content of subscriptions' resources"
+  debug:
+    msg: "{{resources}}"
+
+- name: "[{{ level }} {{ subscription_key }}] Creates directory"
+  file:
+    path: "{{ destination_path }}"
+    state: directory
+
+#
+# global_settings
+#
+- name: "[{{ level }} {{ subscription_key }}] - subscription - global_settings"
+  when: resources.subscriptions[subscription_key].global_settings is defined
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ resource_template_folder }}/global_settings.tfvars.j2"
+#
+# landingzone
+#
+- name: "[{{ level }} {{ subscription_key }}] - subscription - landingzone"
+  when: resources.subscriptions[subscription_key].landingzone is defined
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ resource_template_folder }}/landingzone.tfvars.j2"
+#
+# subscription
+#
+- name: "[{{ level }} {{ subscription_key }}] - subscription - subscription"
+  when: (resources.subscriptions[subscription_key].name is defined) or ( resources.subscriptions[subscription_key].subscription_id is defined )
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ resource_template_folder }}/subscriptions.tfvars.j2"

@@ -1,5 +1,5 @@
 azuread_groups = {
-{% for key, azuread_group in asvm_resources.azuread_groups.items() %}
+{% for key, azuread_group in resources.subscriptions[subscription_key].azuread_groups.items() %}
   {{ key }} = {
     name                   = "{{ azuread_group.name }}"
     description            = "{{ azuread_group.description }}"

@@ -7,7 +7,7 @@ virtual_hubs = {
 
     resource_group = {
       lz_key = "connectivity_virtual_wan"
-      key = "contoso_global_wan"
+      key    = "contoso_global_wan"
     }
 
     hub_name           = "hub2"
