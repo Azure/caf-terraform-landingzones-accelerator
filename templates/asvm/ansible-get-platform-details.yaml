@@ -5,7 +5,7 @@
     dir: "{{config_folder_platform | default(config_folder)}}"
     depth: 1
     ignore_unknown_extensions: true
-    files_matching: "caf.platform.yaml"
+    files_matching: "caf.platform.yaml|tfstates.asvm.yaml|tfstates.yaml"
 
 - name: "Set base variables"
   set_fact:
