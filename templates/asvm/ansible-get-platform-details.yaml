@@ -11,6 +11,11 @@
   set_fact:
     config: "{{ config | combine(config_platform) }}"
 
+
+- name: "Content of config"
+  debug:
+    msg: "{{config}}"
+
 # Get Platform subscriptions
 
 - name: "Get platform subscriptions tfstate details"
