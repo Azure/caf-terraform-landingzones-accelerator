@@ -1,21 +1,46 @@
 landingzone = {
   backend_type        = "azurerm"
-{% if asvm_resources.landingzone.global_settings_key.platform.virtual_hub is defined %}
+{% if asvm_resources.landingzone.global_settings_key.platform is defined %}
   global_settings_key = "{{ tfstates.virtual_hubs[asvm_resources.landingzone.global_settings_key.platform.virtual_hub].lz_key_name }}"
 {% else %}
   global_settings_key = "{{ tfstates_asvm[asvm_folder].subscription.lz_key_name }}"
 {% endif %}
   level               = "{{ tfstates_asvm[asvm_folder].level }}"
   key                 = "{{ tfstates_asvm[asvm_folder].resources.lz_key_name }}"
+{% if asvm_resources.landingzone.remote_tfstates.is defined %}
   tfstates = {
-    {{  tfstates_asvm[asvm_folder].subscription.lz_key_name }} = {
+{% if asvm_resources.landingzone.remote_tfstates.asvm is defined %}
+{% for a_key, a_value in asvm_resources.landingzone.remote_tfstates.asvm.items() %}
+{% if p_value is defined  %}
+    {{ tfstates_asvm[asvm_folder][a_value].lz_key_name }} = {
       tfstate   = "{{ tfstates_asvm[asvm_folder].subscription.tfstate }}"
       workspace = "{{ tfstates_asvm[asvm_folder].workspace }}"
     }
-    {{ tfstates.virtual_hubs[asvm_resources.landingzone.remote_tfstates.platform.virtual_hub].lz_key_name }} = {
-      tfstate   = "{{ tfstates.virtual_hubs[asvm_resources.landingzone.remote_tfstates.platform.virtual_hub].tfstate }}"
-      level     = "lower"
-      workspace = "{{ tfstates.virtual_hubs[asvm_resources.landingzone.remote_tfstates.platform.virtual_hub].workspace }}"
+{% else %}
+    {{ tfstates_asvm[asvm_folder].subscription.lz_key_name }} = {
+      tfstate   = "{{ tfstates_asvm[asvm_folder].subscription.tfstate }}"
+      workspace = "{{ tfstates_asvm[asvm_folder].workspace }}"
     }
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if asvm_resources.landingzone.remote_tfstates.platform is defined %}
+{% for p_key, p_value in asvm_resources.landingzone.remote_tfstates.platform.items() %}
+{% if p_value is defined  %}
+    {{ tfstates[p_key][p_value].lz_key_name }} = {
+      tfstate   = "{{ tfstates[p_key][p_value].tfstate }}"
+      level     = "lower"
+      workspace = "{{ tfstates[p_key][p_value].workspace | default('tfstate') }}"
+    }
+{% else %}
+    {{ tfstates[p_key].lz_key_name }} = {
+      tfstate   = "{{ tfstates[p_key].tfstate }}"
+      level     = "lower"
+      workspace = "{{ tfstates[p_key].workspace | default('tfstate') }}"
+    }
+{% endif %}
+{% endfor %}
+{% endif %}
   }
+{% endif %}
 }
