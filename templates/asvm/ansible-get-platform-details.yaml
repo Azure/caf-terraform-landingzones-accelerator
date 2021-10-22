@@ -92,7 +92,7 @@
 
 - name: "Get launchpad_credentials details"
   when: credentials_tfstate_exists is not skipped
-  shell: "cat ~/.terraform.cache/launchpad/{{ config.tfstates[\"platform\"]launchpad_credentials.tfstate | default('launchpad_credentials.tfstate') }}"
+  shell: "cat ~/.terraform.cache/launchpad/{{ config.tfstates[\"platform\"].launchpad_credentials.tfstate | default('launchpad_credentials.tfstate') }}"
   register: launchpad_credentials
 
 - name: "Get launchpad_credentials json data"
