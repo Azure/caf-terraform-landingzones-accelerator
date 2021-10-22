@@ -29,9 +29,3 @@ rover \
 rover logout
 
 ```
-
-
-# Next steps
-
-
- [Deploy the vnet connection to the virtual hub](../vhub_connection/readme.md)

@@ -15,8 +15,8 @@ rover \
   -tfstate_subscription_id {{ config.caf_terraform.launchpad.subscription_id }} \
   -tfstate {{ config.tfstates["asvm"][asvm_folder].subscription.tfstate }} \
   --workspace {{ config.tfstates["asvm"][asvm_folder].workspace }} \
-  -log-severity {{ resources.gitops.rover_log_error }} \
-  -env {{ resources.caf_terraform.launchpad.caf_environment }} \
+  -log-severity {{ config.gitops.rover_log_error }} \
+  -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
   -p ${TF_DATA_DIR}/{{  config.tfstates["asvm"][asvm_folder].subscription.tfstate }}.tfplan \
   -a plan
