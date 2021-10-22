@@ -4,8 +4,14 @@ caf_terraform:
     inherit_tags: false
     random_length: 5
   launchpad:
+    subscription_id: set_subscription_guid
+    subscription_name: set_subscription_name
+    tenant_id: set_tenant_id
     caf_environment: demo
     account_replication_type: GRS
+    blob_versioning_enabled: true
+    container_delete_retention_policy: 7
+    delete_retention_policy: 7
     default_region_key: region1
     number_of_levels: 5
     regions:
@@ -31,10 +37,6 @@ platform_core_setup:
     clean_up_destination_folder: false
     update_lib_folder: true
     subscription_deployment_mode: single_reuse
-    primary_subscription_details:
-      subscription_id: set_subscription_guid
-      subscription_name: set_subscription_name
-      tenant_id: set_tenant_id
     private_lib:
       version_to_deploy: v0.3.3
       v0.1.x:
@@ -126,31 +128,10 @@ notifications:
     emails:
       support1:
         name: email_alert primary support
-        email_address: change_email@demo.com
-  security_center_email_contact: change_email@demo.com
+        email_address: change_email@contoso.com
+  security_center_email_contact: change_email@contoso.com
 
 gitops:
   caf_landingzone_branch: "2108.0"
   deployment_mode: interactive
   rover_log_error: ERROR
-
-management_groups_policies:
-  root:
-    Deploy-ASC-Defender:
-      pricingTierVMs: Standard
-      pricingTierSqlServers: Free
-      pricingTierAppServices: Free
-      pricingTierStorageAccounts: Free
-      pricingTierSqlServerVirtualMachines: Free
-      pricingTierKubernetesService: Standard
-      pricingTierContainerRegistry: Free
-      pricingTierKeyVaults: Standard
-      pricingTierDns: Free
-      pricingTierArm: Free
-    landingzones:
-      corps:
-        Deploy-ASC-Defender:
-          pricingTierStorageAccounts: Standard
-          pricingTierKubernetesService: Standard
-          pricingTierKeyVaults: Standard
-

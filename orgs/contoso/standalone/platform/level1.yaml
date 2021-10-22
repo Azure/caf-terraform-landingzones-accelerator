@@ -1,0 +1,4 @@
+diagnostic_log_analytics:
+  central_logs_sea:
+    name: laprodlog
+
