@@ -8,9 +8,9 @@
 
   tasks:
 
-    - name: "Load variable for config"
+    - name: "Load variable for asvm config"
       include_vars:
-        name: config
+        name: asvm_config__to_merge
         dir: "{{config_folder}}"
         depth: 1
         ignore_unknown_extensions: true
@@ -19,8 +19,13 @@
     - name: "Set base variables"
       set_fact:
         job_cache_base_path: "/home/vscode/.terraform.cache"   
+        config: "{{asvm_config__to_merge}}"
 
+    - name: "Content of asvm_config__to_merge"
+      debug:
+        msg: "{{asvm_config__to_merge}}"
 
+    
     - name: "Creates cache directory"
       file:
         path: "{{ job_cache_base_path }}/launchpad"
@@ -31,9 +36,6 @@
       include_tasks: "ansible-get-platform-details.yaml"
       when: config_folder_platform is defined
 
-    - name: "Content of config"
-      debug:
-        msg: "{{config}}"
 #
 # Level 3
 #

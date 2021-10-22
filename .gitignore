@@ -19,3 +19,4 @@ landingzones
 **/*.key
 **/*.pem
 **/*.cer
+__pycache__

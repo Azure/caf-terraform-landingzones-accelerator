@@ -1,20 +1,30 @@
-    
 - name: "Load variable for platform config"
   include_vars:
-    name: config_platform
+    name: platform_config__to_merge
     dir: "{{config_folder_platform | default(config_folder)}}"
     depth: 1
     ignore_unknown_extensions: true
-    files_matching: "caf.platform.yaml|tfstates.asvm.yaml|tfstates.yaml"
+    files_matching: "caf.platform.yaml|tfstates.caf.yaml|tfstates.yaml"
 
-- name: "Set base variables"
-  set_fact:
-    config: "{{ config | combine(config_platform) }}"
-
-
-- name: "Content of config"
+- name: "Content of platform_config__to_merge"
   debug:
-    msg: "{{config}}"
+    msg: "{{platform_config__to_merge}}"
+
+- name: Merge asvm and platform variables
+  merge_vars:
+    suffix_to_merge: config__to_merge
+    merged_var_name: config
+    expected_type: 'dict'
+    recursive_dict_merge: True
+
+- name: "Set base config variables"
+  set_fact:
+    config: "{{ ansible_facts.config }}"
+
+- name: "Content of merged config"
+  debug:
+    msg: "{{ansible_facts.config}}"
+    
 
 # Get Platform subscriptions
 

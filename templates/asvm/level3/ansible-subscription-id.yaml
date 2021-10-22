@@ -1,7 +1,7 @@
 - name: "Load variable for subscriptions"
   include_vars:
     name: subscriptions
-    dir: "{{config_folder}}"
+    dir: config_folder
     depth: 1
     ignore_unknown_extensions: true
     files_matching: "subscriptions.asvm.yaml"
