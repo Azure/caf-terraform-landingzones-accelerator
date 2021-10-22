@@ -19,7 +19,7 @@ landingzone = {
 {% endif %}
 {% if resources.subscriptions[subscription_key].landingzone.remote_tfstates.platform is defined %}
 {% for p_key in resources.subscriptions[subscription_key].landingzone.remote_tfstates.platform.keys() %}
-{% if resources.subscriptions[subscription_key].landingzone.remote_tfstates.platform[p_key] is defined  %}
+{% if config.tfstates['platform'][p_key][resources.subscriptions[subscription_key].landingzone.remote_tfstates.platform[p_key]] is defined  %}
     {{ config.tfstates['platform'][p_key][resources.subscriptions[subscription_key].landingzone.remote_tfstates.platform[p_key]].lz_key_name }} = {
       tfstate   = "{{ config.tfstates['platform'][p_key][resources.subscriptions[subscription_key].landingzone.remote_tfstates.platform[p_key]].tfstate }}"
       level     = "lower"
