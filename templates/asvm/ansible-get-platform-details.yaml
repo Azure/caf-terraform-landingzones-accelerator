@@ -50,7 +50,7 @@
 
 - name: "Get platform_subscriptions details"
   when: platform_subscription_tfstate_exists.rc == 0
-  shell: "cat {{ job_cache_base_path }}/{{ config.tfstates["platform"].platform_subscriptions.tfstate | default('platform_subscriptions.tfstate') }}"
+  shell: "cat {{ job_cache_base_path }}/{{ config.tfstates[\"platform\"].platform_subscriptions.tfstate | default('platform_subscriptions.tfstate') }}"
   register: platform_subscriptions
 
 - name: "Get platform_subscriptions json data"
@@ -92,7 +92,7 @@
 
 - name: "Get launchpad_credentials details"
   when: credentials_tfstate_exists is not skipped
-  shell: "cat ~/.terraform.cache/launchpad/{{ config.tfstates["platform"]launchpad_credentials.tfstate | default('launchpad_credentials.tfstate') }}"
+  shell: "cat ~/.terraform.cache/launchpad/{{ config.tfstates[\"platform\"]launchpad_credentials.tfstate | default('launchpad_credentials.tfstate') }}"
   register: launchpad_credentials
 
 - name: "Get launchpad_credentials json data"
