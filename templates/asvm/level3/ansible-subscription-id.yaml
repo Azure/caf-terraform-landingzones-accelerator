@@ -1,7 +1,7 @@
 - name: "Load variable for subscriptions"
   include_vars:
     name: subscriptions
-    dir: config_folder
+    dir: "{{config_folder}}"
     depth: 1
     ignore_unknown_extensions: true
     files_matching: "subscriptions.asvm.yaml"
@@ -14,7 +14,7 @@
   register: subscription_tfstate_storage_account_name
   shell: |
     az storage account list \
-      --subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+      --subscription {{ config.caf_terraform.launchpad.subscription_id }} \
       --query "[?tags.caf_tfstate=='{{ config.tfstates['asvm'][subscription_key].level }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
 
 - debug:
@@ -22,6 +22,7 @@
 
 - name: "[{{ level }}-{{ subscription_key }}] Download tfstate details"
   register: subscription_tfstate_exists
+  ignore_errors: true
   shell: |
     az storage blob download \
       --name "{{ config.tfstates['asvm'][subscription_key].subscription.tfstate }}" \
