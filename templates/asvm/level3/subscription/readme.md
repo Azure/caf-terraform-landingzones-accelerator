@@ -29,7 +29,7 @@ Once you have executed the rover apply to create the subscription, you need to e
 Note you need to logout and login as a caf_maintainer group member
 
 ```bash
-rover login -t {{ resources.platform_identity.tenant_name }}
+rover login -t {{ config.platform_identity.tenant_name }}
 
 rover ignite \
   --playbook /tf/caf/starter/templates/asvm/ansible.yaml \

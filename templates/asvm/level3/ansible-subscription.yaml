@@ -52,7 +52,7 @@
 #
 # Readme
 #
-- name: "[{{ level }}-{{ subscription_key }}] - resources - *.md"
+- name: "[{{ level }}-{{ subscription_key }}] - subscription - *.md"
   when: subscription_tfstate_exists.rc == 0
   ansible.builtin.template:
     src: "{{ item }}"
