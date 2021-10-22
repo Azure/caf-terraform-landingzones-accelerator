@@ -49,7 +49,7 @@
   set_fact:
     asvm_subscriptions_details: "{{ platform_subscriptions.stdout | from_json | json_query(path) }}"
   vars: 
-    path: 'outputs.objects.value."{{ config.tfstates[\"asvm\"][subscription_key].subscription.lz_key_name }}".subscriptions'
+    path: 'outputs.objects.value."{{ config.tfstates["asvm"][subscription_key].subscription.lz_key_name }}".subscriptions'
 
 - name: "[{{ level }}-{{ subscription_key }}] cleanup"
   when: 
