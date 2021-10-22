@@ -11,7 +11,7 @@ rover \
   --impersonate-sp-from-keyvault-url {{ keyvaults.cred_subscription_creation_landingzones.vault_uri }} \
 {% endif %}
   -lz /tf/caf/landingzones/caf_solution \
-  -var-folder {{ config.configuration_folders['asvm'].destination_base_path }}/{{ config.configuration_folders['asvm'].destination_relative_path }}/{{ level }}/{{ asvm_folder }}/subscription \
+  -var-folder {{ destination_path }}/subscription \
   -tfstate_subscription_id {{ config.caf_terraform.launchpad.subscription_id }} \
   -tfstate {{ config.tfstates["asvm"][asvm_folder].subscription.tfstate }} \
   --workspace {{ config.tfstates["asvm"][asvm_folder].workspace }} \
