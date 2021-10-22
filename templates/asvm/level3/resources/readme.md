@@ -8,7 +8,7 @@ unset ARM_SKIP_PROVIDER_REGISTRATION
 
 cd /tf/caf/landingzones
 git pull
-git checkout {{ asvm_resources.gitops.landingzones }}
+git checkout {{ resources.gitops.landingzones }}
 
 rover \
 {% if config.platform_identity.azuread_identity_mode != "logged_in_user" %}
