@@ -33,7 +33,7 @@
   shell: |
     az storage account list \
       --subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
-      --query "[?tags.caf_tfstate=='{{ config.tfstates.platform_subscriptions.level | default('level1') }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
+      --query "[?tags.caf_tfstate=='{{ config.tfstates["platform"].platform_subscriptions.level | default('level1') }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
 
 - debug:
     msg: "{{ subscription_tfstate_file_name.stdout }}"
@@ -42,15 +42,15 @@
   register: platform_subscription_tfstate_exists
   shell: |
     az storage blob download \
-      --name "{{ config.tfstates.platform_subscriptions.tfstate | default('platform_subscriptions.tfstate') }}" \
+      --name "{{ config.tfstates["platform"].platform_subscriptions.tfstate | default('platform_subscriptions.tfstate') }}" \
       --account-name "{{ subscription_tfstate_file_name.stdout }}" \
       --container-name "tfstate" \
       --auth-mode "login" \
-      --file "{{ job_cache_base_path }}/{{ config.tfstates.platform_subscriptions.tfstate | default('platform_subscriptions.tfstate') }}"
+      --file "{{ job_cache_base_path }}/{{ config.tfstates["platform"].platform_subscriptions.tfstate | default('platform_subscriptions.tfstate') }}"
 
 - name: "Get platform_subscriptions details"
   when: platform_subscription_tfstate_exists.rc == 0
-  shell: "cat {{ job_cache_base_path }}/{{ config.tfstates.platform_subscriptions.tfstate | default('platform_subscriptions.tfstate') }}"
+  shell: "cat {{ job_cache_base_path }}/{{ config.tfstates["platform"].platform_subscriptions.tfstate | default('platform_subscriptions.tfstate') }}"
   register: platform_subscriptions
 
 - name: "Get platform_subscriptions json data"
@@ -63,7 +63,7 @@
   set_fact:
     platform_subscriptions_details: "{{ platform_sub_jsondata | json_query(path) }}"
   vars: 
-    path: 'outputs.objects.value.{{ config.tfstates.platform_subscriptions.lz_key_name }}.subscriptions'
+    path: 'outputs.objects.value.{{ config.tfstates["platform"].platform_subscriptions.lz_key_name }}.subscriptions'
 
 
 # Get Platform keyvaults
@@ -73,7 +73,7 @@
   shell: |
     az storage account list \
       --subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
-      --query "[?tags.caf_tfstate=='{{ config.tfstates.launchpad.level | default('level0') }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
+      --query "[?tags.caf_tfstate=='{{ config.tfstates["platform"].launchpad.level | default('level0') }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
 
 - debug:
     msg: "{{launchpad_storage_account}}"
@@ -84,15 +84,15 @@
   ignore_errors: yes
   shell: |
     az storage blob download \
-      --name "{{ config.tfstates.launchpad_credentials.tfstate | default('launchpad_credentials.tfstate') }}" \
+      --name "{{ config.tfstates["platform"].launchpad_credentials.tfstate | default('launchpad_credentials.tfstate') }}" \
       --account-name "{{ launchpad_storage_account.stdout }}" \
-      --container-name "{{ config.tfstates.launchpad.workspace | default('tfstate') }}" \
+      --container-name "{{ config.tfstates["platform"].launchpad.workspace | default('tfstate') }}" \
       --auth-mode "login" \
-      --file "~/.terraform.cache/launchpad/{{ config.tfstates.launchpad_credentials.tfstate | default('launchpad_credentials.tfstate') }}"
+      --file "~/.terraform.cache/launchpad/{{ config.tfstates["platform"].launchpad_credentials.tfstate | default('launchpad_credentials.tfstate') }}"
 
 - name: "Get launchpad_credentials details"
   when: credentials_tfstate_exists is not skipped
-  shell: "cat ~/.terraform.cache/launchpad/{{ config.tfstates.launchpad_credentials.tfstate | default('launchpad_credentials.tfstate') }}"
+  shell: "cat ~/.terraform.cache/launchpad/{{ config.tfstates["platform"]launchpad_credentials.tfstate | default('launchpad_credentials.tfstate') }}"
   register: launchpad_credentials
 
 - name: "Get launchpad_credentials json data"
