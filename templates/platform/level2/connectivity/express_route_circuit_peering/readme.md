@@ -15,11 +15,11 @@ rover \
 {% endif %}
   -lz {{ config.configuration_folders.platform.destination_base_path }}/landingzones/caf_solution \
   -var-folder {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/express_route_circuit_peering/{{ circuit }} \
-  -tfstate_subscription_id {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+  -tfstate_subscription_id {{ config.caf_terraform.launchpad.subscription_id }} \
 {% if platform_subscriptions_details is defined %}
   -target_subscription {{ platform_subscriptions_details.connectivity.subscription_id }} \
 {% else %}
-  -target_subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+  -target_subscription {{ config.caf_terraform.launchpad.subscription_id }} \
 {% endif %}
   -tfstate {{ tfstates.express_route_circuit_peerings[circuit].tfstate }} \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \

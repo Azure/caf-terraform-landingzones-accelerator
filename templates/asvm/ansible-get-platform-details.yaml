@@ -32,7 +32,7 @@
   register: subscription_tfstate_file_name
   shell: |
     az storage account list \
-      --subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+      --subscription {{ config.caf_terraform.launchpad.subscription_id }} \
       --query "[?tags.caf_tfstate=='{{ config.tfstates["platform"].platform_subscriptions.level | default('level1') }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
 
 - debug:
@@ -72,7 +72,7 @@
   ignore_errors: yes
   shell: |
     az storage account list \
-      --subscription {{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }} \
+      --subscription {{ config.caf_terraform.launchpad.subscription_id }} \
       --query "[?tags.caf_tfstate=='{{ config.tfstates["platform"].launchpad.level | default('level0') }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
 
 - debug:

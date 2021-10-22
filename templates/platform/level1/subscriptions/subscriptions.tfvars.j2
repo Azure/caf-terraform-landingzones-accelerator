@@ -13,8 +13,8 @@
 subscriptions = {
 
   {{ tfstates.launchpad.lz_key_name }} = {
-    name            = "{{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_name }}"
-    subscription_id = "{{ config.platform_core_setup.enterprise_scale.primary_subscription_details.subscription_id }}"
+    name            = "{{ config.caf_terraform.launchpad.subscription_name }}"
+    subscription_id = "{{ config.caf_terraform.launchpad.subscription_id }}"
   }
 {% for key in subscriptions.platform_subscriptions.keys() %}
   {{ key }} = {
