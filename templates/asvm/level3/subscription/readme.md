@@ -2,12 +2,12 @@
 ### Generate asvm for {{ asvm_folder }}
 
 ```bash
-rover login -t {{ resources.platform_identity.tenant_name }}
+rover login -t {{ config.platform_identity.tenant_name }}
 
 export ARM_SKIP_PROVIDER_REGISTRATION=true
 
 rover \
-{% if resources.platform_identity.azuread_identity_mode != "logged_in_user" %}
+{% if config.platform_identity.azuread_identity_mode != "logged_in_user" %}
   --impersonate-sp-from-keyvault-url {{ keyvaults.cred_subscription_creation_landingzones.vault_uri }} \
 {% endif %}
   -lz /tf/caf/landingzones/caf_solution \
