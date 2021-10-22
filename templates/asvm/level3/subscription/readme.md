@@ -32,11 +32,11 @@ Note you need to logout and login as a caf_maintainer group member
 rover login -t {{ config.platform_identity.tenant_name }}
 
 rover ignite \
-  --playbook /tf/caf/starter/templates/asvm/ansible.yaml \
-  -e base_templates_folder=/tf/caf/starter/templates/asvm \
+  --playbook /tf/caf/starter/templates/asvm/ansible_v1.yaml \
+  -e base_templates_folder={{ base_templates_folder }} \
   -e config_folder={{ config_folder }} \
-  -e platform_config_folder={{ platform_config_folder }} \
-  -e scenario={{ scenario }} 
+  -e destination_base_path={{ destination_base_path }} \
+  -e config_folder_platform={{ config_folder_platform }} 
 
 ```
 
