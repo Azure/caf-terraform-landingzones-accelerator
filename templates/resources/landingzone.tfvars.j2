@@ -6,7 +6,7 @@ landingzone = {
 {% if resources.subscriptions[subscription_key].landingzone.remote_tfstates.platform.virtual_hubs is defined %}
   global_settings_key = "{{ config.tfstates['platform'].virtual_hubs[resources.subscriptions[subscription_key].landingzone.remote_tfstates.platform.virtual_hubs].lz_key_name }}"
 {% else %}
-  global_settings_key = "{{ config.tfstates['asvm'].subscription[resources.subscriptions[subscription_key].landingzone.remote_tfstates.asvm.subscription].lz_key_name }}"
+  global_settings_key = "{{ config.tfstates['asvm'][resources.subscriptions[subscription_key].landingzone.remote_tfstates.asvm.subscription].subscription.lz_key_name }}"
 {% endif %}
   tfstates = {
 {% if resources.subscriptions[subscription_key].landingzone.remote_tfstates.asvm is defined %}
