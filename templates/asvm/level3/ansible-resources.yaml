@@ -186,6 +186,9 @@
     - "{{ resource_template_folder }}/virtual_networks.tfvars.j2"
   
 
+#
+# Readme
+#
 - name: "[{{ level }}-{{ subscription_key }}] - resources - *.md"
   when: subscription_tfstate_exists.rc == 0
   ansible.builtin.template:
@@ -193,4 +196,4 @@
     dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
   with_fileglob:
-    - "{{ resource_template_folder }}/*.md"
+    - "{{ base_templates_folder }}/asvm/{{ level }}//resources/*.md"
