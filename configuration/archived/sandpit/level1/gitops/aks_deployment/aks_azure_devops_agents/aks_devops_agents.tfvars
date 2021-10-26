@@ -65,10 +65,10 @@ agent_pools = {
       msi_key   = "level4"
     }
   }
-  lz_key     = "azdo_aks_sandpit_caf_configuration"
-  namespace  = "caf-gitops-runners"
-  image      = "aztfmod/rover-agent:1.0.0-2106.2503-azdo"
-  org_url    = "https://dev.azure.com/petronasvsts"
-  keyvault_key = "kv1"
+  lz_key       = "azdo_aks_sandpit_caf_configuration"
+  namespace    = "caf-gitops-runners"
+  image        = "aztfmod/rover-agent:1.0.0-2106.2503-azdo"
+  org_url      = "https://dev.azure.com/petronasvsts"
+  keyvault_key = "kv1" # refers to keyvault_key in line 13
   
 }
