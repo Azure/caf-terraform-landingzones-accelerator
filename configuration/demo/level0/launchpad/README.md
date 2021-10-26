@@ -31,7 +31,7 @@ rover -lz /tf/caf/landingzones/caf_launchpad \
 ```
 
 ## Architecture diagram
-![Launchpad 100](../../documentation/img/launchpad-100.PNG)
+![Launchpad 100](../../../../documentation/img/launchpad-100.PNG)
 
 ## Services deployed in this scenario
 
