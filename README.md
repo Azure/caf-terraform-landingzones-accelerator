@@ -10,7 +10,9 @@ A landing zone is a segment of a cloud environment, that has been preprovisioned
 
 To get started with creating your environment, you can fork this repository on your Git environment (inside your personal or organization GitHub, inside an Azure DevOps project or any other Version Control System that your company uses.)
 
-You can then customize your environment by following the steps inside the [configuration folder](./configuration) and review our sample configuration [onboarding video here](https://www.youtube.com/watch?v=M5BXm30IpdY)
+<!-- You can then customize your environment by following the steps inside the [configuration folder](./configuration) and review our sample configuration [onboarding video here](https://www.youtube.com/watch?v=M5BXm30IpdY) -->
+
+```rover ignite``` feature, allows you to create a customized complex environment for all the CAF levels including the custom enterprise scale management groups and policies for your organization. Using rover ignite allow you to customize a set of simple YAML files to generate the Terraform variables to deploy a complex environment rapidly. In order to get starter with the rover ignite feature, go to the ```/orgs/``` directory and follow the instructions. The first example is available as [contoso standalone configuration](orgs/contoso/standalone/readme.md)
 
 ## Enterprise scale
 
@@ -30,7 +32,6 @@ This approach allows you to easily:
 * check-in your configuration in your specific Git repository.
 * resync the code with the public codebase for updates.
 * customize the code if needed and contribute back to the community.
-
 
 
 ## Related repositories

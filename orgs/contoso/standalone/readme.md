@@ -30,6 +30,11 @@ rover ignite \
 ```
 ## 3. Follow the instructions in the configuration folder
 
+### Clone the landing zones binaries
+
+```bash
+git clone https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones 
+```
 
 ### Deploy the launchpad
 
