@@ -1,5 +1,5 @@
 landingzone = {
-  backend_type        = "azurerm"
+  backend_type        = "{{ caf_terraform.launchpad.backend_type | default("azurerm")}}"
   global_settings_key = "{{ tfstates.launchpad.lz_key_name }}"
   level               = "{{ tfstates.management.level }}"
   key                 = "{{ tfstates.management.lz_key_name }}"

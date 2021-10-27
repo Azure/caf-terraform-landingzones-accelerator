@@ -3,7 +3,7 @@
 
 ```bash
 # For manual bootstrap:
-# Login to the subscription {{ config.caf_terraform.launchpad.subscription_name }} with the user {{ config.billing_subscription_role_delegations.azuread_user_ea_account_owner }}
+# Login to the subscription {{ config.caf_terraform.launchpad.subscription_name }} with the user {{ config.caf_terraform.billing_subscription_role_delegations.azuread_user_ea_account_owner }}
 rover login -t {{ config.platform_identity.tenant_name }}
 
 rover \

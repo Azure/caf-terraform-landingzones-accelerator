@@ -1,3 +1,16 @@
+- name: "[{{ level }}-{{ base_folder }}] - Set variables"
+  set_fact: 
+    destination_path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
+    subscription_key: launchpad
+
+- name: "[{{ level }}-{{ base_folder }}] - Load variable for launchpad"
+  include_vars:
+    name: resources
+    dir: "{{config_folder}}"
+    depth: 1
+    ignore_unknown_extensions: true
+    files_matching: "level0.yaml|configuration.caf.platform.yaml"
+
 - name: "[{{ level }}-{{ base_folder }}] Clean-up directory"
   file:
     path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
@@ -9,7 +22,22 @@
     path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
     state: directory
 
-- name: "[{{ level }}-{{ base_folder }}] lauchpad"
+
+#
+# resource_groups
+#
+- name: "[{{ level }}-{{ base_folder }}] - resources - resource_groups"
+  when: 
+    - level0.resource_groups is defined
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ resource_template_folder }}/resource_groups.tfvars.j2"
+  
+
+- name: "[{{ level }}-{{ base_folder }}] launchpad"
   ansible.builtin.template:
     src: "{{ level }}/{{ base_folder }}/{{ item }}.tfvars.j2"
     dest: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item }}.tfvars"
@@ -19,7 +47,6 @@
     - global_settings
     - keyvaults
     - landingzone
-    - resource_groups
     - role_mappings
     - storage_accounts
 

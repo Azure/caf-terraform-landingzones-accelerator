@@ -104,15 +104,6 @@ role_mapping = {
           }
         }
       }
-      level3 = {
-        "Reader" = {
-          azuread_groups = {
-            keys = [
-              "subscription_creation_landingzones"
-            ]
-          }
-        }
-      }
     }
 {% endif %}
 
@@ -188,18 +179,6 @@ role_mapping = {
 {% endif %}
       }
 
-      level3 = {
-        "Storage Blob Data Contributor" = {
-          logged_in = {
-            keys = ["user"]
-          }
-{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
-          azuread_groups = {
-            keys = ["subscription_creation_landingzones", "caf_platform_maintainers"]
-          }
-{% endif %}
-        }
       }
     }
-  }
 }

@@ -17,14 +17,14 @@ This scenario requires the following privileges:
 
 ## Deployment
 
-{% if config.billing_subscription_role_delegations is defined %}
+{% if config.caf_terraform.billing_subscription_role_delegations is defined %}
 ### Pre-requisite
 
 Elevate your credentials to the tenant root level to have enough privileges to create the management group hierarchy.
 
 ```bash
-{% if config.billing_subscription_role_delegations.enable %}
-# Login to the subscription {{ config.caf_terraform.launchpad.subscription_name }} with the user {{ config.billing_subscription_role_delegations.azuread_user_ea_account_owner }}
+{% if config.caf_terraform.billing_subscription_role_delegations.enable %}
+# Login to the subscription {{ config.caf_terraform.launchpad.subscription_name }} with the user {{ config.caf_terraform.billing_subscription_role_delegations.azuread_user_ea_account_owner }}
 {% else %}
 # Login to the subscription {{ config.caf_terraform.launchpad.subscription_name }} with an account owner.
 {% endif %}
@@ -37,9 +37,9 @@ az rest --method post --url "/providers/Microsoft.Authorization/elevateAccess?ap
 ### Launchpad
 
 ```bash
-{% if config.billing_subscription_role_delegations is defined %}
-{% if config.billing_subscription_role_delegations.enable %}
-# Login to the subscription {{ config.caf_terraform.launchpad.subscription_name }} with the user {{ config.billing_subscription_role_delegations.azuread_user_ea_account_owner }}
+{% if config.caf_terraform.billing_subscription_role_delegations is defined %}
+{% if config.caf_terraform.billing_subscription_role_delegations.enable %}
+# Login to the subscription {{ config.caf_terraform.launchpad.subscription_name }} with the user {{ config.caf_terraform.billing_subscription_role_delegations.azuread_user_ea_account_owner }}
 {% else %}
 # Login to the subscription {{ config.caf_terraform.launchpad.subscription_name }} with an account owner.
 {% endif %}
@@ -74,8 +74,8 @@ rover \
 When you have successfully deployed the launchpad you can  move to the next step.
 
 
-{% if config.billing_subscription_role_delegations is defined %}
-{% if config.billing_subscription_role_delegations.enable %}
+{% if config.caf_terraform.billing_subscription_role_delegations is defined %}
+{% if config.caf_terraform.billing_subscription_role_delegations.enable %}
  [Deploy the billing subscription role delegation](../billing_subscription_role_delegations/readme.md)
 {% else %}
  [Deploy the management services](../../level1/management/readme.md)

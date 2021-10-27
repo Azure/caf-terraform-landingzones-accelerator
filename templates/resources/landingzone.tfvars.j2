@@ -1,5 +1,5 @@
 landingzone = {
-  backend_type        = "azurerm"
+  backend_type        = "{{ caf_terraform.launchpad.backend_type | default("azurerm")}}"
   level               = "{{ config.tfstates['asvm'][subscription_key].level }}"
   key                 = "{{ config.tfstates['asvm'][subscription_key].subscription.lz_key_name }}"
 {% if resources.subscriptions[subscription_key].landingzone.remote_tfstates is defined %}

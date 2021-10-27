@@ -54,27 +54,5 @@ keyvault_access_policies = {
       secret_permissions = ["Get"]
     }
   }
-  # A maximum of 16 access policies per keyvault
-  level3 = {
-    sp_level0 = {
-      azuread_group_key  = "level0"
-      secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
-    },
-    subscription_creation_landingzones = {
-      azuread_group_key  = "subscription_creation_landingzones"
-      secret_permissions = ["Get"]
-    }
-  }
-  # A maximum of 16 access policies per keyvault
-  level4 = {
-    sp_level0 = {
-      azuread_group_key  = "level0"
-      secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
-    },
-    subscription_creation_landingzones = {
-      azuread_group_key  = "subscription_creation_landingzones"
-      secret_permissions = ["Get"]
-    }
-  }
 
 }

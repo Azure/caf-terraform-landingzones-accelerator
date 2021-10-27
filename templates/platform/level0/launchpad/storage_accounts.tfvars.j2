@@ -2,7 +2,7 @@
 storage_accounts = {
   level0 = {
     name                     = "{{ level0.storage_accounts.level0.name }}"
-    resource_group_key       = "level0"
+    resource_group_key       = "{{ level0.storage_accounts.level0.resource_group_key }}"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
     account_replication_type = "{{ config.caf_terraform.launchpad.account_replication_type }}"
@@ -32,7 +32,7 @@ storage_accounts = {
 
   level1 = {
     name                     = "{{ level0.storage_accounts.level1.name }}"
-    resource_group_key       = "level1"
+    resource_group_key       = "{{ level0.storage_accounts.level1.resource_group_key }}"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
     account_replication_type = "{{ config.caf_terraform.launchpad.account_replication_type }}"
@@ -59,7 +59,7 @@ storage_accounts = {
 
   level2 = {
     name                     = "{{ level0.storage_accounts.level2.name }}"
-    resource_group_key       = "level2"
+    resource_group_key       = "{{ level0.storage_accounts.level2.resource_group_key }}"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
     account_replication_type = "{{ config.caf_terraform.launchpad.account_replication_type }}"
@@ -84,66 +84,5 @@ storage_accounts = {
     }
   }
 
-  level3 = {
-    name                     = "{{ level0.storage_accounts.level3.name }}"
-    resource_group_key       = "level3"
-    account_kind             = "BlobStorage"
-    account_tier             = "Standard"
-    account_replication_type = "{{ config.caf_terraform.launchpad.account_replication_type }}"
-    tags = {
-      # Those tags must never be changed while set as they are used by the rover to locate the launchpad and the tfstates.
-      tfstate         = "level3"
-      environment     = "{{ config.caf_terraform.launchpad.caf_environment }}"
-      launchpad       = "launchpad"
-      caf_environment = "{{ config.caf_terraform.launchpad.caf_environment }}"
-      caf_launchpad   = "launchpad"
-      caf_tfstate     = "level3"
-    }
-    blob_properties = {
-      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower }}
-      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy }}
-      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy }}
-    }
-    containers = {
-{% if tfstates_asvm is defined %}
-{% for key in tfstates_asvm %}
-      {{ tfstates_asvm[key].workspace }} = {
-        name = "{{ tfstates_asvm[key].workspace }}"
-      }
-{% endfor %}
-{% endif %}
-    }
-  }
-
-  level4 = {
-    name                     = "{{ level0.storage_accounts.level4.name }}"
-    resource_group_key       = "level4"
-    account_kind             = "BlobStorage"
-    account_tier             = "Standard"
-    account_replication_type = "{{ config.caf_terraform.launchpad.account_replication_type }}"
-    tags = {
-      # Those tags must never be changed while set as they are used by the rover to locate the launchpad and the tfstates.
-      tfstate         = "level4"
-      environment     = "{{ config.caf_terraform.launchpad.caf_environment }}"
-      launchpad       = "launchpad"
-      caf_environment = "{{ config.caf_terraform.launchpad.caf_environment }}"
-      caf_launchpad   = "launchpad"
-      caf_tfstate     = "level4"
-    }
-    blob_properties = {
-      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower }}
-      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy }}
-      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy }}
-    }
-    containers = {
-{% if tfstates_asvm is defined %}
-{% for key in tfstates_asvm %}
-      {{ tfstates_asvm[key].workspace }} = {
-        name = "{{ tfstates_asvm[key].workspace }}"
-      }
-{% endfor %}
-{% endif %}
-    }
-  }
-
+ 
 }

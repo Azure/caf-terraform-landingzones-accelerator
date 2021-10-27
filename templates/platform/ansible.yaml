@@ -33,6 +33,19 @@
       file:
         path: "{{ job_cache_base_path }}/launchpad"
         state: directory
+
+    - name: "Load variable for platform config"
+      include_vars:
+        name: platform_config__to_merge
+        dir: "{{config_folder_platform | default(config_folder)}}"
+        depth: 1
+        ignore_unknown_extensions: true
+        files_matching: "caf.platform.yaml|tfstates.caf.yaml|tfstates.yaml"
+
+    - name: "Content of platform_config__to_merge"
+      debug:
+        msg: "{{platform_config__to_merge}}"
+
 #
 # Level 0
 #
@@ -69,7 +82,7 @@
 ## billing_subscription_role_delegations
     - name: "[{{ level }}-{{ base_folder }}] Configure subscription role delegations"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: ((config.billing_subscription_role_delegations is defined) and (config.platform_identity.azuread_identity_mode == "service_principal") and (launchpad_tfstate_exists.rc == 0) and (credentials_tfstate_exists is not skipped))
+      when: ((config.caf_terraform.billing_subscription_role_delegations is defined) and (config.platform_identity.azuread_identity_mode == "service_principal") and (launchpad_tfstate_exists.rc == 0) and (credentials_tfstate_exists is not skipped))
       vars:
         base_folder: "billing_subscription_role_delegations"
         level: "level0"
@@ -120,7 +133,7 @@
         level: "level1"
 
 ## identity
-    - name: "{{ level }}-{{ base_folder }} | identity services"
+    - name: "{{ level }}-{{ base_folder }} | Identity services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
       when: 
         # - config.platform_core_setup.enterprise_scale.subscription_deployment_mode != "single_reuse"
@@ -134,7 +147,7 @@
         level: "level1"
 
 ## eslz
-    - name: "{{ level }}-{{ base_folder }} | enterprise scale"
+    - name: "{{ level }}-{{ base_folder }} | Enterprise-scale services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
       when: 
         - ( (config.platform_core_setup.enterprise_scale.enable | bool) and (level1_subscriptions is not skipped) ) or (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "single_reuse")
@@ -149,7 +162,7 @@
 # Level 2
 #
 
-    - name: "{{ level }}-{{ base_folder }} | Connectivity"
+    - name: "{{ level }}-{{ base_folder }} | Connectivity services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
       when: 
         - ( (config.networking_topology.deployment_option == "virtual_wan") or (config.platform_identity.azuread_identity_mode == 'logged_in_user') )
@@ -161,7 +174,7 @@
           - virtual_wan
 
 ## identity
-    - name: "{{ level }}-{{ base_folder }} | identity services"
+    - name: "{{ level }}-{{ base_folder }} | Identity services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
       when: 
         - config.platform_core_setup.enterprise_scale.subscription_deployment_mode != "single_reuse"
