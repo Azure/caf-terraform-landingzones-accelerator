@@ -1,0 +1,13 @@
+ClusterName: "aks-akscluster-re1-001"
+ResourceGroupName: "rg-aks-re1"
+DefaultNodePoolName: "sharedsvc"
+UserNodepoolName: "npuser01"
+AgentCount: 3
+OMSAgentEnabled: true
+AzurePolicyEnabled: true
+NetworkPlugin: "azure"
+ManagedOutboundIpCount: 1
+RBACEnabled: true
+NetworkPolicy: ""
+KeyVaultName: "kv-secrets"
+

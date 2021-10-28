@@ -1,0 +1,101 @@
+trigger:
+- starter
+
+variables:
+  - group: iac-secure-caf
+  - name: "ARM_PARTNER_ID"
+    value: "451dc593-a3a3-4d41-91e7-3aadf93e1a78"
+  - name: "ENVIRONMENT"
+    value: "1$(Build.BuildNumber)"
+
+stages:
+- stage: deploy_standalone
+  jobs:
+  - job: deploy_standalone
+    displayName: "Deploy Standalone"
+
+    steps:
+      - task: TerraformInstaller@0
+        inputs:
+          terraformVersion: '1.0.3'
+      - task: AzureCLI@2
+        displayName: Deploy Standalone
+        name: deploy_standalone
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            pwd
+            cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+            configuration_folder=configuration
+            parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
+            terraform init -upgrade
+            eval terraform apply ${parameter_files} -var tags='{testing_job_id='"${ENVIRONMENT}"'}' -auto-approve
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+      - task: AzureCLI@2
+        displayName: Standalone Test
+        name: test
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            pwd
+            cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+            ls -lta
+            export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+            export PREFIX=$(terraform output -json | jq -r '.global_settings.value.prefixes[0]')
+            echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+
+            cd ../test
+            go mod tidy
+            go test -v  shared_services/shared_services_test.go
+            go test -v  aks/aks_test.go
+            go test -v  flux/flux_test.go
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+      - task: AzureCLI@2
+        displayName: Destroy Standalone
+        name: destroy_standalone
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            ls -lta
+            pwd
+            cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone
+            configuration_folder=configuration
+            parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
+            # remove flux from state as flux provider has issues with destroy
+            terraform state rm 'module.flux_addon'
+            eval terraform destroy ${parameter_files} -var tags='{testing_job_id='"$ENVIRONMENT"'}' -auto-approve
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+- stage: purge
+  condition: always()
+  jobs:
+  - job: purge
+    displayName: "Purge"
+    steps:
+      - task: AzureCLI@2
+        displayName: Purge
+        name: destroy_launchpad
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            echo BuildNumber $ENVIRONMENT
+            for i in `az monitor diagnostic-settings subscription list -o tsv --query "value[?contains(name, '$ENVIRONMENT' )].name"`; do echo "purging subscription diagnostic-settings: $i" && $(az monitor diagnostic-settings subscription delete --name $i --yes); done
+            for i in `az monitor log-profiles list -o tsv --query '[].name'`; do az monitor log-profiles delete --name $i; done
+            # for i in `az ad group list --query "[?contains(displayName, '$ENVIRONMENT')].objectId" -o tsv`; do echo "purging Azure AD group: $i" && $(az ad group delete --verbose --group $i || true); done
+            # for i in `az ad app list --query "[?contains(displayName, '$ENVIRONMENT')].appId" -o tsv`; do echo "purging Azure AD app: $i" && $(az ad app delete --verbose --id $i || true); done
+            for i in `az keyvault list-deleted --query "[?tags.testing_job_id=='$ENVIRONMENT'].name" -o tsv`; do az keyvault purge --name $i; done
+            for i in `az group list --query "[?tags.testing_job_id=='$ENVIRONMENT'].name" -o tsv`; do echo "purging resource group: $i" && $(az group delete -n $i -y --no-wait || true); done
+            for i in `az role assignment list --query "[?contains(roleDefinitionName, '$ENVIRONMENT')].roleDefinitionName" -o tsv`; do echo "purging role assignment: $i" && $(az role assignment delete --role $i || true); done
+            for i in `az role definition list --query "[?contains(roleName, '$ENVIRONMENT')].roleName" -o tsv`; do echo "purging custom role definition: $i" && $(az role definition delete --name $i || true); done
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)

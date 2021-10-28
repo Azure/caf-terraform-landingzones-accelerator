@@ -1,0 +1,387 @@
+trigger:
+- starter
+
+variables:
+  - group: iac-secure-caf
+  - name: "ARM_PARTNER_ID"
+    value: "f85b2775-ec1d-4fef-949e-bbd6957082af"
+  - name: "ENVIRONMENT"
+    value: "2$(Build.BuildNumber)"
+
+resources:
+  containers:
+  - container: rover
+    image: $(ROVER_IMAGE)
+    options: --user 0:0 -e TF_PLUGIN_CACHE_DIR="/home/vsts_azpcontainer/plugin-cache" -e TF_DATA_DIR="/home/vsts_azpcontainer"
+
+stages:
+- stage: deploy_launchpad
+  jobs:
+  - job: deploy_launchpad
+    displayName: "Deploy Launchpad"
+    container: rover
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Deploy Launchpad. Level 0.
+        name: deploy_launchpad
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            echo "ENVIRONMENT"
+            echo $ENVIRONMENT
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/                 
+            /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
+      - task: AzureCLI@2
+        displayName: Launchpad Test
+        name: test
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            export ACTION="output -json -o /tf/caf/rover.output"
+            /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh 
+            prefix_output=$(cat /tf/caf/rover.output | jq -r .objects.value.launchpad.global_settings.prefixes[0])
+            echo $prefix_output
+            echo "PREFIX"
+            export PREFIX=$prefix_output
+            echo "##vso[task.setvariable variable=PREFIX;isOutput=true]$prefix_output"
+            go test -v launchpad/launchpad_test.go
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
+- stage: deploy_level1
+  jobs:
+  - job: deploy_shared_services
+    displayName: "Deploy Shared Services. Level 1"
+    container: rover
+    variables:
+      prefix: $[stageDependencies.deploy_launchpad.deploy_launchpad.outputs['test.PREFIX']]
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Deploy Shared Services
+        name: deploy_shared_services
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/
+            ./deploy_level_with_rover.sh level1 shared_services
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
+      - task: AzureCLI@2
+        displayName: Shared Services Test
+        name: test        
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            echo "##vso[task.setvariable variable=PREFIX;isOutput=true]$PREFIX"
+            go test -v shared_services/shared_services_test.go
+        env:
+          PREFIX: $(prefix)
+  
+  - job: deploy_networking_hub
+    displayName: "Deploy Networking Hub. Level 1"
+    container: rover
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Deploy Networking Hub
+        name: deploy_networking_hub
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 networking_hub
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
+      - task: AzureCLI@2
+        displayName: Networking Hub Test        
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            echo "Invoke integration test"            
+  
+  - job: deploy_networking_spoke
+    displayName: "Deploy Networking Spoke. Level 1"
+    dependsOn: deploy_networking_hub
+    container: rover
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Deploy Networking Spoke
+        name: deploy_networking_spoke
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 networking_spoke
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
+      - task: AzureCLI@2
+        displayName: Networking Spoke Test        
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            echo "Invoke integration test"
+
+- stage: deploy_aks
+  jobs:
+  - job: deploy_aks
+    displayName: "Deploy AKS. Level 2"
+    container: rover
+    variables:
+      prefix: $[ stageDependencies.deploy_level1.deploy_shared_services.outputs['test.PREFIX'] ]
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Deploy AKS
+        name: deploy_aks
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level2 aks
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
+      - task: AzureCLI@2
+        displayName: AKS Test
+        name: test        
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            echo "##vso[task.setvariable variable=PREFIX;isOutput=true]$PREFIX"
+            go test -v aks/aks_test.go
+        env:
+          PREFIX: $(prefix)
+
+- stage: deploy_addons
+  jobs:
+  - job: deploy_addons
+    displayName: "Deploy Addons. Level 2"
+    container: rover
+    variables:
+      prefix: $[ stageDependencies.deploy_aks.deploy_aks.outputs['test.PREFIX'] ]
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Deploy Addons
+        name: deploy_addons
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/            
+            ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2
+            /tf/rover/rover.sh  \
+              -lz /tf/caf/landingzones/caf_solution/add-ons/aks_secure_baseline_v2 \
+              -tfstate aks_secure_baseline.tfstate \
+              -level level2 \
+              -env $ENVIRONMENT \
+              -a output -json -o $(pwd)/rover.output
+
+            echo $(cat rover.output | jq -r .aks_clusters_kubeconfig.value.aks_kubeconfig_admin_cmd) | bash
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
+      - task: AzureCLI@2
+        displayName: Addons Test        
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            go test -v flux/flux_test.go
+        env:
+          PREFIX: $(prefix)
+          KUBECONFIGPATH: /home/vsts_azpcontainer/.kube/config
+
+- stage: destroy_addons
+  jobs:
+  - job: destroy_addons
+    displayName: "Destroy Addons. Level 2"
+    container: rover
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Destroy Addons
+        name: destroy_addons
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2 
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          ACTION: "destroy -auto-approve"
+
+- stage: destroy_aks
+  jobs:
+  - job: destroy_aks
+    displayName: "Destroy AKS. Level 2"
+    container: rover
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Destroy AKS
+        name: deploy_aks
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level2 aks
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          ACTION: "destroy -auto-approve"
+
+- stage: destroy_level1
+  jobs:
+  - job: destroy_networking_spoke
+    displayName: "Destroy Networking Spoke. Level 1"
+    container: rover
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Destroy Networking Spoke
+        name: destroy_networking_spoke
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 networking_spoke
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          ACTION: "destroy -auto-approve"
+
+  - job: destroy_networking_hub
+    displayName: "Destroy Networking Hub. Level 1"
+    dependsOn: destroy_networking_spoke
+    container: rover
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Destroy Networking Hub
+        name: destroy_networking_hub
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 networking_hub
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          ACTION: "destroy -auto-approve"
+
+  - job: destroy_shared_services
+    displayName: "Destroy Shared Services. Level 1"
+    container: rover
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Destroy Shared Services
+        name: destroy_shared_services
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/
+            ./deploy_level_with_rover.sh level1 shared_services
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          ACTION: "destroy -auto-approve"
+- stage: destroy_launchpad
+  jobs:
+  - job: destroy_launchpad
+    displayName: "Destroy Launchpad"
+    container: rover
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Destroy Launchpad. Level 0.
+        name: destroy_launchpad
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/                 
+            /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          ACTION: "destroy -auto-approve"
+- stage: purge
+  condition: always()
+  jobs:
+  - job: purge
+    displayName: "Purge"
+    container: rover
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Purge
+        name: destroy_launchpad
+        inputs:
+          azureSubscription: $(AZURE_SERVICE_NAME)
+          scriptLocation: inlineScript
+          scriptType: bash
+          inlineScript: |
+            echo BuildNumber $ENVIRONMENT
+            for i in `az monitor diagnostic-settings subscription list -o tsv --query "value[?contains(name, '$ENVIRONMENT' )].name"`; do echo "purging subscription diagnostic-settings: $i" && $(az monitor diagnostic-settings subscription delete --name $i --yes); done
+            for i in `az monitor log-profiles list -o tsv --query '[].name'`; do az monitor log-profiles delete --name $i; done
+            # for i in `az ad group list --query "[?contains(displayName, '$ENVIRONMENT')].objectId" -o tsv`; do echo "purging Azure AD group: $i" && $(az ad group delete --verbose --group $i || true); done
+            # for i in `az ad app list --query "[?contains(displayName, '$ENVIRONMENT')].appId" -o tsv`; do echo "purging Azure AD app: $i" && $(az ad app delete --verbose --id $i || true); done
+            for i in `az keyvault list-deleted --query "[?tags.testing_job_id=='$ENVIRONMENT'].name" -o tsv`; do az keyvault purge --name $i; done
+            for i in `az group list --query "[?tags.testing_job_id=='$ENVIRONMENT'].name" -o tsv`; do echo "purging resource group: $i" && $(az group delete -n $i -y --no-wait || true); done
+            for i in `az role assignment list --query "[?contains(roleDefinitionName, '$ENVIRONMENT')].roleDefinitionName" -o tsv`; do echo "purging role assignment: $i" && $(az role assignment delete --role $i || true); done
+            for i in `az role definition list --query "[?contains(roleName, '$ENVIRONMENT')].roleName" -o tsv`; do echo "purging custom role definition: $i" && $(az role definition delete --name $i || true); done
+        env:
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)

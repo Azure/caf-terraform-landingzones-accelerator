@@ -1,0 +1,467 @@
+name: Deploy_AKS_Online_Landingzone
+# The pipeline is triggered on:
+#  - PR/Issue comments "/deploy-all", "/deploy-launchpad", "/deploy-shared-services", "/deploy-networking-hub",
+#                      "/deploy-networking-spoke", "/deploy-aks", "/deploy-addons"
+
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - starter
+  # issue_comment:
+  #   types:
+  #   - created
+    
+env:
+  AZURE_CREDENTIALS: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}", "clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}", "subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.ARM_TENANT_ID }}"}' 
+  event_sha: +refs/pull/${{ github.event.issue.number }}/merge
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}            
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ARM_PARTNER_ID: "f85b2775-ec1d-4fef-949e-bbd6957082af"
+  ENVIRONMENT: "2${{ github.run_id }}"
+
+jobs:
+  deploy-launchpad:
+    runs-on: ubuntu-latest
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+    outputs:
+      prefix: ${{ steps.test.outputs.PREFIX }}
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Launchpad
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        run: |
+          cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/                 
+          /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
+      - name: Test
+        id: test
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        run: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            export ACTION="output -json -o /tf/caf/rover.output"
+            /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh 
+            prefix_output=$(cat /tf/caf/rover.output | jq -r .objects.value.launchpad.global_settings.prefixes[0])
+            echo $prefix_output
+            echo "PREFIX"
+            export PREFIX=$prefix_output
+            echo "::set-output name=PREFIX::$prefix_output"
+            go test -v launchpad/launchpad_test.go
+
+
+  deploy-shared-services: 
+    runs-on: ubuntu-latest
+    needs: deploy-launchpad
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+    outputs:
+      prefix: ${{ steps.test.outputs.PREFIX }}
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Deploy
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'           
+        run: |
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 shared_services
+
+      - name: Test
+        id: test
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-shared-services') || github.event_name != 'issue_comment'           
+        run: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            export PREFIX="${{needs.deploy-launchpad.outputs.prefix}}"
+            echo "::set-output name=PREFIX::$PREFIX"
+            go test -v shared_services/shared_services_test.go
+
+  deploy-networking-hub: 
+    runs-on: ubuntu-latest
+    needs: deploy-launchpad
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Deploy
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub') || github.event_name != 'issue_comment'           
+        run: |
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 networking_hub
+
+      - name: Test
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-hub') || github.event_name != 'issue_comment'           
+        run: |
+            echo "Invoke integration test"
+
+  deploy-networking-spoke: 
+    runs-on: ubuntu-latest
+    needs: deploy-networking-hub
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Deploy
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke') || github.event_name != 'issue_comment'           
+        run: |
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 networking_spoke
+
+      - name: Test
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-networking-spoke') || github.event_name != 'issue_comment'           
+        run: |
+            echo "Invoke integration test"
+
+  deploy-aks: 
+    runs-on: ubuntu-latest
+    needs: [deploy-networking-hub, deploy-networking-spoke, deploy-shared-services]
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+    outputs:
+      prefix: ${{ steps.test.outputs.PREFIX }}
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Deploy
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'           
+        run: |
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level2 aks
+
+      - name: Test
+        id: test
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-aks') || github.event_name != 'issue_comment'           
+        run: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            export PREFIX="${{needs.deploy-shared-services.outputs.prefix}}"
+            echo "::set-output name=PREFIX::$PREFIX"
+            go test -v aks/aks_test.go
+           
+  deploy-addons: 
+    runs-on: ubuntu-latest
+    needs: deploy-aks
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Deploy
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'           
+        run: |
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/            
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/            
+            ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2
+
+            /tf/rover/rover.sh  \
+              -lz /tf/caf/landingzones/caf_solution/add-ons/aks_secure_baseline_v2 \
+              -tfstate aks_secure_baseline.tfstate \
+              -level level2 \
+              -env $ENVIRONMENT \
+              -a output -json -o $(pwd)/rover.output
+            echo $(cat rover.output | jq -r .aks_clusters_kubeconfig.value.aks_kubeconfig_admin_cmd) | bash
+
+
+      - name: Test
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-addons') || github.event_name != 'issue_comment'           
+        run: |
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
+            export PREFIX="${{needs.deploy-aks.outputs.prefix}}"
+            go test -v flux/flux_test.go
+        env:
+          KUBECONFIGPATH: /github/home/.kube/config
+
+  destroy-addons: 
+    runs-on: ubuntu-latest
+    needs: deploy-addons
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-addons') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Destroy
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-addons') || github.event_name != 'issue_comment'           
+        run: |   
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/                 
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/        
+            ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2
+        env:
+          ACTION: "destroy -auto-approve"
+
+  destroy-aks: 
+    runs-on: ubuntu-latest
+    needs: [destroy-addons]
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-aks') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+      - name: Destroy
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-aks') || github.event_name != 'issue_comment'           
+        run: |        
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level2 aks
+        env:
+          ACTION: "destroy -auto-approve"
+
+  destroy-shared-services: 
+    runs-on: ubuntu-latest
+    needs: destroy-aks
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-shared-services') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Destroy
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-shared-services') || github.event_name != 'issue_comment'           
+        run: |        
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 shared_services
+        env:
+          ACTION: "destroy -auto-approve"
+
+  destroy-networking-spoke: 
+    runs-on: ubuntu-latest
+    needs: destroy-aks
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-networking-spoke') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Destroy
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-networking-spoke') || github.event_name != 'issue_comment'           
+        run: |
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 networking_spoke
+        env:
+          ACTION: "destroy -auto-approve"
+
+  destroy-networking-hub: 
+    runs-on: ubuntu-latest
+    needs: destroy-networking-spoke
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-networking-hub') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Destroy
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-networking-hub') || github.event_name != 'issue_comment'           
+        run: |
+            cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
+            ./scripts/deploy_level_with_rover.sh level1 networking_hub
+        env:
+          ACTION: "destroy -auto-approve"
+
+  destroy-launchpad:
+    runs-on: ubuntu-latest
+    needs: [destroy-networking-hub, destroy-shared-services]
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-launchpad') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - name: Launchpad
+        if: contains(github.event.comment.body, '/destroy-all') || contains(github.event.comment.body, '/destroy-launchpad') || github.event_name != 'issue_comment'     
+        run: |               
+          cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/   
+          /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
+        env:
+          ACTION: "destroy -auto-approve"
+
+  purge:
+    name: purge
+    runs-on: ubuntu-latest
+    if: ${{ failure() || cancelled() }}
+
+    needs: [deploy-launchpad, deploy-shared-services, deploy-networking-hub, deploy-networking-spoke,deploy-aks, deploy-addons, destroy-addons, destroy-aks,  destroy-networking-spoke, destroy-networking-hub, destroy-shared-services, destroy-launchpad]
+
+    container:
+      image: aztfmod/rover:1.0.1-2106.3012
+      options: --user 0
+
+    steps:
+      - name: Login azure
+        run: |
+          az login --service-principal -u '${{ env.ARM_CLIENT_ID }}' -p '${{ env.ARM_CLIENT_SECRET }}' --tenant '${{ env.ARM_TENANT_ID }}'
+          az account set -s  ${{ env.ARM_SUBSCRIPTION_ID }}
+      - name: Complete purge
+        run: |
+          for i in `az monitor diagnostic-settings subscription list -o tsv --query "value[?contains(name, '$ENVIRONMENT' )].name"`; do echo "purging subscription diagnostic-settings: $i" && $(az monitor diagnostic-settings subscription delete --name $i --yes); done
+          for i in `az monitor log-profiles list -o tsv --query '[].name'`; do az monitor log-profiles delete --name $i; done
+          # for i in `az ad group list --query "[?contains(displayName, '$ENVIRONMENT')].objectId" -o tsv`; do echo "purging Azure AD group: $i" && $(az ad group delete --verbose --group $i || true); done
+          # for i in `az ad app list --query "[?contains(displayName, '$ENVIRONMENT')].appId" -o tsv`; do echo "purging Azure AD app: $i" && $(az ad app delete --verbose --id $i || true); done
+          for i in `az keyvault list-deleted --query "[?tags.testing_job_id=='$ENVIRONMENT'].name" -o tsv`; do az keyvault purge --name $i; done
+          for i in `az group list --query "[?tags.testing_job_id=='$ENVIRONMENT'].name" -o tsv`; do echo "purging resource group: $i" && $(az group delete -n $i -y --no-wait || true); done
+          for i in `az role assignment list --query "[?contains(roleDefinitionName, '$ENVIRONMENT')].roleDefinitionName" -o tsv`; do echo "purging role assignment: $i" && $(az role assignment delete --role $i || true); done
+          for i in `az role definition list --query "[?contains(roleName, '$ENVIRONMENT')].roleName" -o tsv`; do echo "purging custom role definition: $i" && $(az role definition delete --name $i || true); done

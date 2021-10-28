@@ -1,0 +1,108 @@
+name: Deploy_AKS_Online_Standalone
+# The pipeline is triggered on:
+#  - PR/Issue comments "/deploy-all", "/deploy-launchpad", "/deploy-shared-services", "/deploy-networking-hub",
+#                      "/deploy-networking-spoke", "/deploy-aks", "/deploy-addons"
+
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - starter
+  # issue_comment:
+  #   types:
+  #   - created
+    
+env:
+  AZURE_CREDENTIALS: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}", "clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}", "subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.ARM_TENANT_ID }}"}' 
+  event_sha: +refs/pull/${{ github.event.issue.number }}/merge
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}            
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ARM_PARTNER_ID: "451dc593-a3a3-4d41-91e7-3aadf93e1a78"
+  ENVIRONMENT: "1${{ github.run_id }}"
+
+jobs:
+  deploy-standalone:
+    runs-on: ubuntu-latest
+    outputs:
+      prefix: ${{ steps.test.outputs.PREFIX }}
+    steps:
+      - name: Checkout Repository
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        uses: actions/checkout@v2
+      - name: Checkout PR code
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
+        run: |
+          git fetch origin ${{ env.event_sha }}
+          git checkout FETCH_HEAD
+
+      - name: Azure Login
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.3
+          terraform_wrapper: false
+          # https://stackoverflow.com/questions/65170927/terraform-output-value-failed-formatted-by-jq-in-github-actions
+
+      - name: Deploy Standalone
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        run: |
+          pwd
+          cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+          configuration_folder=configuration
+          parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
+          terraform init -upgrade
+          eval terraform apply ${parameter_files} -var tags='{testing_job_id='"$ENVIRONMENT"'}' -auto-approve
+      - name: Test
+        id: test
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        run: |
+          pwd
+          cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
+          ls -lta
+          export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+          export PREFIX=$(terraform output -json | jq -r '.global_settings.value.prefixes[0]')
+          echo $(terraform output -json | jq -r .aks_clusters_kubeconfig.value.cluster_re1.aks_kubeconfig_admin_cmd) | bash
+
+          cd ../test
+          go mod tidy
+          go test -v  shared_services/shared_services_test.go
+          go test -v  aks/aks_test.go
+          go test -v  flux/flux_test.go
+      - name: Destroy Standalone
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        run: |
+          ls -lta
+          pwd
+          cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone
+          configuration_folder=configuration
+          parameter_files=$(find $configuration_folder -not -path "*launchpad*" | grep .tfvars | sed 's/.*/-var-file &/' | xargs)
+          # remove flux from state as flux provider has issues with destroy
+          terraform state rm 'module.flux_addon'
+          eval terraform destroy ${parameter_files} -var tags='{testing_job_id='"$ENVIRONMENT"'}' -auto-approve
+  purge:
+    name: purge
+    runs-on: ubuntu-latest
+    if: ${{ failure() || cancelled() }}
+    needs: [deploy-standalone]
+    steps:
+      - name: Login azure
+        run: |
+          az login --service-principal -u '${{ env.ARM_CLIENT_ID }}' -p '${{ env.ARM_CLIENT_SECRET }}' --tenant '${{ env.ARM_TENANT_ID }}'
+          az account set -s  ${{ env.ARM_SUBSCRIPTION_ID }}
+      - name: Complete purge
+        run: |
+          echo RunId $ENVIRONMENT
+          for i in `az monitor diagnostic-settings subscription list -o tsv --query "value[?contains(name, '$ENVIRONMENT' )].name"`; do echo "purging subscription diagnostic-settings: $i" && $(az monitor diagnostic-settings subscription delete --name $i --yes); done
+          for i in `az monitor log-profiles list -o tsv --query '[].name'`; do az monitor log-profiles delete --name $i; done
+          # for i in `az ad group list --query "[?contains(displayName, '$ENVIRONMENT')].objectId" -o tsv`; do echo "purging Azure AD group: $i" && $(az ad group delete --verbose --group $i || true); done
+          # for i in `az ad app list --query "[?contains(displayName, '$ENVIRONMENT')].appId" -o tsv`; do echo "purging Azure AD app: $i" && $(az ad app delete --verbose --id $i || true); done
+          for i in `az keyvault list-deleted --query "[?tags.testing_job_id=='$ENVIRONMENT'].name" -o tsv`; do az keyvault purge --name $i; done
+          for i in `az group list --query "[?tags.testing_job_id=='$ENVIRONMENT'].name" -o tsv`; do echo "purging resource group: $i" && $(az group delete -n $i -y --no-wait || true); done
+          for i in `az role assignment list --query "[?contains(roleDefinitionName, '$ENVIRONMENT')].roleDefinitionName" -o tsv`; do echo "purging role assignment: $i" && $(az role assignment delete --role $i || true); done
+          for i in `az role definition list --query "[?contains(roleName, '$ENVIRONMENT')].roleName" -o tsv`; do echo "purging custom role definition: $i" && $(az role definition delete --name $i || true); done
