@@ -1,8 +1,8 @@
 
 storage_accounts = {
   level0 = {
-    name                     = "{{ launchpad.storage_accounts.level0.name }}"
-    resource_group_key       = "{{ launchpad.storage_accounts.level0.resource_group_key }}"
+    name                     = "{{ resources.subscriptions[subscription_key].storage_accounts.level0.name }}"
+    resource_group_key       = "{{ resources.subscriptions[subscription_key].storage_accounts.level0.resource_group_key }}"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
     account_replication_type = "{{ config.caf_terraform.launchpad.account_replication_type }}"
@@ -18,21 +18,20 @@ storage_accounts = {
       ##
     }
     blob_properties = {
-      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower }}
-      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy }}
-      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy }}
+      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower | default('true') }}
+      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy | default(7) }}
+      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy | default(7) }}
     }
     containers = {
-      # It is recommended to keep the default container name to tfstate
-      tfstate = {
-        name = "tfstate"
+      {{ tfstates.launchpad.workspace | default('tfstate') }} = {
+        name = "{{ tfstates.launchpad.workspace | default('tfstate') }}"
       }
     }
   }
 
   level1 = {
-    name                     = "{{ launchpad.storage_accounts.level1.name }}"
-    resource_group_key       = "{{ launchpad.storage_accounts.level1.resource_group_key }}"
+    name                     = "{{ resources.subscriptions[subscription_key].storage_accounts.level1.name }}"
+    resource_group_key       = "{{ resources.subscriptions[subscription_key].storage_accounts.level1.resource_group_key }}"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
     account_replication_type = "{{ config.caf_terraform.launchpad.account_replication_type }}"
@@ -46,20 +45,20 @@ storage_accounts = {
       caf_tfstate     = "level1"
     }
     blob_properties = {
-      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower }}
-      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy }}
-      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy }}
+      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower | default('true') }}
+      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy | default(7) }}
+      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy | default(7) }}
     }
     containers = {
-      tfstate = {
-        name = "tfstate"
+      {{ tfstates.launchpad.workspace | default('tfstate') }} = {
+        name = "{{ tfstates.launchpad.workspace | default('tfstate') }}"
       }
     }
   }
 
   level2 = {
-    name                     = "{{ launchpad.storage_accounts.level2.name }}"
-    resource_group_key       = "{{ launchpad.storage_accounts.level2.resource_group_key }}"
+    name                     = "{{ resources.subscriptions[subscription_key].storage_accounts.level2.name }}"
+    resource_group_key       = "{{ resources.subscriptions[subscription_key].storage_accounts.level2.resource_group_key }}"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
     account_replication_type = "{{ config.caf_terraform.launchpad.account_replication_type }}"
@@ -73,13 +72,13 @@ storage_accounts = {
       caf_tfstate     = "level2"
     }
     blob_properties = {
-      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower }}
-      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy }}
-      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy }}
+      versioning_enabled                = {{ config.caf_terraform.launchpad.blob_versioning_enabled | string | lower | default('true') }}
+      container_delete_retention_policy = {{ config.caf_terraform.launchpad.container_delete_retention_policy | default(7) }}
+      delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy | default(7) }}
     }
     containers = {
-      tfstate = {
-        name = "tfstate"
+      {{ tfstates.launchpad.workspace | default('tfstate') }} = {
+        name = "{{ tfstates.launchpad.workspace | default('tfstate') }}"
       }
     }
   }

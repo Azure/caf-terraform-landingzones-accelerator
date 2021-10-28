@@ -54,6 +54,7 @@
     - name: "[{{ level }}-{{ base_folder }}] launchpad"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
       vars:
+        subscription_key: "launchpad"
         base_folder: "launchpad"
         level: "level0"
 
@@ -140,6 +141,7 @@
         - credentials_tfstate_exists is not skipped
         - level1_subscriptions is not skipped
         - platform_subscriptions_details is defined
+        - identity.level1 is defined
 
       vars:
         base_folder: "identity"
