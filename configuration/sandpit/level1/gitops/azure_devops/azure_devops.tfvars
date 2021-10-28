@@ -2,7 +2,7 @@
 azure_devops = {
 
   url     = "https://dev.azure.com/update_with_your_org/"
-  project = "contoso_demo"
+  project = "caf-configuration"
 
   # PAT Token should be updated manually to the keyvault after running launchpad
   pats = {
@@ -54,7 +54,7 @@ azure_devops = {
     }
   }
 
-  service_endpoints = {
+   service_endpoints = {
     contoso_demo = {
       endpoint_name       = "Replace with your subscription name"
       subscription_name   = "Replace with your subscription name"
@@ -77,7 +77,7 @@ azure_devops = {
         TF_CLI_ARGS_plan    = "'-input=false'"
         TF_VAR_ARGS_destroy = "'-auto-approve -refresh=false'"
         ENVIRONMENT         = "sandpit"
-        LANDINGZONE_BRANCH  = "2104.3"
+        LANDINGZONE_BRANCH  = "2107.1"
       }
     }
 
@@ -448,8 +448,8 @@ azure_devops = {
         landingZoneName = "caf_foundations",
         terraformAction = "plan",
         tfstateName     = "caf_foundations.tfstate"
-        configPath      = "/configuration/sandpit/level1/caf_foundations"
-        landingZonePath = "/public/landingzones/caf_foundations"
+        configPath      = "/configuration/sandpit/level1/foundations"
+        landingZonePath = "/public/caf_solution"
         level           = "level1"
       }
       variable_group_keys = ["global", "level1", "level1_kv"]
@@ -465,8 +465,8 @@ azure_devops = {
         landingZoneName = "caf_foundations",
         terraformAction = "apply",
         tfstateName     = "caf_foundations.tfstate"
-        configPath      = "/configuration/sandpit/level1/caf_foundations"
-        landingZonePath = "/public/landingzones/caf_foundations"
+        configPath      = "/configuration/sandpit/level1/foundations"
+        landingZonePath = "/public/caf_solution"
         level           = "level1"
       }
       variable_group_keys = ["global", "level1", "level1_kv"]
@@ -481,8 +481,8 @@ azure_devops = {
         landingZoneName = "caf_foundations",
         terraformAction = "destroy",
         tfstateName     = "caf_foundations.tfstate"
-        configPath      = "/configuration/sandpit/level1/caf_foundations"
-        landingZonePath = "/public/landingzones/caf_foundations"
+        configPath      = "/configuration/sandpit/level1/foundations"
+        landingZonePath = "/public/caf_solution"
         level           = "level1"
       }
       variable_group_keys = ["global", "level1", "level1_kv"]
@@ -504,7 +504,7 @@ azure_devops = {
         terraformAction = "plan",
         tfstateName     = "caf_shared_services.tfstate"
         configPath      = "/configuration/sandpit/level2/shared_services"
-        landingZonePath = "/public/landingzones/caf_shared_services"
+        landingZonePath = "/public/caf_solution"
         level           = "level2"
       }
       variable_group_keys = ["global", "level2", "level2_kv"]
@@ -520,7 +520,7 @@ azure_devops = {
         terraformAction = "apply",
         tfstateName     = "caf_shared_services.tfstate"
         configPath      = "/configuration/sandpit/level2/shared_services"
-        landingZonePath = "/public/landingzones/caf_shared_services"
+        landingZonePath = "/public/caf_solution"
         level           = "level2"
       }
       variable_group_keys = ["global", "level2", "level2_kv"]
@@ -536,7 +536,7 @@ azure_devops = {
         terraformAction = "destroy",
         tfstateName     = "caf_shared_services.tfstate"
         configPath      = "/configuration/sandpit/level2/shared_services"
-        landingZonePath = "/public/landingzones/caf_shared_services"
+        landingZonePath = "/public/caf_solution"
         level           = "level2"
       }
       variable_group_keys = ["global", "level2", "level2_kv"]
@@ -554,7 +554,7 @@ azure_devops = {
         terraformAction = "plan",
         tfstateName     = "networking_hub.tfstate"
         configPath      = "/configuration/sandpit/level2/networking/hub"
-        landingZonePath = "/public/landingzones/caf_networking"
+        landingZonePath = "/public/caf_solution"
         level           = "level2"
       }
       variable_group_keys = ["global", "level2", "level2_kv"]
@@ -570,7 +570,7 @@ azure_devops = {
         terraformAction = "apply",
         tfstateName     = "networking_hub.tfstate"
         configPath      = "/configuration/sandpit/level2/networking/hub"
-        landingZonePath = "/public/landingzones/caf_networking"
+        landingZonePath = "/public/caf_solution"
         level           = "level2"
       }
       variable_group_keys = ["global", "level2", "level2_kv"]
@@ -586,7 +586,7 @@ azure_devops = {
         terraformAction = "destroy",
         tfstateName     = "networking_hub.tfstate"
         configPath      = "/configuration/sandpit/level2/networking/hub"
-        landingZonePath = "/public/landingzones/caf_networking"
+        landingZonePath = "/public/caf_solution"
         level           = "level2"
       }
       variable_group_keys = ["global", "level2", "level2_kv"]
@@ -608,7 +608,7 @@ azure_devops = {
         terraformAction = "plan",
         tfstateName     = "landing_zone_aks.tfstate"
         configPath      = "/configuration/sandpit/level3/aks"
-        landingZonePath = "/public/landingzones/caf_solutions"
+        landingZonePath = "/public/caf_solution"
         level           = "level3"
       }
       variable_group_keys = ["global", "level3", "level3_kv"]
@@ -624,7 +624,7 @@ azure_devops = {
         terraformAction = "apply",
         tfstateName     = "landing_zone_aks.tfstate"
         configPath      = "/configuration/sandpit/level3/aks"
-        landingZonePath = "/public/landingzones/caf_solutions"
+        landingZonePath = "/public/caf_solution"
         level           = "level3"
       }
       variable_group_keys = ["global", "level3", "level3_kv"]
@@ -640,7 +640,7 @@ azure_devops = {
         terraformAction = "destroy",
         tfstateName     = "landing_zone_aks.tfstate"
         configPath      = "/configuration/sandpit/level3/aks"
-        landingZonePath = "/public/landingzones/caf_solutions"
+        landingZonePath = "/public/caf_solution"
         level           = "level3"
       }
       variable_group_keys = ["global", "level3", "level3_kv"]
