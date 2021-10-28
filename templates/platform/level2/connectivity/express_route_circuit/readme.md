@@ -27,10 +27,10 @@ rover \
 {% else %}
   -target_subscription {{ config.caf_terraform.launchpad.subscription_id }} \
 {% endif %}
-  -tfstate {{ tfstates.express_route_circuits[circuit].tfstate }} \
+  -tfstate {{ config.tfstates.platform.express_route_circuits[circuit].tfstate }} \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
-  -p ${TF_DATA_DIR}/{{ tfstates.express_route_circuits[circuit].tfstate }}.tfplan \
+  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.express_route_circuits[circuit].tfstate }}.tfplan \
   -a plan
 
 ```

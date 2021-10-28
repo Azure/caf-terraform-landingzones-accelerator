@@ -23,7 +23,7 @@ archetype_config_overrides = {
       }
       "Deploy-Resource-Diag" = {
         "logAnalytics" = {
-          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
           resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
@@ -35,7 +35,7 @@ archetype_config_overrides = {
       }
       "Deploy-AzActivity-Log" = {
         "logAnalytics" = {
-          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
           resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
@@ -45,7 +45,7 @@ archetype_config_overrides = {
 {% if "VM" in config.platform_management.enable_monitoring %}
       "Deploy-VM-Monitoring" = {
         "logAnalytics_1" = {
-          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
           resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
@@ -56,7 +56,7 @@ archetype_config_overrides = {
 {% if "VMSS" in config.platform_management.enable_monitoring %}
       "Deploy-VMSS-Monitoring" = {
         "logAnalytics_1" = {
-          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
           resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
@@ -67,7 +67,7 @@ archetype_config_overrides = {
 {% if "Arc" in config.platform_management.enable_monitoring %}
       "Deploy-WS-Arc-Monitoring" = {
         "logAnalytics" = {
-          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
           resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
@@ -76,7 +76,7 @@ archetype_config_overrides = {
       }
       "Deploy-LX-Arc-Monitoring" = {
         "logAnalytics" = {
-          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
           resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
@@ -89,7 +89,7 @@ archetype_config_overrides = {
           value = "{{ config.notifications.security_center_email_contact }}"
         }
         "logAnalytics" = {
-          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
           resource_key  = "central_logs_{{config.caf_terraform.launchpad.regions[config.caf_terraform.launchpad.default_region_key].slug}}"
@@ -112,7 +112,7 @@ archetype_config_overrides = {
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
       "Owner" = {
         "azuread_groups" = {
-          lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.launchpad.lz_key_name }}"
           attribute_key = "id"
           resource_keys = [
             "subscription_creation_landingzones"
@@ -136,7 +136,7 @@ archetype_config_overrides = {
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
       "Owner" = {
         "azuread_groups" = {
-          lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.launchpad.lz_key_name }}"
           attribute_key = "id"
           resource_keys = [
             "connectivity"
@@ -146,7 +146,7 @@ archetype_config_overrides = {
 {% if config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine %}
       "[{{ config.platform_core_setup.enterprise_scale.management_group_prefix | upper }}-CONNECTIVITY] CAF-network-vhub-peering" = {
         "azuread_groups" = {
-          lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.launchpad.lz_key_name }}"
           attribute_key = "id"
           resource_keys = [
             "subscription_creation_landingzones"
@@ -165,7 +165,7 @@ archetype_config_overrides = {
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
       "Owner" = {
         "azuread_groups" = {
-          lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.launchpad.lz_key_name }}"
           attribute_key = "id"
           resource_keys = [
             "identity"
@@ -183,7 +183,7 @@ archetype_config_overrides = {
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
       "Owner" = {
         "azuread_groups" = {
-          lz_key        = "{{ tfstates.launchpad.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.launchpad.lz_key_name }}"
           attribute_key = "id"
           resource_keys = [
             "management"

@@ -23,8 +23,8 @@ storage_accounts = {
       delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy | default(7) }}
     }
     containers = {
-      {{ tfstates.launchpad.workspace | default('tfstate') }} = {
-        name = "{{ tfstates.launchpad.workspace | default('tfstate') }}"
+      {{ config.tfstates.platform.launchpad.workspace | default('tfstate') }} = {
+        name = "{{ config.tfstates.platform.launchpad.workspace | default('tfstate') }}"
       }
     }
   }
@@ -50,8 +50,8 @@ storage_accounts = {
       delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy | default(7) }}
     }
     containers = {
-      {{ tfstates.launchpad.workspace | default('tfstate') }} = {
-        name = "{{ tfstates.launchpad.workspace | default('tfstate') }}"
+      {{ config.tfstates.platform.launchpad.workspace | default('tfstate') }} = {
+        name = "{{ config.tfstates.platform.launchpad.workspace | default('tfstate') }}"
       }
     }
   }
@@ -77,8 +77,8 @@ storage_accounts = {
       delete_retention_policy           = {{ config.caf_terraform.launchpad.delete_retention_policy | default(7) }}
     }
     containers = {
-      {{ tfstates.launchpad.workspace | default('tfstate') }} = {
-        name = "{{ tfstates.launchpad.workspace | default('tfstate') }}"
+      {{ config.tfstates.platform.launchpad.workspace | default('tfstate') }} = {
+        name = "{{ config.tfstates.platform.launchpad.workspace | default('tfstate') }}"
       }
     }
   }

@@ -17,11 +17,11 @@ rover \
   -var-folder {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }} \
   -tfstate_subscription_id {{ config.caf_terraform.launchpad.subscription_id }} \
   -target_subscription {{ platform_subscriptions_details.identity.subscription_id }} \
-  -tfstate {{ tfstates.identity_level2.tfstate }} \
+  -tfstate {{ config.tfstates.platform.identity_level2.tfstate }} \
   -log-severity {{ config.gitops.rover_log_error }} \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
-  -p ${TF_DATA_DIR}/{{ tfstates.identity_level2.tfstate }}.tfplan \
+  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.identity_level2.tfstate }}.tfplan \
   -a plan
 
 ```

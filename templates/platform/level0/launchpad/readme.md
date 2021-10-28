@@ -1,10 +1,4 @@
-# Launchpad - scenario {{ scenario }} / {{ config.caf_terraform.launchpad.caf_environment }}
-
-The {{ scenario }} scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
-The focus of this scenario is to be able to deploy a basic launchpad from a remote machine and use the portal to review the settings in a non-constrained environment.
-For example in this scenario you can go to the Key Vaults and view the secrets from the portal, a feature that is disabled in the 300+ scenarios.
-
-An estimated time of 5 minutes is required to deploy this scenario.
+# Launchpad - {{ config.caf_terraform.launchpad.caf_environment }}
 
 ## Pre-requisites
 
@@ -55,12 +49,12 @@ rover \
   -var-folder {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }} \
   -tfstate_subscription_id {{ config.caf_terraform.launchpad.subscription_id }} \
   -target_subscription {{ config.caf_terraform.launchpad.subscription_id }} \
-  -tfstate {{ tfstates.launchpad.tfstate }} \
+  -tfstate {{ config.tfstates.platform.launchpad.tfstate }} \
   -log-severity {{ config.gitops.rover_log_error }} \
   -launchpad \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
-  -p ${TF_DATA_DIR}/{{ tfstates.launchpad.tfstate }}.tfplan \
+  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.launchpad.tfstate }}.tfplan \
   -a plan
 
 ```

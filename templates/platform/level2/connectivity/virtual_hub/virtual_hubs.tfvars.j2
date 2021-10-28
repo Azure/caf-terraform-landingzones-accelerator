@@ -2,14 +2,14 @@ virtual_hubs = {
   {{ virtual_hub }} = {
     virtual_wan = {
 {% if connectivity_virtual_hub.virtual_hubs[virtual_hub].virtual_wan.lz_key is defined %}
-      lz_key = "{{ tfstates.virtual_wan.lz_key_name }}"
+      lz_key = "{{ config.tfstates.platform.virtual_wan.lz_key_name }}"
 {% endif %}
       key    = "{{ connectivity_virtual_hub.virtual_hubs[virtual_hub].virtual_wan.key }}"
     }
 
     resource_group = {
 {% if connectivity_virtual_hub.virtual_hubs[virtual_hub].virtual_wan.lz_key is defined %}
-      lz_key = "{{ tfstates.virtual_wan.lz_key_name }}"
+      lz_key = "{{ config.tfstates.platform.virtual_wan.lz_key_name }}"
 {% endif %}
       key = "{{ connectivity_virtual_hub.virtual_hubs[virtual_hub].virtual_wan.key }}"
     }
@@ -55,12 +55,12 @@ express_route_connections = {
       key   = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].virtual_hub.key }}"
     }
     circuit_peering = {
-      lz_key = "{{ tfstates.express_route_circuit_peerings[connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering.tfstate_key].lz_key_name }}"
+      lz_key = "{{ config.tfstates.platform.express_route_circuit_peerings[connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering.tfstate_key].lz_key_name }}"
       key    = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].circuit_peering.key }}"
     }
 {% if connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization is defined %}
     express_route_circuit_authorization = {
-      lz_key = "{{ tfstates.express_route_circuits[connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization.tfstate_key].lz_key_name }}"
+      lz_key = "{{ config.tfstates.platform.express_route_circuits[connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization.tfstate_key].lz_key_name }}"
       key    = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].express_route_circuit_authorization.key }}"
     }
 {% endif %}

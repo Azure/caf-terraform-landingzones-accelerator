@@ -21,11 +21,11 @@ rover \
 {% else %}
   -target_subscription {{ config.caf_terraform.launchpad.subscription_id }} \
 {% endif %}
-  -tfstate {{ tfstates.management.tfstate }} \
+  -tfstate {{ config.tfstates.platform.management.tfstate }} \
   -log-severity {{ config.gitops.rover_log_error }} \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
-  -p ${TF_DATA_DIR}/{{ tfstates.management.tfstate }}.tfplan \
+  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.management.tfstate }}.tfplan \
   -a plan
 
 ```

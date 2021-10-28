@@ -10,14 +10,14 @@ azurerm_firewall_policies = {
     resource_group = {
       key    = "{{ connectivity_firewall_policies[firewall_policy].resource_group.key }}"
 {% if connectivity_firewall_policies[firewall_policy].resource_group.lz_key is defined %}
-      lz_key = "{{ tfstates.firewall_policies[connectivity_firewall_policies[firewall_policy].resource_group.lz_key].lz_key_name }}"
+      lz_key = "{{ config.tfstates.platform.firewall_policies[connectivity_firewall_policies[firewall_policy].resource_group.lz_key].lz_key_name }}"
 {% endif %}
     }
 {% if connectivity_firewall_policies[firewall_policy].base_policy is defined %}
     base_policy    = {
       key    = "{{ connectivity_firewall_policies[firewall_policy].base_policy.key }}"
 {% if connectivity_firewall_policies[firewall_policy].resource_group.lz_key is defined %}
-      lz_key = "{{ tfstates.firewall_policies[connectivity_firewall_policies[firewall_policy].resource_group.lz_key].lz_key_name }}"
+      lz_key = "{{ config.tfstates.platform.firewall_policies[connectivity_firewall_policies[firewall_policy].resource_group.lz_key].lz_key_name }}"
 {% endif %}
     }
 {% endif %}

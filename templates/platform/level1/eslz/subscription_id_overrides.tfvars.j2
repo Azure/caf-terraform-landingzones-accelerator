@@ -19,19 +19,19 @@ subscription_id_overrides = {
 subscription_id_overrides_by_keys = {
   connectivity = {
     connectivity = {
-      lz_key = "{{ tfstates.platform_subscriptions.lz_key_name }}"
+      lz_key = "{{ config.tfstates.platform.platform_subscriptions.lz_key_name }}"
       key    = "connectivity"
     }
   }
   management = {
     management = {
-      lz_key = "{{ tfstates.platform_subscriptions.lz_key_name }}"
+      lz_key = "{{ config.tfstates.platform.platform_subscriptions.lz_key_name }}"
       key    = "management"
     }
   }
   identity = {
     identity = {
-      lz_key = "{{ tfstates.platform_subscriptions.lz_key_name }}"
+      lz_key = "{{ config.tfstates.platform.platform_subscriptions.lz_key_name }}"
       key    = "identity"
     }
   }

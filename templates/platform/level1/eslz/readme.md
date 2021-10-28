@@ -20,11 +20,11 @@ rover \
   -lz {{ config.configuration_folders.platform.destination_base_path }}/landingzones/caf_solution/add-ons/caf_eslz \
   -var-folder {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }} \
   -tfstate_subscription_id {{ config.caf_terraform.launchpad.subscription_id }} \
-  -tfstate {{ tfstates.eslz.tfstate }} \
+  -tfstate {{ config.tfstates.platform.eslz.tfstate }} \
   -log-severity ERROR \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
-  -p ${TF_DATA_DIR}/{{ tfstates.eslz.tfstate }}.tfplan \
+  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.eslz.tfstate }}.tfplan \
   -a plan
 
 ```

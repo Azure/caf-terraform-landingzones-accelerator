@@ -1,13 +1,13 @@
 - name: Creates {{ base_folder }} directory structure
   shell: mkdir -p "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
 
-- name: "{{ base_folder }} - Readme"
-  ansible.builtin.template:
-    src: "{{ item }}"
-    dest: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
-    force: yes
-  with_fileglob:
-    - "{{ level }}/{{ base_folder }}/*.md"
+# - name: "{{ base_folder }} - Readme"
+#   ansible.builtin.template:
+#     src: "{{ item }}"
+#     dest: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
+#     force: yes
+#   with_fileglob:
+#     - "{{ level }}/{{ base_folder }}/*.md"
 
 - name: "{{ base_folder }} - Virtual WAN"
   include_tasks: "{{ level }}/{{ base_folder }}/{{ folder_name }}/ansible.yaml"
@@ -20,7 +20,7 @@
   include_tasks: "{{ level }}/{{ base_folder }}/virtual_hub/ansible.yaml"
   when: 
     - connectivity_virtual_hub.virtual_hubs is defined
-  loop: "{{ tfstates.virtual_hubs.keys() }}"
+  loop: "{{ config.tfstates.platform.virtual_hubs.keys() }}"
   loop_control:
     loop_var: virtual_hub
     
@@ -28,7 +28,7 @@
   include_tasks: "{{ level }}/{{ base_folder }}/vpn_site/ansible.yaml"
   when: 
     - connectivity_vpn_sites.vpn_sites is defined
-  loop: "{{ tfstates.vpn_sites.keys() }}"
+  loop: "{{ config.tfstates.platform.vpn_sites.keys() }}"
   loop_control:
     loop_var: site
 
@@ -36,7 +36,7 @@
   include_tasks: "{{ level }}/{{ base_folder }}/express_route_circuit/ansible.yaml"
   when: 
     - connectivity_express_routes.express_route_circuits is defined 
-  loop: "{{ tfstates.express_route_circuits.keys() }}"
+  loop: "{{ config.tfstates.platform.express_route_circuits.keys() }}"
   loop_control:
     loop_var: circuit
 
@@ -44,7 +44,7 @@
   include_tasks: "{{ level }}/{{ base_folder }}/express_route_circuit_peering/ansible.yaml"
   when: 
     - connectivity_express_routes.express_route_circuit_peerings is defined 
-  loop: "{{ tfstates.express_route_circuit_peerings.keys() }}"
+  loop: "{{ config.tfstates.platform.express_route_circuit_peerings.keys() }}"
   loop_control:
     loop_var: circuit
 
@@ -52,6 +52,6 @@
 #   include_tasks: "{{ level }}/{{ base_folder }}/firewall_policy/ansible.yaml"
 #   when: 
 #     - connectivity_firewall_policies.root is defined 
-#   loop: "{{ tfstates.firewall_policies.keys() }}"
+#   loop: "{{ config.tfstates.platform.firewall_policies.keys() }}"
 #   loop_control:
 #     loop_var: firewall_policy

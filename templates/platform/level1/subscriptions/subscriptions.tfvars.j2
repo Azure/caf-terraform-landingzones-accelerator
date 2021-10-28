@@ -12,7 +12,7 @@
 
 subscriptions = {
 
-  {{ tfstates.launchpad.lz_key_name }} = {
+  {{ config.tfstates.platform.launchpad.lz_key_name }} = {
     name            = "{{ config.caf_terraform.launchpad.subscription_name }}"
     subscription_id = "{{ config.caf_terraform.launchpad.subscription_id }}"
   }

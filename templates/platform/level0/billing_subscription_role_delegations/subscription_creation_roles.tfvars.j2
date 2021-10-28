@@ -9,11 +9,11 @@ subscription_billing_role_assignments = {
     principals = {
       azuread_service_principals = {
         subscription_creation_platform = {
-          lz_key = "{{ tfstates.launchpad.lz_key_name }}"
+          lz_key = "{{ config.tfstates.platform.launchpad.lz_key_name }}"
           key    = "subscription_creation_platform"
         }
         subscription_creation_landingzones = {
-          lz_key = "{{ tfstates.launchpad.lz_key_name }}"
+          lz_key = "{{ config.tfstates.platform.launchpad.lz_key_name }}"
           key    = "subscription_creation_landingzones"
         }
       }

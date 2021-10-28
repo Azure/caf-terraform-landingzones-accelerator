@@ -29,10 +29,10 @@ rover \
 {% else %}
   -target_subscription {{ config.caf_terraform.launchpad.subscription_id }} \
 {% endif %}
-  -tfstate {{ tfstates[folder_name].tfstate }} \
+  -tfstate {{ config.tfstates.platform.[folder_name].tfstate }} \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
-  -p ${TF_DATA_DIR}/{{ tfstates[folder_name].tfstate }}.tfplan \
+  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.[folder_name].tfstate }}.tfplan \
   -a plan
 
 ```
@@ -63,11 +63,11 @@ rover \
 {% else %}
   -target_subscription {{ config.caf_terraform.launchpad.subscription_id }} \
 {% endif %}
-  -tfstate {{ tfstates.virtual_hubs[virtual_hub].tfstate }} \
+  -tfstate {{ config.tfstates.platform.virtual_hubs[virtual_hub].tfstate }} \
   -log-severity ERROR \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
-  -p ${TF_DATA_DIR}/{{ tfstates.virtual_hubs[virtual_hub].tfstate }}.tfplan \
+  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.virtual_hubs[virtual_hub].tfstate }}.tfplan \
   -a plan
 
 
@@ -100,11 +100,11 @@ rover \
 {% else %}
   -target_subscription {{ config.caf_terraform.launchpad.subscription_id }} \
 {% endif %}
-  -tfstate {{ tfstates.vpn_sites[vpnsite].tfstate }} \
+  -tfstate {{ config.tfstates.platform.vpn_sites[vpnsite].tfstate }} \
   -log-severity ERROR \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
-  -p ${TF_DATA_DIR}/{{ tfstates.vpn_sites[vpnsite].tfstate }}.tfplan \
+  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.vpn_sites[vpnsite].tfstate }}.tfplan \
   -a plan
 
 
@@ -138,11 +138,11 @@ rover \
 {% else %}
   -target_subscription {{ config.caf_terraform.launchpad.subscription_id }} \
 {% endif %}
-  -tfstate {{ tfstates.firewall_policies[firewall_policy].tfstate }} \
+  -tfstate {{ config.tfstates.platform.firewall_policies[firewall_policy].tfstate }} \
   -log-severity ERROR \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
-  -p ${TF_DATA_DIR}/{{ tfstates.firewall_policies[firewall_policy].tfstate }}.tfplan \
+  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.firewall_policies[firewall_policy].tfstate }}.tfplan \
   -a plan
 
 

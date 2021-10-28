@@ -21,7 +21,7 @@ archetype_config_overrides = {
       }
       "Deploy-Resource-Diag" = {
         "logAnalytics" = {
-          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
           resource_key  = "central_logs_region1"
@@ -33,7 +33,7 @@ archetype_config_overrides = {
       }
       "Deploy-VM-Monitoring" = {
         "logAnalytics" = {
-          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
           resource_key  = "central_logs_region1"
@@ -42,7 +42,7 @@ archetype_config_overrides = {
       }
       "Deploy-VMSS-Monitoring" = {
         "logAnalytics" = {
-          lz_key        = "{{ tfstates.management.lz_key_name }}"
+          lz_key        = "{{ config.tfstates.platform.management.lz_key_name }}"
           output_key    = "diagnostics"
           resource_type = "log_analytics"
           resource_key  = "central_logs_region1"

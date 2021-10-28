@@ -29,7 +29,7 @@
       -var-folder {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }} \
       -tfstate_subscription_id {{ config.caf_terraform.launchpad.subscription_id }} \
       -target_subscription {{ config.caf_terraform.launchpad.subscription_id }} \
-      -tfstate {{ tfstates.platform_subscriptions.tfstate }} \
+      -tfstate {{ config.tfstates.platform.platform_subscriptions.tfstate }} \
       -log-severity {{ config.gitops.rover_log_error }} \
       -env {{ config.caf_terraform.launchpad.caf_environment }} \
       -level {{ level }} \
@@ -44,7 +44,7 @@
   shell: |
     az storage account list \
       --subscription {{ config.caf_terraform.launchpad.subscription_id }} \
-      --query "[?tags.caf_tfstate=='{{ tfstates.platform_subscriptions.level }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
+      --query "[?tags.caf_tfstate=='{{ config.tfstates.platform.platform_subscriptions.level }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
 
 - debug:
     msg: "{{ subscription_tfstate_file_name.stdout }}"
@@ -54,14 +54,14 @@
   ignore_errors: true
   shell: |
     az storage blob download \
-      --name "{{ tfstates.platform_subscriptions.tfstate }}" \
+      --name "{{ config.tfstates.platform.platform_subscriptions.tfstate }}" \
       --account-name "{{ subscription_tfstate_file_name.stdout }}" \
       --container-name "tfstate" \
       --auth-mode "login" \
-      --file "{{ job_cache_base_path }}/{{ tfstates.platform_subscriptions.tfstate }}"
+      --file "{{ job_cache_base_path }}/{{ config.tfstates.platform.platform_subscriptions.tfstate }}"
 
 - name: "[{{ level }}-{{ base_folder }}] Get platform_subscriptions details"
-  shell: "cat {{ job_cache_base_path }}/{{ tfstates.platform_subscriptions.tfstate }}"
+  shell: "cat {{ job_cache_base_path }}/{{ config.tfstates.platform.platform_subscriptions.tfstate }}"
   register: platform_subscriptions
   when: platform_subscriptions_tfstate_exists.rc == 0
 
@@ -75,12 +75,12 @@
   set_fact:
     platform_subscriptions_details: "{{ platform_sub_jsondata | json_query(path) }}"
   vars: 
-    path: 'outputs.objects.value.{{ tfstates.platform_subscriptions.lz_key_name }}.subscriptions'
+    path: 'outputs.objects.value.{{ config.tfstates.platform.platform_subscriptions.lz_key_name }}.subscriptions'
 
 - name: "[{{ level }}-{{ base_folder }}] cleanup"
   when: platform_subscriptions_tfstate_exists.rc == 0
   file:
-    path: "{{ job_cache_base_path }}/{{ tfstates.platform_subscriptions.tfstate }}"
+    path: "{{ job_cache_base_path }}/{{ config.tfstates.platform.platform_subscriptions.tfstate }}"
     state: absent
 
 - debug:
