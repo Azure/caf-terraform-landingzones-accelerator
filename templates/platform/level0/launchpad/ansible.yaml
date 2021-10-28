@@ -9,7 +9,10 @@
     dir: "{{config_folder}}"
     depth: 1
     ignore_unknown_extensions: true
-    files_matching: "level0.yaml|configuration.caf.platform.yaml"
+    files_matching: "launchpad.yaml|level0.yaml|configuration.caf.platform.yaml"
+
+- debug:
+    msg: "{{resources}}"
 
 - name: "[{{ level }}-{{ base_folder }}] Clean-up directory"
   file:
@@ -28,7 +31,7 @@
 #
 - name: "[{{ level }}-{{ base_folder }}] - resources - resource_groups"
   when: 
-    - level0.resource_groups is defined
+    - resources.subscriptions[subscription_key].resource_groups is defined
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
@@ -100,6 +103,9 @@
     az storage account list \
       --subscription {{ config.caf_terraform.launchpad.subscription_id }} \
       --query "[?tags.caf_tfstate=='{{ tfstates.launchpad.level }}' && tags.caf_environment=='{{ config.caf_terraform.launchpad.caf_environment }}'].{name:name}[0]" -o json | jq -r .name
+
+- debug:
+    msg: "{{launchpad_storage_account}}"
 
 - name: "[{{ level }}-{{ base_folder }}] Get launchpad tfstate details"
   register: launchpad_tfstate_exists
