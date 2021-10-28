@@ -1,8 +1,8 @@
 
 storage_accounts = {
   level0 = {
-    name                     = "{{ level0.storage_accounts.level0.name }}"
-    resource_group_key       = "{{ level0.storage_accounts.level0.resource_group_key }}"
+    name                     = "{{ launchpad.storage_accounts.level0.name }}"
+    resource_group_key       = "{{ launchpad.storage_accounts.level0.resource_group_key }}"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
     account_replication_type = "{{ config.caf_terraform.launchpad.account_replication_type }}"
@@ -31,8 +31,8 @@ storage_accounts = {
   }
 
   level1 = {
-    name                     = "{{ level0.storage_accounts.level1.name }}"
-    resource_group_key       = "{{ level0.storage_accounts.level1.resource_group_key }}"
+    name                     = "{{ launchpad.storage_accounts.level1.name }}"
+    resource_group_key       = "{{ launchpad.storage_accounts.level1.resource_group_key }}"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
     account_replication_type = "{{ config.caf_terraform.launchpad.account_replication_type }}"
@@ -58,8 +58,8 @@ storage_accounts = {
   }
 
   level2 = {
-    name                     = "{{ level0.storage_accounts.level2.name }}"
-    resource_group_key       = "{{ level0.storage_accounts.level2.resource_group_key }}"
+    name                     = "{{ launchpad.storage_accounts.level2.name }}"
+    resource_group_key       = "{{ launchpad.storage_accounts.level2.resource_group_key }}"
     account_kind             = "BlobStorage"
     account_tier             = "Standard"
     account_replication_type = "{{ config.caf_terraform.launchpad.account_replication_type }}"

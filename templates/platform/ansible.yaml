@@ -2,8 +2,7 @@
   hosts: localhost
   vars:
     config: "{{ lookup('file', '{{ config_folder }}/{{scenario}}.caf.platform.yaml') | from_yaml }}"
-    level0: "{{ lookup('file', '{{ config_folder }}/level0.yaml') | from_yaml }}"
-    level1: "{{ lookup('file', '{{ config_folder }}/level1.yaml') | from_yaml }}"
+    launchpad: "{{ lookup('file', '{{ config_folder }}/launchpad.yaml') | from_yaml }}"
     connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_wan.yaml') | from_yaml }}"
     connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_hub.yaml') | from_yaml }}"
     connectivity_firewall: "{{ lookup('file', '{{ config_folder }}/connectivity_firewall.yaml') | from_yaml }}"

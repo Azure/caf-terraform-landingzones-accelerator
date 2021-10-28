@@ -1,7 +1,7 @@
 
 keyvaults = {
   level0 = {
-    name               = "{{ level0.keyvaults.level0.name }}"
+    name               = "{{ launchpad.keyvaults.level0.name }}"
     resource_group_key = "level0"
     sku_name           = "{{ config.platform_core_setup.sku.keyvault}}"
     tags = {
@@ -30,7 +30,7 @@ keyvaults = {
   }
 
   level1 = {
-    name               = "{{ level0.keyvaults.level1.name }}"
+    name               = "{{ launchpad.keyvaults.level1.name }}"
     resource_group_key = "level1"
     sku_name           = "{{ config.platform_core_setup.sku.keyvault}}"
     tags = {
@@ -59,7 +59,7 @@ keyvaults = {
   }
 
   level2 = {
-    name               = "{{ level0.keyvaults.level2.name }}"
+    name               = "{{ launchpad.keyvaults.level2.name }}"
     resource_group_key = "level2"
     sku_name           = "{{ config.platform_core_setup.sku.keyvault}}"
     tags = {

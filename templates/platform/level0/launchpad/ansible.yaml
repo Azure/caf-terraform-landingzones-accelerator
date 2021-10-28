@@ -9,7 +9,7 @@
     dir: "{{config_folder}}"
     depth: 1
     ignore_unknown_extensions: true
-    files_matching: "level0.yaml|configuration.caf.platform.yaml"
+    files_matching: "launchpad.yaml|level0.yaml|configuration.caf.platform.yaml"
 
 - name: "[{{ level }}-{{ base_folder }}] Clean-up directory"
   file:
@@ -28,7 +28,7 @@
 #
 - name: "[{{ level }}-{{ base_folder }}] - resources - resource_groups"
   when: 
-    - level0.resource_groups is defined
+    - launchpad.resource_groups is defined
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
