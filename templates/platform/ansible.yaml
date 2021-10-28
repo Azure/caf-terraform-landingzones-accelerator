@@ -1,7 +1,7 @@
 - name: CAF Terraform - Generate Azure Subscription Vending Machine (asvm) configuration files
   hosts: localhost
   vars:
-    config: "{{ lookup('file', '{{ config_folder }}/{{scenario}}.caf.platform.yaml') | from_yaml }}"
+    config: "{{ lookup('file', '{{ config_folder }}/configuration.caf.platform.yaml') | from_yaml }}"
     launchpad: "{{ lookup('file', '{{ config_folder }}/launchpad.yaml') | from_yaml }}"
     connectivity_virtual_wan: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_wan.yaml') | from_yaml }}"
     connectivity_virtual_hub: "{{ lookup('file', '{{ config_folder }}/connectivity_virtual_hub.yaml') | from_yaml }}"

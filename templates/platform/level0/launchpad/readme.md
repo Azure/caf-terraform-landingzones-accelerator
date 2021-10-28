@@ -1,6 +1,6 @@
-# Launchpad - scenario {{ scenario }} / {{ config.caf_terraform.launchpad.caf_environment }}
+# Launchpad - {{ config.caf_terraform.launchpad.caf_environment }}
 
-The {{ scenario }} scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
+The scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
 The focus of this scenario is to be able to deploy a basic launchpad from a remote machine and use the portal to review the settings in a non-constrained environment.
 For example in this scenario you can go to the Key Vaults and view the secrets from the portal, a feature that is disabled in the 300+ scenarios.
 

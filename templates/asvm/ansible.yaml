@@ -1,8 +1,8 @@
 - name: CAF Terraform - Generate configuration files
   hosts: localhost
   vars:
-    config_platform: "{{ lookup('file', '{{ platform_config_folder }}/{{scenario}}.caf.platform.yaml') | from_yaml }}"
-    config_asvm: "{{ lookup('file', '{{ config_folder }}/{{scenario}}.caf.platform.yaml') | from_yaml }}"
+    config_platform: "{{ lookup('file', '{{ platform_config_folder }}/configuration.caf.platform.yaml') | from_yaml }}"
+    config_asvm: "{{ lookup('file', '{{ config_folder }}/configuration.caf.platform.yaml') | from_yaml }}"
     connectivity_virtual_wan: "{{ lookup('file', '{{ platform_config_folder }}/connectivity_virtual_wan.yaml') | from_yaml }}"
     connectivity_virtual_hub: "{{ lookup('file', '{{ platform_config_folder }}/connectivity_virtual_hub.yaml') | from_yaml }}"
     connectivity_firewall: "{{ lookup('file', '{{ platform_config_folder }}/connectivity_firewall.yaml') | from_yaml }}"

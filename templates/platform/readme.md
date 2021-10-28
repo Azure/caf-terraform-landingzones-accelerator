@@ -14,4 +14,3 @@ rover ignite \
   -e base_templates_folder={{ base_templates_folder }} \
   -e config_folder={{ config_folder }} \
   -e config_folder_asvm={{ config_folder_asvm }} \
-  -e scenario={{ scenario }}

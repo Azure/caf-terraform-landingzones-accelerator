@@ -23,7 +23,6 @@ rover ignite \
   -e base_templates_folder=/tf/caf/templates/platform \
   -e config_folder=/tf/caf/orgs/contoso/standalone/platform \
   -e config_folder_asvm=/tf/caf/orgs/contoso/standalone/asvm \
-  -e scenario=configuration \
   -e boostrap_launchpad=false \
   -e deploy_subscriptions=false
 
