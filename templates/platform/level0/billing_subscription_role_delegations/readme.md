@@ -39,10 +39,12 @@ rover ignite \
   -e resource_template_folder={{resource_template_folder}} \
   -e config_folder={{ config_folder }} \
   -e config_folder_asvm={{ config_folder_asvm }} \
+  -e boostrap_launchpad=false \
+  -e deploy_subscriptions=false
 ```
 
 # Next steps
 
-When you have successfully deployed the launchpad you can  move to the next step.
+When you have successfully deployed the level0 components, you can move to the next step.
 
 [Deploy the subscriptions](../../level1/subscriptions/readme.md)

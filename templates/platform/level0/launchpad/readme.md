@@ -70,7 +70,7 @@ When you have successfully deployed the launchpad you can  move to the next step
 
 {% if config.caf_terraform.billing_subscription_role_delegations is defined %}
 {% if config.caf_terraform.billing_subscription_role_delegations.enable %}
- [Deploy the billing subscription role delegation](../billing_subscription_role_delegations/readme.md)
+ [Deploy the credentials landing zone](../credentials/readme.md)
 {% else %}
  [Deploy the management services](../../level1/management/readme.md)
 {% endif %}

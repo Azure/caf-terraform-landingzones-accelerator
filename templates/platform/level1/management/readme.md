@@ -33,4 +33,6 @@ rover \
 
 # Next steps
 
+When you have successfully deployed the management landing zone, you can move to the next step:
+
  [Deploy Enterprise Scale](../../level1/eslz/readme.md)
