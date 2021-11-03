@@ -12,7 +12,7 @@
 **/backend.azurerm.tf
 public
 aztfmod
-landingzones
+/landingzones
 /eslz
 **/*.crt
 **/*.csr
