@@ -26,6 +26,6 @@ rover \
 
 # Next steps
 
-When you have successfully deployed the launchpad you can  move to the next step.
+When you have successfully deployed the subscriptions management landing zone, you can move to the next step:
 
 [Deploy the management services](../../level1/management/readme.md)

@@ -44,6 +44,6 @@ rover ignite \
 
 # Next steps
 
-When you have successfully deployed the launchpad you can  move to the next step.
+When you have successfully deployed the level0 components, you can move to the next step.
 
 [Deploy the subscriptions](../../level1/subscriptions/readme.md)
