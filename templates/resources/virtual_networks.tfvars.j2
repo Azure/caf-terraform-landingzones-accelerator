@@ -12,7 +12,7 @@ vnets = {
       {{ subnet_key }} = {
         name    = "{{subnet.name}}"
         cidr    = {{ vnet.subnets[subnet_key].cidr | replace('None','[]') | replace('\'','\"') }}
-{% if subnet.enforce_private_link_endpoint_network_policies %}
+{% if subnet.enforce_private_link_endpoint_network_policies is defined %}
         enforce_private_link_endpoint_network_policies = true
 {% else %}
         nsg_key = "empty_nsg"
