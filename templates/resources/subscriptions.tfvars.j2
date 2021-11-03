@@ -1,19 +1,19 @@
 subscriptions = {
-{% for key in resources.subscriptions.keys() %}
+{% for key, value in resources.subscriptions[subscription_key].items() %}
   {{ key }} = {
-    name                    = "{{ resources.subscriptions[key].name }}"
+    name                    = "{{ value.name }}"
     billing_account_name    = "{{ config.caf_terraform.billing_subscription_role_delegations.billing_account_name }}"
     enrollment_account_name = "{{ config.caf_terraform.billing_subscription_role_delegations.enrollment_account_name }}"
-{% if resources.subscriptions[key].management_group_suffix is defined %}
-    management_group_id     = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ subscriptions.subscriptions[key].management_group_suffix }}"
+{% if value.management_group_suffix is defined %}
+    management_group_id     = "{{ config.platform_core_setup.enterprise_scale.management_group_prefix }}-{{ value.management_group_suffix }}"
 {% else %}
-    management_group_id     = "{{ resources.subscriptions[key].management_group_id }}"
+    management_group_id     = "{{ value.management_group_id }}"
 {% endif %}
-    workload                = "{{ resources.subscriptions[key].workload | default('Production') }}"
-{% if resources.subscriptions[key].tags is defined %}
+    workload                = "{{ value.workload | default('Production') }}"
+{% if value.tags is defined %}
     tags                    = {
-{% for tag_key in resources.subscriptions[key].tags %}
-      {{ tag_key }} = "{{ resources.subscriptions[key].tags[tag_key] }}"
+{% for tag_key in value.tags %}
+      {{ tag_key }} = "{{ value.tags[tag_key] }}"
 {% endfor %}
     }
 {% endif %}

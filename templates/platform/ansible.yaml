@@ -17,8 +17,9 @@
     mg_struture: "{{ lookup('file', '{{ config_folder }}/eslz/structure.caf.platform.yaml') | from_yaml }}"
     cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
     tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
-    tfstates_asvm: "{{ lookup('file', '{{ config_folder_asvm }}/tfstates.yaml', errors='ignore') | from_yaml }}"
     base_templates_folder: "{{ base_templates_folder }}"
+    boostrap_launchpad: boostrap_launchpad | default(false)
+    deploy_subscriptions: deploy_subscriptions | default(false)
 
 
   tasks:
@@ -160,6 +161,15 @@
 # Level 2
 #
 
+## asvm
+    - name: "{{ level }}-{{ base_folder }} | Azure Subscription Vending Machine (asvm)"
+      import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
+      when: config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine
+      vars:
+        base_folder: "asvm"
+        level: "level2"
+
+## Connectivity          
     - name: "{{ level }}-{{ base_folder }} | Connectivity services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
       when: 
@@ -185,6 +195,14 @@
       vars:
         base_folder: "identity"
         level: "level2"
+
+## Platform readme
+
+    - name: "[{{ base_templates_folder }}] readme"
+      ansible.builtin.template:
+        src: "{{ base_templates_folder }}/readme.md"
+        dest: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/readme.md"
+        force: yes
 
 #
 # Formatting & Linters

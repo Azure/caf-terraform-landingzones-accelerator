@@ -13,5 +13,4 @@ rover ignite \
   --playbook /tf/caf/starter/templates/platform/ansible.yaml \
   -e base_templates_folder={{ base_templates_folder }} \
   -e resource_template_folder={{resource_template_folder}} \
-  -e config_folder={{ config_folder }} \
-  -e config_folder_asvm={{ config_folder_asvm }}
+  -e config_folder={{ config_folder }}

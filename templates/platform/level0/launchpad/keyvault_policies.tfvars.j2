@@ -53,6 +53,12 @@ keyvault_access_policies = {
       azuread_group_key  = "management"
       secret_permissions = ["Get"]
     }
+{% if config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine %}
+    subscription_creation_landingzones = {
+      azuread_group_key  = "subscription_creation_landingzones"
+      secret_permissions = ["Get"]
+    }
+{% endif %}
   }
 
 }

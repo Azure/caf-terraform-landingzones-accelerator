@@ -43,7 +43,7 @@
 - name: Express Route Circuit Peerings
   include_tasks: "{{ level }}/{{ base_folder }}/express_route_circuit_peering/ansible.yaml"
   when: 
-    - connectivity_express_routes.express_route_circuit_peerings is defined 
+    - connectivity_express_route_peerings.express_route_circuit_peerings is defined 
   loop: "{{ config.tfstates.platform.express_route_circuit_peerings.keys() }}"
   loop_control:
     loop_var: circuit

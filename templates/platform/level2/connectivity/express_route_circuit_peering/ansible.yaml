@@ -26,8 +26,6 @@
 # landingzone
 #
 - name: "[{{ level }}-{{ circuit }}] - express route peering - landingzone"
-  when: 
-    - connectivity_express_routes.express_route_circuits is defined
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ destination_path_resources }}/{{ item | basename | regex_replace('.j2$', '') }}"
@@ -39,8 +37,6 @@
 # express_route_circuit_peerings
 #
 - name: "[{{ level }}-{{ circuit }}] - express route peering - express_route_circuit_peerings"
-  when: 
-    - connectivity_express_route_peerings.express_route_circuit_peerings is defined
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ destination_path_resources }}/{{ item | basename | regex_replace('.j2$', '') }}"

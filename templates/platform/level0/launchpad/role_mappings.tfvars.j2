@@ -99,7 +99,8 @@ role_mapping = {
             keys = [
               "identity",
               "connectivity",
-              "management"
+              "management",
+              "subscription_creation_landingzones"
             ]
           }
         }
@@ -125,8 +126,7 @@ role_mapping = {
             keys = [
               "management",
               "eslz",
-              "subscription_creation_platform",
-              "subscription_creation_landingzones"
+              "subscription_creation_platform"
             ]
           }
         }
@@ -153,7 +153,12 @@ role_mapping = {
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
         "Storage Blob Data Reader" = {
           azuread_groups = {
-            keys = ["connectivity"]
+            keys = [
+              "connectivity",
+{% if config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine %}
+              "level0"
+{% endif %}
+            ]
           }
         }
 {% endif %}
@@ -166,19 +171,28 @@ role_mapping = {
           }
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
           azuread_groups = {
-            keys = ["identity", "connectivity", "management", "caf_platform_maintainers"]
-          }
+            keys = [
+              "identity", 
+              "connectivity", 
+              "management", 
+              "caf_platform_maintainers",
+{% if config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine %}
+              "level0"
 {% endif %}
+            ]
+          }
         }
-{% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
+{% endif %}
         "Storage Blob Data Reader" = {
           azuread_groups = {
-            keys = ["subscription_creation_landingzones"]
+            keys = [
+{% if config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine %}
+              "subscription_creation_landingzones"
+{% endif %}
+            ]
           }
         }
-{% endif %}
-      }
-
       }
     }
+  }
 }

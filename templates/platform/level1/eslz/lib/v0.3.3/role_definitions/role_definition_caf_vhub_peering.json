@@ -9,6 +9,7 @@
       "permissions": [
           {
               "actions": [
+                  "Microsoft.Resources/subscriptions/resourceGroups/read",
                   "Microsoft.Network/virtualHubs/read",
                   "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections/*"
               ],
