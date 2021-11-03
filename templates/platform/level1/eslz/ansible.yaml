@@ -30,7 +30,7 @@
   
 - name: "{{ level }}-{{ base_folder }} |  Lib - archetypes - custom"
   when:
-    - custom_landing_zones is defined
+    - mg_custom.archetype_definitions is defined
   ansible.builtin.template:
       src: "{{ base_templates_folder }}/{{ level }}/eslz/lib/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}/archetype_definitions/custom_landing_zone_template.json.j2"
       dest: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/lib/archetype_definitions/archetype_definition_{{ mg_custom.archetype_definitions[item].archetype_id }}.json"
@@ -49,7 +49,7 @@
 
 - name: "{{ level }}-{{ base_folder }} |  overrides"
   when:
-    - custom_landing_zones is defined
+    - mg_custom.archetype_definitions is defined
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
