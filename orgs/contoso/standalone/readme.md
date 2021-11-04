@@ -16,13 +16,14 @@ You must start by customizing the platform editing the ```/platform/configuratio
 ## 2. Generate the configuration Terraform files
 
 ```bash
-cd /tf/caf/starter/templates/platform
+cd /tf/caf/templates/platform
 
 rover ignite \
   --playbook /tf/caf/templates/platform/ansible.yaml \
   -e base_templates_folder=/tf/caf/templates/platform \
   -e config_folder=/tf/caf/orgs/contoso/standalone/platform \
   -e config_folder_asvm=/tf/caf/orgs/contoso/standalone/asvm \
+  -e resource_template_folder=/tf/caf/templates/resources \
   -e boostrap_launchpad=false \
   -e deploy_subscriptions=false
 

@@ -29,14 +29,15 @@ platform_core_setup:
   sku:
     keyvault: standard
   enterprise_scale:
-    enable: true
+    enable: false
     model: demo
     management_group_name: "simple Demo 001"
     management_group_prefix: demo001
     deploy_core_landing_zones: true
-    clean_up_destination_folder: false
+    clean_up_destination_folder: true
     update_lib_folder: true
     subscription_deployment_mode: single_reuse
+    enable_azure_subscription_vending_machine: false
     private_lib:
       version_to_deploy: v0.3.3
       v0.1.x:
@@ -53,74 +54,27 @@ platform_management:
     - VM
     - VMSS
 
-  azure_monitor_solutions:
-    - AgentHealthAssessment
-    - AntiMalware
-    - AzureActivity
-    - ChangeTracking
-    - Security
-    - SecurityInsights
-    - ServiceMap
-    - SQLAssessment
-    - Updates
-    - VMInsights
-
-platform_security:
-  deploy_azure_sentinel: true
-  security_frameworks:
-    - CIS_3.0
-  security_center:
-    defender_services:
-      - defender_for_arc
-      - defender_for_arm
-      - defender_for_app_services
-      - defender_for_azure_resource_manager
-      - defender_for_azure_sql_databases
-      - defender_for_container_registries
-      - defender_for_dns
-      - defender_for_key_vaults
-      - defender_for_kubernetes
-      - defender_for_servers
-      - defender_for_sql_servers_on_vms
-      - defender_for_storage
-
 networking_topology:
   enable_ddos_protection_standard: true
   private_dns_zones_for_azure_paas_services: true
   deployment_option: virtual_wan
-  virtual_wan:
-    virtual_hubs:
-      singapore:
-        region: Southeast Asia
-        address_space: 10.100.0.0/23
-        deploy_site_to_site_vpn_gateway: true
-        deploy_express_route_gateway: true
-        deploy_secure_firewall: true
-        enable_secure_firewall_dns_proxy: true
-  azure_firewall_for_private_links:
-    region: Southeast Asia
-    address_spaces:
-      - 10.101.0.0/23
-    firewall_subnet: 10.101.0.0/24
-    availability_zones:
-      - 2
 
 platform_identity:
   # Set the Azure Active Directory tenant name. Do not include the .onmicrosoft.com
   tenant_name: change_tenant_name
   azuread_identity_mode: logged_in_user
   caf_platform_maintainers:
-    - change_email@demo.com
+    - john@contoso.com
 
 # cleanup_destination - recommended to clean and recreated a clean state from template.
 configuration_folders:
   platform:
     cleanup_destination: false
-    destination_base_path: /tf/caf/
+    destination_base_path: /tf/caf
     destination_relative_path: configuration/contoso/standalone/platform
   asvm:
     cleanup_destination: false
-    destination_base_path: /tf/caf/
+    destination_base_path: /tf/caf
     destination_relative_path: configuration/contoso/standalone/asvm
 
 notifications:
@@ -128,10 +82,10 @@ notifications:
     emails:
       support1:
         name: email_alert primary support
-        email_address: change_email@contoso.com
-  security_center_email_contact: change_email@contoso.com
+        email_address: john@contoso.com
+  security_center_email_contact: john@contoso.com
 
 gitops:
-  caf_landingzone_branch: "2108.0"
+  caf_landingzone_branch: "patch.5.4.4"
   deployment_mode: interactive
   rover_log_error: ERROR
