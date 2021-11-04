@@ -9,7 +9,7 @@
   file:
     path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/vpn_sites/{{ site }}"
     state: directory
-    
+
 - name: VPN Site {{ site }} - Tfvars
   ansible.builtin.template:
     src: "{{ item }}"

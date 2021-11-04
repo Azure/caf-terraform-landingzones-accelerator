@@ -19,7 +19,7 @@
     - "{{ level }}/{{ base_folder }}/*.j2"
     - "{{ level }}/{{ base_folder }}/*.md"
 
-- name: "{{ level }}-{{ base_folder }} |  Lib - archetypes - built-in" 
+- name: "{{ level }}-{{ base_folder }} |  Lib - archetypes - built-in"
   ansible.builtin.template:
       src: "{{ base_templates_folder }}/{{ level }}/eslz/lib/{{ config.platform_core_setup.enterprise_scale.private_lib.version_to_deploy }}/archetype_definitions/archetype_definition_template.json.j2"
       dest: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/lib/archetype_definitions/archetype_definition_{{ mg.archetype_definitions[item].archetype_id }}.json"
@@ -27,7 +27,7 @@
   loop: "{{ mg.archetype_definitions.keys() }}"
   loop_control:
     loop_var: item
-  
+
 - name: "{{ level }}-{{ base_folder }} |  Lib - archetypes - custom"
   when:
     - mg_custom.archetype_definitions is defined

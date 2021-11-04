@@ -4,7 +4,7 @@ keyvaults = {
     name               = "{{ resources.subscriptions[subscription_key].keyvaults[key].name }}"
     resource_group_key = "{{ resources.subscriptions[subscription_key].keyvaults[key].resource_group_key }}"
     sku_name           = "{{ resources.subscriptions[subscription_key].keyvaults[key].sku_name | default('standard')}}"
-    
+
     creation_policies = {
 {% if config.platform_identity is defined %}
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}

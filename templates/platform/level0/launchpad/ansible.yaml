@@ -1,5 +1,5 @@
 - name: "[{{ level }}-{{ base_folder }}] - Set variables"
-  set_fact: 
+  set_fact:
     destination_path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
     subscription_key: launchpad
 
@@ -30,7 +30,7 @@
 # resource_groups
 #
 - name: "[{{ level }}-{{ base_folder }}] - resources - resource_groups"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].resource_groups is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -38,7 +38,7 @@
     force: yes
   with_fileglob:
     - "{{ resource_template_folder }}/resource_groups.tfvars.j2"
-  
+
 
 - name: "[{{ level }}-{{ base_folder }}] launchpad"
   ansible.builtin.template:
@@ -119,26 +119,26 @@
       --file "~/.terraform.cache/launchpad/{{ config.tfstates.platform.launchpad.tfstate }}"
 
 - name: "[{{ level }}-{{ base_folder }}] Get subscription_creation_landingzones details"
-  when: 
+  when:
     - launchpad_tfstate_exists.rc == 0
     - config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine
   shell: "cat ~/.terraform.cache/launchpad/{{ config.tfstates.platform.launchpad.tfstate }}"
   register: launchpad_tfstate
-    
+
 - name: "[{{ level }}-{{ base_folder }}] Get launchpad json data"
-  when: 
+  when:
     - launchpad_tfstate_exists.rc == 0
     - config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine
   set_fact:
     scljsondata: "{{ launchpad_tfstate.stdout | from_json }}"
 
 - name: "[{{ level }}-{{ base_folder }}] set launchpad_azuread_groups"
-  when: 
+  when:
     - launchpad_tfstate_exists.rc == 0
     - config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine
   set_fact:
     launchpad_azuread_groups: "{{ scljsondata | json_query(path) }}"
-  vars: 
+  vars:
     path: 'outputs.objects.value.launchpad.azuread_groups'
 
 - name: "[{{ level }}-{{ base_folder }}] Get credentials tfstate details"
@@ -156,7 +156,7 @@
   when: credentials_tfstate_exists.rc == 0
   shell: "cat ~/.terraform.cache/launchpad/{{ config.tfstates.platform.launchpad_credentials.tfstate }}"
   register: launchpad_credentials
-    
+
 - name: "[{{ level }}-{{ base_folder }}] Get launchpad_credentials json data"
   when: credentials_tfstate_exists.rc == 0
   set_fact:
@@ -166,7 +166,7 @@
   when: credentials_tfstate_exists.rc == 0
   set_fact:
     keyvaults: "{{ credjsondata | json_query(path) }}"
-  vars: 
+  vars:
     path: 'outputs.objects.value.launchpad_credentials_rotation.keyvaults'
 
 - name: "[{{ level }}-{{ base_folder }}] cleanup"

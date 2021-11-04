@@ -14,7 +14,7 @@
 - name: "Content of resources"
   debug:
     msg: "{{resources}}"
-    
+
 - name: "[{{ level }} {{ asvm_folder }}] - storage_containers - Creates directory"
   file:
     path: "{{ destination_path }}"
@@ -66,7 +66,7 @@
     force: yes
   with_fileglob:
     - "{{ base_templates_folder }}/{{ level }}/storage_containers/storage_containers.tfvars.j2"
-  
+
 
 #
 # Readme

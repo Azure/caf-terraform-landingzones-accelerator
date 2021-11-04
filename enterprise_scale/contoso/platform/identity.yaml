@@ -18,7 +18,7 @@ virtual_networks:
           key: hub1
         routing:
           routetable1:
-            route_table: 
+            route_table:
               lz_key_name: hub1
               key: routetable1
             propagated_route_table:
@@ -28,7 +28,7 @@ virtual_networks:
               labels:
                 - contoso-demo
                 - wan
-        
+
 
 resource_groups:
   contoso_identity_adds:

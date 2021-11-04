@@ -77,4 +77,3 @@ rover \
 When you have successfully deployed the launchpad you can  move to the next step.
 
  [Deploy the management services](../../level1/management/readme.md)
- 

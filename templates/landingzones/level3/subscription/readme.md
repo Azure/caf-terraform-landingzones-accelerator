@@ -34,7 +34,7 @@ rover ignite \
   -e resource_template_folder={{ resource_template_folder }} \
   -e config_folder={{ config_folder }} \
   -e destination_base_path={{ destination_base_path }} \
-  -e config_folder_platform={{ config_folder_platform }} 
+  -e config_folder_platform={{ config_folder_platform }}
 
 ```
 

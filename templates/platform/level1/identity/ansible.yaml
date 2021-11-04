@@ -8,7 +8,7 @@
   file:
     path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
     state: directory
-  
+
 - name: "[{{ level }}-{{ base_folder }}] generate configuration files."
   ansible.builtin.template:
     src: "{{ item }}"

@@ -14,7 +14,7 @@
   file:
     path: "{{ config.configuration_folders.destination_base_path }}{{ config.configuration_folders.destination_relative_path }}/{{ level }}/{{ base_folder }}/adds/diagnostics"
     state: directory
-    
+
 - name: Identity - ADDS - tfvars
   ansible.builtin.template:
     src: "{{ item }}"

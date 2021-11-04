@@ -34,7 +34,7 @@
   when: platform_subscription_tfstate_exists.rc == 0
   set_fact:
     platform_subscriptions_details: "{{ platform_sub_jsondata | json_query(path) }}"
-  vars: 
+  vars:
     path: 'outputs.objects.value.{{ config.tfstates["platform"].platform_subscriptions.lz_key_name }}.subscriptions'
 
 
@@ -76,5 +76,5 @@
   when: credentials_tfstate_exists is not skipped
   set_fact:
     keyvaults: "{{ credjsondata | json_query(path) }}"
-  vars: 
+  vars:
     path: 'outputs.objects.value.launchpad_credentials_rotation.keyvaults'

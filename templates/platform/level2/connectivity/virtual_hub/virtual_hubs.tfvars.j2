@@ -23,7 +23,7 @@ virtual_hubs = {
 {% if connectivity_virtual_hub.virtual_hubs[virtual_hub].deploy_s2s  %}
     deploy_s2s         = {{ connectivity_virtual_hub.virtual_hubs[virtual_hub].deploy_s2s | string | lower }}
     s2s_config         = {
-      name       = "{{ connectivity_virtual_hub.virtual_hubs[virtual_hub].s2s_config.name }}" 
+      name       = "{{ connectivity_virtual_hub.virtual_hubs[virtual_hub].s2s_config.name }}"
       scale_unit = {{ connectivity_virtual_hub.virtual_hubs[virtual_hub].s2s_config.scale_unit }}
     }
 {% else %}
@@ -32,7 +32,7 @@ virtual_hubs = {
 {% if connectivity_virtual_hub.virtual_hubs[virtual_hub].deploy_er  %}
     deploy_er          = {{ connectivity_virtual_hub.virtual_hubs[virtual_hub].deploy_er | string | lower }}
     er_config          = {
-      name        = "{{ connectivity_virtual_hub.virtual_hubs[virtual_hub].er_config.name }}" 
+      name        = "{{ connectivity_virtual_hub.virtual_hubs[virtual_hub].er_config.name }}"
       scale_units = {{ connectivity_virtual_hub.virtual_hubs[virtual_hub].er_config.scale_units }}
     }
 {% else %}

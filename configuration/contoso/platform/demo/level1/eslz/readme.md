@@ -40,4 +40,3 @@ rover \
 # Next steps
 
  [Deploy Connectivity](../../level2/connectivity/readme.md)
- 

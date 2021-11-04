@@ -9,7 +9,7 @@
 - name: "Content of subscriptions"
   debug:
     msg: "{{subscriptions}}"
-    
+
 - name: "[{{ level }}-{{ subscription_key }}] Get tfstate details"
   register: subscription_tfstate_storage_account_name
   shell: |
@@ -38,21 +38,21 @@
 - name: "[{{ level }}-{{ subscription_key }}] Get landingzones_subscriptions details"
   shell: "cat {{ job_cache_base_path }}/{{ config.tfstates['asvm'][subscription_key].subscriptions.tfstate }}"
   register: platform_subscriptions
-  when: 
+  when:
     - subscriptions.subscriptions[subscription_key] is defined
     - subscription_tfstate_exists.rc == 0
 
 - name: "[{{ level }}-{{ subscription_key }}] Get subscriptions data"
-  when: 
+  when:
     - subscriptions.subscriptions[subscription_key] is defined
     - subscription_tfstate_exists.rc == 0
   set_fact:
     asvm_subscriptions_details: "{{ platform_subscriptions.stdout | from_json | json_query(path) }}"
-  vars: 
+  vars:
     path: 'outputs.objects.value."{{ config.tfstates["asvm"][subscription_key].subscriptions.lz_key_name }}".subscriptions'
 
 - name: "[{{ level }}-{{ subscription_key }}] cleanup"
-  when: 
+  when:
     - subscriptions.subscriptions[subscription_key] is defined
     - subscription_tfstate_exists.rc == 0
   file:
@@ -61,6 +61,6 @@
 
 - debug:
     msg: "Platform subscriptions - {{ asvm_subscriptions_details }}"
-  when: 
+  when:
     - subscriptions.subscriptions[subscription_key] is defined
     - subscription_tfstate_exists.rc == 0
