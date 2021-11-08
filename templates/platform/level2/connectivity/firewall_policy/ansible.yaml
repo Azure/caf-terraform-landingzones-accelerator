@@ -9,7 +9,7 @@
   file:
     path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/firewall_policies/{{ firewall_policy }}"
     state: directory
-    
+
 - name: Firewall_policy ({{ firewall_policy }}) - tfvars
   ansible.builtin.template:
     src: "{{ item }}"

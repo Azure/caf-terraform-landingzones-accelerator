@@ -1,7 +1,7 @@
 
 # Generate the terraform configuration files
 
-To execute this step you need to login with on of the CAF maintainers:
+To execute this step you need to login with one of the CAF maintainers accounts:
 {% for maintainer in config.platform_identity.caf_platform_maintainers %}
   - {{ maintainer }}
 {% endfor %}
@@ -14,3 +14,6 @@ rover ignite \
   -e base_templates_folder={{ base_templates_folder }} \
   -e resource_template_folder={{resource_template_folder}} \
   -e config_folder={{ config_folder }}
+  ```
+
+Get started with the [launchpad](./platform/level0/launchpad)

@@ -172,9 +172,9 @@ role_mapping = {
 {% if config.platform_identity.azuread_identity_mode != 'logged_in_user' %}
           azuread_groups = {
             keys = [
-              "identity", 
-              "connectivity", 
-              "management", 
+              "identity",
+              "connectivity",
+              "management",
               "caf_platform_maintainers",
 {% if config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine %}
               "level0"

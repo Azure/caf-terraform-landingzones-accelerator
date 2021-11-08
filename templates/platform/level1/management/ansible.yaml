@@ -2,7 +2,7 @@
   file:
     path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
     state: absent
-  when: 
+  when:
     - config.configuration_folders.platform.cleanup_destination | bool
 
 - name: "[{{ level }}-{{ base_folder }}] Creates directory"
@@ -12,7 +12,7 @@
 
 
 - name: "[{{ level }}-{{ base_folder }}] - Set variables"
-  set_fact: 
+  set_fact:
     destination_path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
     subscription_key: management
 
@@ -23,12 +23,12 @@
     depth: 1
     ignore_unknown_extensions: true
     files_matching: "management.yaml|configuration.caf.platform.yaml"
-  
+
 #
 # resource_groups
 #
 - name: "[{{ level }}-{{ base_folder }}] - resources - resource_groups"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].resource_groups is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -41,7 +41,7 @@
 # automation_accounts
 #
 - name: "[{{ level }}-{{ base_folder }}] - resources - automation_accounts"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].automation_accounts is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -54,7 +54,7 @@
 # service_health_alerts
 #
 - name: "[{{ level }}-{{ base_folder }}] - resources - service_health_alerts"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].service_health_alerts is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -67,7 +67,7 @@
 # diagnostic_log_analytics
 #
 - name: "[{{ level }}-{{ base_folder }}] - resources - diagnostic_log_analytics"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].diagnostic_log_analytics is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -80,7 +80,7 @@
 # diagnostic_storage_accounts
 #
 - name: "[{{ level }}-{{ base_folder }}] - resources - diagnostic_storage_accounts"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].diagnostic_storage_accounts is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -102,7 +102,7 @@
 # diagnostics_destinations
 #
 - name: "[{{ level }}-{{ base_folder }}] - resources - diagnostics_destinations"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].diagnostics_destinations is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -110,7 +110,7 @@
     force: yes
   with_fileglob:
     - "{{ resource_template_folder }}/diagnostics_destinations.tfvars.j2"
- 
+
 #
 # Readme
 #

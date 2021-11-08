@@ -9,7 +9,7 @@
   file:
     path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
     state: directory
-  
+
 - name: "[{{ level }}-{{ base_folder }}] generate configuration files."
   ansible.builtin.template:
     src: "{{ item }}"
@@ -74,7 +74,7 @@
   when: platform_subscriptions_tfstate_exists.rc == 0
   set_fact:
     platform_subscriptions_details: "{{ platform_sub_jsondata | json_query(path) }}"
-  vars: 
+  vars:
     path: 'outputs.objects.value.{{ config.tfstates.platform.platform_subscriptions.lz_key_name }}.subscriptions'
 
 - name: "[{{ level }}-{{ base_folder }}] cleanup"

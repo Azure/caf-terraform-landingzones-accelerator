@@ -18,7 +18,7 @@
 
     - name: "Set base variables"
       set_fact:
-        job_cache_base_path: "/home/vscode/.terraform.cache"   
+        job_cache_base_path: "/home/vscode/.terraform.cache"
         config: "{{asvm_config__to_merge}}"
 
     - name: "Content of asvm_config__to_merge"
@@ -51,8 +51,8 @@
     - name: "Content of config"
       debug:
         msg: "{{config}}"
-  
-    
+
+
     - name: "Creates cache directory"
       file:
         path: "{{ job_cache_base_path }}/launchpad"

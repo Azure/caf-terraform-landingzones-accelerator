@@ -25,7 +25,7 @@ diagnostic_log_analytics = {
     solutions = {
 {% for sol_key, sol_value in resources.subscriptions[subscription_key].diagnostic_log_analytics[key].solutions.items() %}
       {{ sol_key }} = {
-        "publisher" = "{{ sol_value.publisher }}" 
+        "publisher" = "{{ sol_value.publisher }}"
         "product"   = "{{ sol_value.product }}"
       }
 {% endfor %}

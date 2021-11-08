@@ -9,7 +9,7 @@
   file:
     path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/virtual_hubs/{{ virtual_hub }}"
     state: directory
-    
+
 - name: Virtual_hubs {{ virtual_hub }} - Tfvars
   ansible.builtin.template:
     src: "{{ item }}"

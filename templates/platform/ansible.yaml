@@ -49,7 +49,7 @@
 #
 
 ## launchpad
-        
+
     - name: "[{{ level }}-{{ base_folder }}] launchpad"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
       vars:
@@ -59,7 +59,7 @@
 ## credentials
     - name: "[{{ level }}-{{ base_folder }}] Setup credentials"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: 
+      when:
         - config.platform_identity.azuread_identity_mode == "service_principal"
         - launchpad_tfstate_exists.rc == 0
       vars:
@@ -70,7 +70,7 @@
       file:
         path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
         state: absent
-      when: 
+      when:
         - config.platform_identity.azuread_identity_mode == "logged_in_user"
         - launchpad_tfstate_exists.rc == 0
       vars:
@@ -89,7 +89,7 @@
       file:
         path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
         state: absent
-      when: 
+      when:
         - level0_billing_subscription_role_delegations is skipped
       vars:
         base_folder: "billing_subscription_role_delegations"
@@ -112,7 +112,7 @@
       file:
         path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
         state: absent
-      when: 
+      when:
         - level1_subscriptions is skipped
       vars:
         base_folder: "subscriptions"
@@ -121,8 +121,8 @@
 ## management
     - name: "{{ level }}-{{ base_folder }} | Management services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: 
-        - (config.platform_management.enable | bool) 
+      when:
+        - (config.platform_management.enable | bool)
         # - (level1_subscriptions is not skipped)
         # - platform_subscriptions_details is defined
 
@@ -133,7 +133,7 @@
 ## identity
     - name: "{{ level }}-{{ base_folder }} | Identity services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: 
+      when:
         # - config.platform_core_setup.enterprise_scale.subscription_deployment_mode != "single_reuse"
         - launchpad_tfstate_exists is not skipped
         - credentials_tfstate_exists is not skipped
@@ -148,7 +148,8 @@
 ## eslz
     - name: "{{ level }}-{{ base_folder }} | Enterprise-scale services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: 
+      when:
+        - (config.platform_core_setup.enterprise_scale.enable | bool)
         - ( (config.platform_core_setup.enterprise_scale.enable | bool) and (level1_subscriptions is not skipped) ) or (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "single_reuse")
         - (platform_subscriptions_details is defined) or (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "single_reuse")
 
@@ -169,22 +170,22 @@
         base_folder: "asvm"
         level: "level2"
 
-## Connectivity          
+## Connectivity
     - name: "{{ level }}-{{ base_folder }} | Connectivity services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: 
+      when:
         - ( (config.networking_topology.deployment_option == "virtual_wan") or (config.platform_identity.azuread_identity_mode == 'logged_in_user') )
         - (platform_subscriptions_details is defined) or (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "single_reuse")
       vars:
         base_folder: "connectivity"
         level: "level2"
-        folders: 
+        folders:
           - virtual_wan
 
 ## identity
     - name: "{{ level }}-{{ base_folder }} | Identity services"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: 
+      when:
         - config.platform_core_setup.enterprise_scale.subscription_deployment_mode != "single_reuse"
         - launchpad_tfstate_exists is not skipped
         - credentials_tfstate_exists is not skipped

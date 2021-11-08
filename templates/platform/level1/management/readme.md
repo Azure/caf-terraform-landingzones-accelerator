@@ -35,4 +35,8 @@ rover \
 
 When you have successfully deployed the management landing zone, you can move to the next step:
 
+{% if config.platform_core_setup.enterprise_scale.enable %}
  [Deploy Enterprise Scale](../../level1/eslz/readme.md)
+{% else %}
+ [Deploy Connectivity](../../level2/connectivity/readme.md)
+{% endif %}

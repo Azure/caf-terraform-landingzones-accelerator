@@ -26,7 +26,7 @@
 # landingzone
 #
 - name: "[{{ level }}-{{ circuit }}] - express route - landingzone"
-  when: 
+  when:
     - connectivity_express_routes.express_route_circuits is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -39,7 +39,7 @@
 # resource_groups
 #
 - name: "[{{ level }}-{{ circuit }}] - express route - resource_groups"
-  when: 
+  when:
     - connectivity_express_routes.resource_groups is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -52,7 +52,7 @@
 # express_route_circuits
 #
 - name: "[{{ level }}-{{ circuit }}] - express route - express_route_circuits"
-  when: 
+  when:
     - connectivity_express_routes.express_route_circuits is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -65,7 +65,7 @@
 # express_route_circuit_authorizations
 #
 - name: "[{{ level }}-{{ circuit }}] - express route - express_route_circuit_authorizations"
-  when: 
+  when:
     - connectivity_express_routes.express_route_circuit_authorizations is defined
   ansible.builtin.template:
     src: "{{ item }}"

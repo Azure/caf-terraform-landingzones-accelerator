@@ -29,12 +29,12 @@
 
 - name: "[{{ level }} {{ subscription_key }}] - subscription"
   include_tasks: "{{ level }}/ansible-subscription-id.yaml"
-  when: 
+  when:
     - config.tfstates['asvm'][subscription_key].subscriptions is defined
     - config.tfstates['asvm'][subscription_key].subscriptions.subscription_id is not defined
 
 ### Subscription
-    
+
 - name: "Load variable for subscriptions"
   include_vars:
     name: resources
@@ -45,7 +45,7 @@
 
 - name: "[{{ level }} {{ subscription_key }}] - subscription"
   include_tasks: "{{ level }}/ansible-subscription.yaml"
-  when: 
+  when:
     - resources.subscriptions[subscription_key] is defined
     - config.tfstates['asvm'][subscription_key].subscriptions.subscription_id is not defined
 
@@ -54,5 +54,5 @@
 
 - name: "[{{ level }} {{ subscription_key }}] - resources"
   include_tasks: "{{ level }}/resources/ansible.yaml"
-  when: 
+  when:
     - config.tfstates['asvm'][subscription_key].resources is defined

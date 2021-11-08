@@ -4,14 +4,14 @@
 
 # foreach($svc in (Get-Service | Where-Object {$_.name -ilike "*docker*" -and $_.Status -ieq "Running"}))
 # {
-    
+
 #   $ErrorActionPreference = 'Continue'
 #   try
 #   {
 #     $svc | Stop-Service -ErrorAction Continue -Confirm:$false -Force
 #     $svc.WaitForStatus('Stopped','00:00:20')
 #   }
-#   catch 
+#   catch
 #   {
 #     Write-Verbose "$((Get-Date).ToString("HH:mm:ss")) - `tCannot stop service."
 #   }
@@ -24,10 +24,10 @@
 #   $ErrorActionPreference = 'Continue'
 #   try
 #   {
-#     $svc | Start-Service 
+#     $svc | Start-Service
 #     $svc.WaitForStatus('Running','00:00:20')
 #   }
-#   catch 
+#   catch
 #   {
 #     Write-Verbose "$((Get-Date).ToString("HH:mm:ss")) - `tCannot start service."
 #   }
@@ -56,7 +56,7 @@ while ((Get-Date) -le $startTimeout)
         $timeoutHit = $false
         break
     }
-    catch 
+    catch
     {
 
         if (($_ -ilike "*error during connect*") -or ($_ -ilike "*errors pretty printing info*")  -or ($_ -ilike "*Error running info command*"))

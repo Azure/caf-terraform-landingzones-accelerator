@@ -21,7 +21,7 @@
 - name: "Content of resources"
   debug:
     msg: "{{resources}}"
-    
+
 - name: "[{{ level }} {{ asvm_folder }}] - resources - Creates directory"
   file:
     path: "{{ destination_path }}"
@@ -43,7 +43,7 @@
 # azuread_applications
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - azuread_applications"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].azuread_applications is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -56,7 +56,7 @@
 # azuread_credential_policies
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - azuread_credential_policies"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].azuread_credential_policies is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -69,7 +69,7 @@
 # azuread_groups
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - azuread_groups"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].azuread_groups is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -82,7 +82,7 @@
 # azuread_service_principals
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - azuread_service_principals"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].azuread_service_principals is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -95,7 +95,7 @@
 # custom_role_definitions
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - custom_role_definitions"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].custom_role_definitions is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -108,7 +108,7 @@
 # keyvaults
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - keyvaults"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].keyvaults is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -121,7 +121,7 @@
 # landingzone
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - landingzone"
-  when: 
+  when:
     - deployments.deployments[subscription_key][deployment].landingzone is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -134,7 +134,7 @@
 # recovery_vaults
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - recovery_vaults"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].recovery_vaults is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -142,12 +142,12 @@
     force: yes
   with_fileglob:
     - "{{ resource_template_folder }}/recovery_vaults.tfvars.j2"
-  
+
 #
 # resource_groups
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - resource_groups"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].resource_groups is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -155,12 +155,12 @@
     force: yes
   with_fileglob:
     - "{{ resource_template_folder }}/resource_groups.tfvars.j2"
-  
+
 #
 # role_mapping
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - role_mapping"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].role_mapping is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -173,7 +173,7 @@
 # virtual_hub_connections
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - virtual_hub_connections"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].virtual_hub_connections is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -181,13 +181,13 @@
     force: yes
   with_fileglob:
     - "{{ resource_template_folder }}/virtual_hub_connections.tfvars.j2"
-  
-  
+
+
 #
 # virtual_networks
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - virtual_networks"
-  when: 
+  when:
     - resources.subscriptions[subscription_key].virtual_networks is defined
   ansible.builtin.template:
     src: "{{ item }}"
@@ -195,7 +195,7 @@
     force: yes
   with_fileglob:
     - "{{ resource_template_folder }}/virtual_networks.tfvars.j2"
-  
+
 
 #
 # Readme
