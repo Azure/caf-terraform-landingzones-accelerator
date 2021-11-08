@@ -27,17 +27,17 @@
     path: "{{ destination_path }}"
     state: directory
 #
-# azuread_application_credentials
+# azuread_credentials
 #
-- name: "[{{ level }}-{{ subscription_key }}] - resources - azuread_application_credentials"
+- name: "[{{ level }}-{{ subscription_key }}] - resources - azuread_credentials"
   when: 
-    - resources.subscriptions[subscription_key].azuread_credential_policies is defined
+    - resources.subscriptions[subscription_key].azuread_credentials is defined
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
   with_fileglob:
-    - "{{ resource_template_folder }}/azuread_application_credentials.tfvars.j2"
+    - "{{ resource_template_folder }}/azuread_credentials.tfvars.j2"
 
 #
 # azuread_applications
