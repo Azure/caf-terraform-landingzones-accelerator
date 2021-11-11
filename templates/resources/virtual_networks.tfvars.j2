@@ -15,6 +15,12 @@ vnets = {
 {% if subnet.nsg_key is defined %}
         nsg_key = "{{ subnet.nsg_key }}"
 {% endif %}
+{% if subnet.service_endpoints is defined %}
+        service_endpoints = {{ subnet.service_endpoints | replace('None','[]') | replace('\'','\"')  }}
+{% endif %}
+{% if subnet.enforce_private_link_service_network_policies is defined %}
+        enforce_private_link_service_network_policies = true
+{% else %}
 {% if subnet.enforce_private_link_endpoint_network_policies is defined %}
         enforce_private_link_endpoint_network_policies = true
 {% else %}

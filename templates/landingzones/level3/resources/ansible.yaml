@@ -118,6 +118,19 @@
     - "{{ resource_template_folder }}/keyvaults.tfvars.j2"
 
 #
+# keyvault_access_policies
+#
+- name: "[{{ level }}-{{ subscription_key }}] - resources - keyvault_access_policies"
+  when:
+    - resources.subscriptions[subscription_key].keyvault_access_policies is defined
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ resource_template_folder }}/keyvault_access_policies.tfvars.j2"
+
+#
 # landingzone
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - landingzone"
