@@ -1,7 +1,7 @@
 
 - name: "set destination paths private_dns"
   set_fact:
-    destination_path:  "{{ destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/private_dns/{{ environment }}"
+    destination_path:  "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/private_dns/{{ environment }}"
 
 - name: "Clean-up directory - subscription - {{ destination_path }}"
   file:
