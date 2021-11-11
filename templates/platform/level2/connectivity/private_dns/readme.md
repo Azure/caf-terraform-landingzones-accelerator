@@ -3,7 +3,7 @@
 
 ## Select the correct branch for the landingzones code
 
-Note you need to adjust the branch {{ resources.gitops.caf_landingzone_branch }} to deploy the connectivity services
+Note you need to adjust the branch {{ resources.gitops.landingzone }} to deploy the connectivity services
 
 ## {{ environment }}
 
@@ -13,7 +13,7 @@ rover login -t {{ config.platform_identity.tenant_name }}
 
 cd {{ config.configuration_folders.platform.destination_base_path }}/landingzones
 git fetch origin
-git checkout {{ resources.gitops.caf_landingzone_branch }}
+git checkout {{ resources.gitops.landingzone }}
 
 rover \
 {% if keyvaults is defined and config.platform_identity.azuread_identity_mode != "logged_in_user" %}
