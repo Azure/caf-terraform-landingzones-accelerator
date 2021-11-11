@@ -20,7 +20,7 @@ vnets = {
 {% endif %}
 {% if subnet.enforce_private_link_service_network_policies is defined %}
         enforce_private_link_service_network_policies = true
-{% else %}
+{% endif %}
 {% if subnet.enforce_private_link_endpoint_network_policies is defined %}
         enforce_private_link_endpoint_network_policies = true
 {% else %}
