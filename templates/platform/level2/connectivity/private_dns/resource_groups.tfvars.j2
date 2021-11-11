@@ -2,7 +2,7 @@ resource_groups = {
 {% for key, resource_group in resources.resource_groups[deployment].items() %}
   {{ key }} = {
     name   = "{{ resource_group.name }}"
-    region = "{{ resource_group.region_key | default('{{ config.caf_terraform.launchpad.default_region_key }}') }}"
+    region = "{{ resource_group.region_key | default(config.caf_terraform.launchpad.default_region_key) }}"
   }
 {% endfor %}
 }
