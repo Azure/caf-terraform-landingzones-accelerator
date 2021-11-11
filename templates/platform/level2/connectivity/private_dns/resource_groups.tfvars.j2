@@ -1,0 +1,8 @@
+resource_groups = {
+{% for key, resource_group in resources.resource_groups[environment].items() %}
+  {{ key }} = {
+    name   = "{{ resource_group.name }}"
+    region = "{{ resource_group.region_key }}"
+  }
+{% endfor %}
+}

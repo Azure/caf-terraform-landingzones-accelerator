@@ -49,6 +49,16 @@
   loop_control:
     loop_var: circuit
 
+
+- name: Private DNS Zones
+  include_tasks: "{{ level }}/{{ base_folder }}/private_dns/ansible.yaml"
+  when:
+    - config.tfstates.platform.private_dns is defined
+  loop: "{{ config.tfstates.platform.private_dns.keys() }}"
+  loop_control:
+    loop_var: environment
+
+
 # - name: Firewall Policies
 #   include_tasks: "{{ level }}/{{ base_folder }}/firewall_policy/ansible.yaml"
 #   when:
