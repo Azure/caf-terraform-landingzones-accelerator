@@ -19,7 +19,8 @@ rover \
 {% if keyvaults is defined and config.platform_identity.azuread_identity_mode != "logged_in_user" %}
   --impersonate-sp-from-keyvault-url {{ keyvaults.cred_connectivity.vault_uri }} \
 {% endif %}
-  -lz {{ destination_path }} \
+  -lz {{ config.configuration_folders.platform.destination_base_path }}/landingzones/caf_solution \
+  -var-folder {{ destination_path }} \
   -tfstate_subscription_id {{ config.caf_terraform.launchpad.subscription_id }} \
 {% if platform_subscriptions_details is defined %}
   -target_subscription {{ platform_subscriptions_details.connectivity.subscription_id }} \

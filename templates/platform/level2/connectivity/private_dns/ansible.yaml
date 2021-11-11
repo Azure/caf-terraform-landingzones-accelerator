@@ -29,15 +29,15 @@
 # #
 # # resource_groups
 # #
-# - name: "[{{ level }}-{{ circuit }}] - express route - resource_groups"
+# - name: "[{{ level }}-{{ deployment }}] - private_dns - resource_groups"
 #   when:
-#     - resources.resource_groups[] is defined
+#     - resources.resource_groups[deployment] is defined
 #   ansible.builtin.template:
 #     src: "{{ item }}"
 #     dest: "{{ destination_path_resources }}/{{ item | basename | regex_replace('.j2$', '') }}"
 #     force: yes
 #   with_fileglob:
-#     - "{{ level }}/{{ base_folder }}/express_route_circuit/resource_groups.tfvars.j2"
+#     - "{{ level }}/{{ base_folder }}/resource_groups/resource_groups.tfvars.j2"
 
 
 - name: private_dns {{ deployment }} - Tfvars
