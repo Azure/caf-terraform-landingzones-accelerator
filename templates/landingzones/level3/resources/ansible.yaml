@@ -131,6 +131,19 @@
     - "{{ resource_template_folder }}/landingzone.tfvars.j2"
 
 #
+# network_security_group_definition
+#
+- name: "[{{ level }}-{{ subscription_key }}] - resources - network_security_group_definition"
+  when:
+    - resources.subscriptions[subscription_key].network_security_group_definition is defined
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ resource_template_folder }}/network_security_group_definition.tfvars.j2"
+
+#
 # recovery_vaults
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - recovery_vaults"
