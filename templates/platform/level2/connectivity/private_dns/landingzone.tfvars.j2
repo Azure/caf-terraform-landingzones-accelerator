@@ -1,8 +1,8 @@
 landingzone = {
   backend_type        = "azurerm"
   global_settings_key = "{{ config.tfstates.platform.virtual_wan.lz_key_name }}"
-  level               = "{{ config.tfstates.platform.private_dns[environment].level }}"
-  key                 = "{{ config.tfstates.platform.private_dns[environment].lz_key_name }}"
+  level               = "{{ config.tfstates.platform.private_dns[deployment].level }}"
+  key                 = "{{ config.tfstates.platform.private_dns[deployment].lz_key_name }}"
   tfstates = {
     # Virtual WAN
     {{ config.tfstates.platform.virtual_wan.lz_key_name }} = {

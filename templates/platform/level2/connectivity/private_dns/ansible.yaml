@@ -1,7 +1,7 @@
 
 - name: "set destination paths private_dns"
   set_fact:
-    destination_path:  "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/private_dns/{{ environment }}"
+    destination_path:  "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/private_dns/{{ deployment }}"
 
 - name: "Clean-up directory - subscription - {{ destination_path }}"
   file:
@@ -21,12 +21,12 @@
   debug:
     msg: "{{resources}}"
 
-- name: "[{{ level }} {{ folder_name }}] - {{ folder_name }} - Creates directory"
+- name: "Creates directory - {{ destination_path }}"
   file:
     path: "{{ destination_path }}"
     state: directory
 
-- name: private_dns {{ environment }} - Tfvars
+- name: private_dns {{ deployment }} - Tfvars
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"

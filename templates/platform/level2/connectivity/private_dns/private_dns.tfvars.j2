@@ -1,5 +1,5 @@
 private_dns = {
-{% for key, value in resources.private_dns[environment].items() %}
+{% for key, value in resources.private_dns[deployment].items() %}
   {{ key }} = {
     name               = "{{ value.name }}"
     resource_group_key = "{{ value.resource_group_key }}"

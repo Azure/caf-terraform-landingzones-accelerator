@@ -56,7 +56,7 @@
     - config.tfstates.platform.private_dns is defined
   loop: "{{ config.tfstates.platform.private_dns.keys() }}"
   loop_control:
-    loop_var: environment
+    loop_var: deployment
 
 
 # - name: Firewall Policies
