@@ -9,21 +9,21 @@ network_security_group_definition = {
 {% for direction, l1_value in value.nsg.items() %}
 {% for priority, l2_value in l1_value.items() %}
       {
-        name                                       = "{{ l2_value.name }}"
+        name                                       = "{{ l1_value[priority].name }}"
         priority                                   = "{{ priority }}"
         direction                                  = "{{ direction }}"
-        access                                     = "{{ l2_value.access }}"
-        protocol                                   = "{{ l2_value.protocol }}"
-        source_port_range                          = "{{ l2_value.source_port_range }}"
-        source_port_ranges                         = {{ l2_value.source_port_ranges | replace('None','[]') | replace('\'','\"') }}
-        destination_port_range                     = "{{ l2_value.destination_port_range }}"
-        destination_port_ranges                    = {{ l2_value.destination_port_ranges | replace('None','[]') | replace('\'','\"') }}
-        source_address_prefix                      = "{{ l2_value.source_address_prefix }}"
-        source_address_prefixes                    = {{ l2_value.source_address_prefixes | replace('None','[]') | replace('\'','\"') }}
-        destination_address_prefix                 = "{{ l2_value.destination_address_prefix }}"
-        destination_address_prefixes               = {{ l2_value.destination_address_prefixes | replace('None','[]') | replace('\'','\"') }}
-        source_application_security_group_ids      = "{{ l2_value.source_application_security_group_ids }}"
-        destination_application_security_group_ids = {{ l2_value.destination_application_security_group_ids | replace('None','[]') | replace('\'','\"') }}
+        access                                     = "{{ l1_value[priority].access }}"
+        protocol                                   = "{{ l1_value[priority].protocol }}"
+        source_port_range                          = "{{ l1_value[priority].source_port_range }}"
+        source_port_ranges                         = {{ l1_value[priority].source_port_ranges | replace('None','[]') | replace('\'','\"') }}
+        destination_port_range                     = "{{ l1_value[priority].destination_port_range }}"
+        destination_port_ranges                    = {{ l1_value[priority].destination_port_ranges | replace('None','[]') | replace('\'','\"') }}
+        source_address_prefix                      = "{{ l1_value[priority].source_address_prefix }}"
+        source_address_prefixes                    = {{ l1_value[priority].source_address_prefixes | replace('None','[]') | replace('\'','\"') }}
+        destination_address_prefix                 = "{{ l1_value[priority].destination_address_prefix }}"
+        destination_address_prefixes               = {{ l1_value[priority].destination_address_prefixes | replace('None','[]') | replace('\'','\"') }}
+        source_application_security_group_ids      = "{{ l1_value[priority].source_application_security_group_ids }}"
+        destination_application_security_group_ids = {{ l1_value[priority].destination_application_security_group_ids | replace('None','[]') | replace('\'','\"') }}
       },
 {% endfor %}
 {% endfor %}
