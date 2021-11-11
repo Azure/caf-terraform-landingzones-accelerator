@@ -72,7 +72,7 @@
     dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
     force: yes
   with_fileglob:
-    - "{{ resource_template_folder }}/resource_groups.tfvars.j2"
+    - "{{ resource_template_folder }}/azuread_groups.tfvars.j2"
 
 - name: "[{{ level }}-{{ base_folder }}] asvm"
   ansible.builtin.template:
