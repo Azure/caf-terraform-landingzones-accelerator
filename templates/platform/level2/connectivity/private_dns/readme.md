@@ -26,10 +26,10 @@ rover \
 {% else %}
   -target_subscription {{ config.caf_terraform.launchpad.subscription_id }} \
 {% endif %}
-  -tfstate {{ config.tfstates.platform.private_dns[environment].tfstate }} \
+  -tfstate {{ config.tfstates.platform.private_dns[deployment].tfstate }} \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
-  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.private_dns[environment].tfstate }}.tfplan \
+  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.private_dns[deployment].tfstate }}.tfplan \
   -a plan
 
 ```
