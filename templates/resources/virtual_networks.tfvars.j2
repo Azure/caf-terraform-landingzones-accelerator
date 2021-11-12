@@ -24,7 +24,9 @@ vnets = {
 {% if subnet.enforce_private_link_endpoint_network_policies is defined %}
         enforce_private_link_endpoint_network_policies = true
 {% else %}
+{% if subnet.nsg_key is not defined %}
         nsg_key = "empty_nsg"
+{% endif %}
 {% endif %}
 {% if subnet.delegation is defined %}
         delegation = {
