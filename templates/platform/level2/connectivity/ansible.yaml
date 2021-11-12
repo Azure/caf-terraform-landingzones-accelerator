@@ -49,7 +49,6 @@
   loop_control:
     loop_var: circuit
 
-
 - name: Private DNS Zones
   include_tasks: "{{ level }}/{{ base_folder }}/private_dns/ansible.yaml"
   when:
@@ -58,11 +57,10 @@
   loop_control:
     loop_var: deployment
 
-
-# - name: Firewall Policies
-#   include_tasks: "{{ level }}/{{ base_folder }}/firewall_policy/ansible.yaml"
-#   when:
-#     - connectivity_firewall_policies.root is defined
-#   loop: "{{ config.tfstates.platform.firewall_policies.keys() }}"
-#   loop_control:
-#     loop_var: firewall_policy
+- name: Firewall Policies
+  include_tasks: "{{ level }}/{{ base_folder }}/firewall_policy/ansible.yaml"
+  when:
+    - config.tfstates.platform.azurerm_firewall_policies is defined
+  loop: "{{ config.tfstates.platform.firewall_policies.keys() }}"
+  loop_control:
+    loop_var: firewall_policy

@@ -21,7 +21,9 @@ role_mapping = {
     {{ key }} = {
 {% for resource_key, roles_objects in role_mappings.items() %}
       {{ resource_key }} = {
+{% if roles_objects.lz_key is defined %}
         lz_key = "{{ roles_objects.lz_key }}"
+{% endif %}
 {% for role_name, principals_objects in roles_objects.items() %}
 {% if role_name != 'lz_key' %}
         "{{ role_name }}" = {
