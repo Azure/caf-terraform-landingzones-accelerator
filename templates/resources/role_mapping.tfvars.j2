@@ -4,7 +4,7 @@ role_mapping = {
 {% for key, role_mappings in resources.subscriptions[subscription_key].role_mapping.built_in_role_mapping.items() %}
     {{ key }} = {
 {% for resource_key, roles_objects in role_mappings.items() %}
-      {{ resource_key }} = {
+      "{{ resource_key }}" = {
 {% if roles_objects.lz_key is defined %}
         lz_key = "{{ roles_objects.lz_key }}"
 {% endif %}

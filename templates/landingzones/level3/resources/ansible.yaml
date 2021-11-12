@@ -144,6 +144,19 @@
     - "{{ resource_template_folder }}/landingzone.tfvars.j2"
 
 #
+# managed_identities
+#
+- name: "[{{ level }}-{{ subscription_key }}] - resources - managed_identities"
+  when:
+    - resources.subscriptions[subscription_key].managed_identities is defined
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ resource_template_folder }}/managed_identities.tfvars.j2"
+
+#
 # network_security_group_definition
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - network_security_group_definition"
