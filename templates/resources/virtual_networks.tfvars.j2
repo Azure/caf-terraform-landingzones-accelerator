@@ -23,8 +23,11 @@ vnets = {
 {% endif %}
 {% if subnet.enforce_private_link_endpoint_network_policies is defined %}
         enforce_private_link_endpoint_network_policies = true
+{% else %}
+{% if subnet.nsg_key is not defined %}
+        nsg_key = "empty_nsg"
 {% endif %}
-        nsg_key = "{{ subnet.nsg_key | default('empty_nsg') }}"
+{% endif %}
 {% if subnet.delegation is defined %}
         delegation = {
           name               = "{{ subnet.delegation.name }}"
