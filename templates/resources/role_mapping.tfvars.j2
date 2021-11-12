@@ -1,20 +1,4 @@
 role_mapping = {
-{% if resources.subscriptions[subscription_key].role_mapping.custom_role_mapping is defined %}
-  custom_role_mapping = {
-{% for key, role_mappings in resources.subscriptions[subscription_key].role_mapping.custom_role_mapping.items() %}
-    {{ key }} = {
-      project1 = {
-        lz_key = "project1"
-        "asvm_project1_LZContributors" = {
-          azuread_service_principals = {
-            keys = [ "asvm_project1_LZContributors" ]
-          }
-        }
-      }
-    }
-{% endfor %}
-  }
-{% endif %}
 {% if resources.subscriptions[subscription_key].role_mapping.built_in_role_mapping is defined %}
   built_in_role_mapping = {
 {% for key, role_mappings in resources.subscriptions[subscription_key].role_mapping.built_in_role_mapping.items() %}
