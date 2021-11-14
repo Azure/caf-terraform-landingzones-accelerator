@@ -15,7 +15,6 @@
     mg: "{{ lookup('file', '{{ config_folder }}/eslz/archetype_config_overrides.caf.platform.yaml') | from_yaml }}"
     mg_custom: "{{ lookup('file', '{{ config_folder }}/eslz/custom_landing_zones.caf.platform.yaml') | from_yaml }}"
     mg_struture: "{{ lookup('file', '{{ config_folder }}/eslz/structure.caf.platform.yaml') | from_yaml }}"
-    cidr: "{{ lookup('file', '{{ config_folder }}/cidr.yaml') | from_yaml }}"
     tfstates: "{{ lookup('file', '{{ config_folder }}/tfstates.yaml') | from_yaml }}"
     base_templates_folder: "{{ base_templates_folder }}"
     boostrap_launchpad: boostrap_launchpad | default(false)

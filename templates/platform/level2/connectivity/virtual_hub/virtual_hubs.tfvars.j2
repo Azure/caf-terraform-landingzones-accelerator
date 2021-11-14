@@ -16,7 +16,7 @@ virtual_hubs = {
 
     hub_name           = "{{ connectivity_virtual_hub.virtual_hubs[virtual_hub].name }}"
     region             = "{{ connectivity_virtual_hub.virtual_hubs[virtual_hub].region_key }}"
-    hub_address_prefix = "{{ cidr[connectivity_virtual_hub.virtual_hubs[virtual_hub].region_key].connectivity.virtual_hubs[virtual_hub] }}"
+    hub_address_prefix = "{{ connectivity_virtual_hub.virtual_hubs[virtual_hub].hub_address_prefix }}"
     deploy_firewall    = false
     deploy_p2s         = false
     p2s_config         = {}
