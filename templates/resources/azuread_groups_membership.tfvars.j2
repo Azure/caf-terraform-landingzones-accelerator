@@ -1,0 +1,25 @@
+azuread_groups_membership = {
+{% for key, value in resources.subscriptions[subscription_key].azuread_groups_membership.items() %}
+  {{ key }} = {
+{% if value.lz_key is defined %}
+    lz_key = "{{ value.lz_key }}"
+{% endif %}
+{% if value.azuread_service_principals is defined %}
+    azuread_service_principals = {
+{% if value.azuread_service_principals.lz_key is defined %}
+      lz_key = "{{ value.azuread_service_principals.lz_key }}"
+{% endif %}
+      keys   = {{ value.azuread_service_principals['keys'] | replace('None','[]') | replace('\'','\"') }}
+    }
+{% endif %}
+{% if value.managed_identities is defined %}
+    managed_identities = {
+{% if value.managed_identities.lz_key is defined %}
+      lz_key = "{{ value.managed_identities.lz_key }}"
+{% endif %}
+      keys   = {{ value.managed_identities['keys'] | replace('None','[]') | replace('\'','\"') }}
+    }
+{% endif %}
+  }
+{% endfor %}
+}

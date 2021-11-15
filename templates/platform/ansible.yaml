@@ -54,6 +54,7 @@
       vars:
         base_folder: "launchpad"
         level: "level0"
+        subscription_key: launchpad
 
 ## credentials
     - name: "[{{ level }}-{{ base_folder }}] Setup credentials"
@@ -64,6 +65,7 @@
       vars:
         base_folder: "credentials"
         level: "level0"
+        subscription_key: launchpad_credentials
 
     - name: "[{{ level }}-{{ base_folder }}] Clean-up directory"
       file:
@@ -128,6 +130,7 @@
       vars:
         base_folder: "management"
         level: "level1"
+        subscription_key: management
 
 ## identity
     - name: "{{ level }}-{{ base_folder }} | Identity services"
@@ -168,6 +171,7 @@
       vars:
         base_folder: "asvm"
         level: "level2"
+        subscription_key: asvm
 
 ## Connectivity
     - name: "{{ level }}-{{ base_folder }} | Connectivity services"

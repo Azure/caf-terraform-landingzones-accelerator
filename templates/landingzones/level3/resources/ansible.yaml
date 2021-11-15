@@ -79,6 +79,19 @@
     - "{{ resource_template_folder }}/azuread_groups.tfvars.j2"
 
 #
+# azuread_groups_membership
+#
+- name: "[{{ level }}-{{ subscription_key }}] - resources - azuread_groups_membership"
+  when:
+    - resources.subscriptions[subscription_key].azuread_groups_membership is defined
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ destination_path }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ resource_template_folder }}/azuread_groups_membership.tfvars.j2"
+
+#
 # azuread_service_principals
 #
 - name: "[{{ level }}-{{ subscription_key }}] - resources - azuread_service_principals"

@@ -14,7 +14,6 @@
 - name: "[{{ level }}-{{ base_folder }}] - Set variables"
   set_fact:
     destination_path: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
-    subscription_key: management
 
 - name: "[{{ level }}-{{ base_folder }}] - Load variables"
   include_vars:

@@ -9,5 +9,10 @@ landingzone = {
       level   = "current"
       tfstate = "{{ config.tfstates.platform.virtual_wan.tfstate }}"
     }
+    # Identity Level2
+    {{ config.tfstates.platform.identity_level2.lz_key_name }} = {
+      level   = "current"
+      tfstate = "{{ config.tfstates.platform.identity_level2.tfstate }}"
+    }
   }
 }
