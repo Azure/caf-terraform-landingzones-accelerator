@@ -45,6 +45,9 @@ virtual_hubs = {
 express_route_connections = {
   {{ virtual_hub }} = {
     name = "{{ connectivity_virtual_hub.express_route_connections[virtual_hub].name }}"
+{% if connectivity_virtual_hub.express_route_connections[virtual_hub].enable_internet_security is defined %}
+    enable_internet_security = {{ connectivity_virtual_hub.express_route_connections[virtual_hub].enable_internet_security | string | lower }}
+{% endif %}
 {% if connectivity_virtual_hub.virtual_hubs[virtual_hub].enable_er_connections %}
     enable_er_connections = {{ connectivity_virtual_hub.virtual_hubs[virtual_hub].enable_er_connections | string | lower }}
 {% endif %}
