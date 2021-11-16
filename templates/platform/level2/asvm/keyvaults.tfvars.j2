@@ -53,6 +53,14 @@ keyvaults = {
         object_id = "{{launchpad_azuread_groups.subscription_creation_landingzones.id}}"
         secret_permissions = ["Get"]
       }
+      caf_ac_landingzone_maintainers_non_prod = {
+        azuread_group_key  = "caf_ac_landingzone_maintainers_non_prod"
+        secret_permissions = ["Get"]
+      }
+      caf_ac_landingzone_maintainers_prod = {
+        azuread_group_key  = "caf_ac_landingzone_maintainers_prod"
+        secret_permissions = ["Get"]
+      }
       level0 = {
         object_id = "{{launchpad_azuread_groups.level0.id}}"
         secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]

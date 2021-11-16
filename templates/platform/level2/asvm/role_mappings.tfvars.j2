@@ -15,6 +15,12 @@ role_mapping = {
               "{{launchpad_azuread_groups.subscription_creation_landingzones.id}}"  // subscription_creation_landingzones
             ]
           }
+          azuread_groups = {
+            keys = [
+              "caf_ac_landingzone_maintainers_non_prod",
+              "caf_ac_landingzone_maintainers_prod"
+            ]
+          }
         }
       }
       level4 = {
@@ -23,6 +29,12 @@ role_mapping = {
             keys = [
               "{{launchpad_azuread_groups.caf_platform_maintainers.id}}",           // caf_platform_maintainers
               "{{launchpad_azuread_groups.subscription_creation_landingzones.id}}"  // subscription_creation_landingzones
+            ]
+          }
+          azuread_groups = {
+            keys = [
+              "caf_ac_landingzone_maintainers_non_prod",
+              "caf_ac_landingzone_maintainers_prod"
             ]
           }
         }
@@ -39,6 +51,13 @@ role_mapping = {
             ]
           }
         }
+        "Owner" = {
+          object_ids = {
+            keys = [
+              "{{launchpad_azuread_groups.subscription_creation_landingzones.id}}"  // subscription_creation_landingzones
+            ]
+          }
+        }
       }
 
       level4 = {
@@ -46,6 +65,13 @@ role_mapping = {
           object_ids = {
             keys = [
               "{{launchpad_azuread_groups.caf_platform_maintainers.id}}",           // caf_platform_maintainers
+              "{{launchpad_azuread_groups.subscription_creation_landingzones.id}}"  // subscription_creation_landingzones
+            ]
+          }
+        }
+        "Owner" = {
+          object_ids = {
+            keys = [
               "{{launchpad_azuread_groups.subscription_creation_landingzones.id}}"  // subscription_creation_landingzones
             ]
           }

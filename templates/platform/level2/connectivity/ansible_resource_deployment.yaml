@@ -3,7 +3,7 @@
   set_fact:
     destination_path:  "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{resource_folder}}/{{ deployment }}"
 
-- name: "{{displadisplay_name}} - {{level}} - {{subscription_key}} - Clean-up directory - {{ destination_path }}"
+- name: "{{display_name}} - {{level}} - {{subscription_key}} - Clean-up directory - {{ destination_path }}"
   file:
     path: "{{ destination_path }}"
     state: absent

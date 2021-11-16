@@ -1,7 +1,7 @@
 role_mapping = {
-{% if resources.subscriptions[subscription_key].role_mapping.built_in_role_mapping is defined %}
-  built_in_role_mapping = {
-{% for key, role_mappings in resources.subscriptions[subscription_key].role_mapping.built_in_role_mapping.items() %}
+{% for top_key, mappings in resources.subscriptions[subscription_key].role_mapping.items() %}
+  {{ top_key }} = {
+{% for key, role_mappings in mappings.items() %}
     {{ key }} = {
 {% for resource_key, roles_objects in role_mappings.items() %}
       "{{ resource_key }}" = {
@@ -27,5 +27,5 @@ role_mapping = {
     }
 {% endfor %}
   }
-{% endif %}
+{% endfor %}
 }
