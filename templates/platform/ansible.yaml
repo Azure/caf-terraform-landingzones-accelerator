@@ -167,7 +167,9 @@
 ## asvm
     - name: "{{ level }}-{{ base_folder }} | Azure Subscription Vending Machine (asvm)"
       import_tasks: "{{ level }}/{{ base_folder }}/ansible.yaml"
-      when: config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine
+      when:
+        - config.platform_core_setup.enterprise_scale.enable_azure_subscription_vending_machine
+        - launchpad_azuread_groups is defined
       vars:
         base_folder: "asvm"
         level: "level2"
