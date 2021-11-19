@@ -28,7 +28,7 @@ azurerm_firewall_policies = {
       servers       = "{{ value.dns.servers }}"
 {% endif %}
 {% if value.dns.proxy_enabled is defined %}
-      proxy_enabled = "{{ value.dns.proxy_enabled }}"
+      proxy_enabled = {{ value.dns.proxy_enabled | string | lower }}
 {% endif %}
     }
 {% endif %}

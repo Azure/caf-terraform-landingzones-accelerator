@@ -5,9 +5,26 @@ vnets = {
     vnet = {
       name          = "{{ vnet.name }}"
       address_space = {{ vnet.address_space | replace('None','[]') | replace('\'','\"') }}
+{% if vnet.dns_servers is defined %}
+      dns_servers   = {{ vnet.dns_servers | replace('None','[]') | replace('\'','\"') }}
+{% endif %}
+{% if vnet.dns_servers_keys is defined %}
+      dns_servers_keys = [
+{% for dns_key, dns_value in vnet.dns_servers_keys.items() %}
+        {
+                resource_type = "{{ dns_value.resource_type }}"
+                key = "{{ dns_value.key }}"
+                lz_key = "{{ dns_value.lz_key }}"
+{% if dns_value.interface_index is defined %}
+                interface_index = "{{ dns_value.interface_index }}"
+{% endif %}
+        } 
+      ]
+{% endfor %}
+{% endif %}
     }
-    subnets = {
 {% if vnet.subnets is defined %}
+    subnets = {
 {% for subnet_key, subnet in vnet.subnets.items() %}
       {{ subnet_key }} = {
         name    = "{{subnet.name}}"
@@ -39,8 +56,8 @@ vnets = {
 {% endif %}
       }
 {% endfor %}
-{% endif %}
     }
+{% endif %}
 {% if vnet.specialsubnets is defined %}
     specialsubnets = {
 {% for subnet_key, subnet in vnet.specialsubnets.items() %}

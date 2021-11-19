@@ -72,3 +72,15 @@
     files_matching: "connectivity_firewall_policies.yaml|connectivity_firewall_policies.caf.yaml"
     resource_folder: azurerm_firewall_policies
     display_name: Firewall Policies
+
+- name: Azure Firewalls
+  include_tasks: "{{ level }}/{{ base_folder }}/ansible_deployment.yaml"
+  when:
+    - config.tfstates.platform.azurerm_firewalls is defined
+  loop: "{{ config.tfstates.platform.azurerm_firewalls.keys() }}"
+  loop_control:
+    loop_var: deployment
+  vars:
+    files_matching: "connectivity_firewalls.yaml|connectivity_firewalls.caf.yaml"
+    resource_folder: azurerm_firewalls
+    display_name: Azure Firewalls
