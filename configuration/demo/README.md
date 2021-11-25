@@ -34,6 +34,17 @@ rover -lz /tf/caf/landingzones/caf_launchpad \
   -a [plan|apply|destroy]
 ```
 
+#### Test the launchpad
+
+```bash
+rover test \
+  -b /tf/caf/configuration/${environment}/tests \
+  -tfstate caf_launchpad.tfstate \
+  -level level0 \
+  -env ${caf_environment} \
+  -log-severity FATAL
+```
+
 ### 2. Level 1 landing zones
 
 #### Deploy foundations
@@ -50,6 +61,16 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -a [plan|apply|destroy]
 ```
 
+#### Test the foundations
+
+```bash
+rover test \
+  -b /tf/caf/configuration/${environment}/tests \
+  -tfstate caf_foundations.tfstate \
+  -level level1 \
+  -env ${caf_environment}
+```
+
 ### 3. Level 2 landing zones
 
 #### Deploy the shared services
@@ -64,6 +85,17 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -a [plan|apply|destroy]
 ```
 
+#### Test the shared services
+
+```bash
+rover test \
+  -b /tf/caf/configuration/${environment}/tests \
+  -tfstate caf_shared_services.tfstate\
+  -level level2 \
+  -stack sharedsvc \
+  -env ${caf_environment}
+```
+
 #### Deploy the networking hub
 
 ```bash
@@ -74,6 +106,17 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -level level2 \
   -env ${caf_environment} \
   -a [plan|apply|destroy]
+```
+
+#### Test the networking hub
+
+```bash
+rover test \
+  -b /tf/caf/configuration/${environment}/tests \
+  -tfstate networking_hub.tfstate \
+  -level level2 \
+  -stack networking \
+  -env ${caf_environment}
 ```
 
 ### 4. Level 3 landing zones
@@ -90,6 +133,17 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -a [plan|apply|destroy]
 ```
 
+#### Test an AKS landing zone
+
+```bash
+rover test \
+  -b /tf/caf/configuration/${environment}/tests \
+  -tfstate landing_zone_aks.tfstate \
+  -level level3 \
+  -stack aks \
+  -env ${caf_environment}
+```
+
 #### Deploy a data and analytics landing zone
 
 ```bash
@@ -100,6 +154,17 @@ rover -lz /tf/caf/landingzones/caf_solution/ \
   -level level3 \
   -env ${caf_environment} \
   -a [plan|apply|destroy]
+```
+
+#### Deploy a data and analytics landing zone
+
+```bash
+rover test \
+  -b /tf/caf/configuration/${environment}/tests \
+  -tfstate landing_zone_101_aml_workspace.tfstate \
+  -level level3 \
+  -stack amlworkspace \
+  -env ${caf_environment}
 ```
 
 #### Deploy an Azure App Service Environment landing zone
