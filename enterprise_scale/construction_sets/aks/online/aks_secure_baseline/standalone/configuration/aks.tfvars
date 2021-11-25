@@ -42,7 +42,7 @@ aks_clusters = {
         # }
       }
     }
-    
+
     sku_tier = "Paid"
 
     addon_profile = {

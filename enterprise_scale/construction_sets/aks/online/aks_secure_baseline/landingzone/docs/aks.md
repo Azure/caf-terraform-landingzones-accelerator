@@ -138,14 +138,14 @@ If there is a need to change the folder to your own, please modify [cluster-base
     ```bash
     # Get the ingress controller subnet name
     output_file=/tf/caf/vnet-output.json
-    
+
     rover \
     -lz /tf/caf/landingzones/caf_solution \
     -tfstate networking_spoke.tfstate \
     -env ${caf_env} \
     -level level1 \
     -a output -json -o $output_file
-    
+
     ingress_subnet_name=$(cat $output_file | jq -r .objects.value.networking_spoke.vnets.vnet_aks_re1.subnets.aks_ingress.name)
     # Update the traefik yaml
     # Mac UNIX:
@@ -163,7 +163,7 @@ If there is a need to change the folder to your own, please modify [cluster-base
     # Ensure sample app ingress has IP assigned
     kubectl get ingress -n a0008
     # This website will be available at the public domain below
-  
+
     output_file=/tf/caf/output.json
     cat $output_file | jq -r '"https://" + (.objects.value.aks.domain_name_registrations.random_domain.dns_domain_registration_name)'
     ```

@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/gruntwork-io/terratest/modules/azure"
-	
+
 	"github.com/Azure/azure-sdk-for-go/sdk/arm/resources/2020-06-01/armresources"
 	"github.com/Azure/azure-sdk-for-go/sdk/armcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
@@ -56,7 +56,7 @@ func TestAKSClustersIsExists(t *testing.T) {
 	t.Parallel()
 	tfState := state.NewTerraformState(t, "cluster_aks")
 	aksClusters := tfState.GetAKSClusters()
-	
+
 	for _, cluster := range aksClusters {
 		resources, resourceErr := ListResourcesNamesInResourceGroupE(cluster.GetString("resource_group_name"), tfState.SubscriptionID)
 		require.NoError(t, resourceErr)
@@ -69,7 +69,7 @@ func TestAzureContainerRegistriesIsExists(t *testing.T) {
 	t.Parallel()
 	tfState := state.NewTerraformState(t, "cluster_aks")
 	acrs := tfState.GetAzureContainerRegistries()
-	
+
 	for _, acr := range acrs {
 		resources, resourceErr := ListResourcesNamesInResourceGroupE(acr.GetString("resource_group_name"), tfState.SubscriptionID)
 		require.NoError(t, resourceErr)

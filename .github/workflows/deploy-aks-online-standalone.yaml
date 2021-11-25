@@ -3,7 +3,7 @@ name: Deploy_AKS_Online_Standalone
 #  - PR/Issue comments "/deploy-all", "/deploy-launchpad", "/deploy-shared-services", "/deploy-networking-hub",
 #                      "/deploy-networking-spoke", "/deploy-aks", "/deploy-addons"
 
-on: 
+on:
   workflow_dispatch:
   push:
     branches:
@@ -11,13 +11,13 @@ on:
   # issue_comment:
   #   types:
   #   - created
-    
+
 env:
-  AZURE_CREDENTIALS: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}", "clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}", "subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.ARM_TENANT_ID }}"}' 
+  AZURE_CREDENTIALS: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}", "clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}", "subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}", "tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
   event_sha: +refs/pull/${{ github.event.issue.number }}/merge
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}            
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   ARM_PARTNER_ID: "451dc593-a3a3-4d41-91e7-3aadf93e1a78"
   ENVIRONMENT: "1${{ github.run_id }}"
@@ -30,7 +30,7 @@ jobs:
       prefix: ${{ steps.test.outputs.PREFIX }}
     steps:
       - name: Checkout Repository
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'      
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'
         uses: actions/checkout@v2
       - name: Checkout PR code
         if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad')
@@ -39,7 +39,7 @@ jobs:
           git checkout FETCH_HEAD
 
       - name: Azure Login
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'
         uses: azure/login@v1
         with:
           creds: ${{ env.AZURE_CREDENTIALS }}
@@ -51,7 +51,7 @@ jobs:
           # https://stackoverflow.com/questions/65170927/terraform-output-value-failed-formatted-by-jq-in-github-actions
 
       - name: Deploy Standalone
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'
         run: |
           pwd
           cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
@@ -61,7 +61,7 @@ jobs:
           eval terraform apply ${parameter_files} -var tags='{testing_job_id='"$ENVIRONMENT"'}' -auto-approve
       - name: Test
         id: test
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'
         run: |
           pwd
           cd enterprise_scale/construction_sets/aks/online/aks_secure_baseline/standalone/
@@ -76,7 +76,7 @@ jobs:
           go test -v  aks/aks_test.go
           go test -v  flux/flux_test.go
       - name: Destroy Standalone
-        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'     
+        if: contains(github.event.comment.body, '/deploy-all') || contains(github.event.comment.body, '/deploy-launchpad') || github.event_name != 'issue_comment'
         run: |
           ls -lta
           pwd

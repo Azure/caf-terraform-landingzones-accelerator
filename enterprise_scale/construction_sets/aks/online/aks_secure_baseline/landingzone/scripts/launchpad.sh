@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export ACTION=${ACTION:="apply"} 
+export ACTION=${ACTION:="apply"}
 export TF_VAR_environment=${ENVIRONMENT:="sandpit"}
 
-if [ -d "/tf/caf/landingzones" ] 
+if [ -d "/tf/caf/landingzones" ]
 then
     echo "/tf/caf/landingzones already exists"
 else
@@ -21,7 +21,7 @@ then
         -var tags='{testing_job_id='"$TF_VAR_environment"'}' \
         -level level0 \
         -a ${ACTION}
-else 
+else
     /tf/rover/rover.sh \
     -lz /tf/caf/landingzones/caf_launchpad \
         -launchpad \

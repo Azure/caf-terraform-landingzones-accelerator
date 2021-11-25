@@ -14,7 +14,7 @@ In this example, we will seed the initial deployment locally and then deploy the
 
 - VS Code
   - 'Remote - Containers' Extension installed
-- Docker 
+- Docker
 
 ## 1. Import the starter landing zone into your Azure DevOps environment
 
@@ -25,7 +25,7 @@ This repository will be called the `caf-configuration` repository in the example
 
 ### 1.2 Clone project.
 
-### 1.2.1 Clone and Open within Visual Studio code. 
+### 1.2.1 Clone and Open within Visual Studio code.
 - With your Azure DevOps REPO, click Clone.
 - By generating with Git Credentials allows the project to be checked in from within a container via HTTPS
 - Take the password and Azure DevOps Repo URL replace the organization name before @dev.azure.com with the password
@@ -227,7 +227,7 @@ variable_groups = {
     }
 ```
 ### 3.3.2.1 Changing the git_repo_name
-If you didn't call the project "caf-configuration" when you imported the repo, then you will need to update all `git_repo_name` lines in the [azure_devops.tfvars](../level1/gitops/azure_devops/azure_devops.tfvars). 
+If you didn't call the project "caf-configuration" when you imported the repo, then you will need to update all `git_repo_name` lines in the [azure_devops.tfvars](../level1/gitops/azure_devops/azure_devops.tfvars).
 
 - Using a find and replace, replace:
 ```hcl
@@ -283,7 +283,7 @@ rover -lz /tf/caf/landingzones/caf_solution/add-ons/azure_devops_agent \
 
 _Note: First time this is deployed, you may get an error saying the Blob "devops_runtime_baremetal.sh" cannot be parsed. This seems to be a race condition, where it is trying to be read before it has fully uploaded to your storage account. Re-run the apply, it will work from now on._
 ### 4. Check in your repo code changes back into Azure Devops
-First time you attempt to check code in, it might error saying you need to update the username and email of git configuration. 
+First time you attempt to check code in, it might error saying you need to update the username and email of git configuration.
 
 - Run the following command replacing with your name and email address.
 ```bash

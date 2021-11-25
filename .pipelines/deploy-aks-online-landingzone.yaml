@@ -32,7 +32,7 @@ stages:
           inlineScript: |
             echo "ENVIRONMENT"
             echo $ENVIRONMENT
-            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/                 
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
@@ -47,7 +47,7 @@ stages:
           inlineScript: |
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/test
             export ACTION="output -json -o /tf/caf/rover.output"
-            /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh 
+            /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
             prefix_output=$(cat /tf/caf/rover.output | jq -r .objects.value.launchpad.global_settings.prefixes[0])
             echo $prefix_output
             echo "PREFIX"
@@ -74,7 +74,7 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/
             ./deploy_level_with_rover.sh level1 shared_services
         env:
@@ -82,7 +82,7 @@ stages:
 
       - task: AzureCLI@2
         displayName: Shared Services Test
-        name: test        
+        name: test
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
           scriptLocation: inlineScript
@@ -93,7 +93,7 @@ stages:
             go test -v shared_services/shared_services_test.go
         env:
           PREFIX: $(prefix)
-  
+
   - job: deploy_networking_hub
     displayName: "Deploy Networking Hub. Level 1"
     container: rover
@@ -107,21 +107,21 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level1 networking_hub
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
       - task: AzureCLI@2
-        displayName: Networking Hub Test        
+        displayName: Networking Hub Test
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            echo "Invoke integration test"            
-  
+            echo "Invoke integration test"
+
   - job: deploy_networking_spoke
     displayName: "Deploy Networking Spoke. Level 1"
     dependsOn: deploy_networking_hub
@@ -136,14 +136,14 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level1 networking_spoke
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
       - task: AzureCLI@2
-        displayName: Networking Spoke Test        
+        displayName: Networking Spoke Test
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
           scriptLocation: inlineScript
@@ -168,7 +168,7 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level2 aks
         env:
@@ -176,7 +176,7 @@ stages:
 
       - task: AzureCLI@2
         displayName: AKS Test
-        name: test        
+        name: test
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
           scriptLocation: inlineScript
@@ -205,8 +205,8 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
-            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/            
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/
+            cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2
             /tf/rover/rover.sh  \
               -lz /tf/caf/landingzones/caf_solution/add-ons/aks_secure_baseline_v2 \
@@ -220,7 +220,7 @@ stages:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
       - task: AzureCLI@2
-        displayName: Addons Test        
+        displayName: Addons Test
         inputs:
           azureSubscription: $(AZURE_SERVICE_NAME)
           scriptLocation: inlineScript
@@ -247,9 +247,9 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
-            ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2 
+            ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
           ACTION: "destroy -auto-approve"
@@ -269,7 +269,7 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level2 aks
         env:
@@ -291,7 +291,7 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level1 networking_spoke
         env:
@@ -312,7 +312,7 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level1 networking_hub
         env:
@@ -332,7 +332,7 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/            
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/
             ./deploy_level_with_rover.sh level1 shared_services
         env:
@@ -353,7 +353,7 @@ stages:
           scriptLocation: inlineScript
           scriptType: bash
           inlineScript: |
-            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/                 
+            cp -rs $(Build.SourcesDirectory)/* /tf/caf && cp -r $(Build.SourcesDirectory)/.devcontainer /tf/caf/
             /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
         env:
           ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)

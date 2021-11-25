@@ -1,4 +1,4 @@
-aks_cluster_key = "cluster_re1"
+aks_cluster_key      = "cluster_re1"
 aks_cluster_vnet_key = "vnet_aks_re1"
 
 aks_clusters = {
@@ -36,9 +36,9 @@ namespaces = {
 
 flux_settings = {
   aks_secure_baseline = {
-    namespace = "flux-system"
-    url = "https://github.com/Azure/caf-terraform-landingzones-starter.git"
-    branch = "starter"
+    namespace   = "flux-system"
+    url         = "https://github.com/Azure/caf-terraform-landingzones-starter.git"
+    branch      = "starter"
     target_path = "./enterprise_scale/construction_sets/aks/online/aks_secure_baseline/cluster-baseline-settings"
   }
 }

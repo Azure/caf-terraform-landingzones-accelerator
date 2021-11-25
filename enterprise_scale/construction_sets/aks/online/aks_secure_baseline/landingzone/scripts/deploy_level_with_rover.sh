@@ -10,11 +10,11 @@
 LEVEL_NAME=$1
 LZ_NAME=$2
 ADDON_NAME=$3
-export ACTION=${ACTION:="apply"} 
+export ACTION=${ACTION:="apply"}
 export TF_VAR_environment=${ENVIRONMENT:="sandpit"}
 
 
-if [ -d "/tf/caf/landingzones" ] 
+if [ -d "/tf/caf/landingzones" ]
 then
   echo "/tf/caf/landingzones already exists"
 else

@@ -54,7 +54,7 @@ azure_devops = {
     }
   }
 
-   service_endpoints = {
+  service_endpoints = {
     contoso_demo = {
       endpoint_name       = "Replace with your subscription name"
       subscription_name   = "Replace with your subscription name"

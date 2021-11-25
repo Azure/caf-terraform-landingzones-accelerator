@@ -42,12 +42,12 @@ aks_clusters = {
         }
       }
     }
-    
+
     sku_tier = "Paid"
 
     addon_profile = {
       oms_agent = {
-        enabled = true
+        enabled           = true
         log_analytics_key = "central_logs_region1"
       }
       azure_policy = {
