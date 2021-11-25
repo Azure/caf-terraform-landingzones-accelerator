@@ -21,6 +21,7 @@ env:
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   ARM_PARTNER_ID: "451dc593-a3a3-4d41-91e7-3aadf93e1a78"
   ENVIRONMENT: "1${{ github.run_id }}"
+  ROVER_RUNNER: true
 
 jobs:
   deploy-standalone:
