@@ -290,7 +290,7 @@ jobs:
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level2 aks_secure_baseline /add-ons/aks_secure_baseline_v2
         env:
-          ACTION: "destroy -auto-approve"
+          ACTION: "destroy"
 
   destroy-aks:
     runs-on: ubuntu-latest
@@ -319,7 +319,7 @@ jobs:
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level2 aks
         env:
-          ACTION: "destroy -auto-approve"
+          ACTION: "destroy"
 
   destroy-shared-services:
     runs-on: ubuntu-latest
@@ -349,7 +349,7 @@ jobs:
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level1 shared_services
         env:
-          ACTION: "destroy -auto-approve"
+          ACTION: "destroy"
 
   destroy-networking-spoke:
     runs-on: ubuntu-latest
@@ -379,7 +379,7 @@ jobs:
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level1 networking_spoke
         env:
-          ACTION: "destroy -auto-approve"
+          ACTION: "destroy"
 
   destroy-networking-hub:
     runs-on: ubuntu-latest
@@ -409,7 +409,7 @@ jobs:
             cd /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/
             ./scripts/deploy_level_with_rover.sh level1 networking_hub
         env:
-          ACTION: "destroy -auto-approve"
+          ACTION: "destroy"
 
   destroy-launchpad:
     runs-on: ubuntu-latest
@@ -438,7 +438,7 @@ jobs:
           cp -rs ${GITHUB_WORKSPACE}/* /tf/caf && cp -r ${GITHUB_WORKSPACE}/.devcontainer /tf/caf/
           /tf/caf/enterprise_scale/construction_sets/aks/online/aks_secure_baseline/landingzone/scripts/launchpad.sh
         env:
-          ACTION: "destroy -auto-approve"
+          ACTION: "destroy"
 
   purge:
     name: purge
