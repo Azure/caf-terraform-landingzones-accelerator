@@ -14,7 +14,7 @@
         dir: "{{config_folder}}"
         depth: 1
         ignore_unknown_extensions: true
-        files_matching: "config.asvm.yaml|tfstates.asvm.yaml"
+        files_matching: "config.asvm.yaml|tfstates.asvm.yaml|deployments.yaml"
 
     - name: "Set base variables"
       set_fact:
@@ -67,11 +67,11 @@
 # Level 3
 #
 
-# landingzones
+  # landingzones deployments
 
     - name: "{{ level }} | landingzones"
       include_tasks: "{{ level }}/ansible.yaml"
-      loop: "{{asvm_config__to_merge.tfstates['asvm'].keys()}}"
+      loop: "{{asvm_config__to_merge.deployments.keys()}}"
       loop_control:
         loop_var: asvm_long_folder
 

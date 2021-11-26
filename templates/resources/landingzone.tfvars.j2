@@ -21,9 +21,9 @@ landingzone = {
 {% if deployments.deployments[subscription_key][deployment].landingzone.remote_tfstates is defined %}
   tfstates = {
 {% if deployments.deployments[subscription_key][deployment].landingzone.remote_tfstates.asvm is defined %}
-{% for a_key in deployments.deployments[subscription_key][deployment].landingzone.remote_tfstates.asvm.keys() %}
-    {{ config.tfstates['asvm'][a_key].subscriptions.lz_key_name }} = {
-      tfstate   = "{{ config.tfstates['asvm'][a_key].subscriptions.tfstate }}"
+{% for a_key, a_value in deployments.deployments[subscription_key][deployment].landingzone.remote_tfstates.asvm.items() %}
+    {{ config.tfstates['asvm'][a_key][a_value].lz_key_name }} = {
+      tfstate   = "{{ config.tfstates['asvm'][a_key][a_value].tfstate }}"
       workspace = "{{ config.tfstates['asvm'][a_key].workspace }}"
     }
 {% endfor %}
