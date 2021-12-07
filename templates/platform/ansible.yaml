@@ -196,7 +196,6 @@
         - credentials_tfstate_exists is not skipped
         - level1_subscriptions is not skipped
         - (platform_subscriptions_details is defined) or (config.platform_core_setup.enterprise_scale.subscription_deployment_mode == "single_reuse")
-        - identity.level2 is defined
 
       vars:
         base_folder: "identity"

@@ -14,14 +14,14 @@ rover \
   --impersonate-sp-from-keyvault-url {{ keyvaults.cred_identity.vault_uri }} \
 {% endif %}
   -lz /tf/caf/landingzones/caf_solution \
-  -var-folder {{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }} \
+  -var-folder {{ destination_path }} \
   -tfstate_subscription_id {{ config.caf_terraform.launchpad.subscription_id }} \
   -target_subscription {{ platform_subscriptions_details.identity.subscription_id }} \
-  -tfstate {{ config.tfstates.platform.identity_level2.tfstate }} \
+  -tfstate {{ config.tfstates.platform.identity_level2[deployment].tfstate }} \
   -log-severity {{ config.gitops.rover_log_error }} \
   -env {{ config.caf_terraform.launchpad.caf_environment }} \
   -level {{ level }} \
-  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.identity_level2.tfstate }}.tfplan \
+  -p ${TF_DATA_DIR}/{{ config.tfstates.platform.identity_level2[deployment].tfstate }}.tfplan \
   -a plan
 
 ```

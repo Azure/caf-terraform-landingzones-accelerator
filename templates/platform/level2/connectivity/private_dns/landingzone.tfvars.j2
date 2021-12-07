@@ -12,9 +12,9 @@ landingzone = {
     }
 {% endif %}
     # Identity Level2
-    {{ config.tfstates.platform.identity_level2.lz_key_name }} = {
+    {{ config.tfstates.platform.identity_level2[deployment].lz_key_name }} = {
       level   = "current"
-      tfstate = "{{ config.tfstates.platform.identity_level2.tfstate }}"
+      tfstate = "{{ config.tfstates.platform.identity_level2[deployment].tfstate }}"
     }
   }
 }

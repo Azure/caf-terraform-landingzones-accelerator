@@ -15,7 +15,7 @@
     state: directory
 
 - name: "{{display_name}} - {{level}} - {{subscription_key}} -  {{ deployment }} - Tfvars"
-  include_tasks: "{{ level }}/{{ base_folder }}/ansible_resource_type.yaml"
+  include_tasks: "{{ level }}/ansible_resource_type.yaml"
   loop: "{{ resources.subscriptions[subscription_key].keys() }}"
   loop_control:
     loop_var: resource_type

@@ -50,7 +50,7 @@
     loop_var: circuit
 
 - name: Private DNS Zones
-  include_tasks: "{{ level }}/{{ base_folder }}/ansible_deployment.yaml"
+  include_tasks: "{{ level }}/ansible_deployment.yaml"
   when:
     - config.tfstates.platform.private_dns is defined
   loop: "{{ config.tfstates.platform.private_dns.keys() }}"
@@ -62,7 +62,7 @@
     display_name: Private DNS Zones
 
 - name: Firewall Policies
-  include_tasks: "{{ level }}/{{ base_folder }}/ansible_deployment.yaml"
+  include_tasks: "{{ level }}/ansible_deployment.yaml"
   when:
     - config.tfstates.platform.azurerm_firewall_policies is defined
   loop: "{{ config.tfstates.platform.azurerm_firewall_policies.keys() }}"
@@ -74,7 +74,7 @@
     display_name: Firewall Policies
 
 - name: Azure Firewalls
-  include_tasks: "{{ level }}/{{ base_folder }}/ansible_deployment.yaml"
+  include_tasks: "{{ level }}/ansible_deployment.yaml"
   when:
     - config.tfstates.platform.azurerm_firewalls is defined
   loop: "{{ config.tfstates.platform.azurerm_firewalls.keys() }}"
