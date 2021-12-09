@@ -1,3 +1,5 @@
+Alpha version - work in progress
+
 # Cloud Adoption Framework landing zones for Terraform - Starter template
 
 ## Generate the configuration files

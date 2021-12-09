@@ -1,13 +1,13 @@
 - name: Creates {{ base_folder }} directory structure
   shell: mkdir -p "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}"
 
-# - name: "{{ base_folder }} - Readme"
-#   ansible.builtin.template:
-#     src: "{{ item }}"
-#     dest: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
-#     force: yes
-#   with_fileglob:
-#     - "{{ level }}/{{ base_folder }}/*.md"
+- name: "{{ base_folder }} - Readme"
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ config.configuration_folders.platform.destination_base_path }}/{{ config.configuration_folders.platform.destination_relative_path }}/{{ level }}/{{ base_folder }}/{{ item | basename | regex_replace('.j2$', '') }}"
+    force: yes
+  with_fileglob:
+    - "{{ level }}/{{ base_folder }}/*.md"
 
 - name: "{{ base_folder }} - Virtual WAN"
   include_tasks: "{{ level }}/{{ base_folder }}/{{ folder_name }}/ansible.yaml"
