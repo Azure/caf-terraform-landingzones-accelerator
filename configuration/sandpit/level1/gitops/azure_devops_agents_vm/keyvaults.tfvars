@@ -28,7 +28,7 @@ keyvaults = {
     # you can setup up to 5 profiles
     diagnostic_profiles = {
       operations = {
-        definition_key   = "default_all"
+        definition_key   = "keyvault"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
       }
@@ -63,7 +63,7 @@ keyvaults = {
     # you can setup up to 5 profiles
     diagnostic_profiles = {
       operations = {
-        definition_key   = "default_all"
+        definition_key   = "keyvault"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
       }
@@ -98,7 +98,7 @@ keyvaults = {
     # you can setup up to 5 profiles
     diagnostic_profiles = {
       operations = {
-        definition_key   = "default_all"
+        definition_key   = "keyvault"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
       }
@@ -133,7 +133,7 @@ keyvaults = {
     # you can setup up to 5 profiles
     diagnostic_profiles = {
       operations = {
-        definition_key   = "default_all"
+        definition_key   = "keyvault"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
       }
@@ -168,7 +168,7 @@ keyvaults = {
     # you can setup up to 5 profiles
     diagnostic_profiles = {
       operations = {
-        definition_key   = "default_all"
+        definition_key   = "keyvault"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
       }
