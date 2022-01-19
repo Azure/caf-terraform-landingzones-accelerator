@@ -1,8 +1,4 @@
-# Rover ignite
-
-Rover Ignite allows you to create a coherent stack of configuration files for CAF Terraform landing zones.
-It integrates all levels in a consistent and interactive way.
-In some configuration, the output of an execution is needed to continue, you might have to run multiple times the rover ignite command in order to generate the full configuration files.
+The templates have been moved into the Azure landingzone code for version 2201.0 and upper.
 
 ## Supported scenarios and variations
 
@@ -26,9 +22,9 @@ The following matrix describes the current capabilities to generate configuratio
 | core_enterprise_scale                     | :white_check_mark: | :white_check_mark:  | :white_check_mark: |           |               |
 | subscriptions                             | N/A                | :white_check_mark:  | :white_check_mark: |           |               |
 | **- Level 2 -**                           |                    |                     |                    |           |               |
-| connectivity                              |                    |                     | :white_check_mark: |           |               |
-| identity                                  |                    |                     | :white_check_mark: |           |               |
-| subscription vending machine              | N/A                |                     | :white_check_mark: |           |               |
+| connectivity                              |                    | :white_check_mark:  | :white_check_mark: |           |               |
+| identity                                  |                    | :white_check_mark:  | :white_check_mark: |           |               |
+| subscription vending machine              | N/A                | :white_check_mark:  | :white_check_mark: |           |               |
 | **- Level 3 -**                           |                    |                     |                    |           |               |
 | any resource LZ                           |                    | :white_check_mark:  | :white_check_mark: |           |               |
 | **- Level 4 -**                           |                    |                     |                    |           |               |
