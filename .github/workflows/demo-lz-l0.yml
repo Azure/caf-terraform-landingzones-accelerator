@@ -1,7 +1,7 @@
 name: demo-lz-l0-launchpad
 
-# on:
-#  workflow_dispatch:
+on:
+  workflow_dispatch:
   
 env:
   TF_CLI_ARGS: '-no-color'
