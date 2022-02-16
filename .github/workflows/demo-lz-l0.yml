@@ -1,0 +1,74 @@
+name: demo-lz-l0-launchpad
+
+on:
+  workflow_dispatch:
+  
+env:
+  TF_CLI_ARGS: '-no-color'
+  TF_CLI_ARGS_destroy: '-auto-approve -refresh=false'
+  #ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  #ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  #ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  #ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ENVIRONMENT: 'demo'
+  CAF_ENVIRONMENT: 'sanofi-ajay-demo1'
+  ROVER_RUNNER: true
+
+jobs:
+  landingzone-l0-launchpad:
+    name: landingzone-l0
+    runs-on: [self-hosted, eccs-devops-lz]
+
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+          random_length: ['5']
+
+    container:
+      image: aztfmod/rover:1.0.9-2111.0103
+      options: --user 0
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: clone the public landing zones
+        run: |
+          git clone https://github.com/Azure/caf-terraform-landingzones.git ${GITHUB_WORKSPACE}/landingzones
+      
+      - name: Login azure
+        run: |
+          echo "logging into azure environment..."
+    #      az login --service-principal -u '${{ env.ARM_CLIENT_ID }}' -p '${{ env.ARM_CLIENT_SECRET }}' --tenant '${{ env.ARM_TENANT_ID }}'
+          az login --identity
+          az account set -s  ${{ env.ARM_SUBSCRIPTION_ID }}
+          az account show 
+          echo "local user: $(whoami)"
+
+      - name: deployLaunchpad-plan
+        run: |
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/landingzones/caf_launchpad -a plan \
+            -var-folder ${GITHUB_WORKSPACE}/configuration/${{ env.ENVIRONMENT }}/level0/launchpad \
+            -launchpad \
+            -level level0 \
+            -parallelism=30 \
+            -env ${{ env.CAF_ENVIRONMENT }}
+      
+      - name: deployLaunchpad-apply
+        run: |
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/landingzones/caf_launchpad -a apply \
+            -var-folder ${GITHUB_WORKSPACE}/configuration/${{ env.ENVIRONMENT }}/level0/launchpad \
+            -launchpad \
+            -level level0 \
+            -parallelism=30 \
+            -env ${{ env.CAF_ENVIRONMENT }}
+      
+      #- name: testLaunchpad100
+      #  run: |
+      #    sleep 180
+      #    /tf/rover/rover.sh test \
+      #      -b ${GITHUB_WORKSPACE}/configuration/${{ env.ENVIRONMENT }}/tests \
+      #      -tfstate caf_launchpad.tfstate \
+      #      -level level0 \
+      #      -env ${{ env.CAF_ENVIRONMENT }} \
+      #      -log-severity FATAL
