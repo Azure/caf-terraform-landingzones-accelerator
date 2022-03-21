@@ -1,16 +1,15 @@
 {
-    "name": "CAF Starter Terraform landing zones",
+    "name": "CAF App Accelerator",
 
     // Update the 'dockerComposeFile' list if you have more compose files or use different names.
     "dockerComposeFile": "docker-compose.yml",
 
-    // Container user to use in VSCode Online and GitHub Codespaces
-    "containerUser" : "vscode",
-    "remoteUser" : "vscode",
-
     // The 'service' property is the name of the service for the container that VS Code should
     // use. Update this value and .devcontainer/docker-compose.yml to the real service name.
     "service": "rover",
+
+    // Container user to use in VSCode Online and GitHub Codespaces
+    "remoteUser": "vscode",
 
     // The optional 'workspaceFolder' property is the path VS Code should open by default when
     // connected. This is typically a volume mount in .devcontainer/docker-compose.yml
@@ -20,9 +19,8 @@
     // You can edit these settings after create using File > Preferences > Settings > Remote.
     "settings": {
         "files.eol": "\n",
-        "terminal.integrated.shell.linux": "/bin/bash",
         "editor.tabSize": 2,
-        "terminal.integrated.scrollback": 8000,
+        "terminal.integrated.scrollback": 32000,
     },
 
     // Uncomment the next line if you want start specific services in your Docker Compose config.
@@ -32,7 +30,8 @@
     // "shutdownAction": "none",
 
     // Uncomment the next line to run commands after the container is created.
-    "postCreateCommand": "sudo cp -R /tmp/.ssh-localhost/* ~/.ssh && sudo chown -R $(whoami):$(whoami) /tf/caf && sudo chmod 400 ~/.ssh/* && git config --global core.editor vi && pre-commit install && pre-commit autoupdate",
+    "postCreateCommand": "sudo cp -R /tmp/.ssh-localhost/* ~/.ssh && sudo chown -R $(whoami):$(whoami) /tf/caf ~/.ssh && sudo chmod 400 ~/.ssh/* && git config --global core.editor vi && pre-commit install && pre-commit autoupdate",
+
     // Add the IDs of extensions you want installed when the container is created in the array below.
     "extensions": [
         "4ops.terraform",
