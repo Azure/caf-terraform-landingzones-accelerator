@@ -9,4 +9,4 @@ Examples in this directory are still available if you pick previous versions or 
 
 ## Let's get started!
 
-In order to get started with the automated configuration generator (rover ignite), we recommend that you start reading the documentation on https://aka.ms/caf/terraform and [start deploying here](https://aztfmod.github.io/documentation/docs/enterprise-scale/landingzones/eslz-intro)!
+In order to get started with the automated configuration generator (rover ignite), we recommend that you start reading the documentation on https://aka.ms/caf/terraform and [start deploying here](https://aztfmod.github.io/documentation/docs/azure-landing-zones/landingzones/alz-intro)!
